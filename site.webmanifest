@@ -1,0 +1,13 @@
+{
+  "name": "Celcini",
+  "short_name": "Celcini",
+  "description": "Yapay zekâ ve iş çözümleri",
+  "lang": "tr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1326",
+  "theme_color": "#0B1326",
+  "icons": [
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
