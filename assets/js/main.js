@@ -1,87 +1,89 @@
-/* Celcini — site davranışları (bağımlılıksız, ~2 KB) */
+/* Celcini · menü, config bağlantıları, raf araması, galeri. Çerçeve yok. */
 (function () {
   "use strict";
 
-  /* 1) Dış bağlantıları config.js'den uygula */
-  var links = window.CELCINI_LINKS || {};
-  document.querySelectorAll("[data-link]").forEach(function (a) {
-    var key = a.getAttribute("data-link");
-    if (links[key]) {
-      a.setAttribute("href", links[key]);
-      if (/^https?:/.test(links[key])) {
-        a.setAttribute("target", "_blank");
-        a.setAttribute("rel", "noopener noreferrer");
-      }
-    }
+  /* ---- 1. config.js bağlantıları ---- */
+  var L = window.CELCINI_LINKS || {};
+  function deger(anahtar) {
+    var v = typeof L[anahtar] === "string" ? L[anahtar].trim() : "";
+    if (!v) return "";
+    if (anahtar === "eposta") return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : "";
+    return /^https:\/\/[^\s]+$/.test(v) ? v : "";
+  }
+  document.querySelectorAll("[data-link]").forEach(function (el) {
+    var k = el.getAttribute("data-link");
+    var v = deger(k);
+    if (!v) { el.hidden = true; return; }
+    el.setAttribute("href", k === "eposta" ? "mailto:" + v : v);
+    el.hidden = false;
+  });
+  document.querySelectorAll("[data-link-metin]").forEach(function (el) {
+    var v = deger(el.getAttribute("data-link-metin"));
+    if (v) el.textContent = el.getAttribute("data-link-metin") === "instagram" ? "@" + v.replace(/\/+$/, "").split("/").pop() : v;
+  });
+  /* data-gerekli="google_form eposta": listelenen bağlantılardan biri bile varsa bölüm görünür */
+  document.querySelectorAll("[data-gerekli]").forEach(function (el) {
+    var var_ = el.getAttribute("data-gerekli").split(/\s+/).some(function (k) { return deger(k); });
+    el.hidden = !var_;
   });
 
-  /* 2) Mobil menü */
-  var toggle = document.querySelector(".nav-toggle");
-  var nav = document.querySelector(".site-nav");
-  if (toggle && nav) {
-    toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      document.body.classList.toggle("nav-open", open);
-    });
-    nav.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-        document.body.classList.remove("nav-open");
-      });
+  /* ---- 2. Mobil menü ---- */
+  var dugme = document.querySelector(".menu-dugme");
+  var menu = document.getElementById("ust-menu");
+  if (dugme && menu) {
+    var kapat = function () { dugme.setAttribute("aria-expanded", "false"); menu.classList.remove("acik"); };
+    dugme.addEventListener("click", function () {
+      var acik = dugme.getAttribute("aria-expanded") === "true";
+      dugme.setAttribute("aria-expanded", String(!acik));
+      menu.classList.toggle("acik", !acik);
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) {
-        toggle.click();
-      }
+      if (e.key === "Escape" && dugme.getAttribute("aria-expanded") === "true") { kapat(); dugme.focus(); }
     });
+    window.addEventListener("resize", function () { if (window.innerWidth >= 860) kapat(); });
   }
 
-  /* 3) Kaydırınca header gölgesi */
-  var header = document.querySelector(".site-header");
-  if (header) {
-    var onScroll = function () {
-      header.classList.toggle("is-scrolled", window.scrollY > 8);
+  /* ---- 3. Raf: arama + etiket süzgeci ---- */
+  var filtre = document.querySelector("[data-filtre]");
+  if (filtre) {
+    var kutu = filtre.querySelector("input[type=search]");
+    var etiketDugmeleri = filtre.querySelectorAll("[data-etiket]");
+    var kartlar = document.querySelectorAll("[data-urun]");
+    var sonuc = document.querySelector("[data-sonuc]");
+    var secili = "";
+    var kucuk = function (s) { return (s || "").toLocaleLowerCase("tr"); };
+    var uygula = function () {
+      var q = kucuk(kutu.value).trim();
+      var n = 0;
+      kartlar.forEach(function (k) {
+        var metinUyar = !q || kucuk(k.getAttribute("data-ara")).indexOf(q) !== -1;
+        var etiketUyar = !secili || ("|" + k.getAttribute("data-etiketler") + "|").indexOf("|" + secili + "|") !== -1;
+        var gor = metinUyar && etiketUyar;
+        k.hidden = !gor;
+        if (gor) n++;
+      });
+      if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " ürün gösteriliyor." : "Aramanıza uyan ürün yok.");
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  /* 4) Görünüme girince yumuşak belirme */
-  var revealEls = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && revealEls.length) {
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.1 }
-    );
-    revealEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
-  }
-
-  /* 5) Footer yılı */
-  document.querySelectorAll("[data-year]").forEach(function (el) {
-    el.textContent = String(new Date().getFullYear());
-  });
-
-  /* 6) SSS akordeon: aynı anda yalnızca biri açık */
-  document.querySelectorAll(".faq").forEach(function (group) {
-    group.querySelectorAll("details").forEach(function (d) {
-      d.addEventListener("toggle", function () {
-        if (d.open) {
-          group.querySelectorAll("details[open]").forEach(function (o) {
-            if (o !== d) o.removeAttribute("open");
-          });
-        }
+    kutu.addEventListener("input", uygula);
+    etiketDugmeleri.forEach(function (b) {
+      b.addEventListener("click", function () {
+        secili = b.getAttribute("data-etiket");
+        etiketDugmeleri.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        uygula();
       });
     });
-  });
+  }
+
+  /* ---- 4. Ürün galerisi ---- */
+  var ana = document.querySelector("[data-galeri-ana]");
+  if (ana) {
+    var kucukler = document.querySelectorAll("[data-galeri-kucuk]");
+    kucukler.forEach(function (b) {
+      b.addEventListener("click", function () {
+        ana.src = b.getAttribute("data-src");
+        ana.alt = b.getAttribute("data-alt");
+        kucukler.forEach(function (x) { x.setAttribute("aria-current", String(x === b)); });
+      });
+    });
+  }
 })();

@@ -1,137 +1,87 @@
-# Celcini — Web Sitesi
+# Celcini · Derin Excel havuzu
 
-Celcini, Türkiye merkezli bir yapay zekâ ve iş çözümleri markasıdır. Bu depo markanın
-resmî web sitesini içerir: bağımlılıksız, statik, hızlı ve Vercel'e dağıtıma hazır.
+Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.
 
-**Teknoloji:** saf HTML + CSS + JavaScript. Derleme adımı yoktur; framework gerekmez.
-
-## Sayfalar
-
-| Yol | İçerik |
-|---|---|
-| `/` | Ana sayfa: marka, üç modülün özeti, nasıl çalışır, bekleme listesi çağrısı |
-| `/fabricakit/` | Modül 01 — fabrika yönetimi Excel şablonları (Shopier'e satış bağlantıları) |
-| `/excel-klinigi/` | Modül 02 — genel iş Excel şablonları (Shopier'e satış bağlantıları) |
-| `/uzay/` | Modül 03 — yapay zekâ araçları, "yakında" sayfası + Google Form bekleme listesi |
-| `/404.html` | Özel hata sayfası (Vercel otomatik kullanır) |
+celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
+`scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
 
 ## Klasör yapısı
 
 ```
-celcini/
-├── index.html                 # Ana sayfa
-├── 404.html
-├── fabricakit/index.html
-├── excel-klinigi/index.html
-├── uzay/
-│   ├── index.html             # "Yakında" sayfası
-│   └── araclar/               # İleride eklenecek web tabanlı AI araçları
-│       ├── README.md          # Araç ekleme rehberi
-│       └── _sablon/           # Yeni araç için kopyalanacak iskelet
-├── assets/
-│   ├── css/style.css          # Tüm site stilleri (tasarım değişkenleri :root altında)
-│   ├── js/config.js           # ⚠️ Shopier ve Google Form bağlantıları — tek yerden yönetilir
-│   ├── js/main.js             # Mobil menü, bağlantı uygulama, animasyonlar
-│   └── img/logo.svg           # Yer tutucu gül logosu (nihai logo ile değiştirin)
-├── scripts/check.js           # Yayın öncesi basit SEO / kırık bağlantı kontrolü
-├── vercel.json                # Temiz URL'ler, güvenlik ve önbellek başlıkları
-├── robots.txt · sitemap.xml · site.webmanifest
-└── package.json               # Yalnızca yardımcı komutlar (dev, check)
+data/urunler.json        Tüm ürünler (tek kaynak)
+scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
+scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
+scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
+scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı)
+assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
+assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
+assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
+assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
+
+index.html, fabricakit/, excel-klinigi/, datakit/, urun/<slug>/,
+hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/, 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
 
-## Kurulum ve yerel çalıştırma
-
-Node.js 18+ yeterlidir (yalnızca yerel sunucu ve kontrol betiği için).
+## Komutlar
 
 ```bash
-git clone https://github.com/dragonn55/celcini.git
-cd celcini
-npm run dev        # http://localhost:3000
+python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
+python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
+npm run check                         # üretim çıktısını kontrol et
+npm run check:onizleme                # önizleme çıktısını kontrol et
+npm run dev                           # http://localhost:3000 (üretim)
+npm run onizleme                      # önizlemeyi derle ve http://localhost:3001'de aç
 ```
 
-Alternatif: herhangi bir statik sunucu da çalışır, örn. `python3 -m http.server 3000`.
+`_onizleme/` git'e girmez ve yayınlanmaz.
 
-> Mutlak yollar (`/assets/...`) kullanıldığı için siteyi dosyadan (`file://`) değil,
-> bir sunucu üzerinden açın.
+## Ürün ekleme
 
-Yayın öncesi kontrol:
+1. `data/urunler.json`'a bir kayıt ekle. Alanlar:
 
-```bash
-npm run check      # her HTML'de title/description/viewport var mı, iç bağlantılar kırık mı
-```
+   | Alan | Açıklama |
+   |---|---|
+   | `slug` | Adres: `/urun/<slug>/`. Küçük harf, rakam, tire. |
+   | `ad`, `kisa`, `aciklama` | Ürün adı, tek cümle özet, paragraf. |
+   | `raf` | `fabricakit` · `excel-klinigi` · `datakit` |
+   | `ozellikler[]` | "Ne yapar" maddeleri. |
+   | `kimin_icin` | Tek paragraf. |
+   | `etiketler[]` | Raf sayfasındaki etiket süzgecine girer. `yapay zeka` etiketi turuncu rozet olur. |
+   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. |
+   | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez.** |
+   | `gorseller[]` | `"/assets/img/urun/planla-1.png"` ya da `{"src": "...", "alt": "..."}`. Boşsa "Ekran görüntüleri hazırlanıyor" kutusu çıkar. |
+   | `excel_surum`, `makro`, `sayfa_sayisi` | Teknik bilgi. |
+   | `one_cikan` | `true` ise ana sayfada "Öne çıkan" bölümüne girer. |
+   | `ornek` | `true` ise yalnızca önizlemede görünür. |
 
-## Bağlantıları güncelleme (Shopier ve Google Form)
+2. `python3 scripts/derle.py` çalıştır, `npm run check` ile kontrol et, commit et.
 
-Tüm dış bağlantılar **`assets/js/config.js`** dosyasında toplanmıştır. HTML'deki
-`data-link="anahtar"` öznitelikli bağlantılar sayfa yüklenince bu dosyadaki değerle
-güncellenir; HTML'i tek tek düzenlemeniz gerekmez.
+Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş kayıtların sayfasını üretmez, raf sayılarına,
+öne çıkanlara ve sitemap'e katmaz, eski sayfası varsa `urun/` altından siler.
 
-```js
-window.CELCINI_LINKS = {
-  "shopier.magaza": "https://www.shopier.com/celcini",
-  "shopier.fabricakit.paket": "https://www.shopier.com/...",   // ürün bağlantısı
-  "form.uzay.bekleme": "https://forms.gle/...",                 // Google Form
-  ...
-};
-```
+## Bağlantılar
 
-JavaScript kapalıyken HTML'deki `href` değerleri devreye girer; bu yüzden önemli
-bağlantıları (mağaza, bekleme listesi) hem `config.js`'de hem HTML'de güncel tutmak
-iyi bir alışkanlıktır.
+`assets/js/config.js` tek yerdir. Boş bırakılan bağlantının bölümü sayfada gizlenir (örneğin `google_form`
+boşsa e-posta listesi bölümü, `eposta` boşsa iletişimdeki e-posta satırı). JavaScript kapalıyken de bu
+öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden derlemek gerekmez.
 
-## Vercel'e yayınlama
+## Tasarım kuralları (özet)
 
-### Seçenek A — GitHub entegrasyonu (önerilen)
+- Palet: zemin `#CBE6F6`, kart `#FFFFFF`, çizgi `#9CCBEA`, okyanus mavisi `#0096C7`, koyu okyanus `#005F93`,
+  metin `#0B1F3A` / `#46586D`, turuncu çizgi `#F4A27A`, turuncu zemin `#FDEBDD`.
+- `#0096C7` üstünde beyaz yazı yalnızca ≥ 20px kalın (kontrast 3,39). Açık zeminde link ve ikon `#005F93`.
+- Turuncu yalnızca vurgu: rozet zemini, fiyat alt çizgisi, ince çizgi. Turuncu renkte yazı yok.
+- Logolar beyaz ve şeffaf; her zaman `#0096C7` zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
+- İkonlar Lucide, çizgi kalınlığı 1,5. Kartlar ince çizgi çerçeveli, gölge yok.
+- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px.
 
-1. [vercel.com](https://vercel.com) hesabınıza girin → **Add New → Project**.
-2. `dragonn55/celcini` deposunu seçin.
-3. **Framework Preset:** `Other`. Build Command ve Output Directory **boş** kalsın
-   (kök dizin doğrudan yayınlanır).
-4. **Deploy**'a basın. Sonraki her `main` push'u otomatik yayınlanır; diğer dallar
-   önizleme adresi alır.
+## Yayın (Vercel)
 
-### Seçenek B — Vercel CLI
-
-```bash
-npm i -g vercel
-vercel          # ilk kurulum: proje adı ve ayarlar sorulur, boş bırakın
-vercel --prod   # canlıya al
-```
-
-### Alan adı
-
-Vercel panelinde **Settings → Domains** altında `celcini.com` ekleyin ve verilen
-DNS kayıtlarını alan adı sağlayıcınıza girin. Ardından şu dosyalardaki alan adını
-doğrulayın: `sitemap.xml`, `robots.txt` ve her HTML'in `canonical` / `og:url` etiketleri
-(hepsi şimdilik `https://celcini.com/`).
-
-## Yayın öncesi yapılacaklar
-
-- [ ] `assets/js/config.js` içindeki Shopier ve Google Form bağlantılarını gerçek adreslerle değiştirin.
-- [ ] `assets/img/logo.svg` ve `favicon.svg` dosyalarını nihai logo ile değiştirin.
-- [ ] `assets/img/og-cover.png` (1200×630) sosyal paylaşım görselini ekleyin.
-- [ ] İletişim e-postasını (`info@celcini.com`) doğrulayın.
-- [ ] Şablon adlarını / açıklamalarını Shopier'deki ürünlerle eşleştirin.
-
-## Tasarım sistemi
-
-Renkler ve ölçüler `assets/css/style.css` dosyasının başındaki `:root` bloğunda tanımlıdır:
-
-| Değişken | Değer | Kullanım |
-|---|---|---|
-| `--bg` | `#0B1326` | Koyu lacivert zemin |
-| `--accent` | `#2DD4BF` | Turkuaz vurgu (butonlar, ikonlar, logo) |
-| `--text` / `--text-muted` | `#E6EDF7` / `#A3B1C6` | Metin tonları |
-
-Yazı tipi: Inter (Google Fonts), sistem fontuna otomatik geri düşer.
-
-## Uzay'a yeni AI aracı ekleme
-
-Adım adım rehber ve iskelet dosyaları `uzay/araclar/README.md` içindedir. Özetle:
-`_sablon/` klasörünü kopyalayın, adını verin, mantığı `app.js`'e yazın; yapay zekâ
-API çağrıları için `api/` altında Vercel Serverless Function kullanın ve anahtarı
-Vercel ortam değişkeninde tutun.
+Framework Preset: **Other**. Build Command ve Output Directory **boş**. Depo kökü doğrudan yayınlanır.
+`vercel.json` temiz URL'leri, güvenlik başlıklarını ve Content-Security-Policy'yi tanımlar
+(yalnızca kendi alan adından script, stil ve görsel; satır içi script/stil yok).
+`.vercelignore` derleme kaynaklarını, önizlemeyi ve Claude çalışma dosyalarını yayından çıkarır.
 
 ## Lisans
 
-Tüm hakları saklıdır © Celcini.
+Tüm hakları saklıdır © Celcini. İkonlar: Lucide (ISC lisansı).

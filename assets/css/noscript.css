@@ -1,0 +1,9 @@
+/* JavaScript kapalıyken: mobil menü her zaman açık, menü düğmesi gizli. */
+.menu-dugme { display: none !important; }
+@media (max-width: 859px) {
+  .menu { display: block !important; position: static !important; }
+  .serit .kap { flex-wrap: wrap; }
+}
+@media (max-width: 859px) { .menu { width: 100%; } .menu ul { padding: 0 0 12px; } }
+/* Arama ve etiket süzgeci JavaScript ister */
+[data-filtre], [data-sonuc] { display: none !important; }
