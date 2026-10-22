@@ -47,7 +47,7 @@ SSS = [
      "Ürün sayfasındaki “Shopier'de al” butonu sizi Shopier'deki ürün sayfasına götürür. "
      "Ödeme ve dosyanın teslimi Shopier üzerinden yapılır."),
     ("Kurulum ya da abonelik gerekir mi?",
-     "Hayır. Dosyayı bir kez alırsınız, Excel'de açar ve kullanırsınız. Ek program, eklenti ya da üyelik gerekmez."),
+     "Hayır. Dosyayı bir kez alırsınız, Excel'de açar ve kullanırsınız. Dosya için ek program, eklenti ya da abonelik gerekmez."),
     ("Verilerim bir yere gönderiliyor mu?",
      "Hayır. Dosya kendi bilgisayarınızda çalışır; girdiğiniz veriler dosyanın içinde kalır, Celcini'ye ya da başka bir yere gönderilmez."),
     ("Hangi Excel sürümü gerekir?",
@@ -496,7 +496,7 @@ def iletisim():
   <li><a class="kart" data-link="instagram" href="#" hidden>{ikon("instagram")}<span data-link-metin="instagram">Instagram</span></a></li>
   <li><a class="kart" data-link="shopier_magaza" href="#" hidden>{ikon("sepet")}<span>Shopier mağazası</span></a></li>
 </ul>
-<noscript><p>Bağlantıları görmek için JavaScript'i açın ya da Instagram'da @celciniai hesabına yazın.</p></noscript>"""
+<noscript><p>İletişim bağlantılarını görmek için tarayıcınızda JavaScript'i açın.</p></noscript>"""
     return metin_sayfasi("/iletisim/", "İletişim", "Celcini ile iletişim: Instagram, e-posta ve Shopier mağazası.", ic)
 
 
@@ -515,7 +515,7 @@ def gizlilik():
   <li>Siteyi barındıran Vercel, güvenlik ve işletim için standart sunucu kayıtları (IP adresi, tarayıcı bilgisi, istek zamanı) tutabilir.</li>
 </ul>
 <h2>Ödeme ve teslim: Shopier</h2>
-<p>Satın alma, ödeme ve teslim Shopier üzerinden yapılır. Bu adımlarda verdiğiniz bilgiler (ad, iletişim, ödeme bilgileri) Shopier tarafından işlenir ve Shopier'in gizlilik politikasına tabidir. Sipariş sonrası, siparişi yerine getirmek için gereken bilgiler (ad, e-posta, sipariş içeriği) satıcıyla paylaşılır ve yalnızca bu amaçla kullanılır.</p>
+<p>Satın alma, ödeme ve teslim Shopier üzerinden yapılır. Bu adımlarda verdiğiniz bilgiler (ad, iletişim, ödeme bilgileri) Shopier tarafından işlenir ve Shopier'in gizlilik politikasına tabidir. Shopier'in siparişi teslim etmek için satıcıya ilettiği sipariş bilgileri yalnızca bu amaçla kullanılır.</p>
 <h2>E-posta listesi: Google Form</h2>
 <p>E-posta listesine katılmak isterseniz kayıt Google Form üzerinden alınır ve Google'ın sunucularında saklanır. Adresiniz yalnızca yeni dosya duyuruları için kullanılır, üçüncü kişilerle paylaşılmaz. Listeden çıkmak için yazmanız yeterlidir.</p>
 <h2>Excel dosyaları</h2>

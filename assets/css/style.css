@@ -123,7 +123,7 @@ main { display: block; }
   background: var(--mavi); color: #fff; font: inherit; font-size: var(--fs-2); font-weight: 700;
   text-decoration: none; cursor: pointer; transition: background-color var(--gecis), border-color var(--gecis);
 }
-.dugme:hover { background: var(--koyu); border-color: var(--koyu); text-decoration: none; }
+.dugme:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .dugme .ikon { transition: transform var(--gecis); }
 .dugme:hover .ikon { transform: translateX(3px); }
 .dugme-cizgi {
@@ -255,7 +255,7 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
   transition: background-color var(--gecis);
 }
 .etiket-dugme:hover { background: var(--zemin); }
-.etiket-dugme[aria-pressed="true"] { background: var(--koyu); color: #fff; }
+.etiket-dugme[aria-pressed="true"] { background: var(--zemin); color: var(--metin); font-weight: 700; border-width: 2px; padding: 0 15px; }
 .sonuc { color: var(--metin-2); margin-bottom: 16px; min-height: 1.6em; }
 .bos-kutu { padding: 32px; display: grid; gap: 16px; justify-items: start; }
 .bos-kutu p { color: var(--metin-2); }

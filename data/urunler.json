@@ -3,17 +3,20 @@
     "slug": "planla",
     "ad": "PLANLA",
     "raf": "fabricakit",
-    "kisa": "Excel'de malzeme ihtiyaç planlaması (MRP): ürün ağacı, stok ve siparişlerden dönemlik ihtiyaç listesi çıkarır.",
-    "aciklama": "PLANLA, üretim planlama için hazırlanmış makrosuz bir Excel dosyasıdır. Ürün ağacını, eldeki stoku ve açık siparişleri girersiniz; dosya dönem dönem hangi malzemeden ne kadar gerektiğini hesaplar. Kurulum gerektirmez, Excel 2016 ve sonrasında açılır.",
+    "kisa": "Excel'de malzeme ihtiyaç planlaması (MRP) dosyası. Makrosuz, 7 sayfa, Excel 2016 ve sonrası.",
+    "aciklama": "PLANLA, Fabricakit rafındaki malzeme ihtiyaç planlaması (MRP) dosyasıdır. Kurulum gerektirmez: Excel 2016 ve sonrası sürümlerde açılır, makro içermez. Dosya 7 sayfadan oluşur.",
     "ozellikler": [
-      "Ürün ağacı (BOM) tanımı: hangi üründe hangi malzeme, ne miktarda",
-      "Eldeki stok ve açık sipariş girişi",
-      "Dönemlik brüt ve net malzeme ihtiyacı hesabı",
-      "Tedarik süresine göre sipariş verme zamanı",
-      "Özet tablo: hangi malzeme, ne zaman, ne kadar"
+      "Malzeme ihtiyaç planlaması (MRP) için hazırlanmış Excel dosyası",
+      "Makrosuz: makro izni istemeden açılır",
+      "7 sayfa",
+      "Excel 2016 ve sonrası sürümlerde çalışır",
+      "Kurulum ya da abonelik gerektirmez"
     ],
-    "kimin_icin": "Küçük ve orta ölçekli üretim işletmelerinde planlama, satın alma ve üretim sorumluları; MRP yazılımı almadan önce süreci Excel'de kurmak isteyenler.",
-    "etiketler": ["MRP", "üretim planlama", "stok", "satın alma"],
+    "kimin_icin": "Malzeme ihtiyaç planlamasını (MRP) Excel'de yapmak isteyen üretim işletmeleri.",
+    "etiketler": [
+      "MRP",
+      "üretim planlama"
+    ],
     "fiyat": 760,
     "liste_fiyat": 1290,
     "shopier_url": "https://www.shopier.com/fabricakit/51475462",
@@ -30,9 +33,16 @@
     "raf": "fabricakit",
     "kisa": "Örnek kayıt: aylık vardiya çizelgesi ve fazla mesai takibi.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez. Alanların nasıl dolacağını göstermek için eklenmiştir.",
-    "ozellikler": ["Aylık vardiya çizelgesi", "Fazla mesai toplamı", "Kişi bazlı özet"],
+    "ozellikler": [
+      "Aylık vardiya çizelgesi",
+      "Fazla mesai toplamı",
+      "Kişi bazlı özet"
+    ],
     "kimin_icin": "Vardiyalı çalışan atölye ve fabrikalar.",
-    "etiketler": ["vardiya", "personel"],
+    "etiketler": [
+      "vardiya",
+      "personel"
+    ],
     "fiyat": 490,
     "liste_fiyat": 790,
     "shopier_url": "",
@@ -49,9 +59,16 @@
     "raf": "excel-klinigi",
     "kisa": "Örnek kayıt: günlük kasa defteri, gelir-gider ve aylık özet.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez.",
-    "ozellikler": ["Günlük gelir-gider girişi", "Aylık özet", "Kategori bazlı rapor"],
+    "ozellikler": [
+      "Günlük gelir-gider girişi",
+      "Aylık özet",
+      "Kategori bazlı rapor"
+    ],
     "kimin_icin": "Küçük işletmeler ve esnaf.",
-    "etiketler": ["kasa", "gelir-gider"],
+    "etiketler": [
+      "kasa",
+      "gelir-gider"
+    ],
     "fiyat": 350,
     "liste_fiyat": 590,
     "shopier_url": "",
@@ -68,9 +85,17 @@
     "raf": "excel-klinigi",
     "kisa": "Örnek kayıt: cari hesap takibi, vade ve bakiye listesi.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez.",
-    "ozellikler": ["Cari kart", "Vade takibi", "Bakiye özeti"],
+    "ozellikler": [
+      "Cari kart",
+      "Vade takibi",
+      "Bakiye özeti"
+    ],
     "kimin_icin": "Müşteri ve tedarikçi bakiyesini takip eden işletmeler.",
-    "etiketler": ["cari", "alacak-borç", "vade"],
+    "etiketler": [
+      "cari",
+      "alacak-borç",
+      "vade"
+    ],
     "fiyat": 420,
     "liste_fiyat": 690,
     "shopier_url": "",
@@ -87,9 +112,16 @@
     "raf": "datakit",
     "kisa": "Örnek kayıt: hareket görmeyen stokları yaş ve tutara göre listeler.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez.",
-    "ozellikler": ["Stok yaşlandırma", "Hareketsiz kalem listesi", "Tutar bazlı sıralama"],
+    "ozellikler": [
+      "Stok yaşlandırma",
+      "Hareketsiz kalem listesi",
+      "Tutar bazlı sıralama"
+    ],
     "kimin_icin": "Depo ve satın alma sorumluları.",
-    "etiketler": ["stok", "analiz"],
+    "etiketler": [
+      "stok",
+      "analiz"
+    ],
     "fiyat": 540,
     "liste_fiyat": 890,
     "shopier_url": "",
@@ -106,9 +138,17 @@
     "raf": "datakit",
     "kisa": "Örnek kayıt: geçmiş satıştan hareketli ortalama ile aylık tahmin.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez.",
-    "ozellikler": ["Hareketli ortalama", "Mevsimsellik katsayısı", "Aylık tahmin tablosu"],
+    "ozellikler": [
+      "Hareketli ortalama",
+      "Mevsimsellik katsayısı",
+      "Aylık tahmin tablosu"
+    ],
     "kimin_icin": "Satış planlama ve satın alma ekipleri.",
-    "etiketler": ["talep tahmini", "satış analizi", "yapay zeka"],
+    "etiketler": [
+      "talep tahmini",
+      "satış analizi",
+      "yapay zeka"
+    ],
     "fiyat": 690,
     "liste_fiyat": 1090,
     "shopier_url": "",
