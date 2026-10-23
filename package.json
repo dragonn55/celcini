@@ -7,7 +7,8 @@
     "derle": "python3 scripts/derle.py",
     "onizleme": "python3 scripts/derle.py --onizleme && npx --yes serve _onizleme -l 3001",
     "dev": "npx --yes serve . -l 3000",
-    "check": "node scripts/check.js",
+    "check": "node scripts/check.js && node scripts/sim-test.mjs",
+    "sim-test": "node scripts/sim-test.mjs",
     "check:onizleme": "node scripts/check.js _onizleme"
   },
   "license": "UNLICENSED"

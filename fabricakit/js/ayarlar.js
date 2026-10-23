@@ -1,0 +1,158 @@
+/* Fabricakit · ayarlar
+   Oyundaki bütün sayılar burada: puanlar, sayaç süreleri, tedarik süreleri, oyun saati hızı, ürün ağaçları,
+   fiyatlar, günlerin tohumları ve zorluk. Sayıyı değiştirip sayfayı yenilemeniz yeterli.
+   Kayıt yapısını bozan bir değişiklik yaparsanız KAYIT_SURUMU'nu bir artırın: eski kayıtlar sıfırlanır.
+   Tüm veriler sentetiktir: gerçek firma, gerçek müşteri ya da gerçek fiyat değildir. */
+
+export const AYARLAR = {
+  KAYIT_SURUMU: 1,
+
+  /* ---- Ajan GM ---- */
+  AJAN_GM_KAYNAK: "kural",            // "kural" (şablonlar) ya da "yapay-zeka" (api/ajan-gm.js)
+  AJAN_GM_YAPAY_ZEKA_KIME: "kodlu",   // "kodlu" (yalnız erişim kodu girenler) ya da "herkes"
+  AJAN_GM_ZAMAN_ASIMI_MS: 9000,       // yapay zeka yanıtı bu sürede gelmezse kural moduna düşülür
+  AJAN_GM_SORU_UZUNLUGU: 200,         // serbest sorunun en fazla karakter sayısı
+  AJAN_GM_GORSEL: "/assets/img/ajan-gm.png",
+
+  /* ---- Oyun saati ---- */
+  GUN_BASI_SAAT: 8,                   // 08:00
+  GUN_SONU_SAAT: 18,                  // 18:00
+  OYUN_SAATI_SANIYE: 20,              // gerçek zamanda 1 oyun saati kaç saniye sürer
+
+  /* ---- Günler: 1. gün ücretsiz, 2–5 erişim koduyla. Aynı tohum her açılışta aynı siparişleri ve olayları verir. ---- */
+  UCRETSIZ_GUN: 1,
+  GUNLER: [
+    { gun: 1, tohum: 410261, olay: [2, 3], degisim: [0.00, 0.00], siddet: 0.00, yeniSatir: [0, 0] },
+    { gun: 2, tohum: 410262, olay: [2, 3], degisim: [0.60, 0.66], siddet: 0.15, yeniSatir: [1, 2] },
+    { gun: 3, tohum: 410263, olay: [3, 4], degisim: [0.66, 0.74], siddet: 0.20, yeniSatir: [2, 3] },
+    { gun: 4, tohum: 410264, olay: [3, 4], degisim: [0.72, 0.80], siddet: 0.25, yeniSatir: [2, 3] },
+    { gun: 5, tohum: 410265, olay: [4, 5], degisim: [0.78, 0.85], siddet: 0.30, yeniSatir: [2, 4] },
+  ],
+  /* degisim: gece satırların ne kadarının miktarı değişir (alt, üst oran); siddet: değişimin büyüklüğü;
+     yeniSatir: gece eklenen yeni satır sayısı. 1. gün defter ilk kez gelir, değişim yoktur.
+     ONE_CEKME_ORANI: değişen satırların yaklaşık bu kadarı aynı zamanda öne çekilir */
+  ONE_CEKME_ORANI: 0.65,
+  ONE_CEKME_GUN: [1, 2],
+  NET_DEGISIM_SINIRI: 0.05,           // gece değişiminden sonra toplam miktar en fazla %5 oynar
+
+  /* ---- Siparişler (Satış-Pazarlama) ---- */
+  MUSTERI_SAYISI: [2, 4],
+  SATIR_SAYISI: [12, 18],
+  UFUK_GUN: 30,                       // siparişler en fazla 30 gün ilerisi için gelir
+  MUSTERILER: [                       // sentetik müşteri tipleri; gerçek firma değildir
+    { ad: "Ofis zinciri", urunler: ["masa", "sandalye", "raf"] },
+    { ad: "Okul projesi", urunler: ["masa", "sandalye"] },
+    { ad: "Kafe zinciri", urunler: ["masa", "sandalye"] },
+    { ad: "Depo kurulumu", urunler: ["raf"] },
+    { ad: "Mağaza zinciri", urunler: ["raf", "masa"] },
+    { ad: "Otel tadilatı", urunler: ["masa", "sandalye", "raf"] },
+  ],
+  SATIR_MIKTARI: { masa: [12, 36], sandalye: [30, 90], raf: [12, 40] },
+  SATIR_YUVARLAMA: { masa: 2, sandalye: 6, raf: 4 },
+  ILK_GUNLER_EN_AZ_SATIR: 1,          // 1–5. günlerin her birinde en az bu kadar satır teslim edilir
+  TESLIM_YIGILMA: 1.6,                // 1'den büyükse kalan satırlar ufkun başına yığılır
+  YAKIN_SATIR_CARPANI: 0.6,           // 1–3. gün teslim edilecek satırlar bu oranda küçük gelir (ilk günler sığsın)
+  BASLANGIC_MAMUL_ORANI: [0.6, 0.3],  // depoda hazır mamul: 1. ve 2. gün teslim edilecek miktarın bu kadarı
+
+  /* ---- Ürünler ve hatlar (Üretim) ---- */
+  HATLAR: [
+    { id: "ahsap", ad: "Ahşap hattı", usta: 2, operator: 6 },
+    { id: "metal", ad: "Metal hattı", usta: 2, operator: 5 },
+  ],
+  URUNLER: [
+    { id: "masa", ad: "Masa", hat: "ahsap", dakika: 24, maliyet: 1850 },
+    { id: "sandalye", ad: "Sandalye", hat: "ahsap", dakika: 10, maliyet: 690 },
+    { id: "raf", ad: "Çelik raf", hat: "metal", dakika: 20, maliyet: 1420 },
+  ],
+  HAT_DAKIKA: 600,                    // tek vardiya: 08:00–18:00
+  IKINCI_VARDIYA: { dakika: 480, maliyet: 18000 }, // gece vardiyası: 8 saat, günlük bütçeden düşer
+
+  /* ---- Malzemeler ve ürün ağacı (Ar-Ge, Depo) ----
+     kapsama: oyun başında depodaki stok kaç günlük üretime yeter (1. gün sabahki siparişler zamanında
+     plana alınırsa). 2'nin altı: hızlı tedarikçi bile yetişmez; 2–3: "GEÇ KALINDI" ama Tedarikçi A yetişir;
+     ~4,5: "BUGÜN VER"; daha büyük: ileride verilecek. */
+  MALZEMELER: [
+    { id: "mdf", ad: "MDF levha", birim: "adet", fiyat: 420, paket: 10, kapsama: 2.5 },
+    { id: "oturak", ad: "Kontrplak oturak", birim: "adet", fiyat: 140, paket: 20, kapsama: 6 },
+    { id: "kereste", ad: "Kayın kereste", birim: "adet", fiyat: 85, paket: 50, kapsama: 4.5 },
+    { id: "profil", ad: "Çelik profil", birim: "boy", fiyat: 160, paket: 20, kapsama: 5.5 },
+    { id: "tabla", ad: "Raf tablası", birim: "adet", fiyat: 120, paket: 50, kapsama: 8 },
+    { id: "vida", ad: "Vida seti", birim: "set", fiyat: 25, paket: 50, kapsama: 2.5 },
+    { id: "braket", ad: "Bağlantı braketi", birim: "adet", fiyat: 12, paket: 100, kapsama: 9 },
+    { id: "tutkal", ad: "Ahşap tutkalı", birim: "tüp", fiyat: 45, paket: 20, kapsama: 7 },
+    { id: "vernik", ad: "Vernik", birim: "kutu", fiyat: 95, paket: 20, kapsama: 6.5 },
+    { id: "tozboya", ad: "Toz boya (ithal)", birim: "kg", fiyat: 210, paket: 25, kapsama: 7, ithal: true },
+    { id: "tapa", ad: "Ayak tapası", birim: "adet", fiyat: 3, paket: 200, kapsama: 10 },
+    { id: "koli", ad: "Ambalaj kolisi", birim: "adet", fiyat: 30, paket: 50, kapsama: 8 },
+  ],
+  URUN_AGACI: {
+    masa: { mdf: 1, kereste: 4, vida: 1, braket: 4, tutkal: 1, vernik: 1, tapa: 4, koli: 1 },
+    sandalye: { oturak: 1, kereste: 4, vida: 1, tutkal: 1, vernik: 1, tapa: 4, koli: 1 },
+    raf: { profil: 4, tabla: 5, vida: 2, braket: 8, tozboya: 1, tapa: 4, koli: 1 },
+  },
+  /* Oyundan önce verilmiş, yolda olan siparişler: gelecegiGun = kaçıncı gün kapıya gelir;
+     kapsama = stoğun üstüne kaç günlük üretim daha getirir */
+  YOLDAKI_SIPARISLER: [
+    { malzeme: "vida", tedarikci: "b", kapsama: 2, gelecegiGun: 1, saat: 10.5 },
+    { malzeme: "tozboya", tedarikci: "c", kapsama: 7, gelecegiGun: 4, saat: 11 },
+    { malzeme: "tabla", tedarikci: "b", kapsama: 4, gelecegiGun: 2, saat: 9.5 },
+  ],
+
+  /* ---- Satın Alma ---- */
+  TEDARIKCILER: [
+    { id: "a", ad: "Tedarikçi A", sure: 2, fiyatKatsayi: 1.15, not: "Hızlı, pahalı" },
+    { id: "b", ad: "Tedarikçi B", sure: 4, fiyatKatsayi: 1.0, not: "Standart" },
+    { id: "c", ad: "Tedarikçi C", sure: 7, fiyatKatsayi: 0.9, not: "Uzak, ucuz; ithal kalemin tek kaynağı", ithalat: true },
+  ],
+  STANDART_TEDARIKCI: "b",            // sipariş takvimi bu tedarikçinin süresiyle hesaplanır
+  ITHAL_EK_GUN: 5,                    // ithal kalem: C'nin süresine gümrük eklenir (7 + 5 = 12 gün)
+  ONAY_SURESI_DK: 120,                // tedarikçi onayı için 2 oyun saati
+  YANIT_SURESI_DK: [20, 60],          // tedarikçinin yanıtı (onaya hazır olması) bu kadar sürer
+  VARIS_SAATI: [9, 15],               // teslimat kapıya bu saatler arasında gelir
+  KAPSAMA_GUN: 5,                     // önerilen miktar, bitiş gününden sonraki bu kadar günü karşılar
+  FAZLA_SIPARIS_ORANI: 0.6,           // ihtiyacın bu oranından fazlası "gereksiz fazla sipariş" sayılır
+  GUNLUK_BUTCE: 120000,               // günlük harcama bütçesi (TL): satın alma, ikinci vardiya, acil bakım
+
+  /* ---- Olaylar ---- */
+  OLAY_SAATI: [10, 16.5],             // olaylar bu saatler arasında gelir
+  KALITE_KARAR_DK: 90,                // bozuk parti kararı için süre
+  BOZUK_PARTI_ORANI: [0.2, 0.35],     // stoğun bu kadarı bozuk çıkar
+  YENIDEN_ISLEME: { kurtarma: 0.6, hatDakika: 60 },
+  USTA_AYRILDI: { verim: 0.75, gun: 2 },
+  MAKINE_DURUSU_DK: [60, 180],
+  ACIL_BAKIM: { maliyet: 4000, durusDk: 45 },
+  SAYIM_FARKI_ORANI: [0.08, 0.18],
+  NAKIT_SINIRI_ORANI: [0.6, 0.75],
+  ACIL_SIPARIS_GUN: [2, 3],
+  URUN_DEGISIKLIKLERI: [              // Ar-Ge'nin yapabileceği ürün ağacı değişiklikleri
+    { urun: "masa", malzeme: "braket", yeni: 6 },
+    { urun: "sandalye", malzeme: "vida", yeni: 2 },
+    { urun: "raf", malzeme: "tabla", yeni: 6 },
+    { urun: "masa", malzeme: "kereste", yeni: 5 },
+    { urun: "raf", malzeme: "profil", yeni: 5 },
+  ],
+
+  /* ---- Puan ve karne ---- */
+  PUAN: {
+    BASLANGIC: 100,
+    ALT: 0,
+    UST: 120,
+    GEC_TESLIM: -8,          // teslim günü sevk edilemeyen her satır
+    UNUTULAN_ONAY: -5,       // süresi dolup düşen her satın alma siparişi
+    MALZEME_BITTI: -8,       // planlı üretim varken hatta malzeme bitmesi (hat ve malzeme başına günde bir kez)
+    BUTCE_ASIMI: -5,         // günlük bütçe aşılırsa (günde bir kez)
+    FAZLA_SIPARIS: -4,       // ihtiyaçtan belirgin fazla verilen sipariş
+    UNUTULAN_IS: -6,         // plana alınmayan sipariş, verilmeyen malzeme siparişi, süresi dolan kalite kararı, kapıda bırakılan teslimat
+    ZAMANINDA_PLAN: 5,       // sabah siparişleri saat ZAMANINDA_PLAN_SAAT'ten önce plana alınırsa
+    ZAMANINDA_TESLIM: 2,     // teslim gününde sevk edilen her satır
+  },
+  ZAMANINDA_PLAN_SAAT: 10,
+  KAPIDA_BEKLEME_DK: 60,     // gün sonunda en az bu kadar kapıda bekleyen teslimat "unutulan iş" sayılır
+  HARF_NOTU: [               // puan bu sınırın üstündeyse o harf
+    { harf: "A", alt: 100 },
+    { harf: "B", alt: 85 },
+    { harf: "C", alt: 70 },
+    { harf: "D", alt: 55 },
+    { harf: "E", alt: 0 },
+  ],
+};

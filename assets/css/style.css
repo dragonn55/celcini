@@ -15,6 +15,7 @@
   --turuncu-zemin: #FDEBDD; /* rozet zemini, üstünde lacivert yazı */
   --acil: #B42318;          /* yalnızca Fabricakit "acil" durumu (beyaz zeminde 6,4, #CBE6F6'da 5,0) */
 
+  --fs-0: 0.875rem;                           /* 14px: yalnızca Fabricakit'in yoğun ekranındaki ikincil etiketler */
   --fs-1: 1rem;                               /* 16px: gövde, etiket */
   --fs-2: 1.25rem;                            /* 20px kalın: kart başlığı, buton, menü */
   --fs-3: clamp(2rem, 1.4rem + 2.6vw, 3rem);  /* 32–48px: sayfa ve bölüm başlıkları */
