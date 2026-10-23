@@ -9,7 +9,7 @@ import { bitirmeDuragi } from "./motor/sayac.js";
 import { GUN_BASI } from "./motor/zaman.js";
 import { gercekAd, FABRIKA } from "./odalar.js";
 import { saat, gunAdi, sayi } from "./bicim.js";
-import { h, temizle, ikon } from "./arayuz/dom.js";
+import { h, temizle, ikon, ekle } from "./arayuz/dom.js";
 import { haritaKur } from "./arayuz/harita.js";
 import { panelCiz, canliGuncelle } from "./arayuz/panel.js";
 import { gorevNotu, gorevAdimlari, gorevOzeti } from "./arayuz/gorevnotu.js";
@@ -134,6 +134,8 @@ function oyun() {
   const gunEl = h("span", { sinif: "fk-gun" });
   const saatEl = h("span", { sinif: "fk-saat" });
   const durakEl = h("span", { sinif: "fk-durak" });
+  /* Telefonda "Duraklatıldı" ikinci satırda (gün ve saatin yanına sığmaz); CSS ikisinden birini gösterir */
+  const durakAltEl = h("span", { sinif: "fk-durak" });
   const puanEl = h("span", { sinif: "fk-puan" });
   const duraklat = h("button", { sinif: "fk-ust-dugme", type: "button", on: { click: () => { saatAcik = !saatAcik; ustCiz(); } } });
   const bitir = h("button", { sinif: "fk-ust-dugme fk-bitir", type: "button", "aria-label": "Günü bitir", on: { click: gunuBitir } }, ikon("bayrak"), h("span", { sinif: "fk-dugme-metin", metin: "Günü bitir" }));
@@ -143,7 +145,7 @@ function oyun() {
       h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakEl),
       h("div", { sinif: "fk-ust-sag" }, puanEl, sesDugmesi(), duraklat, bitir)),
     /* Telefonda fabrika adı şeridin ikinci satırında (gün ve saatin yanına sığmaz); CSS ikisinden birini gösterir */
-    h("p", { sinif: "fk-fabrika-adi fk-fabrika-alt-satir", metin: FABRIKA.ad }),
+    h("div", { sinif: "fk-ust-alt-satir" }, h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakAltEl),
     bitirmeEl);
   const ozetEl = h("div", { sinif: "fk-ozet-satir", role: "group", "aria-label": "Özet" });
   const sayacKap = h("div", { sinif: "fk-sayaclar", "aria-label": "Sayaçlar ve teslimatlar" });
@@ -190,6 +192,7 @@ function oyun() {
     saatEl.textContent = saat(d.dk);
     puanEl.textContent = `Puan ${sayi(d.puan.deger)}`;
     durakEl.textContent = saatAcik || d.bitirme ? "" : "Duraklatıldı";
+    durakAltEl.textContent = durakEl.textContent;
     temizle(duraklat).append(ikon(saatAcik ? "duraklat" : "oynat"), h("span", { sinif: "fk-dugme-metin", metin: saatAcik ? "Duraklat" : "Devam" }));
     duraklat.setAttribute("aria-label", saatAcik ? "Saati duraklat" : "Saati devam ettir");
     duraklat.setAttribute("aria-pressed", String(!saatAcik));
@@ -227,7 +230,7 @@ function oyun() {
         }, DEVAM_BEKLEME_MS);
       }
     }
-    bitirmeEl.append(ikon("bayrak"), h("span", { sinif: "fk-bitirme-metin", metin }), dugme);
+    ekle(bitirmeEl, [ikon("bayrak"), h("span", { sinif: "fk-bitirme-metin", metin }), dugme]);
   }
 
   /* Durağın kartı panelde görünür, eylem düğmesi odakta */
