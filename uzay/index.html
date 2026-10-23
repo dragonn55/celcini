@@ -1,171 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Uzay — Yapay Zekâ Araçları (Yakında) | Celcini</title>
-  <meta name="description" content="Uzay: Celcini'nin yapay zekâ destekli web araçları modülü. Tarayıcıdan çalışan, kurulum gerektirmeyen akıllı asistanlar yakında. Bekleme listesine katılın.">
-  <meta name="keywords" content="yapay zekâ araçları, AI araçları Türkçe, web tabanlı yapay zekâ, Celcini Uzay">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://celcini.com/uzay/">
-  <meta name="theme-color" content="#0B1326">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="tr_TR">
-  <meta property="og:site_name" content="Celcini">
-  <meta property="og:title" content="Uzay — Yapay Zekâ Araçları (Yakında)">
-  <meta property="og:description" content="Tarayıcıdan çalışan, kurulum gerektirmeyen yapay zekâ araçları yakında. Bekleme listesine katılın.">
-  <meta property="og:url" content="https://celcini.com/uzay/">
-  <meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://celcini.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Uzay", "item": "https://celcini.com/uzay/"}
-    ]
-  }
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uzay · Yapay zeka araçları · Celcini</title>
+<meta name="description" content="Uzay, Celcini&#x27;nin yapay zeka araçları. İlk araç Fabricakit, tarayıcıda fabrika simülasyonu; sırada Ölü Stok Dedektörü var.">
+<link rel="canonical" href="https://celcini.com/uzay/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Uzay · Yapay zeka araçları · Celcini">
+<meta property="og:description" content="Uzay, Celcini&#x27;nin yapay zeka araçları. İlk araç Fabricakit, tarayıcıda fabrika simülasyonu; sırada Ölü Stok Dedektörü var.">
+<meta property="og:url" content="https://celcini.com/uzay/">
+<meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=e801ab94">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=b52a4461" defer></script>
+
 </head>
 <body>
-  <a class="skip-link" href="#main">İçeriğe geç</a>
+<a class="atla" href="#icerik">İçeriğe geç</a>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="/" aria-label="Celcini ana sayfa">
-        <img src="/assets/img/logo.svg" alt="" width="34" height="34">
-        <span class="brand-name">Celcini</span>
-      </a>
-      <button class="nav-toggle" aria-label="Menüyü aç/kapat" aria-expanded="false" aria-controls="site-nav"><span></span></button>
-      <nav class="site-nav" id="site-nav" aria-label="Ana menü">
-        <ul>
-          <li><a href="/">Ana Sayfa</a></li>
-          <li><a href="/fabricakit/">Fabricakit</a></li>
-          <li><a href="/excel-klinigi/">Excel Kliniği</a></li>
-          <li><a href="/uzay/" aria-current="page">Uzay <span class="dim">· yakında</span></a></li>
-          <li><a class="btn btn-primary btn-sm nav-cta" href="https://www.shopier.com/celcini" data-link="shopier.magaza">Mağaza</a></li>
-        </ul>
-      </nav>
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/uzay/" aria-current="page">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="sayfa-bas">
+  <div class="kap">
+    <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li aria-current="page">Uzay</li></ol></nav>
+    <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+    <h1>Uzay</h1>
+    <p>Yapay zeka araçları. Tarayıcıda çalışır, kurulum istemez.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Uzay araçları">
+  <div class="kap">
+    <ul class="izgara izgara-2">
+      <li><article class="kart arac-kart">
+        <div class="ust"><svg class="ikon ikon-buyuk" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#samanyolu"/></svg><span class="etiket">Yayında</span></div>
+        <h2 class="h3-boy">Fabricakit</h2>
+        <p>Tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, sen de onu sorgularsın.</p>
+        <a class="dugme" href="/fabricakit/">Oyna<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </article></li>
+      <li><article class="kart arac-kart">
+        <div class="ust"><svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span class="etiket etiket-turuncu">Yakında</span></div>
+        <h2 class="h3-boy">Ölü Stok Dedektörü</h2>
+        <p>Depoda hareket görmeyen stoğu bulmak için bir araç.</p>
+      </article></li>
+    </ul>
+    <p class="not-satiri"><span><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Uzay araçlarına girdiğin veri işlem sonrası sunucuda saklanmaz.</span></p>
+  </div>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Derin Excel havuzu. Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.</p>
     </div>
-  </header>
-
-  <main id="main">
-    <section class="page-hero">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="Sayfa yolu">
-          <a href="/">Ana Sayfa</a><span aria-hidden="true">/</span><span>Uzay</span>
-        </nav>
-        <span class="badge badge-accent"><span class="dot"></span> Modül 03 · Yakında</span>
-        <h1>Uzay</h1>
-        <p class="lead">Yapay zekâ destekli web araçları. Kurulum yok, eklenti yok: tarayıcınızı açın, işinizi yapın. Fabricakit ve Excel Kliniği'nin sade yaklaşımı, şimdi akıllı asistanlara taşınıyor.</p>
-        <p class="dim" style="font-size:.9rem">"Uzay" geçici bir çalışma adıdır; modül yayına girerken nihai adıyla duyurulacaktır.</p>
-      </div>
-    </section>
-
-    <section class="section-tight">
-      <div class="container">
-        <div class="soon-panel reveal">
-          <div class="orbit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 4-3 7-7 13-4-6-7-9-7-13a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </div>
-          <h2>Fırlatmaya hazırlanıyoruz</h2>
-          <p class="lead" style="margin:0 auto 24px">Bekleme listesine katılın; ilk araçlar yayına girdiğinde haber verelim ve erken erişim tanıyalım.</p>
-          <div class="hero-actions" style="justify-content:center;margin-top:0">
-            <a class="btn btn-primary btn-lg" href="https://forms.gle/PLACEHOLDER" data-link="form.uzay.bekleme">Bekleme Listesine Katıl</a>
-            <a class="btn btn-outline btn-lg" href="#planlanan">Planlanan araçlar</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="planlanan">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">Yol haritası</div>
-          <h2>Planlanan ilk araçlar</h2>
-          <p class="lead">Her araç tek bir işi iyi yapacak şekilde tasarlanıyor. Öncelik, bekleme listesindeki geri bildirimlere göre belirlenir.</p>
-        </div>
-        <div class="grid grid-3">
-          <div class="card card-soon reveal">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></div>
-            <h3>Excel Asistanı</h3>
-            <p>Türkçe anlatın, formülü ve açıklamasını alın. Bozuk formülü yapıştırın, nedenini ve düzeltmesini görün.</p>
-            <span class="badge">Planlanıyor</span>
-          </div>
-          <div class="card card-soon reveal reveal-delay-1">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l5 5v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M14 4v5h5M8 13h8M8 17h5"/></svg></div>
-            <h3>Rapor Özetleyici</h3>
-            <p>Üretim veya finans raporunu yükleyin; önemli sapmaları, riskleri ve önerileri maddeler hâlinde alın.</p>
-            <span class="badge">Planlanıyor</span>
-          </div>
-          <div class="card card-soon reveal reveal-delay-2">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-            <h3>İş Yazışma Yardımcısı</h3>
-            <p>Teklif, hatırlatma ve müşteri e-postalarını kurumsal Türkçe ile saniyeler içinde hazırlayın.</p>
-            <span class="badge">Fikir aşamasında</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-tight">
-      <div class="container split">
-        <div class="reveal">
-          <div class="eyebrow">İlkeler</div>
-          <h2>Nasıl bir yapay zekâ?</h2>
-          <p class="muted">Gösteriş için değil, iş için. Uzay araçları şu ilkelerle geliştiriliyor:</p>
-        </div>
-        <ul class="feature-list reveal reveal-delay-1">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Tarayıcıdan çalışır.</strong> Kurulum ve eklenti gerekmez; telefonda da kullanılır.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Türkçe öncelikli.</strong> Türk iş dili ve yerel kurallar göz önünde tutulur.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Veriniz sizin.</strong> Yüklediğiniz dosyalar işlem sonrası saklanmaz.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Şablonlarla uyumlu.</strong> Fabricakit ve Excel Kliniği dosyalarını doğrudan tanır.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section-tight">
-      <div class="container">
-        <div class="cta-band reveal">
-          <div>
-            <h2>Erken erişim listesine katılın</h2>
-            <p>Yayın tarihini ilk siz öğrenin; ilk kullanıcılar için özel koşullar olacak.</p>
-          </div>
-          <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="https://forms.gle/PLACEHOLDER" data-link="form.uzay.bekleme">Bekleme Listesine Katıl</a>
-            <a class="btn btn-ghost" href="/">Ana sayfaya dön</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="brand" href="/"><img src="/assets/img/logo.svg" alt="" width="34" height="34"><span class="brand-name">Celcini</span></a>
-          <p>Yapay zekâ ve iş çözümleri. Fabrikalar ve işletmeler için sade, hızlı, çalışan araçlar.</p>
-        </div>
-        <div><h4>Modüller</h4><ul><li><a href="/fabricakit/">Fabricakit</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/uzay/">Uzay (yakında)</a></li></ul></div>
-        <div><h4>Satın alma</h4><ul><li><a href="https://www.shopier.com/celcini" data-link="shopier.magaza">Shopier mağazası</a></li><li><a href="https://forms.gle/PLACEHOLDER" data-link="form.uzay.bekleme">Bekleme listesi</a></li></ul></div>
-        <div><h4>İletişim</h4><ul><li><a href="mailto:info@celcini.com" data-link="mail.iletisim">info@celcini.com</a></li><li><a href="https://forms.gle/PLACEHOLDER" data-link="form.iletisim">İletişim formu</a></li></ul></div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span data-year>2026</span> Celcini. Tüm hakları saklıdır.</span>
-        <span>Türkiye'de tasarlandı.</span>
-      </div>
-    </div>
-  </footer>
-
-  <script src="/assets/js/config.js"></script>
-  <script src="/assets/js/main.js"></script>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
 </body>
 </html>

@@ -1,13 +1,14 @@
 {
   "name": "Celcini",
   "short_name": "Celcini",
-  "description": "Yapay zekâ ve iş çözümleri",
+  "description": "Fabricakit: tarayıcıda fabrika simülasyonu. İşini kurgula, ajanı sorgula.",
   "lang": "tr",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0B1326",
-  "theme_color": "#0B1326",
+  "background_color": "#CBE6F6",
+  "theme_color": "#0096C7",
   "icons": [
-    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/assets/img/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/img/favicon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

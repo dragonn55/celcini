@@ -1,21 +1,9 @@
-/* Araca özel stiller. Ortak değişkenler style.css'ten gelir. */
-.tool-panel { gap: 14px; }
-.tool-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  font: inherit;
-  resize: vertical;
+/* Araca özel stiller. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir. */
+.arac-panel { padding: 24px; display: grid; gap: 12px; max-width: 760px; }
+.arac-panel textarea {
+  width: 100%; padding: 12px 14px; font: inherit; color: var(--metin); resize: vertical;
+  background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
 }
-.tool-input:focus { border-color: var(--accent); outline: none; }
-.tool-output {
-  padding: 16px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(45, 212, 191, 0.35);
-  background: var(--accent-soft);
-  white-space: pre-wrap;
-  color: var(--text);
-}
+.arac-panel .eylemler { align-items: center; }
+#arac-durum { color: var(--metin-2); }
+.arac-cikti { padding: 16px; border: var(--cizgi-k) solid var(--cizgi); border-left: 2px solid var(--turuncu); border-radius: var(--r); white-space: pre-wrap; }

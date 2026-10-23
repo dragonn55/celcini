@@ -1,285 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Celcini — Yapay Zekâ ve İş Çözümleri</title>
-  <meta name="description" content="Celcini: fabrikalar ve işletmeler için hazır Excel şablonları ve yakında yapay zekâ araçları. Fabricakit, Excel Kliniği ve Uzay modülleriyle işinizi sadeleştirin.">
-  <meta name="keywords" content="Celcini, Excel şablonları, fabrika yönetimi, üretim takip, yapay zekâ araçları, iş çözümleri">
-  <meta name="author" content="Celcini">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://celcini.com/">
-  <meta name="theme-color" content="#0B1326">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Celcini · Fabricakit: tarayıcıda fabrika simülasyonu</title>
+<meta name="description" content="Fabricakit: tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, sen de onu sorgularsın. İşini kurgula, ajanı sorgula.">
+<link rel="canonical" href="https://celcini.com/">
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="tr_TR">
-  <meta property="og:site_name" content="Celcini">
-  <meta property="og:title" content="Celcini — Yapay Zekâ ve İş Çözümleri">
-  <meta property="og:description" content="Fabrikalar ve işletmeler için hazır Excel şablonları ve yakında yapay zekâ araçları.">
-  <meta property="og:url" content="https://celcini.com/">
-  <meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Celcini — Yapay Zekâ ve İş Çözümleri">
-  <meta name="twitter:description" content="Fabrikalar ve işletmeler için hazır Excel şablonları ve yakında yapay zekâ araçları.">
-  <meta name="twitter:image" content="https://celcini.com/assets/img/og-cover.png">
-
-  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/assets/css/style.css">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Celcini",
-    "url": "https://celcini.com/",
-    "logo": "https://celcini.com/assets/img/logo.svg",
-    "description": "Fabrikalar ve işletmeler için Excel şablonları ve yapay zekâ araçları.",
-    "email": "info@celcini.com",
-    "areaServed": "TR"
-  }
-  </script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Celcini · Fabricakit: tarayıcıda fabrika simülasyonu">
+<meta property="og:description" content="Fabricakit: tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, sen de onu sorgularsın. İşini kurgula, ajanı sorgula.">
+<meta property="og:url" content="https://celcini.com/">
+<meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=e801ab94">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=b52a4461" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Celcini","url":"https://celcini.com/","logo":"https://celcini.com/assets/img/favicon-512.png","slogan":"İşini kurgula, ajanı sorgula."}</script>
 </head>
 <body>
-  <a class="skip-link" href="#main">İçeriğe geç</a>
+<a class="atla" href="#icerik">İçeriğe geç</a>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="/" aria-label="Celcini ana sayfa">
-        <img src="/assets/img/logo.svg" alt="" width="34" height="34">
-        <span class="brand-name">Celcini</span>
-      </a>
-      <button class="nav-toggle" aria-label="Menüyü aç/kapat" aria-expanded="false" aria-controls="site-nav">
-        <span></span>
-      </button>
-      <nav class="site-nav" id="site-nav" aria-label="Ana menü">
-        <ul>
-          <li><a href="/" aria-current="page">Ana Sayfa</a></li>
-          <li><a href="/fabricakit/">Fabricakit</a></li>
-          <li><a href="/excel-klinigi/">Excel Kliniği</a></li>
-          <li><a href="/uzay/">Uzay <span class="dim">· yakında</span></a></li>
-          <li><a class="btn btn-primary btn-sm nav-cta" href="https://www.shopier.com/celcini" data-link="shopier.magaza">Mağaza</a></li>
-        </ul>
-      </nav>
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/uzay/">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="hero hero-fk" aria-labelledby="fk-baslik">
+  <div class="kap">
+    <div class="hero-metin belir">
+      <h1 id="fk-baslik">Fabricakit</h1>
+      <p class="hero-slogan">İşini kurgula, ajanı sorgula.</p>
+      <p class="hero-alt">Tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, sen de onu sorgularsın.</p>
+      <div class="hero-eylem">
+        <a class="dugme" href="/fabricakit/">Oynamaya başla<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a class="dugme-cizgi" href="#nasil">Nasıl çalışır</a>
+      </div>
+      <p class="not-satiri"><span><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>1. gün ücretsiz</span><span><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>Üyelik yok</span><span><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>İlerleme yalnızca tarayıcında</span></p>
     </div>
-  </header>
+    <div class="kart fp-kart belir belir-2"><svg class="fp" viewBox="0 0 480 360" aria-hidden="true" focusable="false">
+  <rect class="fp-bina" x="8" y="8" width="464" height="344" rx="14"/>
+  <g class="fp-duvar"><path d="M85.3 8V104"/><path d="M162.7 8V104"/><path d="M240.0 8V104"/><path d="M317.3 8V104"/><path d="M394.7 8V104"/><path d="M8.0 104H34.7M58.7 104H112.0M136.0 104H189.3M213.3 104H266.7M290.7 104H344.0M368.0 104H421.3M445.3 104H472"/>
+    <path d="M8 252H178M202 252H410M434 252H472"/><path d="M372 104V160M372 184V252"/><path d="M330 252V292M330 316V352"/></g>
+  <use href="/fabricakit/img/gezegenler.svg#merkur" x="33.666666666666664" y="43" width="26" height="26"/><use href="/fabricakit/img/gezegenler.svg#venus" x="111.0" y="43" width="26" height="26"/><use href="/fabricakit/img/gezegenler.svg#dunya" x="188.33333333333331" y="43" width="26" height="26"/><use href="/fabricakit/img/gezegenler.svg#uranus" x="265.6666666666667" y="43" width="26" height="26"/><use href="/fabricakit/img/gezegenler.svg#neptun" x="343.0" y="43" width="26" height="26"/><use href="/fabricakit/img/gezegenler.svg#pluton" x="420.3333333333333" y="43" width="26" height="26"/>
+  <use href="/fabricakit/img/gezegenler.svg#mars" x="20" y="116" width="24" height="24"/>
+  <rect class="fp-hat" x="48" y="146" width="284" height="20" rx="10"/><path class="fp-makara" d="M64 149v14M80 149v14M96 149v14M112 149v14M128 149v14M144 149v14M160 149v14M176 149v14M192 149v14M208 149v14M224 149v14M240 149v14M256 149v14M272 149v14M288 149v14M304 149v14M320 149v14"/><rect class="fp-makine" x="82" y="136" width="34" height="40" rx="4"/><rect class="fp-makine" x="172" y="136" width="34" height="40" rx="4"/><rect class="fp-makine" x="262" y="136" width="34" height="40" rx="4"/><rect class="fp-kutu" x="132" y="150" width="12" height="12" rx="2"/><rect class="fp-kutu" x="222" y="150" width="12" height="12" rx="2"/><rect class="fp-kutu" x="308" y="150" width="12" height="12" rx="2"/><path class="fp-ok" d="M338 156h22m-6-6 6 6-6 6"/><rect class="fp-hat" x="48" y="204" width="284" height="20" rx="10"/><path class="fp-makara" d="M64 207v14M80 207v14M96 207v14M112 207v14M128 207v14M144 207v14M160 207v14M176 207v14M192 207v14M208 207v14M224 207v14M240 207v14M256 207v14M272 207v14M288 207v14M304 207v14M320 207v14"/><rect class="fp-makine" x="82" y="194" width="34" height="40" rx="4"/><rect class="fp-makine" x="172" y="194" width="34" height="40" rx="4"/><rect class="fp-makine" x="262" y="194" width="34" height="40" rx="4"/><rect class="fp-kutu" x="132" y="208" width="12" height="12" rx="2"/><rect class="fp-kutu" x="222" y="208" width="12" height="12" rx="2"/><rect class="fp-kutu" x="308" y="208" width="12" height="12" rx="2"/><path class="fp-ok" d="M338 214h22m-6-6 6 6-6 6"/>
+  <use href="/fabricakit/img/gezegenler.svg#saturn" x="408" y="164" width="28" height="28"/>
+  <use href="/fabricakit/img/gezegenler.svg#jupiter" x="178" y="258" width="24" height="24"/>
+  <rect class="fp-raf" x="56" y="280" width="236" height="10" rx="2"/><path class="fp-raf-ic" d="M86 280v10M116 280v10M146 280v10M176 280v10M206 280v10M236 280v10M266 280v10"/><rect class="fp-raf" x="56" y="304" width="236" height="10" rx="2"/><path class="fp-raf-ic" d="M86 304v10M116 304v10M146 304v10M176 304v10M206 304v10M236 304v10M266 304v10"/><rect class="fp-raf" x="56" y="328" width="236" height="10" rx="2"/><path class="fp-raf-ic" d="M86 328v10M116 328v10M146 328v10M176 328v10M206 328v10M236 328v10M266 328v10"/>
+  <g class="fp-kamyon"><rect x="350" y="282" width="68" height="40" rx="4"/><path d="M418 292h18l12 12v18h-30z"/><circle cx="368" cy="326" r="5"/><circle cx="432" cy="326" r="5"/></g>
+  <path class="fp-sevk" d="M472 286v44"/>
+</svg></div>
+  </div>
+</section>
 
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="badge badge-accent"><span class="dot"></span> Türkiye'den, işletmeler için</span>
-          <h1 style="margin-top:18px">İşinizi sadeleştiren <span class="accent">akıllı araçlar</span></h1>
-          <p class="lead">Fabrikalar için üretim ve bakım şablonlarından genel iş şablonlarına, yakında yapay zekâ destekli web araçlarına: Celcini, karmaşık işleri sade ve kullanılabilir çözümlere dönüştürür.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="/fabricakit/">Fabricakit'i Keşfet</a>
-            <a class="btn btn-outline btn-lg" href="/excel-klinigi/">Excel Kliniği</a>
-          </div>
-          <div class="hero-meta">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Anında indirme</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Güvenli ödeme (Shopier)</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Türkçe destek</span>
-          </div>
-        </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="ring ring-1"></div>
-          <div class="ring ring-2"></div>
-          <div class="ring ring-3"></div>
-          <div class="glow"></div>
-          <img class="logo-big" src="/assets/img/logo.svg" alt="" width="200" height="200">
-        </div>
-      </div>
-    </section>
+<section class="bolum" aria-labelledby="odalar-baslik">
+  <div class="kap">
+    <div class="bolum-bas">
+      <p class="ust-yazi fabrika-adi"><svg class="oda-simge oda-simge-kucuk" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#samanyolu"/></svg><span>SAMANYOLU</span><span class="ayrac" aria-hidden="true">·</span><span>Dokuzkapı Mobilya ve Metal</span></p>
+      <h2 id="odalar-baslik">Dokuz oda</h2>
+      <p>Fabrikanın her departmanı bir oda. Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</p>
+    </div>
+    <ul class="oda-serit"><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#merkur"/></svg><span class="oda-kod">MERKÜR</span><span class="oda-ad">Satış-Pazarlama</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#venus"/></svg><span class="oda-kod">VENÜS</span><span class="oda-ad">Ar-Ge</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#dunya"/></svg><span class="oda-kod">DÜNYA</span><span class="oda-ad">Planlama</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#mars"/></svg><span class="oda-kod">MARS</span><span class="oda-ad">Üretim</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#jupiter"/></svg><span class="oda-kod">JÜPİTER</span><span class="oda-ad">Depo</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#saturn"/></svg><span class="oda-kod">SATÜRN</span><span class="oda-ad">Kalite</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#uranus"/></svg><span class="oda-kod">URANÜS</span><span class="oda-ad">İnsan Kaynakları</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#neptun"/></svg><span class="oda-kod">NEPTÜN</span><span class="oda-ad">Finans-Muhasebe</span></li><li class="oda-kart"><svg class="oda-simge" aria-hidden="true" focusable="false"><use href="/fabricakit/img/gezegenler.svg#pluton"/></svg><span class="oda-kod">PLÜTON</span><span class="oda-ad">Satın Alma</span></li></ul>
+  </div>
+</section>
 
-    <!-- MODÜLLER -->
-    <section class="section" id="moduller">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">Üç modül, tek marka</div>
-          <h2>İhtiyacınıza göre seçin</h2>
-          <p class="lead">Her modül kendi alanına odaklanır. Hepsi aynı ilkeyle tasarlanır: açılır, çalışır, zaman kazandırır.</p>
-        </div>
+<section class="bolum" id="nasil" aria-labelledby="nasil-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="nasil-baslik">Nasıl çalışır</h2><p>Bir oyun günü 08:00'de başlar, 18:00'de biter. Saati istediğin an durdurabilirsin.</p></div>
+    <ol class="izgara izgara-3">
+      <li class="kart adim"><svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span class="no">1. Sipariş gelir</span><p>Sabah Satış-Pazarlama'dan günün siparişleri düşer: birkaç müşteri, 30 günlük ufuk. Yanında görev notu açılır.</p></li>
+      <li class="kart adim"><svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg><span class="no">2. Planla, satın al</span><p>Siparişi plana koy, malzeme ihtiyacını gör, eksik malzemeyi sipariş et. Tedarikçi onayını sayaç dolmadan al.</p></li>
+      <li class="kart adim"><svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span class="no">3. Karneni al</span><p>Gün sonunda zamanında teslim, hat duruşu, depoda bağlanan para ve unutulan işler karnede. Notu Ajan GM verir.</p></li>
+    </ol>
+  </div>
+</section>
 
-        <div class="grid grid-3">
-          <a class="card card-link module-card reveal" href="/fabricakit/">
-            <span class="module-num">01</span>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20V9l6 3V9l6 3V7l8-3v16H2z"/><path d="M6 20v-4M10 20v-4M14 20v-4M18 20v-4"/></svg>
-            </div>
-            <h3>Fabricakit</h3>
-            <p>Fabrika yönetimi için Excel şablonları: üretim takibi, stok, bakım planı, OEE, vardiya ve kalite kontrol.</p>
-            <div class="tag-list">
-              <span class="tag">Üretim</span><span class="tag">Bakım</span><span class="tag">OEE</span>
-            </div>
-            <span class="arrow">Modülü incele
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-          </a>
-
-          <a class="card card-link module-card reveal reveal-delay-1" href="/excel-klinigi/">
-            <span class="module-num">02</span>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>
-            </div>
-            <h3>Excel Kliniği</h3>
-            <p>Her işletmeye uyan genel Excel şablonları: bütçe, nakit akışı, proje takibi, CRM, fatura ve personel yönetimi.</p>
-            <div class="tag-list">
-              <span class="tag">Finans</span><span class="tag">Proje</span><span class="tag">CRM</span>
-            </div>
-            <span class="arrow">Modülü incele
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-          </a>
-
-          <a class="card card-link module-card card-soon reveal reveal-delay-2" href="/uzay/">
-            <span class="module-num">03</span>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 4-3 7-7 13-4-6-7-9-7-13a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            </div>
-            <h3>Uzay <span class="badge" style="vertical-align:middle;margin-left:6px">Yakında</span></h3>
-            <p>Yapay zekâ destekli web araçları. Tarayıcıdan çalışan, kurulum gerektirmeyen pratik asistanlar.</p>
-            <div class="tag-list">
-              <span class="tag">Yapay zekâ</span><span class="tag">Web araçları</span>
-            </div>
-            <span class="arrow">Bekleme listesine katıl
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- NEDEN CELCINI -->
-    <section class="section section-tight">
-      <div class="container split">
-        <div class="reveal">
-          <div class="eyebrow">Neden Celcini</div>
-          <h2>Sahadan gelen, sahada çalışan çözümler</h2>
-          <p class="muted">Şablonlarımız gerçek işletme ihtiyaçlarından yola çıkarak hazırlanır. Gereksiz karmaşıklık yok, sadece işinize yarayan yapı.</p>
-          <ul class="feature-list" style="margin-top:22px">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Hazır ve düzenlenebilir.</strong> Formüller, koşullu biçimlendirme ve özet panolar kurulu gelir; kendi verinizi girmeniz yeterli.</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Türkçe ve yerel.</strong> Türk işletme pratiğine uygun alanlar, para birimi ve tarih formatları.</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Tek seferlik ödeme.</strong> Abonelik yok. Satın aldığınız şablon sizindir.</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Yapay zekâ yolda.</strong> Uzay modülüyle aynı sade yaklaşım, tarayıcıdan çalışan akıllı araçlara taşınıyor.</span>
-            </li>
-          </ul>
-        </div>
-        <div class="reveal reveal-delay-1">
-          <div class="sheet" aria-hidden="true">
-            <div class="sheet-bar"><i></i><i></i><i></i><span style="margin-left:6px">uretim-takip.xlsx</span></div>
-            <table>
-              <thead><tr><th>Hat</th><th>Hedef</th><th>Gerçekleşen</th><th>OEE</th><th>Durum</th></tr></thead>
-              <tbody>
-                <tr><td>Hat 1</td><td class="num">1.200</td><td class="num">1.184</td><td class="num">87%</td><td class="ok">● Normal</td></tr>
-                <tr><td>Hat 2</td><td class="num">900</td><td class="num">812</td><td class="num">79%</td><td class="warn">● İzle</td></tr>
-                <tr><td>Hat 3</td><td class="num">1.500</td><td class="num">1.496</td><td class="num">91%</td><td class="ok">● Normal</td></tr>
-                <tr><td>Hat 4</td><td class="num">640</td><td class="num">498</td><td class="num">62%</td><td class="bad">● Arıza</td></tr>
-                <tr><td>Toplam</td><td class="num">4.240</td><td class="num">3.990</td><td class="num">82%</td><td class="ok">● Günlük</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- NASIL ÇALIŞIR -->
-    <section class="section">
-      <div class="container">
-        <div class="section-head center reveal">
-          <div class="eyebrow">Nasıl çalışır</div>
-          <h2>Üç adımda kullanıma hazır</h2>
-        </div>
-        <div class="grid grid-3 steps">
-          <div class="step reveal">
-            <h3>Şablonu seçin</h3>
-            <p>Modül sayfalarından ihtiyacınıza uygun şablonu veya paketi belirleyin.</p>
-          </div>
-          <div class="step reveal reveal-delay-1">
-            <h3>Shopier'den satın alın</h3>
-            <p>Güvenli ödeme sonrası dosya bağlantısı anında e-postanıza gelir.</p>
-          </div>
-          <div class="step reveal reveal-delay-2">
-            <h3>Açın, kullanın</h3>
-            <p>Excel veya Google Sheets ile açın, verinizi girin. Kurulum yok, eğitim gerekmez.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="section-tight">
-      <div class="container">
-        <div class="cta-band reveal">
-          <div>
-            <h2>Uzay'a ilk siz adım atın</h2>
-            <p>Yapay zekâ araçları yayına girdiğinde haber almak ve erken erişim için bekleme listesine katılın.</p>
-          </div>
-          <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="https://forms.gle/PLACEHOLDER" data-link="form.uzay.bekleme">Bekleme Listesine Katıl</a>
-            <a class="btn btn-ghost" href="/uzay/">Uzay hakkında</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="brand" href="/">
-            <img src="/assets/img/logo.svg" alt="" width="34" height="34">
-            <span class="brand-name">Celcini</span>
-          </a>
-          <p>Yapay zekâ ve iş çözümleri. Fabrikalar ve işletmeler için sade, hızlı, çalışan araçlar.</p>
-        </div>
-        <div>
-          <h4>Modüller</h4>
-          <ul>
-            <li><a href="/fabricakit/">Fabricakit</a></li>
-            <li><a href="/excel-klinigi/">Excel Kliniği</a></li>
-            <li><a href="/uzay/">Uzay (yakında)</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Satın alma</h4>
-          <ul>
-            <li><a href="https://www.shopier.com/celcini" data-link="shopier.magaza">Shopier mağazası</a></li>
-            <li><a href="https://forms.gle/PLACEHOLDER" data-link="form.uzay.bekleme">Bekleme listesi</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@celcini.com" data-link="mail.iletisim">info@celcini.com</a></li>
-            <li><a href="https://forms.gle/PLACEHOLDER" data-link="form.iletisim">İletişim formu</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span data-year>2026</span> Celcini. Tüm hakları saklıdır.</span>
-        <span>Türkiye'de tasarlandı.</span>
+<section class="bolum" aria-labelledby="gm-baslik">
+  <div class="kap">
+    <div class="kart gm-tanitim">
+      <picture class="gm-gorsel"><source type="image/webp" srcset="/assets/img/ajan-gm.webp?v=937999c9"><img src="/assets/img/ajan-gm.png?v=6e35b8e1" alt="" width="1024" height="1024" loading="lazy" decoding="async"></picture>
+      <div class="gm-metin">
+        <p class="ust-yazi">Yapay zeka genel müdür</p>
+        <h2 id="gm-baslik">Ajan GM</h2>
+        <p>Fabrikada olan her şeyi görür: geciken onayı, boşa duran hattı, gereksiz siparişi. Gün sonunda karneni verir ve yarın için tek bir talimat bırakır. Notuna katılmıyorsan sorgula; cevabını o günün sayılarıyla verir.</p>
+        <a class="dugme" href="/fabricakit/">Fabrikaya gir<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="/assets/js/config.js"></script>
-  <script src="/assets/js/main.js"></script>
+<section class="bolum" id="dosyalar" aria-labelledby="dosyalar-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Sahada test edilmiş, kurulumsuz Excel dosyaları; işe göre üç rafta.</p></div>
+    <ul class="izgara izgara-3"><li><a class="kart raf-kart" href="/fabrika/">
+  <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+  <h3>Fabrika Dosyaları</h3>
+  <p>Fabrika programları (MRP, vardiya, stok, ithalat maliyet)</p>
+  <span class="raf-sayi">1 ürün<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+</a></li><li><a class="kart raf-kart" href="/excel-klinigi/">
+  <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>
+  <h3>Excel Kliniği</h3>
+  <p>Genel iş şablonları (kasa, alacak-borç, sipariş, personel)</p>
+  <span class="raf-sayi">Raf hazırlanıyor<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+</a></li><li><a class="kart raf-kart" href="/datakit/">
+  <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+  <h3>Datakit</h3>
+  <p>Veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)</p>
+  <span class="raf-sayi">Raf hazırlanıyor<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+</a></li></ul>
+  </div>
+</section>
+
+<section class="bolum" aria-labelledby="uzay-baslik">
+  <div class="kap">
+    <a class="kart uzay-kart" href="/uzay/">
+      <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+      <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Yapay zeka araçları</h2>
+      <span class="uzay-alt">İlk araç Fabricakit. Sırada Ölü Stok Dedektörü var.</span></span>
+      <span class="uzay-git">Uzay'a git<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+    </a>
+  </div>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Derin Excel havuzu. Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.</p>
+    </div>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
 </body>
 </html>

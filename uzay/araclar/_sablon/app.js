@@ -1,36 +1,27 @@
-/* Araç şablonu — mantığı buraya yazın.
-   Yapay zekâ çağrısı için Vercel Serverless Function (api/uzay/<arac-adi>.js) kullanın;
-   API anahtarını asla tarayıcıya koymayın. */
+/* Uzay aracı şablonu: mantığı buraya yazın.
+   Yapay zeka çağrısı için Vercel fonksiyonu (api/<arac-adi>.js) kullanın; API anahtarı tarayıcıya girmez.
+   Kullanıcı verisi işlem sonrası saklanmaz. */
 (function () {
   "use strict";
-  var input = document.getElementById("tool-input");
-  var run = document.getElementById("tool-run");
-  var status = document.getElementById("tool-status");
-  var output = document.getElementById("tool-output");
+  var girdi = document.getElementById("arac-girdi");
+  var calistir = document.getElementById("arac-calistir");
+  var durum = document.getElementById("arac-durum");
+  var cikti = document.getElementById("arac-cikti");
+  if (!girdi || !calistir) return;
 
-  run.addEventListener("click", async function () {
-    var text = input.value.trim();
-    if (!text) { status.textContent = "Lütfen bir girdi yazın."; return; }
-    status.textContent = "Çalışıyor…";
-    run.disabled = true;
-    output.hidden = true;
-    try {
-      // Örnek: sunucu tarafı fonksiyona POST
-      // var res = await fetch("/api/uzay/ARAC-ADI", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ text: text })
-      // });
-      // var data = await res.json();
-      // output.textContent = data.result;
-
-      output.textContent = "Şablon çıktısı: " + text; // yer tutucu
-      output.hidden = false;
-      status.textContent = "";
-    } catch (err) {
-      status.textContent = "Bir hata oluştu. Lütfen tekrar deneyin.";
-    } finally {
-      run.disabled = false;
-    }
+  calistir.addEventListener("click", function () {
+    var metin = girdi.value.trim();
+    if (!metin) { durum.textContent = "Önce bir girdi yazın."; return; }
+    durum.textContent = "Çalışıyor…";
+    calistir.disabled = true;
+    cikti.hidden = true;
+    /* Örnek sunucu çağrısı:
+       fetch("/api/ARAC-ADI", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ metin: metin }) })
+         .then(function (r) { return r.json(); })
+         .then(function (veri) { cikti.textContent = veri.sonuc; }) */
+    cikti.textContent = "Şablon çıktısı: " + metin; /* yer tutucu */
+    cikti.hidden = false;
+    durum.textContent = "";
+    calistir.disabled = false;
   });
 })();

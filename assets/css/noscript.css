@@ -1,0 +1,13 @@
+/* JavaScript kapalıyken: mobil menü her zaman açık, menü düğmesi gizli. */
+.menu-dugme { display: none !important; }
+@media (max-width: 859px) {
+  .menu { display: block !important; position: static !important; }
+  .serit .kap { flex-wrap: wrap; }
+}
+@media (max-width: 859px) { .menu { width: 100%; } .menu ul { padding: 0 0 12px; } }
+/* Alt menü (Dosyalar) açık durur */
+.menu .menu-alt { display: flex !important; flex-direction: column; position: static !important; border: 0 !important; background: transparent !important; padding: 0 0 8px 20px !important; }
+.menu .menu-alt a { color: #fff !important; font-size: var(--fs-2) !important; }
+.menu-alt-dugme .ikon { display: none; }
+/* Arama ve etiket süzgeci JavaScript ister */
+[data-filtre], [data-sonuc] { display: none !important; }

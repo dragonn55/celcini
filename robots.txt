@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /uzay/araclar/_sablon/
 
 Sitemap: https://celcini.com/sitemap.xml

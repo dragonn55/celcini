@@ -1,3 +1,11 @@
 # Claude Code çalışma dosyaları sitede yayınlanmasın
 CLAUDE.md
 .claude
+# Derleme kaynakları ve önizleme yayınlanmaz (derlenmiş HTML depoda hazır)
+_onizleme
+scripts
+data
+README.md
+docs
+# Node için ES modülü işareti; tarayıcıya gerekmez
+fabricakit/js/package.json

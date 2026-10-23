@@ -1,137 +1,154 @@
-# Celcini — Web Sitesi
+# Celcini · Fabricakit ve derin Excel havuzu
 
-Celcini, Türkiye merkezli bir yapay zekâ ve iş çözümleri markasıdır. Bu depo markanın
-resmî web sitesini içerir: bağımlılıksız, statik, hızlı ve Vercel'e dağıtıma hazır.
+Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatörü (`/fabricakit/`).
+Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`);
+yapay zeka araçları `/uzay/` altında.
 
-**Teknoloji:** saf HTML + CSS + JavaScript. Derleme adımı yoktur; framework gerekmez.
-
-## Sayfalar
-
-| Yol | İçerik |
-|---|---|
-| `/` | Ana sayfa: marka, üç modülün özeti, nasıl çalışır, bekleme listesi çağrısı |
-| `/fabricakit/` | Modül 01 — fabrika yönetimi Excel şablonları (Shopier'e satış bağlantıları) |
-| `/excel-klinigi/` | Modül 02 — genel iş Excel şablonları (Shopier'e satış bağlantıları) |
-| `/uzay/` | Modül 03 — yapay zekâ araçları, "yakında" sayfası + Google Form bekleme listesi |
-| `/404.html` | Özel hata sayfası (Vercel otomatik kullanır) |
+celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
+`scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
+Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 
 ## Klasör yapısı
 
 ```
-celcini/
-├── index.html                 # Ana sayfa
-├── 404.html
-├── fabricakit/index.html
-├── excel-klinigi/index.html
-├── uzay/
-│   ├── index.html             # "Yakında" sayfası
-│   └── araclar/               # İleride eklenecek web tabanlı AI araçları
-│       ├── README.md          # Araç ekleme rehberi
-│       └── _sablon/           # Yeni araç için kopyalanacak iskelet
-├── assets/
-│   ├── css/style.css          # Tüm site stilleri (tasarım değişkenleri :root altında)
-│   ├── js/config.js           # ⚠️ Shopier ve Google Form bağlantıları — tek yerden yönetilir
-│   ├── js/main.js             # Mobil menü, bağlantı uygulama, animasyonlar
-│   └── img/logo.svg           # Yer tutucu gül logosu (nihai logo ile değiştirin)
-├── scripts/check.js           # Yayın öncesi basit SEO / kırık bağlantı kontrolü
-├── vercel.json                # Temiz URL'ler, güvenlik ve önbellek başlıkları
-├── robots.txt · sitemap.xml · site.webmanifest
-└── package.json               # Yalnızca yardımcı komutlar (dev, check)
+data/urunler.json        Tüm ürünler (tek kaynak)
+fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
+fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
+api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
+uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
+scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
+scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
+scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
+scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı, dil kuralları)
+scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum
+scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
+scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
+assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
+assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
+assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
+assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
+
+index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/, urun/<slug>/, uzay/,
+uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
+404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
 
-## Kurulum ve yerel çalıştırma
-
-Node.js 18+ yeterlidir (yalnızca yerel sunucu ve kontrol betiği için).
+## Komutlar
 
 ```bash
-git clone https://github.com/dragonn55/celcini.git
-cd celcini
-npm run dev        # http://localhost:3000
+python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
+python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
+npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
+npm run check                         # üretim çıktısı + sim-test + api-test
+npm run check:onizleme                # önizleme çıktısını kontrol et
+npm run dev                           # http://localhost:3000 (üretim)
+npm run onizleme                      # önizlemeyi derle ve http://localhost:3001'de aç
 ```
 
-Alternatif: herhangi bir statik sunucu da çalışır, örn. `python3 -m http.server 3000`.
+`_onizleme/` git'e girmez ve yayınlanmaz.
 
-> Mutlak yollar (`/assets/...`) kullanıldığı için siteyi dosyadan (`file://`) değil,
-> bir sunucu üzerinden açın.
+## Ürün ekleme
 
-Yayın öncesi kontrol:
+1. `data/urunler.json`'a bir kayıt ekle. Alanlar:
 
-```bash
-npm run check      # her HTML'de title/description/viewport var mı, iç bağlantılar kırık mı
+   | Alan | Açıklama |
+   |---|---|
+   | `slug` | Adres: `/urun/<slug>/`. Küçük harf, rakam, tire. |
+   | `ad`, `kisa`, `aciklama` | Ürün adı, tek cümle özet, paragraf. |
+   | `raf` | `fabrika` (Fabrika Dosyaları) · `excel-klinigi` · `datakit` |
+   | `ozellikler[]` | "Ne yapar" maddeleri. |
+   | `kimin_icin` | Tek paragraf. |
+   | `etiketler[]` | Raf sayfasındaki etiket süzgecine girer. `yapay zeka` etiketi turuncu rozet olur. |
+   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. |
+   | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez.** |
+   | `gorseller[]` | `"/assets/img/urun/planla-1.png"` ya da `{"src": "...", "alt": "..."}`. Boşsa "Ekran görüntüleri hazırlanıyor" kutusu çıkar. |
+   | `excel_surum`, `makro`, `sayfa_sayisi` | Teknik bilgi. |
+   | `one_cikan` | `true` ise ana sayfada "Öne çıkan" bölümüne girer. |
+   | `ornek` | `true` ise yalnızca önizlemede görünür. |
+
+2. `python3 scripts/derle.py` çalıştır, `npm run check` ile kontrol et, commit et.
+
+Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş kayıtların sayfasını üretmez, raf sayılarına,
+öne çıkanlara ve sitemap'e katmaz, eski sayfası varsa `urun/` altından siler.
+
+## Bağlantılar
+
+`assets/js/config.js` tek yerdir. Boş bırakılan bağlantının bölümü sayfada gizlenir (örneğin `google_form`
+boşsa e-posta listesi bölümü, `eposta` boşsa iletişimdeki e-posta satırı). JavaScript kapalıyken de bu
+öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden derlemek gerekmez.
+
+## Fabricakit
+
+Tarayıcıda çalışan tek sayfalık uygulama: `fabricakit/index.html` kabuğu, `fabricakit/css/`, `fabricakit/js/`.
+Harici kütüphane ve derleme yok; motor arayüzden bağımsızdır ve Node'da da çalışır (`npm run sim-test`).
+
+```
+fabricakit/js/ayarlar.js   Oyunun kural ve denge sayıları: puanlar, sayaçlar, tedarik süreleri, oyun saati, eşikler, tohumlar, Ajan GM ayarları
+fabricakit/js/odalar.js    Dokuz oda ve fabrika adı (kod adı "" yapılırsa her yerde gerçek ad görünür)
+fabricakit/js/veri/        Tohumlu rastgelelik, katalog, sipariş ve olay üretimi
+fabricakit/js/motor/       Tek store, eylemler, MRP, satın alma, üretim, olaylar, gün sonu, karne, kayıt
+fabricakit/js/ajan-gm/     Kural şablonları (yorumlar.js) ve yapay zeka kaynağı (kaynak.js)
+fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, karne, kilit ekranı
+fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 ```
 
-## Bağlantıları güncelleme (Shopier ve Google Form)
+- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla) ve `fabricakit-oyuncu` (hitap, açılan kilit).
+  Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
+- Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfa tanıtımı) ve daire
+  avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula ve kilit ekranı). Tarayıcı WebP destekliyorsa
+  WebP, değilse PNG yüklenir (`<picture>`). Görsel değişirse `python3 scripts/derle.py` ana sayfadaki sürüm etiketini yeniler.
+- Oda kod adı değişirse ana sayfadaki oda şeridi için yeniden derleyin; `npm run check` ikisinin uyumunu denetler.
 
-Tüm dış bağlantılar **`assets/js/config.js`** dosyasında toplanmıştır. HTML'deki
-`data-link="anahtar"` öznitelikli bağlantılar sayfa yüklenince bu dosyadaki değerle
-güncellenir; HTML'i tek tek düzenlemeniz gerekmez.
+### Ajan GM
 
-```js
-window.CELCINI_LINKS = {
-  "shopier.magaza": "https://www.shopier.com/celcini",
-  "shopier.fabricakit.paket": "https://www.shopier.com/...",   // ürün bağlantısı
-  "form.uzay.bekleme": "https://forms.gle/...",                 // Google Form
-  ...
-};
-```
+| Ayar (`ayarlar.js`) | Değerler |
+|---|---|
+| `AJAN_GM_KAYNAK` | `"kural"` (varsayılan; şablonlar, sunucuya istek yok) · `"yapay-zeka"` (`api/ajan-gm.js`) |
+| `AJAN_GM_YAPAY_ZEKA_KIME` | `"kodlu"` (varsayılan; yalnız geçerli erişim kodu girenler, kod her istekte yeniden doğrulanır) · `"herkes"` |
 
-JavaScript kapalıyken HTML'deki `href` değerleri devreye girer; bu yüzden önemli
-bağlantıları (mağaza, bekleme listesi) hem `config.js`'de hem HTML'de güncel tutmak
-iyi bir alışkanlıktır.
+Yapay zeka modunda sağlayıcıya yalnızca günün karnesinden seçilen oyun verisi ve oyuncunun kısa sorusu gider;
+hitap gönderilmez. Anahtar yoksa, süre dolarsa ya da yanıt kurallara uymazsa Ajan GM sessizce şablonlara döner.
+Sunucu da `ayarlar.js`'i okur: ayar `"kural"`sa işlev sağlayıcıyı hiç çağırmaz.
 
-## Vercel'e yayınlama
+### Erişim kodu
 
-### Seçenek A — GitHub entegrasyonu (önerilen)
+1. `node scripts/kod-hash.mjs --uret 20` 20 yeni kod ve hash'lerini yazar (var olan kodlar için:
+   `node scripts/kod-hash.mjs KOD1 KOD2`). Büyük-küçük harf, boşluk ve tire fark etmez.
+2. Son satırdaki listeyi Vercel'de `ERISIM_KOD_HASHLERI` değerine yapıştırın (yeni kodları virgülle sona ekleyin),
+   ardından yeniden yayınlayın.
+3. Kodları Shopier'deki erişim kodu ürünüyle teslim edin. Kodları repoya, sohbete ya da günlüğe yazmayın.
 
-1. [vercel.com](https://vercel.com) hesabınıza girin → **Add New → Project**.
-2. `dragonn55/celcini` deposunu seçin.
-3. **Framework Preset:** `Other`. Build Command ve Output Directory **boş** kalsın
-   (kök dizin doğrudan yayınlanır).
-4. **Deploy**'a basın. Sonraki her `main` push'u otomatik yayınlanır; diğer dallar
-   önizleme adresi alır.
+`ERISIM_KOD_HASHLERI` boşsa kilit ekranı "Erişim kodları henüz satışta değil." der. Kilit tarayıcıda tutulur;
+bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodundadır).
 
-### Seçenek B — Vercel CLI
+### Ortam değişkenleri (Vercel)
 
-```bash
-npm i -g vercel
-vercel          # ilk kurulum: proje adı ve ayarlar sorulur, boş bırakın
-vercel --prod   # canlıya al
-```
-
-### Alan adı
-
-Vercel panelinde **Settings → Domains** altında `celcini.com` ekleyin ve verilen
-DNS kayıtlarını alan adı sağlayıcınıza girin. Ardından şu dosyalardaki alan adını
-doğrulayın: `sitemap.xml`, `robots.txt` ve her HTML'in `canonical` / `og:url` etiketleri
-(hepsi şimdilik `https://celcini.com/`).
-
-## Yayın öncesi yapılacaklar
-
-- [ ] `assets/js/config.js` içindeki Shopier ve Google Form bağlantılarını gerçek adreslerle değiştirin.
-- [ ] `assets/img/logo.svg` ve `favicon.svg` dosyalarını nihai logo ile değiştirin.
-- [ ] `assets/img/og-cover.png` (1200×630) sosyal paylaşım görselini ekleyin.
-- [ ] İletişim e-postasını (`info@celcini.com`) doğrulayın.
-- [ ] Şablon adlarını / açıklamalarını Shopier'deki ürünlerle eşleştirin.
-
-## Tasarım sistemi
-
-Renkler ve ölçüler `assets/css/style.css` dosyasının başındaki `:root` bloğunda tanımlıdır:
-
-| Değişken | Değer | Kullanım |
+| Ad | Gerekli mi | Açıklama |
 |---|---|---|
-| `--bg` | `#0B1326` | Koyu lacivert zemin |
-| `--accent` | `#2DD4BF` | Turkuaz vurgu (butonlar, ikonlar, logo) |
-| `--text` / `--text-muted` | `#E6EDF7` / `#A3B1C6` | Metin tonları |
+| `ERISIM_KOD_HASHLERI` | Kod satışı için | Virgülle ayrılmış SHA-256 listesi (`scripts/kod-hash.mjs`) |
+| `ANTHROPIC_API_KEY` | Yalnız yapay zeka modunda | Claude API anahtarı. Koda ya da repoya yazılmaz. |
+| `AJAN_GM_MODEL` | Hayır | Varsayılan `claude-haiku-5-5` (en ucuz güncel Claude modeli) |
 
-Yazı tipi: Inter (Google Fonts), sistem fontuna otomatik geri düşer.
+`npm run dev` yalnızca statik dosyaları sunar; `/api` işlevlerini yerelde denemek için Vercel CLI ile `vercel dev`.
 
-## Uzay'a yeni AI aracı ekleme
+## Tasarım kuralları (özet)
 
-Adım adım rehber ve iskelet dosyaları `uzay/araclar/README.md` içindedir. Özetle:
-`_sablon/` klasörünü kopyalayın, adını verin, mantığı `app.js`'e yazın; yapay zekâ
-API çağrıları için `api/` altında Vercel Serverless Function kullanın ve anahtarı
-Vercel ortam değişkeninde tutun.
+- Palet: zemin `#CBE6F6`, kart `#FFFFFF`, çizgi `#9CCBEA`, okyanus mavisi `#0096C7`, koyu okyanus `#005F93`,
+  metin `#0B1F3A` / `#46586D`, turuncu çizgi `#F4A27A`, turuncu zemin `#FDEBDD`.
+- `#0096C7` üstünde beyaz yazı yalnızca ≥ 20px kalın (kontrast 3,39). Açık zeminde link ve ikon `#005F93`.
+- Turuncu yalnızca vurgu: rozet zemini, fiyat alt çizgisi, ince çizgi. Turuncu renkte yazı yok.
+- Logolar beyaz ve şeffaf; her zaman `#0096C7` zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
+- İkonlar Lucide, çizgi kalınlığı 1,5. Kartlar ince çizgi çerçeveli, gölge yok.
+- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px.
+
+## Yayın (Vercel)
+
+Framework Preset: **Other**. Build Command ve Output Directory **boş**. Depo kökü doğrudan yayınlanır.
+`package.json`'daki tek bağımlılık (`@anthropic-ai/sdk`) yalnızca `api/` işlevleri içindir; Vercel kurar.
+`vercel.json` temiz URL'leri, güvenlik başlıklarını ve Content-Security-Policy'yi tanımlar
+(yalnızca kendi alan adından script, stil ve görsel; satır içi script/stil yok).
+`.vercelignore` derleme kaynaklarını, önizlemeyi ve Claude çalışma dosyalarını yayından çıkarır.
 
 ## Lisans
 
-Tüm hakları saklıdır © Celcini.
+Tüm hakları saklıdır © Celcini. İkonlar: Lucide (ISC lisansı).
