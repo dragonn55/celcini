@@ -166,11 +166,13 @@ export const AYARLAR = {
   FAZLA_MIKTAR_UYARI_KATI: 2, // sipariş miktarı önerilenin bu katını aşarsa uyarı çıkar
   GOREV_NOTU_AYRINTILI_SON_GUN: 1, // bu güne kadar görev notu adımları ayrıntılı yazar
   GOREV_NOTU_SON_GUN: 2,     // bu günden sonra görev notu yok, yalnızca "Sipariş geldi" bildirimi
-  HARF_NOTU: [               // puan bu sınırın üstündeyse o harf
+  /* Harf notu: puan bu sınıra eşit ya da üstündeyse o harf. 1. gün hedefi (scripts/sim-test.mjs denetler):
+     hiçbir şey yapmayan E, rastgele oynayan C–D, her şeyi doğru yapan A–B. */
+  HARF_NOTU: [
     { harf: "A", alt: 100 },
-    { harf: "B", alt: 85 },
-    { harf: "C", alt: 70 },
-    { harf: "D", alt: 55 },
+    { harf: "B", alt: 90 },
+    { harf: "C", alt: 75 },
+    { harf: "D", alt: 60 },
     { harf: "E", alt: 0 },
   ],
 };

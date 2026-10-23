@@ -172,6 +172,17 @@ def tabela(oda):
     return tr_buyuk(oda["ad"]), ""
 
 
+def galaksi_basligi(fabrika):
+    """odalar.js'deki galaksiBasligi() ile aynı kural: haritanın tek başlığı galaksi adı (kod adı boşsa fabrika adı)."""
+    return tr_buyuk(f'{fabrika["kod"]} galaksisi' if fabrika.get("kod") else fabrika["ad"])
+
+
+def harita_basligi(fabrika):
+    """Çizimin hemen üstündeki tek başlık: küçük galaksi simgesi ve "SAMANYOLU GALAKSİSİ"; başka yazı yok."""
+    simge = gezegen(fabrika["simge"], "oda-simge oda-simge-kucuk") if fabrika.get("kod") else ""
+    return f'<p class="fp-baslik">{simge}<span>{e(galaksi_basligi(fabrika))}</span></p>'
+
+
 def gezegen(simge, sinif="oda-simge"):
     return (f'<svg class="{sinif}" aria-hidden="true" focusable="false">'
             f'<use href="{GEZEGENLER}#{e(simge)}"/></svg>')
@@ -401,8 +412,8 @@ def ana_sayfa(urunler):
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]]) for r in RAFLAR)
     fabrika, odalar = odalari_oku()
-    fabrika_adi = (f'{gezegen(fabrika["simge"], "oda-simge oda-simge-kucuk")}<span>{e(tr_buyuk(fabrika["kod"]))}</span>'
-                   f'<span class="ayrac" aria-hidden="true">·</span>' if fabrika.get("kod") else "") + f'<span>{e(fabrika["ad"])}</span>'
+    fabrika_adi = (f'<p class="ust-yazi fabrika-adi">{gezegen(fabrika["simge"], "oda-simge oda-simge-kucuk")}<span>{e(galaksi_basligi(fabrika))}</span></p>'
+                   f'<p class="fabrika-alt">{e(fabrika["ad"])}</p>' if fabrika.get("kod") else f'<p class="ust-yazi fabrika-adi"><span>{e(fabrika["ad"])}</span></p>')
     tabela_cumlesi = (" Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar."
                       if any(o.get("kod") for o in odalar) else "")
     govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
@@ -417,14 +428,14 @@ def ana_sayfa(urunler):
       </div>
       <p class="not-satiri"><span>{ikon("tik")}1. gün ücretsiz</span><span>{ikon("tik")}Üyelik yok</span><span>{ikon("kilit")}İlerleme yalnızca tarayıcında</span></p>
     </div>
-    <div class="kart fp-kart belir belir-2">{fabrika_plani(odalar)}</div>
+    <div class="kart fp-kart belir belir-2">{harita_basligi(fabrika)}{fabrika_plani(odalar)}</div>
   </div>
 </section>
 
 <section class="bolum" aria-labelledby="odalar-baslik">
   <div class="kap">
     <div class="bolum-bas">
-      <p class="ust-yazi fabrika-adi">{fabrika_adi}</p>
+      {fabrika_adi}
       <h2 id="odalar-baslik">Dokuz oda</h2>
       <p>Fabrikanın her departmanı bir oda.{tabela_cumlesi}</p>
     </div>

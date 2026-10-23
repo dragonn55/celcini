@@ -1,6 +1,6 @@
 /* Başlangıç ekranı: tek alan "Ajan GM size nasıl hitap etsin?". Hitap yalnızca bu tarayıcıda kalır. */
 import { AYARLAR } from "../ayarlar.js";
-import { fabrikaTabelasi, FABRIKA } from "../odalar.js";
+import { galaksiBasligi, FABRIKA } from "../odalar.js";
 import { saat, gunAdi } from "../bicim.js";
 import { h, gezegen } from "./dom.js";
 import { ajanGmGorseli } from "./karne.js";
@@ -8,7 +8,6 @@ import { ajanGmGorseli } from "./karne.js";
 export const VARSAYILAN_HITAP = "Sayın Yönetici";
 
 export function girisEkrani({ kayit, uyari, hitap, basla }) {
-  const fab = fabrikaTabelasi();
   const girdi = h("input", { id: "fk-hitap", type: "text", maxlength: "40", autocomplete: "off", placeholder: "Örnek: Ayşe Hanım", deger: hitap || "" });
   const gonder = (yeni) => (e) => {
     if (e) e.preventDefault();
@@ -26,7 +25,9 @@ export function girisEkrani({ kayit, uyari, hitap, basla }) {
 
   return h("div", { sinif: "kap fk-giris" },
     h("div", { sinif: "kart fk-giris-kart" },
-      h("p", { sinif: "ust-yazi fk-fabrika-satir" }, FABRIKA.kod ? gezegen(FABRIKA.simge, "fk-simge fk-simge-kucuk") : null, `${fab.buyuk}${fab.kucuk ? ` · ${fab.kucuk}` : ""}`),
+      h("div", { sinif: "fk-fabrika-tabela" },
+        h("p", { sinif: "ust-yazi fk-fabrika-satir" }, FABRIKA.kod ? gezegen(FABRIKA.simge, "fk-simge fk-simge-kucuk") : null, galaksiBasligi()),
+        FABRIKA.kod ? h("p", { sinif: "fk-fabrika-alt", metin: FABRIKA.ad }) : null),
       h("h1", { metin: "Fabricakit" }),
       h("p", { sinif: "hero-slogan", metin: "İşini kurgula, ajanı sorgula." }),
       h("div", { sinif: "fk-gm-satir" }, ajanGmGorseli("fk-gm"),

@@ -7,7 +7,7 @@ import { odaDurumlari } from "./motor/durumlar.js";
 import { verilmeyenSiparisler } from "./motor/mrp.js";
 import { bitirmeDuragi } from "./motor/sayac.js";
 import { GUN_BASI } from "./motor/zaman.js";
-import { gercekAd } from "./odalar.js";
+import { gercekAd, FABRIKA } from "./odalar.js";
 import { saat, gunAdi, sayi } from "./bicim.js";
 import { h, temizle, ikon } from "./arayuz/dom.js";
 import { haritaKur } from "./arayuz/harita.js";
@@ -137,7 +137,7 @@ function oyun() {
   const bitirmeEl = h("div", { sinif: "fk-bitirme", role: "status", hidden: true });
   const ust = h("div", { sinif: "fk-ust" },
     h("div", { sinif: "fk-ust-satir" },
-      h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), durakEl),
+      h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakEl),
       h("div", { sinif: "fk-ust-sag" }, puanEl, duraklat, bitir)),
     bitirmeEl);
   const ozetEl = h("div", { sinif: "fk-ozet-satir", role: "group", "aria-label": "Özet" });

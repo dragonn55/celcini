@@ -313,11 +313,27 @@ let erken = null;
   if (son.onay.yapilan !== son.onay.toplam || son.siparis.yapilan !== son.siparis.toplam) hata(`görev sayaçları tamamlanmadı: ${JSON.stringify(son)}`);
 }
 
-/* Denge: doğru oyuncu pasiften belirgin iyi olmalı */
+/* Denge (1. gün): hiçbir şey yapmayan E, rastgele oynayan C–D, her şeyi doğru yapan A–B. Rastgele oyuncu
+   DENGE_TOHUM farklı tohumla oynar; en az %80'i C–D olmalı. Eşikler ayarlar.js'te (HARF_NOTU, PUAN). */
+const DENGE_TOHUM = 200;
 const ort = (l) => l.reduce((t, k) => t + k.puan, 0) / l.length;
 if (ort(sonuc.dogru) < ort(sonuc.pasif) + 20) hata(`denge: doğru oyuncu (${ort(sonuc.dogru)}) pasiften (${ort(sonuc.pasif)}) yeterince iyi değil`);
 if (!["A", "B"].includes(sonuc.dogru[0].harf)) hata(`denge: doğru oyuncu 1. gün ${sonuc.dogru[0].harf} aldı`);
-if (["A", "B"].includes(sonuc.pasif[0].harf)) hata(`denge: pasif oyuncu 1. gün ${sonuc.pasif[0].harf} aldı`);
+if (sonuc.pasif[0].harf !== "E") hata(`denge: pasif oyuncu 1. gün ${sonuc.pasif[0].harf} aldı`);
+const rastgele1 = Array.from({ length: DENGE_TOHUM }, (_, i) => {
+  const s = olusturStore();
+  const a = akis(20261023 + i);
+  while (s.durum.evre === "oyun") {
+    oyuncular.rastgele(s, a);
+    if (s.durum.evre === "oyun") s.gonder({ tip: "ILERLE", dk: tamSayi(a, 1, 20) });
+  }
+  return s.durum.karne;
+});
+const harfSayisi = (l) => ["A", "B", "C", "D", "E"].map((h) => `${h} ${l.filter((k) => k.harf === h).length}`).join(" · ");
+const rPuan = rastgele1.map((k) => k.puan).sort((x, y) => x - y);
+const dilimPuan = (q) => rPuan[Math.min(rPuan.length - 1, Math.floor(q * rPuan.length))];
+const cdOrani = rastgele1.filter((k) => k.harf === "C" || k.harf === "D").length / DENGE_TOHUM;
+if (cdOrani < 0.8) hata(`denge: rastgele oyuncunun 1. gün C–D oranı %${Math.round(cdOrani * 100)}`);
 
 console.log("gün  " + Object.keys(sonuc).map((t) => `${t} (ort. ${Math.round(ort(sonuc[t]))})`.padEnd(30)).join(""));
 for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
@@ -326,6 +342,10 @@ for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
     return `${k.harf} ${String(k.puan).padStart(3)}  teslim ${k.teslim.zamaninda}/${k.teslim.toplam}  duruş ${k.durus.saat} sa  unutulan ${k.unutulan.sayi}`.padEnd(30).slice(0, 29) + " ";
   }).join(""));
 }
-if (erken) console.log(`\n1. gün 09:00'da "Günü bitir" (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
+console.log(`\n1. gün puan dağılımı (harf eşikleri ${AYARLAR.HARF_NOTU.map((h) => `${h.harf} ≥ ${h.alt}`).join(", ")})`);
+console.log(`  hiçbir şey yapmayan: ${sonuc.pasif[0].harf} ${sonuc.pasif[0].puan}`);
+console.log(`  her şeyi doğru yapan: ${sonuc.dogru[0].harf} ${sonuc.dogru[0].puan}`);
+console.log(`  rastgele oynayan (${DENGE_TOHUM} tohum): en düşük ${rPuan[0]} · %10 ${dilimPuan(0.1)} · medyan ${dilimPuan(0.5)} · %90 ${dilimPuan(0.9)} · en yüksek ${rPuan[rPuan.length - 1]}; ${harfSayisi(rastgele1)} (C–D %${Math.round(cdOrani * 100)})`);
+if (erken) console.log(`  09:00'da "Günü bitir"e basan (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
 console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları, görev sayaçları ve Ajan GM yorumu denetimleri geçti.");

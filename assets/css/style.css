@@ -196,6 +196,7 @@ main { display: block; }
 .hero-fk .not-satiri { margin-top: 4px; }
 .fp-kart { padding: 12px; width: 100%; max-width: 560px; justify-self: center; }
 .fp { width: 100%; height: auto; }
+.fp-baslik { display: flex; align-items: center; gap: 8px; margin: 2px 4px 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--koyu); }
 .fp-bina { fill: var(--kart); stroke: var(--koyu); stroke-width: 2; }
 .fp-duvar { fill: none; stroke: var(--cizgi); stroke-width: 2; stroke-linecap: round; }
 .fp use { fill: none; stroke: var(--koyu); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -216,7 +217,7 @@ main { display: block; }
 
 /* Dokuz oda şeridi: kod adı büyük, gerçek ad küçük */
 .fabrika-adi { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
-.fabrika-adi .ayrac { color: var(--metin-2); }
+.fabrika-alt { color: var(--metin-2); font-size: var(--fs-0); padding-left: 32px; margin-top: -6px; }
 .oda-simge { width: 32px; height: 32px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--koyu); }
 .oda-simge-kucuk { width: 24px; height: 24px; }
 .oda-serit { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
