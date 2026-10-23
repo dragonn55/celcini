@@ -2,7 +2,7 @@
   "name": "celcini-site",
   "version": "2.0.0",
   "private": true,
-  "description": "Celcini · Derin Excel havuzu. Statik site.",
+  "description": "Celcini · Fabricakit fabrika simülatörü ve derin Excel havuzu. Statik site.",
   "scripts": {
     "derle": "python3 scripts/derle.py",
     "onizleme": "python3 scripts/derle.py --onizleme && npx --yes serve _onizleme -l 3001",

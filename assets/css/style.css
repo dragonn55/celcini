@@ -13,6 +13,7 @@
   --metin-2: #46586D;
   --turuncu: #F4A27A;       /* yalnızca çizgi */
   --turuncu-zemin: #FDEBDD; /* rozet zemini, üstünde lacivert yazı */
+  --acil: #B42318;          /* yalnızca Fabricakit "acil" durumu (beyaz zeminde 6,4, #CBE6F6'da 5,0) */
 
   --fs-1: 1rem;                               /* 16px: gövde, etiket */
   --fs-2: 1.25rem;                            /* 20px kalın: kart başlığı, buton, menü */
@@ -96,15 +97,38 @@ p a, .metin li a { padding: 12px 0; }
 }
 .menu a:hover, .menu a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 
+/* Alt menü (Dosyalar): düğme açar/kapatır; JS kapalıyken noscript.css açık gösterir */
+.menu-grup { position: relative; }
+.menu-alt-dugme {
+  display: flex; align-items: center; gap: 4px; min-height: 48px; padding: 0 12px;
+  background: transparent; border: 0; border-radius: 8px; color: #fff; cursor: pointer;
+  font: inherit; font-size: var(--fs-2); font-weight: 700;
+}
+.menu-alt-dugme .ikon { width: 20px; height: 20px; transition: transform var(--gecis); }
+.menu-alt-dugme[aria-expanded="true"] .ikon { transform: rotate(180deg); }
+.menu-alt-dugme:hover, .menu-alt-dugme.etkin { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.menu-alt-dugme:focus-visible { outline-color: #fff; }
+.menu .menu-alt { display: none; list-style: none; }
+.menu .menu-alt-dugme[aria-expanded="true"] + .menu-alt { display: flex; flex-direction: column; }
+
 @media (max-width: 859px) {
   .menu { display: none; position: absolute; left: 0; right: 0; top: 100%; z-index: 5; background: var(--mavi); border-top: var(--cizgi-k) solid rgba(255,255,255,.5); }
   .menu.acik { display: block; }
-  .menu ul { flex-direction: column; padding: 8px var(--kenar) 16px; }
-  .menu a { padding: 0 4px; }
+  .menu > ul { flex-direction: column; padding: 8px var(--kenar) 16px; }
+  .menu a, .menu-alt-dugme { padding: 0 4px; }
+  .menu .menu-alt { padding: 0 0 8px 20px; }
 }
 @media (min-width: 860px) {
   .menu-dugme { display: none; }
-  .menu ul { gap: 8px; }
+  .menu > ul { gap: 8px; }
+  .menu .menu-alt {
+    position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; min-width: 240px; padding: 8px;
+    background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r);
+  }
+  .menu .menu-alt a { color: var(--metin); font-size: var(--fs-1); min-height: 44px; }
+  .menu .menu-alt a:hover { background: var(--zemin); }
+  .menu .menu-alt a[aria-current="page"] { color: var(--koyu); }
+  .menu .menu-alt a:focus-visible { outline-color: var(--koyu); }
 }
 
 /* ---------- Genel bölüm ---------- */
@@ -113,6 +137,7 @@ main { display: block; }
 .bolum:first-child { border-top: 0; }
 .bolum-bas { display: grid; gap: 12px; margin-bottom: 32px; max-width: 760px; }
 .bolum-bas p { color: var(--metin-2); }
+.bolum-bas .ust-yazi { color: var(--koyu); }
 .ust-yazi { color: var(--koyu); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
 @media (min-width: 860px) { .bolum { padding: 88px 0; } }
 
@@ -165,12 +190,73 @@ main { display: block; }
   .gul-kart { width: min(100%, 360px); justify-self: end; }
 }
 
+/* ---------- Ana sayfa: Fabricakit ---------- */
+.hero-slogan { color: var(--koyu); font-size: var(--fs-2); font-weight: 700; line-height: 1.4; }
+.hero-fk .not-satiri { margin-top: 4px; }
+.fp-kart { padding: 12px; width: 100%; max-width: 560px; justify-self: center; }
+.fp { width: 100%; height: auto; }
+.fp-bina { fill: var(--kart); stroke: var(--koyu); stroke-width: 2; }
+.fp-duvar { fill: none; stroke: var(--cizgi); stroke-width: 2; stroke-linecap: round; }
+.fp use { fill: none; stroke: var(--koyu); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.fp-kapi-isaret { fill: var(--cizgi); }
+.fp-hat { fill: var(--zemin); stroke: var(--koyu); stroke-width: 1.5; }
+.fp-makara { stroke: var(--cizgi); stroke-width: 1.5; }
+.fp-makine { fill: var(--kart); stroke: var(--koyu); stroke-width: 1.5; }
+.fp-kutu { fill: var(--turuncu-zemin); stroke: var(--turuncu); stroke-width: 1.5; }
+.fp-ok { fill: none; stroke: var(--koyu); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.fp-raf { fill: var(--zemin); stroke: var(--koyu); stroke-width: 1.5; }
+.fp-raf-ic { stroke: var(--cizgi); stroke-width: 1.5; }
+.fp-kamyon { fill: var(--kart); stroke: var(--metin-2); stroke-width: 1.5; stroke-linejoin: round; }
+.fp-sevk { stroke: var(--turuncu); stroke-width: 4; stroke-linecap: round; }
+@media (min-width: 860px) {
+  .hero-fk .kap { grid-template-columns: 1fr 1.05fr; }
+  .fp-kart { justify-self: end; }
+}
+
+/* Dokuz oda şeridi: kod adı büyük, gerçek ad küçük */
+.fabrika-adi { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.fabrika-adi .ayrac { color: var(--metin-2); }
+.oda-simge { width: 32px; height: 32px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--koyu); }
+.oda-simge-kucuk { width: 24px; height: 24px; }
+.oda-serit { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.oda-kart {
+  display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 8px; text-align: center;
+  background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r);
+}
+.oda-kod { font-weight: 700; letter-spacing: 0.04em; line-height: 1.2; }
+.oda-ad { color: var(--metin-2); line-height: 1.3; }
+@media (min-width: 600px) { .oda-kod { font-size: var(--fs-2); } }
+@media (min-width: 1100px) { .oda-serit { grid-template-columns: repeat(9, 1fr); } }
+
+/* Ajan GM tanıtımı; görsel yoksa koyu zeminde beyaz "GM" */
+.gm-tanitim { padding: 28px; display: grid; gap: 20px; align-items: center; }
+.gm-yer, .gm-gorsel { width: 112px; height: 112px; border-radius: 50%; }
+.gm-yer { display: grid; place-items: center; background: var(--mavi); color: #fff; font-size: var(--fs-3); font-weight: 700; letter-spacing: 0.04em; }
+.gm-gorsel { object-fit: cover; background: var(--mavi); }
+.gm-metin { display: grid; gap: 12px; justify-items: start; }
+.gm-metin p:not(.ust-yazi) { color: var(--metin-2); max-width: 64ch; }
+@media (min-width: 760px) { .gm-tanitim { grid-template-columns: auto 1fr; gap: 36px; padding: 36px; } }
+
+/* Uzay kartı (ana sayfa) ve Uzay araç kartları */
+.uzay-kart { display: grid; gap: 16px; align-items: center; padding: 28px; color: inherit; text-decoration: none; transition: border-color var(--gecis); }
+.uzay-kart > .ikon { color: var(--koyu); }
+.uzay-metin { display: grid; gap: 4px; }
+.uzay-alt { color: var(--metin-2); }
+.uzay-git { display: inline-flex; align-items: center; gap: 8px; color: var(--koyu); font-weight: 700; }
+.uzay-git .ikon { width: 20px; height: 20px; transition: transform var(--gecis); }
+a.uzay-kart:hover { border-color: var(--koyu); }
+a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
+@media (min-width: 760px) { .uzay-kart { grid-template-columns: auto 1fr auto; gap: 28px; } }
+.arac-kart { padding: 28px; display: grid; gap: 12px; align-content: start; justify-items: start; height: 100%; }
+.arac-kart .ust { display: flex; align-items: center; justify-content: space-between; width: 100%; color: var(--koyu); }
+.arac-kart p { color: var(--metin-2); }
+
 /* ---------- Kartlar ---------- */
 .kart { background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); }
 .izgara { list-style: none; display: grid; gap: 20px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .izgara-urun { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 960px) { .izgara-urun, .izgara-3 { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 760px) { .izgara-3 { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 760px) { .izgara-3 { grid-template-columns: repeat(3, 1fr); } .izgara-2 { grid-template-columns: repeat(2, 1fr); } }
 
 .raf-kart { display: grid; gap: 12px; align-content: start; padding: 28px; height: 100%; text-decoration: none; color: inherit; transition: border-color var(--gecis), transform var(--gecis); }
 .raf-kart .ikon { color: var(--koyu); }

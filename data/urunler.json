@@ -2,9 +2,9 @@
   {
     "slug": "planla",
     "ad": "PLANLA",
-    "raf": "fabricakit",
+    "raf": "fabrika",
     "kisa": "Excel'de malzeme ihtiyaç planlaması (MRP) dosyası. Makrosuz, 7 sayfa, Excel 2016 ve sonrası.",
-    "aciklama": "PLANLA, Fabricakit rafındaki malzeme ihtiyaç planlaması (MRP) dosyasıdır. Kurulum gerektirmez: Excel 2016 ve sonrası sürümlerde açılır, makro içermez. Dosya 7 sayfadan oluşur.",
+    "aciklama": "PLANLA, Fabrika Dosyaları rafındaki malzeme ihtiyaç planlaması (MRP) dosyasıdır. Kurulum gerektirmez: Excel 2016 ve sonrası sürümlerde açılır, makro içermez. Dosya 7 sayfadan oluşur.",
     "ozellikler": [
       "Malzeme ihtiyaç planlaması (MRP) için hazırlanmış Excel dosyası",
       "Makrosuz: makro izni istemeden açılır",
@@ -30,7 +30,7 @@
   {
     "slug": "ornek-vardiya",
     "ad": "VARDİYA (örnek)",
-    "raf": "fabricakit",
+    "raf": "fabrika",
     "kisa": "Örnek kayıt: aylık vardiya çizelgesi ve fazla mesai takibi.",
     "aciklama": "Bu kayıt yalnızca önizleme içindir; üretim derlemesinde görünmez. Alanların nasıl dolacağını göstermek için eklenmiştir.",
     "ozellikler": [

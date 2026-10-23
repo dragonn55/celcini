@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hakkında · Celcini</title>
-<meta name="description" content="Celcini, sahada çalışmış bir endüstri mühendisinin hazırladığı kurulumsuz Excel dosyalarından oluşan bir havuzdur.">
+<meta name="description" content="Celcini bir platform: ana gövdesi Fabricakit fabrika simülatörü; yanında Excel dosyaları ve yapay zeka araçları. Burak Çakır hazırlıyor.">
 <link rel="canonical" href="https://celcini.com/hakkinda/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Celcini">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="Hakkında · Celcini">
-<meta property="og:description" content="Celcini, sahada çalışmış bir endüstri mühendisinin hazırladığı kurulumsuz Excel dosyalarından oluşan bir havuzdur.">
+<meta property="og:description" content="Celcini bir platform: ana gövdesi Fabricakit fabrika simülatörü; yanında Excel dosyaları ve yapay zeka araçları. Burak Çakır hazırlıyor.">
 <meta property="og:url" content="https://celcini.com/hakkinda/">
 <meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
 <meta property="og:image:alt" content="Celcini">
@@ -21,10 +21,10 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/assets/css/style.css?v=f79e7b7a">
+<link rel="stylesheet" href="/assets/css/style.css?v=5eaf3c56">
 <noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
 <script src="/assets/js/config.js?v=14f127ff" defer></script>
-<script src="/assets/js/main.js?v=77fd2c9d" defer></script>
+<script src="/assets/js/main.js?v=b52a4461" defer></script>
 
 </head>
 <body>
@@ -34,7 +34,7 @@
   <div class="kap">
     <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
     <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li><li><a href="/hakkinda/" aria-current="page">Hakkında</a></li></ul></nav>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/uzay/">Uzay</a></li><li><a href="/hakkinda/" aria-current="page">Hakkında</a></li></ul></nav>
   </div>
 </header>
 <main id="icerik">
@@ -42,17 +42,21 @@
   <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li aria-current="page">Hakkında</li></ol></nav>
   <h1>Hakkında</h1>
 </div></section>
-<div class="kap"><div class="metin"><p>Celcini bir Excel havuzudur: işletmelerin her gün yaptığı işler için hazırlanmış, kurulum gerektirmeyen Excel dosyaları.</p>
-<p>Dosyaları sahada çalışmış bir endüstri mühendisi hazırlar. Çıkış noktası, fabrikada ve ofiste karşılaşılan gerçek işlerdir: üretimi planlamak, stoğu izlemek, maliyeti hesaplamak, alacağı ve borcu takip etmek.</p>
-<h2>Raflar</h2>
-<ul><li><a href="/fabricakit/">Fabricakit</a>: fabrika programları (MRP, vardiya, stok, ithalat maliyet)</li><li><a href="/excel-klinigi/">Excel Kliniği</a>: genel iş şablonları (kasa, alacak-borç, sipariş, personel)</li><li><a href="/datakit/">Datakit</a>: veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)</li></ul>
-<h2>İlkeler</h2>
+<div class="kap"><div class="metin"><p>Celcini bir platform. Ana gövdesi <a href="/fabricakit/">Fabricakit</a>: tarayıcıda oynanan bir fabrika simülatörü. Siparişi plana koyar, malzemeyi zamanında alırsın; gün sonunda yapay zeka genel müdür Ajan GM karneni verir, sen de onu sorgularsın.</p>
+<p>Celcini'yi Burak Çakır hazırlıyor. Çıkış noktası, fabrikada ve ofiste karşılaşılan gerçek işler: üretimi planlamak, stoğu izlemek, satın almayı zamanında yapmak, maliyeti hesaplamak.</p>
+<h2>Fabricakit</h2>
 <ul>
-  <li>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız.</li>
-  <li>Veri dışarı çıkmaz: girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır.</li>
-  <li>Formül testi: Her dosya havuza girmeden önce yeniden hesaplanır; sıfır formül hatasıyla geçmeyen dosya satışa çıkmaz.</li>
+  <li>Tarayıcıda çalışır; kurulum ve üyelik gerekmez.</li>
+  <li>1. gün ücretsizdir; 2–5. günler erişim koduyla açılır.</li>
+  <li>İlerleme yalnızca senin tarayıcında saklanır; sunucuya oyuncu verisi gitmez.</li>
 </ul>
-<p>Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.</p></div></div>
+<h2>Dosyalar: derin Excel havuzu</h2>
+<p>Sahada çalışmış bir endüstri mühendisinin hazırladığı, kurulum gerektirmeyen Excel dosyaları üç rafta durur:</p>
+<ul><li><a href="/fabrika/">Fabrika Dosyaları</a>: fabrika programları (MRP, vardiya, stok, ithalat maliyet)</li><li><a href="/excel-klinigi/">Excel Kliniği</a>: genel iş şablonları (kasa, alacak-borç, sipariş, personel)</li><li><a href="/datakit/">Datakit</a>: veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)</li></ul>
+<p>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız. Girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır. Her dosya havuza girmeden önce yeniden hesaplanır; sıfır formül hatasıyla geçmeyen dosya satışa çıkmaz.</p>
+<h2>Uzay</h2>
+<p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü. İlk araç Fabricakit; sırada Ölü Stok Dedektörü var.</p>
+<p>İstanbul, 2026.</p></div></div>
 </main>
 <footer class="alt-bilgi">
   <div class="kap">
@@ -60,7 +64,7 @@
       <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
       <p>Derin Excel havuzu. Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.</p>
     </div>
-    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabricakit/">Fabricakit</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
     <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
       <li><a href="/hakkinda/">Hakkında</a></li>
       <li><a href="/iletisim/">İletişim</a></li>

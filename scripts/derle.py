@@ -7,11 +7,14 @@
 Üretimde "ornek": true olan ve shopier_url'si boş olan kayıtlar hiçbir yerde görünmez.
 Tüm ürünler data/urunler.json'dan gelir. Bağlantılar (Shopier mağaza, form, e-posta, Instagram)
 tarayıcıda assets/js/config.js'den uygulanır.
+Fabricakit'in dokuz odası fabricakit/js/odalar.js'den okunur (ana sayfadaki oda şeridi).
+/fabricakit/ sayfasının yalnızca kabuğu burada üretilir; simülatörün kendisi fabricakit/js/ altındadır.
 """
 import datetime
 import hashlib
 import html
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -25,13 +28,16 @@ ONIZLEME = "--onizleme" in sys.argv
 CIKTI = KOK / "_onizleme" if ONIZLEME else KOK
 BUGUN = datetime.date.today().isoformat()
 
-SOZ = "Derin Excel havuzu."
+SLOGAN = "İşini kurgula, ajanı sorgula."
+FK_ALT = ("Tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, "
+          "sen de onu sorgularsın.")
+HAVUZ = "Derin Excel havuzu."
 ALT_SATIR = "Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026."
 FORMUL_TESTI = ("Her dosya havuza girmeden önce yeniden hesaplanır; "
                 "sıfır formül hatasıyla geçmeyen dosya satışa çıkmaz.")
 
 RAFLAR = [
-    {"slug": "fabricakit", "ad": "Fabricakit", "ikon": "fabrika",
+    {"slug": "fabrika", "ad": "Fabrika Dosyaları", "ikon": "fabrika",
      "aciklama": "Fabrika programları (MRP, vardiya, stok, ithalat maliyet)"},
     {"slug": "excel-klinigi", "ad": "Excel Kliniği", "ikon": "klinik",
      "aciklama": "Genel iş şablonları (kasa, alacak-borç, sipariş, personel)"},
@@ -39,8 +45,11 @@ RAFLAR = [
      "aciklama": "Veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)"},
 ]
 RAF = {r["slug"]: r for r in RAFLAR}
-MENU = [("/fabricakit/", "Fabricakit"), ("/excel-klinigi/", "Excel Kliniği"),
-        ("/datakit/", "Datakit"), ("/hakkinda/", "Hakkında")]
+# Menü: ("/yol/", "Ad") ya da ("Ad", [alt öğeler]) — alt menü
+MENU = [("/fabricakit/", "Fabricakit"),
+        ("Dosyalar", [(f"/{r['slug']}/", r["ad"]) for r in RAFLAR]),
+        ("/uzay/", "Uzay"), ("/hakkinda/", "Hakkında")]
+GEZEGENLER = "/fabricakit/img/gezegenler.svg"
 
 SSS = [
     ("Dosyayı nasıl satın alırım?",
@@ -98,10 +107,93 @@ def json_ld(veri):
     return f'<script type="application/ld+json">{metin}</script>'
 
 
+def tr_buyuk(metin):
+    """Türkçe büyük harf: i → İ, ı → I (Python'un upper()'ı 'Jüpiter'i 'JÜPITER' yapar)."""
+    return metin.replace("i", "İ").replace("ı", "I").upper()
+
+
+def js_degeri(kaynak, ad):
+    """fabricakit/js/odalar.js içindeki `export const AD = ...;` değerini JSON'a çevirip okur.
+    Yorumları atar, tırnaksız anahtarları tırnaklar, sondaki virgülleri siler (metinlere dokunmaz)."""
+    m = re.search(r"export const " + ad + r"\s*=\s*", kaynak)
+    if not m:
+        sys.exit(f"HATA: odalar.js içinde {ad} bulunamadı")
+    i, derinlik, cikti, metinde = m.end(), 0, [], False
+    while i < len(kaynak):
+        c = kaynak[i]
+        if metinde:
+            cikti.append(c)
+            if c == "\\":
+                cikti.append(kaynak[i + 1])
+                i += 1
+            elif c == '"':
+                metinde = False
+        elif c == '"':
+            metinde = True
+            cikti.append(c)
+        elif kaynak.startswith("//", i):
+            i = kaynak.index("\n", i)
+            continue
+        elif kaynak.startswith("/*", i):
+            i = kaynak.index("*/", i) + 2
+            continue
+        elif c.isalpha() or c == "_":
+            k = re.match(r"[A-Za-z_][A-Za-z0-9_]*", kaynak[i:]).group(0)
+            sonra = kaynak[i + len(k):].lstrip()
+            cikti.append(f'"{k}"' if sonra.startswith(":") else k)  # tırnaksız anahtar → "anahtar"
+            i += len(k)
+            continue
+        else:
+            if c in "[{":
+                derinlik += 1
+            elif c in "]}":
+                derinlik -= 1
+                while cikti and cikti[-1].isspace():
+                    cikti.pop()
+                if cikti and cikti[-1] == ",":  # sondaki virgül
+                    cikti.pop()
+            cikti.append(c)
+            if derinlik == 0 and c in "]}":
+                break
+        i += 1
+    return json.loads("".join(cikti))
+
+
+def odalari_oku():
+    kaynak = (KOK / "fabricakit" / "js" / "odalar.js").read_text(encoding="utf-8")
+    return js_degeri(kaynak, "FABRIKA"), js_degeri(kaynak, "ODALAR")
+
+
+def tabela(oda):
+    """odalar.js'deki tabela() ile aynı kural: kod adı büyük, gerçek ad küçük; kod adı boşsa yalnız gerçek ad."""
+    if oda.get("kod"):
+        return tr_buyuk(oda["kod"]), oda["ad"]
+    return tr_buyuk(oda["ad"]), ""
+
+
+def gezegen(simge, sinif="oda-simge"):
+    return (f'<svg class="{sinif}" aria-hidden="true" focusable="false">'
+            f'<use href="{GEZEGENLER}#{e(simge)}"/></svg>')
+
+
 # ---------------------------------------------------------------- iskelet
+def menu_linki(y, a, etkin):
+    return f'<a href="{y}"{" aria-current=\"page\"" if y == etkin else ""}>{e(a)}</a>'
+
+
 def ust_serit(etkin):
-    ogeler = "".join(
-        f'<li><a href="{y}"{" aria-current=\"page\"" if y == etkin else ""}>{e(a)}</a></li>' for y, a in MENU)
+    ogeler = []
+    for y, a in MENU:
+        if isinstance(a, list):  # alt menü: y başlık, a öğeler
+            secili = " etkin" if any(alt_y == etkin for alt_y, _ in a) else ""
+            alt = "".join(f"<li>{menu_linki(alt_y, alt_a, etkin)}</li>" for alt_y, alt_a in a)
+            ogeler.append(
+                f'<li class="menu-grup"><button class="menu-alt-dugme{secili}" type="button" aria-expanded="false" '
+                f'aria-controls="menu-dosyalar">{e(y)}{ikon("asagi")}</button>'
+                f'<ul class="menu-alt" id="menu-dosyalar">{alt}</ul></li>')
+        else:
+            ogeler.append(f"<li>{menu_linki(y, a, etkin)}</li>")
+    ogeler = "".join(ogeler)
     return f"""<header class="serit">
   <div class="kap">
     <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
@@ -117,7 +209,7 @@ def alt_bilgi():
   <div class="kap">
     <div class="alt-marka">
       <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
-      <p>{e(SOZ)} {e(ALT_SATIR)}</p>
+      <p>{e(HAVUZ)} {e(ALT_SATIR)}</p>
     </div>
     <nav aria-label="Raflar"><h2>Raflar</h2><ul>{raflar}</ul></nav>
     <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
@@ -135,13 +227,17 @@ def alt_bilgi():
 
 
 def sayfa(yol, baslik, aciklama, govde, *, etkin="", og_gorsel="/assets/img/og-cover.png",
-          tur="website", ek_head="", tam_baslik=False):
+          tur="website", ek_head="", tam_baslik=False, ek_css=(), modul="", noindex=False):
     title = baslik if tam_baslik else f"{baslik} · Celcini"
     kanonik = SITE + (yol if yol != "/404.html" else "/")
-    robots = '<meta name="robots" content="noindex">' if (ONIZLEME or yol == "/404.html") else ""
+    robots = '<meta name="robots" content="noindex">' if (ONIZLEME or noindex or yol == "/404.html") else ""
     serit = ('<div class="onizleme-serit">Önizleme: örnek kayıtlar görünür, bu derleme yayınlanmaz.</div>'
              if ONIZLEME else "")
     css, js_c, js_m = surum("/assets/css/style.css"), surum("/assets/js/config.js"), surum("/assets/js/main.js")
+    for c in ek_css:
+        ek_head += f'\n<link rel="stylesheet" href="{c}?v={surum(c)}">'
+    if modul:  # ES modülü (Fabricakit); alt modüller her açılışta yeniden doğrulanır (vercel.json)
+        ek_head += f'\n<script type="module" src="{modul}?v={surum(modul)}"></script>'
     return f"""<!doctype html>
 <html lang="tr">
 <head>
@@ -233,90 +329,154 @@ def yol_izi(ogeler):
     return f'<nav class="yol" aria-label="Konum"><ol>{li}</ol></nav>'
 
 
-def eposta_listesi_bolumu():
-    return f"""<section class="bolum" aria-labelledby="liste-baslik" data-gerekli="google_form" hidden>
-  <div class="kap">
-    <div class="kart liste-kutu">
-      {ikon("posta", "ikon ikon-buyuk")}
-      <h2 id="liste-baslik">Yeni dosyalardan haberdar olun</h2>
-      <p>Havuza yeni dosya girdiğinde kısa bir e-posta gönderilir. Kayıt Google Form üzerinden alınır; istediğiniz zaman listeden çıkabilirsiniz.</p>
-      <a class="dugme" data-link="google_form" href="#" hidden>Listeye katıl{ikon("ok")}</a>
-    </div>
-  </div>
-</section>"""
-
-
 # ---------------------------------------------------------------- sayfalar
+def fabrika_plani(odalar):
+    """Kahraman alandaki çizim: üstten bakılan fabrika planı. Gezegenler yalnızca kapı tabelası."""
+    oda = {o["id"]: o for o in odalar}
+
+    def tabela_simge(oda_id, x, y, boy=26):
+        o = oda.get(oda_id)
+        if not o or not o.get("kod"):
+            return f'<rect class="fp-kapi-isaret" x="{x + boy / 2 - 5}" y="{y + boy / 2 - 2}" width="10" height="4" rx="2"/>'
+        return f'<use href="{GEZEGENLER}#{e(o["simge"])}" x="{x}" y="{y}" width="{boy}" height="{boy}"/>'
+
+    ofisler = ["satis", "arge", "planlama", "ik", "finans", "satinalma"]
+    gen = 464 / 6
+    duvarlar = "".join(f'<path d="M{8 + gen * i:.1f} 8V104"/>' for i in range(1, 6))
+    koridor, x0 = [], 8.0
+    for i in range(6):
+        cx = 8 + gen * i + gen / 2
+        koridor.append(f"M{x0:.1f} 104H{cx - 12:.1f}")
+        x0 = cx + 12
+    koridor.append(f"M{x0:.1f} 104H472")
+    simgeler = "".join(tabela_simge(k, 8 + gen * i + gen / 2 - 13, 43) for i, k in enumerate(ofisler))
+
+    def hat(y):
+        makara = "".join(f"M{x} {y + 3}v14" for x in range(64, 330, 16))
+        makineler = "".join(f'<rect class="fp-makine" x="{x}" y="{y - 10}" width="34" height="40" rx="4"/>'
+                            for x in (82, 172, 262))
+        kutular = "".join(f'<rect class="fp-kutu" x="{x}" y="{y + 4}" width="12" height="12" rx="2"/>'
+                          for x in (132, 222, 308))
+        return (f'<rect class="fp-hat" x="48" y="{y}" width="284" height="20" rx="10"/>'
+                f'<path class="fp-makara" d="{makara}"/>{makineler}{kutular}'
+                f'<path class="fp-ok" d="M338 {y + 10}h22m-6-6 6 6-6 6"/>')
+
+    raflar = "".join(f'<rect class="fp-raf" x="56" y="{y}" width="236" height="10" rx="2"/>'
+                     f'<path class="fp-raf-ic" d="{"".join(f"M{x} {y}v10" for x in range(86, 292, 30))}"/>'
+                     for y in (280, 304, 328))
+    return f"""<svg class="fp" viewBox="0 0 480 360" aria-hidden="true" focusable="false">
+  <rect class="fp-bina" x="8" y="8" width="464" height="344" rx="14"/>
+  <g class="fp-duvar">{duvarlar}<path d="{"".join(koridor)}"/>
+    <path d="M8 252H178M202 252H410M434 252H472"/><path d="M372 104V160M372 184V252"/><path d="M330 252V292M330 316V352"/></g>
+  {simgeler}
+  {tabela_simge("uretim", 20, 116, 24)}
+  {hat(146)}{hat(204)}
+  {tabela_simge("kalite", 408, 164, 28)}
+  {tabela_simge("depo", 178, 258, 24)}
+  {raflar}
+  <g class="fp-kamyon"><rect x="350" y="282" width="68" height="40" rx="4"/><path d="M418 292h18l12 12v18h-30z"/><circle cx="368" cy="326" r="5"/><circle cx="432" cy="326" r="5"/></g>
+  <path class="fp-sevk" d="M472 286v44"/>
+</svg>"""
+
+
+def oda_seridi(odalar):
+    ogeler = []
+    for o in odalar:
+        buyuk, kucuk = tabela(o)
+        simge = gezegen(o["simge"]) if o.get("kod") else ""
+        alt = f'<span class="oda-ad">{e(kucuk)}</span>' if kucuk else ""
+        ogeler.append(f'<li class="oda-kart">{simge}<span class="oda-kod">{e(buyuk)}</span>{alt}</li>')
+    return f'<ul class="oda-serit">{"".join(ogeler)}</ul>'
+
+
+def ajan_gm_gorseli():
+    """assets/img/ajan-gm.png varsa onu, yoksa koyu zeminde beyaz 'GM' yer tutucusunu gösterir."""
+    if (KOK / "assets" / "img" / "ajan-gm.png").exists():
+        return f'<img class="gm-gorsel" src="/assets/img/ajan-gm.png?v={surum("/assets/img/ajan-gm.png")}" alt="Ajan GM" width="112" height="112" loading="lazy">'
+    return '<span class="gm-yer" aria-hidden="true">GM</span>'
+
+
 def ana_sayfa(urunler):
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]]) for r in RAFLAR)
-    one = [u for u in urunler if u.get("one_cikan")][:6]
-    one_bolum = ""
-    if one:
-        one_bolum = f"""<section class="bolum" aria-labelledby="one-baslik">
-  <div class="kap">
-    <div class="bolum-bas"><h2 id="one-baslik">Öne çıkan dosyalar</h2></div>
-    <ul class="izgara izgara-urun">{"".join(urun_karti(u) for u in one)}</ul>
-  </div>
-</section>"""
-    govde = f"""<section class="hero" aria-labelledby="soz">
+    fabrika, odalar = odalari_oku()
+    fabrika_adi = (f'{gezegen(fabrika["simge"], "oda-simge oda-simge-kucuk")}<span>{e(tr_buyuk(fabrika["kod"]))}</span>'
+                   f'<span class="ayrac" aria-hidden="true">·</span>' if fabrika.get("kod") else "") + f'<span>{e(fabrika["ad"])}</span>'
+    tabela_cumlesi = (" Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar."
+                      if any(o.get("kod") for o in odalar) else "")
+    govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
   <div class="kap">
     <div class="hero-metin belir">
-      <h1 id="soz">{e(SOZ)}</h1>
-      <p class="hero-alt">{e(ALT_SATIR)}</p>
+      <h1 id="fk-baslik">Fabricakit</h1>
+      <p class="hero-slogan">{e(SLOGAN)}</p>
+      <p class="hero-alt">{e(FK_ALT)}</p>
       <div class="hero-eylem">
-        <a class="dugme" href="#raflar">Havuzu gez{ikon("ok")}</a>
-        <span class="rozet">{ikon("kalkan")}Formül testinden geçer</span>
+        <a class="dugme" href="/fabricakit/">Oynamaya başla{ikon("ok")}</a>
+        <a class="dugme-cizgi" href="#nasil">Nasıl çalışır</a>
       </div>
+      <p class="not-satiri"><span>{ikon("tik")}1. gün ücretsiz</span><span>{ikon("tik")}Üyelik yok</span><span>{ikon("kilit")}İlerleme yalnızca tarayıcında</span></p>
     </div>
-    <div class="gul-kart belir belir-2"><img src="/assets/img/logo-gul-beyaz.png" alt="" width="342" height="942" fetchpriority="high"></div>
+    <div class="kart fp-kart belir belir-2">{fabrika_plani(odalar)}</div>
   </div>
 </section>
 
-<section class="bolum" id="raflar" aria-labelledby="raflar-baslik">
+<section class="bolum" aria-labelledby="odalar-baslik">
   <div class="kap">
-    <div class="bolum-bas"><h2 id="raflar-baslik">Üç raf</h2><p>Havuzdaki dosyalar işe göre üç rafta durur.</p></div>
+    <div class="bolum-bas">
+      <p class="ust-yazi fabrika-adi">{fabrika_adi}</p>
+      <h2 id="odalar-baslik">Dokuz oda</h2>
+      <p>Fabrikanın her departmanı bir oda.{tabela_cumlesi}</p>
+    </div>
+    {oda_seridi(odalar)}
+  </div>
+</section>
+
+<section class="bolum" id="nasil" aria-labelledby="nasil-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="nasil-baslik">Nasıl çalışır</h2><p>Bir oyun günü 08:00'de başlar, 18:00'de biter. Saati istediğin an durdurabilirsin.</p></div>
+    <ol class="izgara izgara-3">
+      <li class="kart adim">{ikon("posta", "ikon ikon-buyuk")}<span class="no">1. Sipariş gelir</span><p>Sabah Satış-Pazarlama'dan günün siparişleri düşer: birkaç müşteri, 30 günlük ufuk. Yanında görev notu açılır.</p></li>
+      <li class="kart adim">{ikon("tablo", "ikon ikon-buyuk")}<span class="no">2. Planla, satın al</span><p>Siparişi plana koy, malzeme ihtiyacını gör, eksik malzemeyi sipariş et. Tedarikçi onayını sayaç dolmadan al.</p></li>
+      <li class="kart adim">{ikon("kalkan", "ikon ikon-buyuk")}<span class="no">3. Karneni al</span><p>Gün sonunda zamanında teslim, hat duruşu, depoda bağlanan para ve unutulan işler karnede. Notu Ajan GM verir.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="bolum" aria-labelledby="gm-baslik">
+  <div class="kap">
+    <div class="kart gm-tanitim">
+      {ajan_gm_gorseli()}
+      <div class="gm-metin">
+        <p class="ust-yazi">Yapay zeka genel müdür</p>
+        <h2 id="gm-baslik">Ajan GM</h2>
+        <p>Fabrikada olan her şeyi görür: geciken onayı, boşa duran hattı, gereksiz siparişi. Gün sonunda karneni verir ve yarın için tek bir talimat bırakır. Notuna katılmıyorsan sorgula; cevabını o günün sayılarıyla verir.</p>
+        <a class="dugme" href="/fabricakit/">Fabrikaya gir{ikon("ok")}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolum" id="dosyalar" aria-labelledby="dosyalar-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Sahada test edilmiş, kurulumsuz Excel dosyaları; işe göre üç rafta.</p></div>
     <ul class="izgara izgara-3">{raf_kartlari}</ul>
   </div>
 </section>
 
-{one_bolum}
-
-<section class="bolum" aria-labelledby="nasil-baslik">
+<section class="bolum" aria-labelledby="uzay-baslik">
   <div class="kap">
-    <div class="bolum-bas"><h2 id="nasil-baslik">Nasıl çalışır</h2></div>
-    <ol class="izgara izgara-3">
-      <li class="kart adim">{ikon("sepet", "ikon ikon-buyuk")}<span class="no">1. Al</span><p>Dosyayı Shopier üzerinden satın alın; ödeme ve teslim orada yapılır.</p></li>
-      <li class="kart adim">{ikon("tablo", "ikon ikon-buyuk")}<span class="no">2. Excel'de aç</span><p>İndirdiğiniz dosyayı Excel'de açın. Kurulacak program ya da eklenti yok.</p></li>
-      <li class="kart adim">{ikon("kalem", "ikon ikon-buyuk")}<span class="no">3. Kendi verini gir</span><p>Kendi rakamlarınızı girin; hesaplar dosyanın içinde yapılır.</p></li>
-    </ol>
-    <p class="not-satiri"><span>{ikon("tik")}Kurulum yok</span><span>{ikon("tik")}Abonelik yok</span><span>{ikon("kilit")}Veri dışarı çıkmaz</span></p>
+    <a class="kart uzay-kart" href="/uzay/">
+      {ikon("roket", "ikon ikon-buyuk")}
+      <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Yapay zeka araçları</h2>
+      <span class="uzay-alt">İlk araç Fabricakit. Sırada Ölü Stok Dedektörü var.</span></span>
+      <span class="uzay-git">Uzay'a git{ikon("ok")}</span>
+    </a>
   </div>
-</section>
-
-<section class="bolum" aria-labelledby="neden-baslik">
-  <div class="kap">
-    <div class="bolum-bas"><h2 id="neden-baslik">Neden Celcini</h2></div>
-    <div class="neden">
-      <article class="kart">{ikon("baret", "ikon ikon-buyuk")}<h3>Sahada çalışmış bir endüstri mühendisi</h3><p>Dosyalar fabrikada, depoda ve ofiste her gün karşılaşılan işler için hazırlanır: planlama, stok, maliyet, takip.</p></article>
-      <article class="kart">{ikon("kalkan", "ikon ikon-buyuk")}<h3>Formül testinden geçer</h3><p class="vurgu">{e(FORMUL_TESTI)}</p></article>
-    </div>
-  </div>
-</section>
-
-<section class="bolum" aria-labelledby="sss-baslik">
-  <div class="kap">
-    <div class="bolum-bas"><h2 id="sss-baslik">Sık sorulan sorular</h2></div>
-    <div class="sss">{sss_html(SSS[:5])}</div>
-    <p class="not-satiri"><a class="dugme-cizgi" href="/sss/">Tüm sorular</a></p>
-  </div>
-</section>
-
-{eposta_listesi_bolumu()}"""
+</section>"""
     org = json_ld({"@context": "https://schema.org", "@type": "Organization", "name": "Celcini",
-                   "url": SITE + "/", "logo": SITE + "/assets/img/favicon-512.png", "slogan": SOZ})
-    return sayfa("/", f"Celcini · {SOZ}", ALT_SATIR + " Fabricakit, Excel Kliniği ve Datakit rafları.",
-                 govde, tam_baslik=True, ek_head=org)
+                   "url": SITE + "/", "logo": SITE + "/assets/img/favicon-512.png", "slogan": SLOGAN})
+    return sayfa("/", "Celcini · Fabricakit: tarayıcıda fabrika simülasyonu",
+                 f"Fabricakit: {FK_ALT[0].lower()}{FK_ALT[1:]} {SLOGAN}", govde, tam_baslik=True, ek_head=org)
 
 
 def raf_sayfasi(r, urunler):
@@ -340,12 +500,12 @@ def raf_sayfasi(r, urunler):
       <p>Bu rafa henüz ürün eklenmedi.</p>
       <div class="eylemler">
         <a class="dugme" data-link="google_form" href="#" hidden>Yeni dosyalardan haberdar ol{ikon("ok")}</a>
-        <a class="dugme-cizgi" href="/fabricakit/">Fabricakit rafına bak</a>
+        <a class="dugme-cizgi" href="/{RAFLAR[0]["slug"]}/">{e(RAFLAR[0]["ad"])} rafına bak</a>
       </div>
     </div>"""
     govde = f"""<section class="sayfa-bas">
   <div class="kap">
-    {yol_izi([("/", "Ana sayfa"), (None, r["ad"])])}
+    {yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (None, r["ad"])])}
     {ikon(r["ikon"], "ikon ikon-buyuk")}
     <h1>{e(r["ad"])}</h1>
     <p>{e(r["aciklama"])}</p>
@@ -403,7 +563,7 @@ def urun_sayfasi(u, urunler):
 </section>"""
 
     govde = f"""<div class="kap urun-sayfa">
-  <div class="sayfa-bas">{yol_izi([("/", "Ana sayfa"), (f"/{r['slug']}/", r["ad"]), (None, u["ad"])])}</div>
+  <div class="sayfa-bas">{yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (f"/{r['slug']}/", r["ad"]), (None, u["ad"])])}</div>
   <div class="urun-ust">
     <div class="urun-bilgi">
       <div class="ust">{"".join(rozetler)}</div>
@@ -473,19 +633,23 @@ def metin_sayfasi(yol, baslik, aciklama, ic, etkin=""):
 
 
 def hakkinda():
-    ic = f"""<p>Celcini bir Excel havuzudur: işletmelerin her gün yaptığı işler için hazırlanmış, kurulum gerektirmeyen Excel dosyaları.</p>
-<p>Dosyaları sahada çalışmış bir endüstri mühendisi hazırlar. Çıkış noktası, fabrikada ve ofiste karşılaşılan gerçek işlerdir: üretimi planlamak, stoğu izlemek, maliyeti hesaplamak, alacağı ve borcu takip etmek.</p>
-<h2>Raflar</h2>
-<ul>{"".join(f'<li><a href="/{r["slug"]}/">{e(r["ad"])}</a>: {e(r["aciklama"][0].lower() + r["aciklama"][1:])}</li>' for r in RAFLAR)}</ul>
-<h2>İlkeler</h2>
+    ic = f"""<p>Celcini bir platform. Ana gövdesi <a href="/fabricakit/">Fabricakit</a>: tarayıcıda oynanan bir fabrika simülatörü. Siparişi plana koyar, malzemeyi zamanında alırsın; gün sonunda yapay zeka genel müdür Ajan GM karneni verir, sen de onu sorgularsın.</p>
+<p>Celcini'yi Burak Çakır hazırlıyor. Çıkış noktası, fabrikada ve ofiste karşılaşılan gerçek işler: üretimi planlamak, stoğu izlemek, satın almayı zamanında yapmak, maliyeti hesaplamak.</p>
+<h2>Fabricakit</h2>
 <ul>
-  <li>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız.</li>
-  <li>Veri dışarı çıkmaz: girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır.</li>
-  <li>Formül testi: {e(FORMUL_TESTI)}</li>
+  <li>Tarayıcıda çalışır; kurulum ve üyelik gerekmez.</li>
+  <li>1. gün ücretsizdir; 2–5. günler erişim koduyla açılır.</li>
+  <li>İlerleme yalnızca senin tarayıcında saklanır; sunucuya oyuncu verisi gitmez.</li>
 </ul>
-<p>{e(ALT_SATIR)}</p>"""
+<h2>Dosyalar: derin Excel havuzu</h2>
+<p>Sahada çalışmış bir endüstri mühendisinin hazırladığı, kurulum gerektirmeyen Excel dosyaları üç rafta durur:</p>
+<ul>{"".join(f'<li><a href="/{r["slug"]}/">{e(r["ad"])}</a>: {e(r["aciklama"][0].lower() + r["aciklama"][1:])}</li>' for r in RAFLAR)}</ul>
+<p>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız. Girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır. {e(FORMUL_TESTI)}</p>
+<h2>Uzay</h2>
+<p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü. İlk araç Fabricakit; sırada Ölü Stok Dedektörü var.</p>
+<p>İstanbul, 2026.</p>"""
     return metin_sayfasi("/hakkinda/", "Hakkında",
-                         "Celcini, sahada çalışmış bir endüstri mühendisinin hazırladığı kurulumsuz Excel dosyalarından oluşan bir havuzdur.",
+                         "Celcini bir platform: ana gövdesi Fabricakit fabrika simülatörü; yanında Excel dosyaları ve yapay zeka araçları. Burak Çakır hazırlıyor.",
                          ic, etkin="/hakkinda/")
 
 
@@ -544,13 +708,86 @@ def teslimat():
                          "Celcini dijital ürünlerinde teslimat ve iade: ödeme ve teslim Shopier'de yapılır.", ic)
 
 
+def fabricakit_sayfasi():
+    """Simülatörün kabuğu: uygulama #fk içine kurulur (fabricakit/js/uygulama.js)."""
+    govde = f"""<div class="fk" id="fk">
+  <div class="kap fk-kabuk">
+    <h1>Fabricakit</h1>
+    <p class="hero-slogan">{e(SLOGAN)}</p>
+    <p class="fk-yukleniyor">Fabrika açılıyor…</p>
+    <noscript><p>Fabricakit tarayıcıda çalışır; oynamak için JavaScript'i açın.</p></noscript>
+    <p class="fk-excel">Excel dosyalarını mı arıyorsunuz? <a href="/{RAFLAR[0]["slug"]}/">{e(RAFLAR[0]["ad"])}</a> rafına geçin.</p>
+  </div>
+</div>"""
+    return sayfa("/fabricakit/", "Fabricakit · Fabrika simülasyonu",
+                 f"{FK_ALT} 1. gün ücretsiz, üyelik yok. {SLOGAN}", govde, etkin="/fabricakit/",
+                 ek_css=["/fabricakit/css/fabricakit.css"], modul="/fabricakit/js/uygulama.js")
+
+
+def uzay_sayfasi():
+    govde = f"""<section class="sayfa-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), (None, "Uzay")])}
+    {ikon("roket", "ikon ikon-buyuk")}
+    <h1>Uzay</h1>
+    <p>Yapay zeka araçları. Tarayıcıda çalışır, kurulum istemez.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Uzay araçları">
+  <div class="kap">
+    <ul class="izgara izgara-2">
+      <li><article class="kart arac-kart">
+        <div class="ust">{gezegen("samanyolu", "ikon ikon-buyuk")}<span class="etiket">Yayında</span></div>
+        <h2 class="h3-boy">Fabricakit</h2>
+        <p>{e(FK_ALT)}</p>
+        <a class="dugme" href="/fabricakit/">Oyna{ikon("ok")}</a>
+      </article></li>
+      <li><article class="kart arac-kart">
+        <div class="ust">{ikon("ara", "ikon ikon-buyuk")}<span class="etiket etiket-turuncu">Yakında</span></div>
+        <h2 class="h3-boy">Ölü Stok Dedektörü</h2>
+        <p>Depoda hareket görmeyen stoğu bulmak için bir araç.</p>
+      </article></li>
+    </ul>
+    <p class="not-satiri"><span>{ikon("kilit")}Uzay araçlarına girdiğin veri işlem sonrası saklanmaz.</span></p>
+  </div>
+</section>"""
+    return sayfa("/uzay/", "Uzay · Yapay zeka araçları",
+                 "Uzay, Celcini'nin yapay zeka araçları. İlk araç Fabricakit, tarayıcıda fabrika simülasyonu; sırada Ölü Stok Dedektörü var.",
+                 govde, etkin="/uzay/")
+
+
+def uzay_araci(slug, ad, aciklama, noindex=False):
+    """Uzay aracı sayfası. Yeni araç: uzay/araclar/_sablon/ klasörünü kopyala, main()'e bir satır ekle, derle."""
+    kok = f"/uzay/araclar/{slug}/"
+    govde = f"""<section class="sayfa-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), ("/uzay/", "Uzay"), (None, ad)])}
+    <h1>{e(ad)}</h1>
+    <p>{e(aciklama)}</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="{e(ad)}">
+  <div class="kap">
+    <div class="kart arac-panel">
+      <label for="arac-girdi"><strong>Girdi</strong></label>
+      <textarea id="arac-girdi" rows="6" placeholder="Metninizi buraya yazın"></textarea>
+      <div class="eylemler"><button class="dugme" id="arac-calistir" type="button">Çalıştır</button><span id="arac-durum" aria-live="polite"></span></div>
+      <div class="arac-cikti" id="arac-cikti" hidden></div>
+    </div>
+  </div>
+</section>"""
+    return sayfa(kok, f"{ad} · Uzay", aciklama, govde, etkin="/uzay/", noindex=noindex,
+                 ek_css=[kok + "app.css"], ek_head=f'<script src="{kok}app.js?v={surum(kok + "app.js")}" defer></script>')
+
+
 def sayfa_404():
     govde = f"""<section class="yok"><div class="kap">
   <p class="ust-yazi">404</p>
-  <h1>Bu sayfa havuzda yok.</h1>
+  <h1>Bu sayfa bulunamadı.</h1>
   <p>Adres değişmiş ya da yanlış yazılmış olabilir.</p>
   <div class="eylemler">
     <a class="dugme" href="/">Ana sayfaya dön{ikon("ok")}</a>
+    <a class="dugme-cizgi" href="/fabricakit/">Fabricakit</a>
     {"".join(f'<a class="dugme-cizgi" href="/{r["slug"]}/">{e(r["ad"])}</a>' for r in RAFLAR)}
   </div>
 </div></section>"""
@@ -599,6 +836,8 @@ def main():
             shutil.rmtree(CIKTI)
         CIKTI.mkdir()
         shutil.copytree(KOK / "assets", CIKTI / "assets")
+        for d in ("fabricakit/css", "fabricakit/js", "fabricakit/img", "uzay/araclar/_sablon"):
+            shutil.copytree(KOK / d, CIKTI / d, ignore=shutil.ignore_patterns("index.html"))
         for f in ("favicon.ico", "site.webmanifest"):
             shutil.copy2(KOK / f, CIKTI / f)
         (CIKTI / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
@@ -613,10 +852,14 @@ def main():
 
     yollar = []
     yollar.append(yaz("/", ana_sayfa(urunler)))
+    yollar.append(yaz("/fabricakit/", fabricakit_sayfasi()))
     for r in RAFLAR:
         yollar.append(yaz(f"/{r['slug']}/", raf_sayfasi(r, urunler)))
     for u in urunler:
         yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler)))
+    yollar.append(yaz("/uzay/", uzay_sayfasi()))
+    yollar.append(yaz("/uzay/araclar/_sablon/", uzay_araci(
+        "_sablon", "Araç adı", "Aracın ne yaptığını bir cümlede anlatın.", noindex=True)))
     yollar.append(yaz("/hakkinda/", hakkinda()))
     yollar.append(yaz("/iletisim/", iletisim()))
     yollar.append(yaz("/sss/", sss_sayfasi()))
@@ -624,8 +867,8 @@ def main():
     yollar.append(yaz("/teslimat-ve-iade/", teslimat()))
     yollar.append(yaz("/404.html", sayfa_404()))
 
-    adresler = ["/"] + [f"/{r['slug']}/" for r in RAFLAR] + [f"/urun/{u['slug']}/" for u in urunler] + [
-        "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
+    adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + [f"/urun/{u['slug']}/" for u in urunler] + [
+        "/uzay/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for a in adresler:

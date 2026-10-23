@@ -43,6 +43,18 @@
     window.addEventListener("resize", function () { if (window.innerWidth >= 860) kapat(); });
   }
 
+  /* ---- 2b. Alt menü (Dosyalar) ---- */
+  document.querySelectorAll(".menu-alt-dugme").forEach(function (b) {
+    var grup = b.parentNode;
+    var ac = function (durum) { b.setAttribute("aria-expanded", String(durum)); };
+    b.addEventListener("click", function () { ac(b.getAttribute("aria-expanded") !== "true"); });
+    document.addEventListener("click", function (e) { if (!grup.contains(e.target)) ac(false); });
+    grup.addEventListener("focusout", function (e) { if (e.relatedTarget && !grup.contains(e.relatedTarget)) ac(false); });
+    grup.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && b.getAttribute("aria-expanded") === "true") { e.stopPropagation(); ac(false); b.focus(); }
+    });
+  });
+
   /* ---- 3. Raf: arama + etiket süzgeci ---- */
   var filtre = document.querySelector("[data-filtre]");
   if (filtre) {

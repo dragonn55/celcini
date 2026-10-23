@@ -7,3 +7,5 @@ scripts
 data
 README.md
 docs
+# Node için ES modülü işareti; tarayıcıya gerekmez
+fabricakit/js/package.json

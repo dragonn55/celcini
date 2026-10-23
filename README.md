@@ -1,14 +1,20 @@
-# Celcini · Derin Excel havuzu
+# Celcini · Fabricakit ve derin Excel havuzu
 
-Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026.
+Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatörü (`/fabricakit/`).
+Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`);
+yapay zeka araçları `/uzay/` altında.
 
 celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
+Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 
 ## Klasör yapısı
 
 ```
 data/urunler.json        Tüm ürünler (tek kaynak)
+fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
+fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
+uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
 scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
 scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
 scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
@@ -18,8 +24,9 @@ assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-po
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 
-index.html, fabricakit/, excel-klinigi/, datakit/, urun/<slug>/,
-hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/, 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
+index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/, urun/<slug>/, uzay/,
+uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
+404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
 
 ## Komutlar
@@ -43,7 +50,7 @@ npm run onizleme                      # önizlemeyi derle ve http://localhost:30
    |---|---|
    | `slug` | Adres: `/urun/<slug>/`. Küçük harf, rakam, tire. |
    | `ad`, `kisa`, `aciklama` | Ürün adı, tek cümle özet, paragraf. |
-   | `raf` | `fabricakit` · `excel-klinigi` · `datakit` |
+   | `raf` | `fabrika` (Fabrika Dosyaları) · `excel-klinigi` · `datakit` |
    | `ozellikler[]` | "Ne yapar" maddeleri. |
    | `kimin_icin` | Tek paragraf. |
    | `etiketler[]` | Raf sayfasındaki etiket süzgecine girer. `yapay zeka` etiketi turuncu rozet olur. |

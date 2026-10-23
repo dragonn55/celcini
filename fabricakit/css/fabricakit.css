@@ -1,0 +1,5 @@
+/* Fabricakit · simülatör stilleri. Renkler assets/css/style.css'teki :root değişkenlerinden gelir. */
+
+/* Kabuk: uygulama yüklenene kadar (ve JavaScript kapalıyken) görünür */
+.fk-kabuk { display: grid; gap: 12px; justify-items: start; padding: 48px 0 64px; }
+.fk-yukleniyor, .fk-excel { color: var(--metin-2); }

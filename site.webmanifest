@@ -1,7 +1,7 @@
 {
   "name": "Celcini",
   "short_name": "Celcini",
-  "description": "Derin Excel havuzu.",
+  "description": "Fabricakit: tarayıcıda fabrika simülasyonu. İşini kurgula, ajanı sorgula.",
   "lang": "tr",
   "start_url": "/",
   "display": "standalone",

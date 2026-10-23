@@ -1,0 +1,9 @@
+/* Araca özel stiller. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir. */
+.arac-panel { padding: 24px; display: grid; gap: 12px; max-width: 760px; }
+.arac-panel textarea {
+  width: 100%; padding: 12px 14px; font: inherit; color: var(--metin); resize: vertical;
+  background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
+}
+.arac-panel .eylemler { align-items: center; }
+#arac-durum { color: var(--metin-2); }
+.arac-cikti { padding: 16px; border: var(--cizgi-k) solid var(--cizgi); border-left: 2px solid var(--turuncu); border-radius: var(--r); white-space: pre-wrap; }
