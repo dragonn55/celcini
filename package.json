@@ -7,9 +7,14 @@
     "derle": "python3 scripts/derle.py",
     "onizleme": "python3 scripts/derle.py --onizleme && npx --yes serve _onizleme -l 3001",
     "dev": "npx --yes serve . -l 3000",
-    "check": "node scripts/check.js && node scripts/sim-test.mjs",
+    "check": "node scripts/check.js && node scripts/sim-test.mjs && node scripts/api-test.mjs",
+    "api-test": "node scripts/api-test.mjs",
     "sim-test": "node scripts/sim-test.mjs",
-    "check:onizleme": "node scripts/check.js _onizleme"
+    "check:onizleme": "node scripts/check.js _onizleme",
+    "kod-hash": "node scripts/kod-hash.mjs"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.1.0"
+  }
 }

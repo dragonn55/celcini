@@ -14,11 +14,15 @@ Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 data/urunler.json        Tüm ürünler (tek kaynak)
 fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
 fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
+api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
 uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
 scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
 scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
 scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
-scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı)
+scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı, dil kuralları)
+scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum
+scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
+scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
 assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
 assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
@@ -34,7 +38,8 @@ uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat
 ```bash
 python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
-npm run check                         # üretim çıktısını kontrol et
+npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
+npm run check                         # üretim çıktısı + sim-test + api-test
 npm run check:onizleme                # önizleme çıktısını kontrol et
 npm run dev                           # http://localhost:3000 (üretim)
 npm run onizleme                      # önizlemeyi derle ve http://localhost:3001'de aç
@@ -72,6 +77,59 @@ npm run onizleme                      # önizlemeyi derle ve http://localhost:30
 boşsa e-posta listesi bölümü, `eposta` boşsa iletişimdeki e-posta satırı). JavaScript kapalıyken de bu
 öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden derlemek gerekmez.
 
+## Fabricakit
+
+Tarayıcıda çalışan tek sayfalık uygulama: `fabricakit/index.html` kabuğu, `fabricakit/css/`, `fabricakit/js/`.
+Harici kütüphane ve derleme yok; motor arayüzden bağımsızdır ve Node'da da çalışır (`npm run sim-test`).
+
+```
+fabricakit/js/ayarlar.js   Bütün sayılar: puanlar, sayaçlar, tedarik süreleri, oyun saati, tohumlar, Ajan GM ayarları
+fabricakit/js/odalar.js    Dokuz oda ve fabrika adı (kod adı "" yapılırsa her yerde gerçek ad görünür)
+fabricakit/js/veri/        Tohumlu rastgelelik, katalog, sipariş ve olay üretimi
+fabricakit/js/motor/       Tek store, eylemler, MRP, satın alma, üretim, olaylar, gün sonu, karne, kayıt
+fabricakit/js/ajan-gm/     Kural şablonları (yorumlar.js) ve yapay zeka kaynağı (kaynak.js)
+fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, karne, kilit ekranı
+fabricakit/js/uygulama.js  Tarayıcı giriş noktası
+```
+
+- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla) ve `fabricakit-oyuncu` (hitap, açılan kilit).
+  Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
+- Ajan GM görseli: `assets/img/ajan-gm.png` (kare) koyup `python3 scripts/derle.py` çalıştırın. Dosya yoksa koyu
+  zeminde beyaz "GM" görünür.
+- Oda kod adı değişirse ana sayfadaki oda şeridi için yeniden derleyin; `npm run check` ikisinin uyumunu denetler.
+
+### Ajan GM
+
+| Ayar (`ayarlar.js`) | Değerler |
+|---|---|
+| `AJAN_GM_KAYNAK` | `"kural"` (varsayılan; şablonlar, sunucuya istek yok) · `"yapay-zeka"` (`api/ajan-gm.js`) |
+| `AJAN_GM_YAPAY_ZEKA_KIME` | `"kodlu"` (varsayılan; yalnız geçerli erişim kodu girenler, kod her istekte yeniden doğrulanır) · `"herkes"` |
+
+Yapay zeka modunda sağlayıcıya yalnızca günün karnesinden seçilen oyun verisi ve oyuncunun kısa sorusu gider;
+hitap gönderilmez. Anahtar yoksa, süre dolarsa ya da yanıt kurallara uymazsa Ajan GM sessizce şablonlara döner.
+Sunucu da `ayarlar.js`'i okur: ayar `"kural"`sa işlev sağlayıcıyı hiç çağırmaz.
+
+### Erişim kodu
+
+1. `node scripts/kod-hash.mjs --uret 20` 20 yeni kod ve hash'lerini yazar (var olan kodlar için:
+   `node scripts/kod-hash.mjs KOD1 KOD2`). Büyük-küçük harf, boşluk ve tire fark etmez.
+2. Son satırdaki listeyi Vercel'de `ERISIM_KOD_HASHLERI` değerine yapıştırın (yeni kodları virgülle sona ekleyin),
+   ardından yeniden yayınlayın.
+3. Kodları Shopier'deki erişim kodu ürünüyle teslim edin. Kodları repoya, sohbete ya da günlüğe yazmayın.
+
+`ERISIM_KOD_HASHLERI` boşsa kilit ekranı "Erişim kodları henüz satışta değil." der. Kilit tarayıcıda tutulur;
+bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodundadır).
+
+### Ortam değişkenleri (Vercel)
+
+| Ad | Gerekli mi | Açıklama |
+|---|---|---|
+| `ERISIM_KOD_HASHLERI` | Kod satışı için | Virgülle ayrılmış SHA-256 listesi (`scripts/kod-hash.mjs`) |
+| `ANTHROPIC_API_KEY` | Yalnız yapay zeka modunda | Claude API anahtarı. Koda ya da repoya yazılmaz. |
+| `AJAN_GM_MODEL` | Hayır | Varsayılan `claude-haiku-5-5` (en ucuz güncel Claude modeli) |
+
+`npm run dev` yalnızca statik dosyaları sunar; `/api` işlevlerini yerelde denemek için Vercel CLI ile `vercel dev`.
+
 ## Tasarım kuralları (özet)
 
 - Palet: zemin `#CBE6F6`, kart `#FFFFFF`, çizgi `#9CCBEA`, okyanus mavisi `#0096C7`, koyu okyanus `#005F93`,
@@ -85,6 +143,7 @@ boşsa e-posta listesi bölümü, `eposta` boşsa iletişimdeki e-posta satırı
 ## Yayın (Vercel)
 
 Framework Preset: **Other**. Build Command ve Output Directory **boş**. Depo kökü doğrudan yayınlanır.
+`package.json`'daki tek bağımlılık (`@anthropic-ai/sdk`) yalnızca `api/` işlevleri içindir; Vercel kurar.
 `vercel.json` temiz URL'leri, güvenlik başlıklarını ve Content-Security-Policy'yi tanımlar
 (yalnızca kendi alan adından script, stil ve görsel; satır içi script/stil yok).
 `.vercelignore` derleme kaynaklarını, önizlemeyi ve Claude çalışma dosyalarını yayından çıkarır.

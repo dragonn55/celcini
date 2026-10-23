@@ -675,8 +675,14 @@ def gizlilik():
 <h2>Bu site ne toplar?</h2>
 <ul>
   <li>Site çerez kullanmaz, reklam ya da ziyaretçi analizi aracı çalıştırmaz.</li>
-  <li>Sitede veri giren bir form yoktur; site sizden ad, e-posta ya da ödeme bilgisi istemez.</li>
+  <li>Site sizden ad, e-posta ya da ödeme bilgisi istemez. Fabricakit'teki hitap ve erişim kodu alanları aşağıda açıklanmıştır.</li>
   <li>Siteyi barındıran Vercel, güvenlik ve işletim için standart sunucu kayıtları (IP adresi, tarayıcı bilgisi, istek zamanı) tutabilir.</li>
+</ul>
+<h2>Fabricakit</h2>
+<ul>
+  <li>Oyun ilerlemeniz, Ajan GM'nin size nasıl hitap edeceği ve açtığınız günler yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur. Üyelik yoktur; bu bilgiler sunucuya gönderilmez. Tarayıcı verilerini sildiğinizde kayıt da silinir.</li>
+  <li>Erişim kodu: Kilidi açmak için girdiğiniz kod doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod, kilidin açık kalması için yalnızca bu tarayıcıda tutulur.</li>
+  <li>Ajan GM: Yorumlar varsayılan olarak tarayıcıda, hazır şablonlardan üretilir ve hiçbir veri gönderilmez. Yapay zeka modu açılırsa günün karnesindeki oyun verileri (puan, teslim, hat duruşu, olaylar gibi) ve Ajan GM'ye yazdığınız soru, yanıt üretmek için ABD merkezli yapay zeka sağlayıcısı Anthropic'e iletilir; bu mod yalnızca kod girenlere açıksa erişim kodunuz da her istekte yeniden doğrulanmak üzere sunucuya gönderilir. Hitabınız gönderilmez ve bu veriler Celcini tarafından saklanmaz. Sorularınıza kişisel bilgi yazmayın.</li>
 </ul>
 <h2>Ödeme ve teslim: Shopier</h2>
 <p>Satın alma, ödeme ve teslim Shopier üzerinden yapılır. Bu adımlarda verdiğiniz bilgiler (ad, iletişim, ödeme bilgileri) Shopier tarafından işlenir ve Shopier'in gizlilik politikasına tabidir. Shopier'in siparişi teslim etmek için satıcıya ilettiği sipariş bilgileri yalnızca bu amaçla kullanılır.</p>
@@ -688,7 +694,7 @@ def gizlilik():
 <p>KVKK'nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini ya da silinmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz. Başvurularınızı <a href="/iletisim/">İletişim</a> sayfasındaki kanallardan iletebilirsiniz.</p>
 <p>Veri sorumlusu: Celcini.</p>"""
     return metin_sayfasi("/gizlilik/", "Gizlilik ve KVKK",
-                         "Celcini gizlilik ve KVKK aydınlatma metni: site çerez kullanmaz, ödeme ve teslim Shopier'de yapılır.", ic)
+                         "Celcini gizlilik ve KVKK aydınlatma metni: site çerez kullanmaz, Fabricakit kaydı yalnızca tarayıcınızda kalır, ödeme Shopier'de yapılır.", ic)
 
 
 def teslimat():

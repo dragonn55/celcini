@@ -11,7 +11,9 @@ import { panelCiz, canliGuncelle } from "./arayuz/panel.js";
 import { gorevNotu } from "./arayuz/gorevnotu.js";
 import { sayacKur } from "./arayuz/sayac.js";
 import { bildirimKur } from "./arayuz/bildirim.js";
-import { karneEkrani, ajanGmGorseli, hitapla } from "./arayuz/karne.js";
+import { karneEkrani } from "./arayuz/karne.js";
+import { gmBolumu } from "./arayuz/ajan.js";
+import { kilitEkrani } from "./arayuz/kilit.js";
 import { girisEkrani, VARSAYILAN_HITAP } from "./arayuz/giris.js";
 import { onayKutusu } from "./arayuz/onay.js";
 
@@ -23,17 +25,24 @@ const depo = {
   sil(k) { try { localStorage.removeItem(k); } catch { /* yok */ } },
 };
 
-/* Oyuncu kaydı (oyundan ayrı): hitap ve erişim kodu. Oyun kaydı sıfırlansa da korunur. */
+/* Oyuncu kaydı (oyundan ayrı): hitap ve açılan kilit. Oyun kaydı sıfırlansa da korunur.
+   Erişim kodu yalnızca bu tarayıcıda tutulur; yapay zeka "kodlu" modda Ajan GM isteğiyle birlikte doğrulanır. */
 function oyuncuOku() {
   try {
     const o = JSON.parse(depo.oku(OYUNCU) || "{}");
-    return { hitap: typeof o.hitap === "string" ? o.hitap.slice(0, 40) : "", erisim: o.erisim && typeof o.erisim === "object" ? o.erisim : {} };
+    const e = o.erisim && typeof o.erisim === "object" ? o.erisim : {};
+    return {
+      hitap: typeof o.hitap === "string" ? o.hitap.slice(0, 40) : "",
+      erisim: { acik: e.acik === true, kod: typeof e.kod === "string" ? e.kod.slice(0, 64) : "" },
+    };
   } catch {
-    return { hitap: "", erisim: {} };
+    return { hitap: "", erisim: { acik: false, kod: "" } };
   }
 }
 const oyuncuYaz = () => depo.yaz(OYUNCU, JSON.stringify(oyuncu));
 const hitap = () => oyuncu.hitap || VARSAYILAN_HITAP;
+const erisimAcik = () => Boolean(oyuncu.erisim.acik);
+const kilitli = (gun) => gun > AYARLAR.UCRETSIZ_GUN && !erisimAcik();
 
 const kok = document.getElementById("fk");
 const ui = { secili: null, planSekme: "plan", form: null, gorevAcik: true };
@@ -90,6 +99,7 @@ function giris({ kayit, uyari }) {
 /* ---------------- oyun ---------------- */
 function oyun() {
   if (aboneCik) { aboneCik(); aboneCik = null; }
+  if (kilitli(store.durum.gun)) { kilit(); return; }
   if (store.durum.evre !== "oyun") { karne(); return; }
   ekran = "oyun";
   temizle(kok);
@@ -239,32 +249,59 @@ function karne() {
   ekran = "karne";
   temizle(kok);
   const d = store.durum;
-  const gm = h("section", { sinif: "fk-bolum fk-gm-bolum", "aria-labelledby": "fk-gm-baslik" },
-    h("div", { sinif: "fk-gm-satir" }, ajanGmGorseli("fk-gm"),
-      h("div", {}, h("h2", { sinif: "fk-bolum-baslik", id: "fk-gm-baslik", metin: "Ajan GM" }),
-        h("p", { sinif: "fk-gm-yorum", metin: hitapla(d.karne.gmYorum, hitap()) }))));
+  const gm = gmBolumu({
+    durum: d, hitap: hitap(), erisim: oyuncu.erisim,
+    yorumKaydet: (metin) => { store.gonder({ tip: "GM_YORUMU", gun: d.gun, metin }); kaydet(true); },
+  });
+  const yarin = () => { store.gonder({ tip: "YARINA_GEC" }); kaydet(true); oyun(); window.scrollTo(0, 0); };
   kok.appendChild(karneEkrani({
-    durum: d, hitap: hitap(), gmBolumu: gm,
+    durum: d, gmBolumu: gm, kilitli: kilitli(d.gun + 1),
     eylemler: {
-      yarinaGec: () => { store.gonder({ tip: "YARINA_GEC" }); kaydet(true); oyun(); window.scrollTo(0, 0); },
-      gunuTekrarla: async () => {
-        const tamam = await onayKutusu({ baslik: `${d.gun}. gün baştan oynansın mı?`, metin: "Bu günün sabahına dönülür; bugünkü karne silinir.", evet: "Baştan oyna" });
-        if (!tamam) return;
-        store.gonder({ tip: "GUNU_TEKRARLA" });
-        kaydet(true);
-        oyun();
-        window.scrollTo(0, 0);
+      yarinaGec: () => {
+        if (kilitli(d.gun + 1)) kilit({ gun: d.gun + 1, sonra: yarin, karneyeDon: karne });
+        else yarin();
       },
-      bastanBasla: async () => {
-        const tamam = await onayKutusu({ baslik: "Baştan başlansın mı?", metin: "Kayıtlı oyun silinir ve 1. günün sabahına dönülür.", evet: "Baştan başla" });
-        if (!tamam) return;
-        storeKur(null);
-        oyun();
-        window.scrollTo(0, 0);
-      },
+      gunuTekrarla,
+      bastanBasla,
     },
   }));
   const baslik = kok.querySelector("#fk-karne-baslik");
+  if (baslik) baslik.focus({ preventScroll: true });
+}
+
+async function gunuTekrarla() {
+  const gun = store.durum.gun;
+  const tamam = await onayKutusu({ baslik: `${gun}. gün baştan oynansın mı?`, metin: "Bu günün sabahına dönülür; bugünkü karne silinir.", evet: "Baştan oyna" });
+  if (!tamam) return;
+  store.gonder({ tip: "GUNU_TEKRARLA" });
+  kaydet(true);
+  oyun();
+  window.scrollTo(0, 0);
+}
+
+async function bastanBasla() {
+  const tamam = await onayKutusu({ baslik: "Baştan başlansın mı?", metin: "Kayıtlı oyun silinir ve 1. günün sabahına dönülür.", evet: "Baştan başla" });
+  if (!tamam) return;
+  storeKur(null);
+  oyun();
+  window.scrollTo(0, 0);
+}
+
+/* ---------------- kilit (2. günden sonrası erişim koduyla) ---------------- */
+function kilit({ gun = store.durum.gun, sonra = oyun, karneyeDon = null } = {}) {
+  if (aboneCik) { aboneCik(); aboneCik = null; }
+  ekran = "kilit";
+  temizle(kok);
+  const d = store.durum;
+  /* Ücretsiz günün karnesinden gelindiyse o gün baştan oynanabilir; kilitli bir kayıttan gelindiyse baştan başlanır */
+  const tekrar = d.evre === "gun-sonu" && !kilitli(d.gun);
+  kok.appendChild(kilitEkrani({
+    gun, hitap: hitap(),
+    ac: (kod) => { oyuncu.erisim = { acik: true, kod }; oyuncuYaz(); sonra(); window.scrollTo(0, 0); },
+    karneyeDon: karneyeDon ? () => { karneyeDon(); window.scrollTo(0, 0); } : null,
+    secenek: tekrar ? { metin: `${d.gun}. günü baştan oyna`, f: gunuTekrarla } : { metin: "Baştan başla", f: bastanBasla },
+  }));
+  const baslik = kok.querySelector("#fk-kilit-baslik");
   if (baslik) baslik.focus({ preventScroll: true });
 }
 

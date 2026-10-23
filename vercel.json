@@ -2,6 +2,25 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": true,
+  "functions": {
+    "api/ajan-gm.js": {
+      "maxDuration": 15,
+      "includeFiles": "fabricakit/js/*.js"
+    },
+    "api/erisim-kodu.js": {
+      "maxDuration": 5
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/erisim-kodu/",
+      "destination": "/api/erisim-kodu"
+    },
+    {
+      "source": "/api/ajan-gm/",
+      "destination": "/api/ajan-gm"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

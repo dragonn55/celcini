@@ -210,6 +210,21 @@ if (kayittanOku("{bozuk").neden !== "bozuk") hata("bozuk kayıt reddedilmedi");
   if (JSON.stringify(s.durum) !== bas) hata("Günü baştan oyna gün başına dönmedi");
 }
 
+/* Yapay zeka yorumu yalnızca o günün karnesine yazılır ve kayıtla taşınır */
+{
+  const s = olusturStore();
+  s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "{hitap}, erken." });
+  if (s.durum.karne !== null) hata("gün bitmeden Ajan GM yorumu yazıldı");
+  s.gonder({ tip: "GUNU_BITIR" });
+  const sablon = s.durum.karne.gmYorum;
+  s.gonder({ tip: "GM_YORUMU", gun: 2, metin: "{hitap}, yanlış gün." });
+  s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "Hitapsız metin." });
+  if (s.durum.karne.gmYorum !== sablon || s.durum.karne.gmKaynak) hata("geçersiz Ajan GM yorumu kabul edildi");
+  s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "{hitap}, yapay zeka yorumu. Yarın için talimatım: planı erken yapın." });
+  const okunan = kayittanOku(kaydaYaz({ durum: s.durum, gunBasi: s.gunBasi }));
+  if (!okunan.tamam || okunan.durum.karne.gmKaynak !== "yapay-zeka" || !okunan.durum.karne.gmYorum.startsWith("{hitap}, yapay")) hata("yapay zeka yorumu kayda geçmedi");
+}
+
 /* Denge: doğru oyuncu pasiften belirgin iyi olmalı */
 const ort = (l) => l.reduce((t, k) => t + k.puan, 0) / l.length;
 if (ort(sonuc.dogru) < ort(sonuc.pasif) + 20) hata(`denge: doğru oyuncu (${ort(sonuc.dogru)}) pasiften (${ort(sonuc.pasif)}) yeterince iyi değil`);
@@ -224,4 +239,4 @@ for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
   }).join(""));
 }
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
-console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme ve tohum denetimleri geçti.");
+console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum ve Ajan GM yorumu denetimleri geçti.");

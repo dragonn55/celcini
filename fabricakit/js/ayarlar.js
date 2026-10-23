@@ -12,6 +12,7 @@ export const AYARLAR = {
   AJAN_GM_YAPAY_ZEKA_KIME: "kodlu",   // "kodlu" (yalnız erişim kodu girenler) ya da "herkes"
   AJAN_GM_ZAMAN_ASIMI_MS: 9000,       // yapay zeka yanıtı bu sürede gelmezse kural moduna düşülür
   AJAN_GM_SORU_UZUNLUGU: 200,         // serbest sorunun en fazla karakter sayısı
+  AJAN_GM_SORU_HAKKI: 3,              // yapay zeka modunda bir karnede sorulabilecek serbest soru sayısı
   AJAN_GM_GORSEL: "/assets/img/ajan-gm.png",
 
   /* ---- Oyun saati ---- */

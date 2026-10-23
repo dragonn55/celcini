@@ -20,7 +20,7 @@ export const hitapla = (metin, hitap) => metin.split("{hitap}").join(hitap);
 
 const olcu = (ad, deger, alt) => h("div", { sinif: "fk-olcu" }, h("dt", { metin: ad }), h("dd", {}, h("span", { sinif: "fk-olcu-deger", metin: deger }), alt ? h("span", { sinif: "fk-olcu-alt", metin: alt }) : null));
 
-export function karneEkrani({ durum, hitap, eylemler, gmBolumu }) {
+export function karneEkrani({ durum, eylemler, gmBolumu, kilitli }) {
   const k = durum.karne;
   const son = durum.gun >= AYARLAR.GUNLER.length;
   const teslim = k.teslim.yuzde === null ? "—" : `%${k.teslim.yuzde}`;
@@ -56,9 +56,10 @@ export function karneEkrani({ durum, hitap, eylemler, gmBolumu }) {
         h("p", { sinif: "fk-soluk", metin: `Harcama ${tl(k.harcama.harcanan)} / bütçe ${tl(k.harcama.limit)}. Satın alma: ${sayi(k.satinAlma.verilen)} sipariş, ${sayi(k.satinAlma.onaylanan)} onay, ${sayi(k.satinAlma.dusen)} düşen.` })),
       son ? sonOzet(durum) : null,
       h("div", { sinif: "fk-satir fk-karne-eylem" },
-        !son ? h("button", { sinif: "dugme", type: "button", on: { click: eylemler.yarinaGec } }, "Yarına geç", ikon("ok")) : null,
+        !son ? h("button", { sinif: "dugme", type: "button", on: { click: eylemler.yarinaGec } }, kilitli ? ikon("kilit") : null, "Yarına geç", kilitli ? null : ikon("ok")) : null,
         h("button", { sinif: "dugme-cizgi", type: "button", on: { click: eylemler.gunuTekrarla } }, ikon("dongu"), `${k.gun}. günü baştan oyna`),
-        son ? h("button", { sinif: "dugme-cizgi", type: "button", on: { click: eylemler.bastanBasla } }, "Baştan başla") : null)));
+        son ? h("button", { sinif: "dugme-cizgi", type: "button", on: { click: eylemler.bastanBasla } }, "Baştan başla") : null),
+      !son && kilitli ? h("p", { sinif: "fk-soluk", metin: `${k.gun + 1}. gün erişim koduyla açılır.` }) : null));
 }
 
 function sonOzet(durum) {

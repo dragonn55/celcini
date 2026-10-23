@@ -150,6 +150,13 @@ export function uygula(durum, eylem) {
     case "GUNU_BITIR":
       hizliBitir(durum);
       return {};
+    case "GM_YORUMU":
+      /* Yapay zeka yorumu gelirse o günün karnesinde şablon yorumunun yerine geçer */
+      if (durum.evre !== "gun-sonu" || !durum.karne || durum.karne.gun !== eylem.gun
+        || typeof eylem.metin !== "string" || !eylem.metin.includes("{hitap}")) return {};
+      durum.karne.gmYorum = eylem.metin.slice(0, 1200);
+      durum.karne.gmKaynak = "yapay-zeka";
+      return {};
     case "YARINA_GEC":
       if (durum.evre !== "gun-sonu") return { hata: "Gün henüz bitmedi." };
       if (durum.gun >= sonGun()) return { hata: "Son gün tamamlandı." };

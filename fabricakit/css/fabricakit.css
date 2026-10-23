@@ -127,6 +127,28 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-gm-gorsel { object-fit: cover; background: var(--mavi); }
 .fk-gm-bolum { border-left: 4px solid var(--mavi); padding-left: 16px; border-top: 0; margin: 8px 0; }
 .fk-gm-yorum { font-size: var(--fs-1); line-height: 1.65; color: var(--metin); }
+.fk-gm-govde { display: grid; gap: 6px; min-width: 0; }
+@media (max-width: 479px) { .fk-gm { width: 52px; height: 52px; } .fk-gm-yer { font-size: var(--fs-1); } .fk-gm-satir { gap: 12px; } }
+.fk-bekliyor { color: var(--metin-2); }
+
+/* Ajanı sorgula */
+.fk-sorgula { display: grid; gap: 10px; padding-top: 12px; }
+.fk-sorgula-baslik { font-size: var(--fs-1); font-weight: 700; }
+.fk-hazir-sorular { gap: 8px; }
+.fk-serbest-soru { display: grid; gap: 8px; }
+.fk-serbest-soru label { font-weight: 600; }
+.fk-serbest-soru textarea {
+  width: 100%; min-height: 72px; padding: 10px 12px; font: inherit; color: var(--metin); resize: vertical;
+  background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
+}
+.fk-sorular { list-style: none; display: grid; gap: 10px; }
+.fk-sorular:empty { display: none; }
+.fk-soru { display: grid; gap: 4px; padding: 10px 12px; background: var(--zemin); border-radius: 8px; }
+.fk-soru-metin { color: var(--metin-2); }
+.fk-cevap { line-height: 1.6; }
+
+/* Kilit ekranı */
+.fk-kod-durum:empty { display: none; }
 
 /* ---------- Karne ---------- */
 .fk-karne { padding: 32px var(--kenar) 64px; }
