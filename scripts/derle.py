@@ -710,7 +710,8 @@ def teslimat():
 
 def fabricakit_sayfasi():
     """Simülatörün kabuğu: uygulama #fk içine kurulur (fabricakit/js/uygulama.js)."""
-    govde = f"""<div class="fk" id="fk">
+    ajan = "1" if (KOK / "assets" / "img" / "ajan-gm.png").exists() else "0"
+    govde = f"""<div class="fk" id="fk" data-ajan-gorsel="{ajan}">
   <div class="kap fk-kabuk">
     <h1>Fabricakit</h1>
     <p class="hero-slogan">{e(SLOGAN)}</p>
