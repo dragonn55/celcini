@@ -16,11 +16,11 @@
 /* ---------- Üst şerit: gün, saat, duraklat, puan, günü bitir ---------- */
 .fk-uygulama { width: 100%; max-width: calc(var(--en) + 2 * var(--kenar)); margin: 0 auto; padding: 0 var(--kenar) 48px; }
 .fk-ust {
-  position: sticky; top: 0; z-index: 30;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px;
+  position: sticky; top: 0; z-index: 30; display: grid; gap: 8px;
   margin: 0 calc(-1 * var(--kenar)); padding: 8px var(--kenar);
   background: var(--zemin); border-bottom: var(--cizgi-k) solid var(--cizgi);
 }
+.fk-ust-satir { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
 .fk-ust-sol, .fk-ust-sag { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
 .fk-gun { font-weight: 700; }
 .fk-saat-kap { display: inline-flex; align-items: center; gap: 6px; color: var(--koyu); }
@@ -36,14 +36,21 @@
 }
 .fk-ust-dugme:hover { background: var(--zemin); }
 .fk-ust-dugme[aria-pressed="true"] { border-width: 2px; padding: 0 11px; }
+.fk-ust-dugme:disabled { opacity: 0.5; cursor: not-allowed; }
 @media (max-width: 479px) {
-  .fk-ust { flex-wrap: nowrap; }
+  .fk-ust-satir { flex-wrap: nowrap; }
   .fk-ust-dugme { width: 44px; padding: 0; justify-content: center; }
   .fk-ust-dugme[aria-pressed="true"] { padding: 0; }
   .fk-ust-dugme .fk-dugme-metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .fk-ust-sol { gap: 6px; }
   .fk-ust-sag { gap: 6px; flex-wrap: nowrap; }
 }
+
+/* "Günü bitir" durağı: üst şeridin altında, ilerleme neyi bekliyor */
+.fk-bitirme { display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 12px; font-size: var(--fs-0); background: var(--kart); border: var(--cizgi-k) solid var(--turuncu); border-left-width: 4px; border-radius: 10px; }
+.fk-bitirme > .fk-ikon { color: var(--koyu); }
+.fk-bitirme-metin { margin-right: auto; font-weight: 600; }
+.fk-bitirme .dugme-cizgi { flex: none; }
 
 /* ---------- Gövde: görev notu + harita + panel ---------- */
 .fk-govde { display: grid; gap: 16px; padding-top: 16px; }
@@ -118,6 +125,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-onay { width: 100%; max-width: 480px; padding: 24px; display: grid; gap: 12px; }
 .fk-onay h2 { font-size: var(--fs-2); }
 .fk-onay p { color: var(--metin-2); }
+.fk-onay-liste { display: grid; gap: 2px; padding-left: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ---------- Giriş ---------- */
 .fk-fabrika-satir { display: inline-flex; align-items: center; gap: 8px; }

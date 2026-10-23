@@ -78,7 +78,7 @@ export function uretimPaneli({ durum, gonder }) {
       h("ul", { sinif: "fk-uretim" }, hatUrunleri(id).map((u) => h("li", { sinif: "fk-uretim-satir" },
         h("span", { metin: URUN[u].ad }), cubuk(plan[u] ? (uretilen[u] || 0) / plan[u] : 0), h("span", { sinif: "fk-sayi", metin: `${sayi(uretilen[u] || 0)} / ${sayi(plan[u] || 0)}` })))),
       bilgi([["Bugün duruş", sure(h0.durusDk)], ["Bugün çalışma", sure(h0.calisanDk)], ["Kadro", `${HAT[id].usta} usta, ${HAT[id].operator} operatör`]]),
-      karar ? h("div", { sinif: "fk-kutu fk-kutu-acil" },
+      karar ? h("div", { sinif: "fk-kutu fk-kutu-acil", "data-durak": karar.id },
         h("p", { metin: `Makine arızası: tahmini ${sure(Math.max(0, h0.durusSonDk - ((durum.gun - 1) * 1440 + durum.dk)))} daha duracak. Acil bakım ${tl(AYARLAR.ACIL_BAKIM.maliyet)}; hat en geç ${sure(AYARLAR.ACIL_BAKIM.durusDk)} içinde çalışır.` }),
         h("div", { sinif: "fk-satir" },
           h("button", { sinif: "dugme fk-dugme fk-kucuk-dugme", type: "button", disabled: !oyunda, "data-odak": `bakim-${id}`, on: { click: () => gonder({ tip: "KARAR", id: karar.id, secim: "acil-bakim" }) } }, "Acil bakım çağır"),
@@ -116,7 +116,7 @@ export function kalitePaneli({ durum, gonder, odaAc }) {
   const oyunda = durum.evre === "oyun";
   const bekleyen = durum.kararlar.filter((k) => k.durum === "bekliyor" && k.oda === "kalite");
   return h("div", {},
-    bolum("Karar bekleyen partiler", bekleyen.length ? bekleyen.map((k) => h("div", { sinif: "fk-kutu fk-kutu-acil" },
+    bolum("Karar bekleyen partiler", bekleyen.length ? bekleyen.map((k) => h("div", { sinif: "fk-kutu fk-kutu-acil", "data-durak": k.id },
       h("p", {}, h("strong", { metin: `${MALZEME[k.malzeme].ad} · ${sayi(k.miktar)} ${MALZEME[k.malzeme].birim} bozuk. ` }),
         `Karar için `, h("span", { sinif: "fk-geri-sayim", "data-kalan": k.id, metin: `${geriSayim(k.kalanDk)} kaldı` }), "."),
       h("ul", { sinif: "fk-secenekler" },

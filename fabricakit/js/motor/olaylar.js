@@ -130,7 +130,7 @@ function tetikle(durum, o) {
 }
 
 /* Her oyun dakikası: önce süren kararların sayaçları, sonra bu dakikanın olayları */
-export function olayDakikasi(durum, { yeniOlay = true } = {}) {
+export function olayDakikasi(durum) {
   for (const k of durum.kararlar) {
     if (k.durum !== "bekliyor") continue;
     if (k.tur === "makine-durusu" && simdi(durum) >= durum.hatlar[k.hat].durusSonDk) {
@@ -143,7 +143,6 @@ export function olayDakikasi(durum, { yeniOlay = true } = {}) {
       if (k.kalanDk <= 0) zamanAsimi(durum, k);
     }
   }
-  if (!yeniOlay) return;
   for (const o of durum.olayPlani) if (o.durum === "bekliyor" && o.dk === durum.dk) tetikle(durum, o);
 }
 

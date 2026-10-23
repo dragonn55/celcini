@@ -2,7 +2,8 @@
 /* Fabricakit motor testi (arayüzsüz). 1–5. günleri üç oyuncu tipiyle oynar:
    pasif (hiçbir şey yapmaz), doğru (her şeyi zamanında yapar), rastgele (tohumlu rastgele eylemler).
    Denetler: karnede NaN / sonsuz / tanımsız yok, eksi stok yok, puan sınır içinde, harf A–E,
-   kayıt → yükleme aynı durumu verir ve aynı eylemlerle aynı yere varır, aynı tohum aynı sonucu verir.
+   kayıt → yükleme aynı durumu verir ve aynı eylemlerle aynı yere varır, aynı tohum aynı sonucu verir,
+   "Günü bitir" olayları atlamaz ve karar isteyen olayda durur.
    Çalıştırma: node scripts/sim-test.mjs */
 import { AYARLAR } from "../fabricakit/js/ayarlar.js";
 import { olusturStore } from "../fabricakit/js/motor/durum.js";
@@ -101,11 +102,7 @@ const oyuncular = {
         const m = malzemeIhtiyaci(d).find((x) => x.id === k.malzeme);
         if (m.bitis !== null && m.bitis <= d.gun + 2) { store.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-isle" }); continue; }
         const sonuc = store.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-siparis" });
-        if (sonuc.satinAlma) {
-          const hizli = AYARLAR.TEDARIKCILER.filter((t) => tedarikEdebilir(sonuc.satinAlma.malzeme, t.id))
-            .sort((a, b) => tedarikSuresi(sonuc.satinAlma.malzeme, a.id) - tedarikSuresi(sonuc.satinAlma.malzeme, b.id))[0];
-          store.gonder({ tip: "SIPARIS_VER", malzeme: sonuc.satinAlma.malzeme, tedarikci: hizli.id, miktar: sonuc.satinAlma.miktar });
-        }
+        if (sonuc.satinAlma) store.gonder({ tip: "SIPARIS_VER", malzeme: sonuc.satinAlma.malzeme, tedarikci: enHizli(sonuc.satinAlma.malzeme), miktar: sonuc.satinAlma.miktar });
       }
       if (k.tur === "makine-durusu") store.gonder({ tip: "KARAR", id: k.id, secim: "acil-bakim" });
     }
@@ -135,6 +132,22 @@ const oyuncular = {
     else if (r < 0.603) store.gonder({ tip: "GUNU_BITIR" });
   },
 };
+
+/* "Günü bitir" gün kapanana kadar: duraklarda karar verir (bozuk parti → yeniden işle, makine → bekle) ya da onay alır */
+function gunuBitir(store) {
+  const duraklar = [];
+  let sonuc = store.gonder({ tip: "GUNU_BITIR" });
+  while (sonuc.durak && duraklar.length < 50) {
+    duraklar.push({ ...sonuc.durak, dk: store.durum.dk });
+    const { tur, id } = sonuc.durak;
+    if (tur === "onay") store.gonder({ tip: "ONAY_AL", id });
+    else store.gonder({ tip: "KARAR", id, secim: store.durum.kararlar.find((k) => k.id === id).tur === "bozuk-parti" ? "yeniden-isle" : "bekle" });
+    sonuc = store.gonder({ tip: "GUNU_BITIR" });
+  }
+  return duraklar;
+}
+const enHizli = (malzeme) => AYARLAR.TEDARIKCILER.filter((t) => tedarikEdebilir(malzeme, t.id))
+  .sort((a, b) => tedarikSuresi(malzeme, a.id) - tedarikSuresi(malzeme, b.id))[0].id;
 
 /* ---------------- oyun döngüsü ---------------- */
 function oyna(tip, { kayitDenemesi = false } = {}) {
@@ -215,7 +228,7 @@ if (kayittanOku("{bozuk").neden !== "bozuk") hata("bozuk kayıt reddedilmedi");
   const s = olusturStore();
   s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "{hitap}, erken." });
   if (s.durum.karne !== null) hata("gün bitmeden Ajan GM yorumu yazıldı");
-  s.gonder({ tip: "GUNU_BITIR" });
+  gunuBitir(s);
   const sablon = s.durum.karne.gmYorum;
   s.gonder({ tip: "GM_YORUMU", gun: 2, metin: "{hitap}, yanlış gün." });
   s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "Hitapsız metin." });
@@ -223,6 +236,56 @@ if (kayittanOku("{bozuk").neden !== "bozuk") hata("bozuk kayıt reddedilmedi");
   s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "{hitap}, yapay zeka yorumu. Yarın için talimatım: planı erken yapın." });
   const okunan = kayittanOku(kaydaYaz({ durum: s.durum, gunBasi: s.gunBasi }));
   if (!okunan.tamam || okunan.durum.karne.gmKaynak !== "yapay-zeka" || !okunan.durum.karne.gmYorum.startsWith("{hitap}, yapay")) hata("yapay zeka yorumu kayda geçmedi");
+}
+
+/* "Günü bitir" olayları da işletir. 1. gün: en az 2 olay, 09:00–16:00 arasında, her biri kendi diliminde, biri Kalite
+   bozuk parti. 09:00'da bitiren oyuncu bütün olayları görür; karar isteyen olayda ilerleme durur ve karar verilmeden
+   sürmez; karar verilince 18:00'e kadar sürer. */
+let erken = null;
+{
+  const [bas, son] = AYARLAR.OLAY_SAATI.map((x) => x * 60);
+  const s = olusturStore();
+  const plan = s.durum.olayPlani;
+  const dilim = (son - bas) / plan.length;
+  if (plan.length < 2) hata(`1. günde ${plan.length} olay var, en az 2 olmalı`);
+  if (plan.some((o, i) => o.dk < bas + i * dilim || o.dk >= bas + (i + 1) * dilim)) hata(`olaylar 09:00–16:00 dilimlerine dağılmadı: ${plan.map((o) => o.dk).join(", ")}`);
+  for (const t of AYARLAR.GUNLER[0].zorunluOlay || []) if (!plan.some((o) => o.tur === t)) hata(`1. günde zorunlu olay yok: ${t}`);
+  while (s.durum.dk < 9 * 60) { oyuncular.dogru(s); s.gonder({ tip: "ILERLE", dk: 5 }); }
+  const ilk = s.gonder({ tip: "GUNU_BITIR" });
+  if (!ilk.durak || ilk.durak.tur !== "karar") hata("Günü bitir karar isteyen olayda durmadı");
+  else {
+    const dk = s.durum.dk;
+    const ikinci = s.gonder({ tip: "GUNU_BITIR" });
+    if (!ikinci.durak || ikinci.durak.id !== ilk.durak.id || s.durum.dk !== dk) hata("karar verilmeden Günü bitir sürdü");
+    if (s.durum.olayPlani.some((o) => o.dk < dk - 1 && o.durum !== "oldu")) hata("Günü bitir durağa kadar olay atladı");
+  }
+  gunuBitir(s);
+  const k = s.durum.karne;
+  if (s.durum.evre !== "gun-sonu" || !k) hata("Günü bitir günü kapatmadı");
+  else {
+    if (s.durum.olayPlani.some((o) => o.durum !== "oldu")) hata("Günü bitir olay atladı");
+    if (k.olaylar.length !== plan.length) hata(`karnede ${k.olaylar.length} olay var, planda ${plan.length}`);
+    if (s.durum.kararlar.some((x) => x.durum === "zaman-asimi")) hata("Günü bitir durağındaki karar zaman aşımına düştü");
+    erken = k;
+  }
+}
+/* Durakta "Yeniden sipariş" seçip sipariş veren oyuncu: ilerleme siparişin onayında da durur, sipariş düşmez */
+{
+  const s = olusturStore();
+  const r = s.gonder({ tip: "GUNU_BITIR" });
+  const k = r.durak && s.durum.kararlar.find((x) => x.id === r.durak.id);
+  if (!k || k.tur !== "bozuk-parti") hata("08:00'da Günü bitir bozuk partide durmadı");
+  else {
+    const { satinAlma } = s.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-siparis" });
+    if (!s.durum.bitirme || s.durum.bitirme.siparis !== satinAlma.malzeme) hata("yeniden sipariş kararı ilerlemeyi bekletmedi");
+    const { id } = s.gonder({ tip: "SIPARIS_VER", malzeme: satinAlma.malzeme, tedarikci: enHizli(satinAlma.malzeme), miktar: satinAlma.miktar });
+    const r2 = s.gonder({ tip: "GUNU_BITIR" });
+    if (!r2.durak || r2.durak.tur !== "onay" || r2.durak.id !== id) hata("durakta verilen siparişin onayında durmadı");
+    gunuBitir(s);
+    const sip = s.durum.satinalma.find((x) => x.id === id);
+    if (!sip || sip.durum === "dustu") hata("durakta verilen sipariş onaysız düştü");
+    if (s.durum.bitirme !== null) hata("gün kapanınca Günü bitir durumu temizlenmedi");
+  }
 }
 
 /* Denge: doğru oyuncu pasiften belirgin iyi olmalı */
@@ -238,5 +301,6 @@ for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
     return `${k.harf} ${String(k.puan).padStart(3)}  teslim ${k.teslim.zamaninda}/${k.teslim.toplam}  duruş ${k.durus.saat} sa  unutulan ${k.unutulan.sayi}`.padEnd(30).slice(0, 29) + " ";
   }).join(""));
 }
+if (erken) console.log(`\n1. gün 09:00'da "Günü bitir" (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
-console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum ve Ajan GM yorumu denetimleri geçti.");
+console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları ve Ajan GM yorumu denetimleri geçti.");

@@ -5,6 +5,8 @@ import { olusturStore } from "./motor/durum.js";
 import { kaydaYaz, kayittanOku } from "./motor/kayit.js";
 import { odaDurumlari } from "./motor/durumlar.js";
 import { verilmeyenSiparisler } from "./motor/mrp.js";
+import { bitirmeDuragi } from "./motor/sayac.js";
+import { gercekAd } from "./odalar.js";
 import { saat, gunAdi, sayi } from "./bicim.js";
 import { h, temizle, ikon } from "./arayuz/dom.js";
 import { haritaKur } from "./arayuz/harita.js";
@@ -46,7 +48,9 @@ const erisimAcik = () => Boolean(oyuncu.erisim.acik);
 const kilitli = (gun) => gun > AYARLAR.UCRETSIZ_GUN && !erisimAcik();
 
 const kok = document.getElementById("fk");
-const ui = { secili: null, planSekme: "plan", form: null, gorevAcik: true };
+const ui = { secili: null, planSekme: "plan", form: null, gorevAcik: true, durak: null };
+/* "Günü bitir" durağında karar verilince ilerleme bu kadar bekleyip sürer (sonuç bildirimi görünsün) */
+const DEVAM_BEKLEME_MS = 1200;
 let oyuncu = oyuncuOku();
 let store = null;
 let ekran = null;
@@ -105,6 +109,7 @@ function oyun() {
   ekran = "oyun";
   temizle(kok);
   ui.secili = null;
+  ui.durak = null;
 
   const gunEl = h("span", { sinif: "fk-gun" });
   const saatEl = h("span", { sinif: "fk-saat" });
@@ -112,9 +117,12 @@ function oyun() {
   const puanEl = h("span", { sinif: "fk-puan" });
   const duraklat = h("button", { sinif: "fk-ust-dugme", type: "button", on: { click: () => { saatAcik = !saatAcik; ustCiz(); } } });
   const bitir = h("button", { sinif: "fk-ust-dugme fk-bitir", type: "button", "aria-label": "Günü bitir", on: { click: gunuBitir } }, ikon("bayrak"), h("span", { sinif: "fk-dugme-metin", metin: "Günü bitir" }));
+  const bitirmeEl = h("div", { sinif: "fk-bitirme", role: "status", hidden: true });
   const ust = h("div", { sinif: "fk-ust" },
-    h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), durakEl),
-    h("div", { sinif: "fk-ust-sag" }, puanEl, duraklat, bitir));
+    h("div", { sinif: "fk-ust-satir" },
+      h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), durakEl),
+      h("div", { sinif: "fk-ust-sag" }, puanEl, duraklat, bitir)),
+    bitirmeEl);
   const sayacKap = h("div", { sinif: "fk-sayaclar", "aria-label": "Sayaçlar ve teslimatlar" });
   const gorevKap = h("div", { sinif: "fk-gorev-kap" });
   const haritaKap = h("div", { sinif: "fk-harita-kap" });
@@ -149,10 +157,55 @@ function oyun() {
     gunEl.textContent = gunAdi(d.gun);
     saatEl.textContent = saat(d.dk);
     puanEl.textContent = `Puan ${sayi(d.puan.deger)}`;
-    durakEl.textContent = saatAcik ? "" : "Duraklatıldı";
+    durakEl.textContent = saatAcik || d.bitirme ? "" : "Duraklatıldı";
     temizle(duraklat).append(ikon(saatAcik ? "duraklat" : "oynat"), h("span", { sinif: "fk-dugme-metin", metin: saatAcik ? "Duraklat" : "Devam" }));
     duraklat.setAttribute("aria-label", saatAcik ? "Saati duraklat" : "Saati devam ettir");
     duraklat.setAttribute("aria-pressed", String(!saatAcik));
+    duraklat.disabled = Boolean(d.bitirme);
+    bitir.disabled = Boolean(d.bitirme);
+  }
+
+  /* "Günü bitir" sürerken: durakta oda paneli açılır, karar verilip onay alınınca ilerleme kendiliğinden sürer */
+  let devamSayaci = null;
+  function bitirmeIzle(d) {
+    const durak = d.bitirme ? bitirmeDuragi(d) : null;
+    temizle(bitirmeEl);
+    bitirmeEl.hidden = !d.bitirme;
+    if (durak && ui.durak !== durak.id) {
+      ui.durak = durak.id;
+      setTimeout(() => { if (ekran === "oyun") durakaGit(durak); }, 0);
+    }
+    if (!durak) ui.durak = null;
+    if (!d.bitirme) return;
+    let metin;
+    let dugme = null;
+    if (durak) {
+      metin = `Gün sonuna ilerlerken durdu: ${gercekAd(durak.oda)} ${durak.tur === "onay" ? "onayınızı" : "kararınızı"} bekliyor.`;
+      dugme = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme", type: "button", on: { click: () => durakaGit(durak) } }, durak.tur === "onay" ? "Onaya git" : "Karara git");
+    } else if (d.bitirme.siparis) {
+      metin = "Karar verildi. Yeniden siparişi verin; gün sonuna sonra ilerlenir.";
+      dugme = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme", type: "button", on: { click: () => gonder({ tip: "GUNU_BITIR" }) } }, "Siparişsiz devam et");
+    } else {
+      metin = "Gün sonuna ilerleniyor…";
+      if (!devamSayaci) {
+        devamSayaci = setTimeout(() => {
+          devamSayaci = null;
+          const s = store.durum;
+          if (ekran === "oyun" && s.bitirme && !s.bitirme.siparis && !bitirmeDuragi(s)) gonder({ tip: "GUNU_BITIR" });
+        }, DEVAM_BEKLEME_MS);
+      }
+    }
+    bitirmeEl.append(ikon("bayrak"), h("span", { sinif: "fk-bitirme-metin", metin }), dugme);
+  }
+
+  /* Durağın kartı panelde görünür, eylem düğmesi odakta */
+  function durakaGit(durak) {
+    odaSec(durak.oda);
+    const kart = panelKap.querySelector(`[data-durak="${durak.id}"]`);
+    if (!kart) return;
+    panelKap.scrollTop = Math.max(0, kart.offsetTop - 16);
+    const dugme = kart.querySelector("button:not(:disabled)");
+    if (dugme) dugme.focus({ preventScroll: true });
   }
 
   const baglam = () => ({
@@ -181,6 +234,7 @@ function oyun() {
     bildirim.guncelle(durum);
     if (durum.degisim !== sonDegisim || eylem.tip !== "ILERLE") yapisalCiz();
     else canliGuncelle(panelKap, durum);
+    bitirmeIzle(durum);
     kaydet(eylem.tip !== "ILERLE");
   }
 
@@ -209,15 +263,14 @@ function oyun() {
 
   async function gunuBitir() {
     const d = store.durum;
-    const onay = d.satinalma.filter((s) => s.durum === "yanit-bekliyor" || s.durum === "onay-bekliyor").length;
-    const karar = d.kararlar.filter((k) => k.durum === "bekliyor" && k.kalanDk != null).length;
+    const gelecek = d.olayPlani.filter((o) => o.durum === "bekliyor").length;
+    const karar = d.kararlar.filter((k) => k.durum === "bekliyor").length;
+    const onaysiz = d.satinalma.filter((s) => s.durum === "yanit-bekliyor" || s.durum === "onay-bekliyor").length;
     const kapida = d.satinalma.filter((s) => s.durum === "kapida").length;
     const verilmeyen = verilmeyenSiparisler(d);
     const acik = [
       !d.planBilgi.guncel ? "plan güncel değil" : null,
       verilmeyen.length ? `${verilmeyen.length} malzeme siparişi verilmedi (${verilmeyen.map((m) => m.ad).join(", ")})` : null,
-      onay ? `${onay} sipariş onay bekliyor` : null,
-      karar ? `${karar} kalite kararı bekliyor` : null,
       kapida ? `${kapida} teslimat kapıda` : null,
     ].filter(Boolean);
     const onceki = saatAcik;
@@ -226,8 +279,12 @@ function oyun() {
     const tamam = await onayKutusu({
       baslik: "Gün bitsin mi?",
       metin: [
-        "Saat 18:00'e kadar hızlı ilerler: hatlar çalışır, sayaçlar akar; henüz gelmemiş olaylar gelmez.",
-        acik.length ? `Açık işler: ${acik.join(", ")}. Süresi dolan işler puan düşürür.` : "Açık iş görünmüyor.",
+        "Saat 18:00'e kadar hızlı ilerlenir: hatlar çalışır, sayaçlar akar, olaylar gelir. Karar isteyen bir olayda ilerleme durur; kararınızı verince sürer.",
+        h("ul", { sinif: "fk-onay-liste" },
+          h("li", { metin: `Bugün gelecek olay: ${sayi(gelecek)}` }),
+          h("li", { metin: `Karar bekleyen olay: ${sayi(karar)}` }),
+          h("li", { metin: `Onaysız sipariş: ${sayi(onaysiz)}${onaysiz ? " (onay süresi dolan sipariş düşer)" : ""}` })),
+        acik.length ? `Açık işler: ${acik.join(", ")}. Süresi dolan işler puan düşürür.` : "Başka açık iş yok.",
       ],
       evet: "Günü bitir",
     });
@@ -318,7 +375,7 @@ setInterval(() => {
   const simdi = performance.now();
   const fark = Math.min(1000, simdi - sonTik);
   sonTik = simdi;
-  if (!store || ekran !== "oyun" || !saatAcik || document.hidden || store.durum.evre !== "oyun") return;
+  if (!store || ekran !== "oyun" || !saatAcik || document.hidden || store.durum.evre !== "oyun" || store.durum.bitirme) return;
   birikim += (fark * 60) / (AYARLAR.OYUN_SAATI_SANIYE * 1000);
   const dk = Math.floor(birikim);
   if (dk > 0) {

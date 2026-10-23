@@ -27,7 +27,7 @@ export function siparisSatiri(durum, s, gonder) {
   else if (s.durum === "kapida") durumMetni = [rozet("Kapıda", "dikkat"), h("span", { metin: "Depoda teslim alın" })];
   else if (s.durum === "teslim") durumMetni = [rozet("Teslim alındı", "yolunda")];
   else durumMetni = [rozet("Düştü", "acil"), h("span", { metin: "Onay alınmadı" })];
-  return h("li", { sinif: `fk-siparis fk-siparis-${s.durum}` },
+  return h("li", { sinif: `fk-siparis fk-siparis-${s.durum}`, "data-durak": s.id },
     h("div", { sinif: "fk-siparis-bas" }, h("strong", { metin: `${m.ad} · ${sayi(s.miktar)} ${m.birim}` }), h("span", { sinif: "fk-soluk", metin: `${TEDARIKCI[s.tedarikci].ad} · ${tl(s.tutar)}` })),
     h("div", { sinif: "fk-siparis-durum" }, durumMetni, eylem));
 }

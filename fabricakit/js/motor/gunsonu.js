@@ -31,6 +31,7 @@ export function gunuKapat(durum) {
   const sevk = sevkiyat(durum);
   const gece = ikinciVardiya(durum);
   durum.evre = "gun-sonu";
+  durum.bitirme = null;
   durum.karne = karneOlustur(durum, { sevk, gece, unutulanMalzemeler: unutulanMalzemeler.map((m) => m.id) });
   const yorum = kuralYorumu(durum.karne, durum.gmKullanilan);
   durum.karne.gmYorum = yorum.metin;

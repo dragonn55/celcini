@@ -15,7 +15,7 @@ export function onayKutusu({ baslik, metin, evet, hayir = "Vazgeç" }) {
     const hayirDugme = h("button", { sinif: "dugme-cizgi", type: "button", on: { click: () => bitir(false) } }, hayir);
     const kutu = h("div", { sinif: "kart fk-onay", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "fk-onay-baslik", "aria-describedby": "fk-onay-metin" },
       h("h2", { id: "fk-onay-baslik", metin: baslik }),
-      h("div", { id: "fk-onay-metin" }, (Array.isArray(metin) ? metin : [metin]).map((m) => h("p", { metin: m }))),
+      h("div", { id: "fk-onay-metin" }, (Array.isArray(metin) ? metin : [metin]).map((m) => (typeof m === "string" ? h("p", { metin: m }) : m))),
       h("div", { sinif: "fk-satir" }, evetDugme, hayirDugme));
     const perde = h("div", { sinif: "fk-onay-perde", on: { click: (e) => { if (e.target === perde) bitir(false); } } }, kutu);
     document.body.appendChild(perde);
