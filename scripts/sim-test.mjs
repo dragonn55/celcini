@@ -3,7 +3,8 @@
    pasif (hiçbir şey yapmaz), doğru (her şeyi zamanında yapar), rastgele (tohumlu rastgele eylemler).
    Denetler: karnede NaN / sonsuz / tanımsız yok, eksi stok yok, puan sınır içinde, harf A–E,
    kayıt → yükleme aynı durumu verir ve aynı eylemlerle aynı yere varır, aynı tohum aynı sonucu verir,
-   "Günü bitir" olayları atlamaz ve karar isteyen olayda durur.
+   "Günü bitir" olayları atlamaz ve karar isteyen olayda durur, Ajan GM'in "temiz" cümlesi yalnızca cezasız günde,
+   "Sesli oku" metninde okunmamış rakam kalmaz.
    Çalıştırma: node scripts/sim-test.mjs */
 import { AYARLAR } from "../fabricakit/js/ayarlar.js";
 import { olusturStore } from "../fabricakit/js/motor/durum.js";
@@ -15,7 +16,8 @@ import { kaydaYaz, kayittanOku, kopya } from "../fabricakit/js/motor/kayit.js";
 import { akis, rastgele, tamSayi, sec } from "../fabricakit/js/veri/tohum.js";
 import { MALZEME_IDLER, HAT_IDLER, tedarikEdebilir, tedarikSuresi, birimFiyat } from "../fabricakit/js/veri/katalog.js";
 import { ODALAR } from "../fabricakit/js/odalar.js";
-import { kuralCevap, SORULAR } from "../fabricakit/js/ajan-gm/yorumlar.js";
+import { kuralCevap, kuralYorumu, SORULAR } from "../fabricakit/js/ajan-gm/yorumlar.js";
+import { seseHazirla, cumlelereBol } from "../fabricakit/js/arayuz/ses.js";
 import { ornekMetni } from "./karne-ornegi.mjs";
 import fs from "node:fs";
 
@@ -53,10 +55,18 @@ function karneyiDenetle(k, nerede) {
   /* Ajan GM: hitapla başlar, yarın için talimatla biter, NaN/undefined yok */
   if (!k.gmYorum || !k.gmYorum.startsWith("{hitap}, ")) hata(`${nerede}: Ajan GM yorumu hitapla başlamıyor`);
   if (!/Yarın için talimatım: [^.]+\.$/.test(k.gmYorum)) hata(`${nerede}: Ajan GM yorumu talimatla bitmiyor: ${k.gmYorum}`);
-  for (const s of SORULAR) {
+  const cevaplar = SORULAR.map((s) => {
     const c = kuralCevap(k, s.id);
     if (!c || !c.startsWith("{hitap}, ") || /NaN|undefined|null/.test(c)) hata(`${nerede}: "${s.metin}" cevabı bozuk: ${c}`);
-  }
+    return c;
+  });
+  /* "Bugünü temiz kapattınız" yalnızca cezasız günde; "İlki:" yarının talimatıyla aynı kaleme (ilk "Unutulan iş") bakar */
+  if (/temiz/.test(k.gmYorum) && k.defter.some((x) => x.puan < 0)) hata(`${nerede}: cezalı günde "temiz" yorumu: ${k.gmYorum}`);
+  const ilkIs = k.unutulan.liste.find((m) => m.startsWith("Unutulan iş"));
+  const anilan = k.gmYorum.match(/(?:İlki|en önemlisi|Başta): ([^.]+)/);
+  if (anilan && ilkIs && !ilkIs.toLocaleLowerCase("tr").includes(anilan[1].toLocaleLowerCase("tr"))) hata(`${nerede}: "İlki" ilk unutulan işi anmıyor: ${anilan[1]} / ${ilkIs}`);
+  /* Sesli oku: yorumda ve cevaplarda okunmamış rakam kalmaz ("135.200 TL" → "yüz otuz beş bin iki yüz lira") */
+  for (const c of cumlelereBol([k.gmYorum, ...cevaplar])) if (/\d/.test(c)) hata(`${nerede}: sesli okumada rakam kaldı: ${c}`);
   if (k.puan < AYARLAR.PUAN.ALT || k.puan > AYARLAR.PUAN.UST) hata(`${nerede}: karne puanı sınır dışı ${k.puan}`);
   if (!["A", "B", "C", "D", "E"].includes(k.harf)) hata(`${nerede}: harf ${k.harf}`);
   if (k.teslim.yuzde !== null && (k.teslim.yuzde < 0 || k.teslim.yuzde > 100)) hata(`${nerede}: teslim yüzdesi ${k.teslim.yuzde}`);
@@ -315,6 +325,34 @@ let erken = null;
   if (son.onay.yapilan !== son.onay.toplam || son.siparis.yapilan !== son.siparis.toplam) hata(`görev sayaçları tamamlanmadı: ${JSON.stringify(son)}`);
 }
 
+/* "Temiz" cümlesi yalnızca cezasız günde: A notlu ama cezalı karnede seçilmez */
+{
+  const k = kopya(sonuc.dogru[0]);
+  Object.assign(k, { gun: 1, harf: "A", enBuyukSorun: null, unutulan: { sayi: 0, liste: [] }, defter: k.defter.filter((x) => x.puan > 0) });
+  if (!kuralYorumu(k).metin.includes("temiz kapattınız")) hata("cezasız A gününde temiz yorumu seçilmedi");
+  const metin = "Unutulan iş: siparişler plana alınmadı";
+  k.defter.push({ dk: 600, tur: "UNUTULAN_IS", puan: AYARLAR.PUAN.UNUTULAN_IS, metin });
+  Object.assign(k, { unutulan: { sayi: 1, liste: [metin] }, enBuyukSorun: { tur: "UNUTULAN_IS", adet: 1, puan: AYARLAR.PUAN.UNUTULAN_IS } });
+  if (/temiz/.test(kuralYorumu(k).metin)) hata("cezalı A gününde temiz yorumu seçildi");
+}
+
+/* Sesli oku metni sese hazırlar: sayılar yazıya döner, cümle binlik ayracında bölünmez */
+{
+  const beklenen = [
+    ["Depoda 135.200 TL bağlı duruyor.", "Depoda yüz otuz beş bin iki yüz lira bağlı duruyor."],
+    ["Zamanında teslim %80 (4/5).", "Zamanında teslim yüzde seksen (beşte dört)."],
+    ["Yarın için talimatım: saat 10:00 olmadan plana alın.", "Yarın için talimatım: saat on olmadan plana alın."],
+    ["Sabah 08:00'de siparişler gelecek, 12:00'den önce 08:06'da.", "Sabah saat sekizde siparişler gelecek, saat on ikiden önce saat sekiz sıfır altıda."],
+    ["Bay Çakır, 1. gün ücretsizdi.", "Bay Çakır, birinci gün ücretsizdi."],
+    ["Kalemler: plan (-6); teslim (+2).", "Kalemler: plan (eksi altı); teslim (artı iki)."],
+    ["Hatlar 1,5 saat durdu; bütçe 1.000.000 TL'ye indi.", "Hatlar bir buçuk saat durdu; bütçe bir milyon liraya indi."],
+    ["GEÇ KALINDI yazan MDF levha.", "geç kalındı yazan MDF levha."],
+  ];
+  for (const [girdi, cikti] of beklenen) if (seseHazirla(girdi) !== cikti) hata(`sese hazırlama: "${girdi}" → "${seseHazirla(girdi)}"`);
+  const c = cumlelereBol(["Depoda 135.200 TL var. Yarın 09:00'da başlayın."]);
+  if (c.length !== 2) hata(`sesli oku cümleleri yanlış bölündü: ${JSON.stringify(c)}`);
+}
+
 /* Ana sayfadaki karne örneği motorun bugünkü çıktısıyla aynı olmalı (uydurma ya da eskimiş sayı yok) */
 if (fs.readFileSync(new URL("../data/karne-ornegi.json", import.meta.url), "utf8") !== ornekMetni()) {
   hata("data/karne-ornegi.json motorun çıktısıyla uyuşmuyor: node scripts/karne-ornegi.mjs && python3 scripts/derle.py");
@@ -334,6 +372,7 @@ const rastgele1 = Array.from({ length: DENGE_TOHUM }, (_, i) => {
     oyuncular.rastgele(s, a);
     if (s.durum.evre === "oyun") s.gonder({ tip: "ILERLE", dk: tamSayi(a, 1, 20) });
   }
+  karneyiDenetle(s.durum.karne, `rastgele tohum ${20261023 + i}`);
   return s.durum.karne;
 });
 const harfSayisi = (l) => ["A", "B", "C", "D", "E"].map((h) => `${h} ${l.filter((k) => k.harf === h).length}`).join(" · ");

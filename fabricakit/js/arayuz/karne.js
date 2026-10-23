@@ -23,7 +23,7 @@ export function karneOlculeri(k) {
       alt: k.teslim.toplam ? `${sayi(k.teslim.zamaninda)} / ${sayi(k.teslim.toplam)} satır${k.teslim.gecSevk ? ` · ${sayi(k.teslim.gecSevk)} gecikmiş satır da çıktı` : ""}` : "Bugün teslim günü gelen satır yoktu" },
     { ad: "Hat duruşu", deger: `${ondalik(k.durus.saat)} saat`, alt: `Ahşap\u00a0${ondalik(k.durus.hatlar.ahsap ?? 0)} · Metal\u00a0${ondalik(k.durus.hatlar.metal ?? 0)}` },
     { ad: "Depoda bağlanan para", deger: tl(k.bagliPara), alt: "Malzeme ve mamul stoğu" },
-    { ad: "Unutulan iş", deger: sayi(k.unutulan.sayi), alt: k.unutulan.sayi ? "Ayrıntı puan dökümünde" : "Hiç yok" },
+    { ad: "Unutulan iş", deger: sayi(k.unutulan.sayi), alt: k.unutulan.sayi ? "Her biri puan düşürdü" : "Hiç yok" },
   ];
 }
 

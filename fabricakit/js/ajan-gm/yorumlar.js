@@ -8,11 +8,15 @@ import { PUAN_TURU_ADI } from "../motor/puan.js";
 
 const oda = (id, tur) => (tur ? ek(gmAdi(id), tur) : gmAdi(id));
 const planSaati = () => saat(AYARLAR.ZAMANINDA_PLAN_SAAT * 60);
-const kucukBas = (s) => (s ? s.charAt(0).toLocaleLowerCase("tr") + s.slice(1) : s);
-const ilkUnutulan = (k) => {
-  const t = k.unutulan.liste[0] || "";
-  return kucukBas(t.replace(/^Unutulan (iş|onay): /, ""));
-};
+/* Cümle içine alınan metnin ilk harfi küçülür; kısaltmayla başlıyorsa ("MDF levha") dokunulmaz */
+const kucukBas = (s) => (s && !/^\p{Lu}{2}/u.test(s) ? s.charAt(0).toLocaleLowerCase("tr") + s.slice(1) : s);
+/* "İlki:" ile yarının talimatı aynı kaleme bakar: ilk "Unutulan iş", yoksa ilk kalem (unutulan onay) */
+const ilkKalem = (k) => k.unutulan.liste.find((m) => m.startsWith("Unutulan iş")) || k.unutulan.liste[0] || "";
+const ilkUnutulan = (k) => kucukBas(ilkKalem(k).replace(/^Unutulan (iş|onay): /, ""));
+/* Koşullu şablon yalnızca koşulu tutan günde seçilir */
+const kosullu = (kosul, f) => Object.assign(f, { kosul });
+const cezasiz = (k) => !k.defter.some((x) => x.puan < 0);
+const gecTeslimYok = (k) => !k.defter.some((x) => x.tur === "GEC_TESLIM");
 
 /* Karneden şablon değişkenleri */
 function degiskenler(k) {
@@ -36,8 +40,8 @@ function degiskenler(k) {
 
 const ACILIS = {
   A: [
-    (v) => `{hitap}, bugünü temiz kapattınız: ${v.puan} puan, harf notu A.`,
-    (v) => `{hitap}, fabrika bugün sözünü tuttu. Not: A, puan ${v.puan}.`,
+    kosullu(cezasiz, (v) => `{hitap}, bugünü temiz kapattınız: ${v.puan} puan, harf notu A.`),
+    kosullu(gecTeslimYok, (v) => `{hitap}, fabrika bugün sözünü tuttu. Not: A, puan ${v.puan}.`),
     (v) => `{hitap}, kayıtlarıma A notuyla geçiyorsunuz: ${v.puan} puan.`,
   ],
   B: [
@@ -80,7 +84,7 @@ const SORUN = {
   ],
   BUTCE_ASIMI: [
     (v) => `${oda("finans")} bütçeyi ${v.limit} verdi, siz ${v.harcanan} harcadınız.`,
-    (v) => `Günlük bütçe aşıldı: ${v.harcanan} / ${v.limit}.`,
+    (v) => `Günlük bütçe aşıldı: ${v.harcanan} harcandı, sınır ${v.limit}.`,
     (v) => `Bütçe bir sınırdır, öneri değil: harcama ${v.harcanan}, sınır ${v.limit}.`,
   ],
   FAZLA_SIPARIS: [
@@ -154,7 +158,7 @@ const TALIMAT = {
 function talimatAnahtari(k) {
   const tur = k.enBuyukSorun ? k.enBuyukSorun.tur : null;
   if (tur !== "UNUTULAN_IS") return tur && TALIMAT[tur] ? tur : "YOK";
-  const ilk = k.unutulan.liste.find((m) => m.startsWith("Unutulan iş")) || "";
+  const ilk = ilkKalem(k);
   if (/plana alınmadı/.test(ilk)) return "UNUTULAN_IS_PLAN";
   if (/plan güncellenmedi/.test(ilk)) return "UNUTULAN_IS_GUNCELLE";
   if (/sipariş verilmedi/.test(ilk)) return "UNUTULAN_IS_SIPARIS";
@@ -163,15 +167,11 @@ function talimatAnahtari(k) {
   return "UNUTULAN_IS_PLAN";
 }
 
-/* Havuzdan sıradaki kullanılmamış şablon; hepsi kullanıldıysa güne göre döner */
-function sec(havuz, anahtar, gun, kullanilan) {
+/* Havuzdan sıradaki kullanılmamış şablon (koşullu şablon yalnızca koşulu tutan günde); hepsi kullanıldıysa güne göre döner */
+function sec(havuz, anahtar, gun, kullanilan, karne) {
   const liste = havuz[anahtar];
-  for (let i = 0; i < liste.length; i++) {
-    const j = (gun - 1 + i) % liste.length;
-    const id = `${anahtar}:${j}`;
-    if (!kullanilan.includes(id)) return { id, f: liste[j] };
-  }
-  const j = (gun - 1) % liste.length;
+  const sira = liste.map((_, i) => (gun - 1 + i) % liste.length).filter((j) => !liste[j].kosul || liste[j].kosul(karne));
+  const j = sira.find((x) => !kullanilan.includes(`${anahtar}:${x}`)) ?? sira[0];
   return { id: `${anahtar}:${j}`, f: liste[j] };
 }
 
@@ -180,9 +180,9 @@ export function kuralYorumu(karne, kullanilan = []) {
   const v = degiskenler(karne);
   const sorunTuru = karne.enBuyukSorun && SORUN[karne.enBuyukSorun.tur] ? karne.enBuyukSorun.tur : "YOK";
   const parcalar = [
-    sec(ACILIS, karne.harf, karne.gun, kullanilan),
-    sec(SORUN, sorunTuru, karne.gun, kullanilan),
-    sec(TALIMAT, talimatAnahtari(karne), karne.gun, kullanilan),
+    sec(ACILIS, karne.harf, karne.gun, kullanilan, karne),
+    sec(SORUN, sorunTuru, karne.gun, kullanilan, karne),
+    sec(TALIMAT, talimatAnahtari(karne), karne.gun, kullanilan, karne),
   ];
   return { metin: parcalar.map((p) => p.f(v)).join(" "), sablonlar: parcalar.map((p) => p.id) };
 }
@@ -211,6 +211,6 @@ export function kuralCevap(karne, soruId) {
     const ornek = karne.defter.find((k) => k.tur === s.tur);
     return `{hitap}, en büyük kaybınız ${PUAN_TURU_ADI[s.tur].toLocaleLowerCase("tr")}: ${sayi(s.adet)} kez, toplam ${sayi(s.puan)} puan. Örnek: ${kucukBas(ornek ? ornek.metin.replace(/^[^:]+: /, "") : "")}.`;
   }
-  const talimat = sec(TALIMAT, talimatAnahtari(karne), karne.gun, []).f(v).replace("Yarın için talimatım: ", "");
+  const talimat = sec(TALIMAT, talimatAnahtari(karne), karne.gun, [], karne).f(v).replace("Yarın için talimatım: ", "");
   return `{hitap}, tek iş: ${talimat}`;
 }

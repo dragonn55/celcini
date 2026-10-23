@@ -97,9 +97,11 @@ fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 
 - Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla), `fabricakit-oyuncu` (hitap, açılan kilit)
   ve `fabricakit-ses` (ses açık/kapalı).
+  Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
 - Sesler dosyasız: efektler `arayuz/ses.js`'te Web Audio API ile üretilir. Ajan GM'in "Sesli oku"su tarayıcının
   SpeechSynthesis API'siyle cihazdaki Türkçe sesi kullanır (tr-TR, hız 0,95, perde 0,85); yerel Türkçe ses yoksa düğme görünmez.
-  Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
+  Metin okunmadan önce sese hazırlanır: sayı, tutar, yüzde ve saat yazıya çevrilir ("135.200 TL" → "yüz otuz beş bin iki yüz lira",
+  "08:00'de" → "saat sekizde"); `npm run sim-test` Ajan GM metinlerinde okunmamış rakam kalmadığını denetler.
 - Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfanın açılışı) ve daire
   avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula, kilit ekranı ve ana sayfadaki karne örneği). Tarayıcı WebP destekliyorsa
   WebP, değilse PNG yüklenir (`<picture>`). Görsel değişirse `python3 scripts/derle.py` ana sayfadaki sürüm etiketini yeniler.
