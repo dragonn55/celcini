@@ -91,11 +91,14 @@ fabricakit/js/odalar.js    Dokuz oda ve fabrika adı (kod adı "" yapılırsa he
 fabricakit/js/veri/        Tohumlu rastgelelik, katalog, sipariş ve olay üretimi
 fabricakit/js/motor/       Tek store, eylemler, MRP, satın alma, üretim, olaylar, gün sonu, karne, kayıt
 fabricakit/js/ajan-gm/     Kural şablonları (yorumlar.js) ve yapay zeka kaynağı (kaynak.js)
-fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, karne, kilit ekranı
+fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, bildirimler, karne, kilit ekranı, sesler (ses.js)
 fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 ```
 
-- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla) ve `fabricakit-oyuncu` (hitap, açılan kilit).
+- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla), `fabricakit-oyuncu` (hitap, açılan kilit)
+  ve `fabricakit-ses` (ses açık/kapalı).
+- Sesler dosyasız: efektler `arayuz/ses.js`'te Web Audio API ile üretilir. Ajan GM'in "Sesli oku"su tarayıcının
+  SpeechSynthesis API'siyle cihazdaki Türkçe sesi kullanır (tr-TR, hız 0,95, perde 0,85); yerel Türkçe ses yoksa düğme görünmez.
   Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
 - Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfanın açılışı) ve daire
   avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula, kilit ekranı ve ana sayfadaki karne örneği). Tarayıcı WebP destekliyorsa

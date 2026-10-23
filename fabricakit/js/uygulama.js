@@ -20,6 +20,7 @@ import { gmBolumu } from "./arayuz/ajan.js";
 import { kilitEkrani } from "./arayuz/kilit.js";
 import { girisEkrani, VARSAYILAN_HITAP } from "./arayuz/giris.js";
 import { onayKutusu } from "./arayuz/onay.js";
+import { efekt, sesIzleyici, sesiBaslat, okumayiDurdur, sesDugmesi } from "./arayuz/ses.js";
 
 const KAYIT = "fabricakit-kayit";
 const OYUNCU = "fabricakit-oyuncu";
@@ -77,6 +78,7 @@ window.addEventListener("pointercancel", () => { basili = false; });
 /* Ekran değişince eski ekranın izleri temizlenir (telefonda görev notu çekmecesinin bıraktığı alt boşluk) */
 function ekranAc(ad) {
   ekran = ad;
+  okumayiDurdur();
   temizle(kok);
   bildirimYeri = null;
   document.body.classList.remove("fk-cekmeceli");
@@ -105,6 +107,7 @@ function giris({ kayit, uyari }) {
   kok.appendChild(girisEkrani({
     kayit, uyari, hitap: oyuncu.hitap,
     basla: async ({ hitap: yeniHitap, yeni }) => {
+      sesiBaslat();
       if (yeni && kayit) {
         const tamam = await onayKutusu({ baslik: "Baştan başlansın mı?", metin: "Bu tarayıcıdaki kayıtlı oyun silinir ve 1. günün sabahına dönülür.", evet: "Baştan başla" });
         if (!tamam) return;
@@ -138,7 +141,9 @@ function oyun() {
   const ust = h("div", { sinif: "fk-ust" },
     h("div", { sinif: "fk-ust-satir" },
       h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakEl),
-      h("div", { sinif: "fk-ust-sag" }, puanEl, duraklat, bitir)),
+      h("div", { sinif: "fk-ust-sag" }, puanEl, sesDugmesi(), duraklat, bitir)),
+    /* Telefonda fabrika adı şeridin ikinci satırında (gün ve saatin yanına sığmaz); CSS ikisinden birini gösterir */
+    h("p", { sinif: "fk-fabrika-adi fk-fabrika-alt-satir", metin: FABRIKA.ad }),
     bitirmeEl);
   const ozetEl = h("div", { sinif: "fk-ozet-satir", role: "group", "aria-label": "Özet" });
   const sayacKap = h("div", { sinif: "fk-sayaclar", "aria-label": "Sayaçlar ve teslimatlar" });
@@ -160,6 +165,9 @@ function oyun() {
   const bildirim = bildirimKur(bildirimKap, { odaAc: (id) => odaSec(id) });
   bildirim.sifirla(store.durum);
   bildirimYeri = () => { bildirimKap.style.top = `${Math.max(0, Math.round(ust.getBoundingClientRect().bottom)) + 8}px`; };
+  const sesIzle = sesIzleyici(store.durum);
+  /* Sabah 08:00'de sipariş gelir: oyun ekranı gün başında açılınca bir kez çalar */
+  if (store.durum.evre === "oyun" && store.durum.dk === GUN_BASI) efekt("siparis");
   let sonDegisim = -1;
   let isiklar = {};
 
@@ -303,7 +311,7 @@ function oyun() {
 
   function ciz(durum, eylem) {
     if (ekran !== "oyun") return;
-    if (durum.evre !== "oyun") { kaydet(true); karne(); return; }
+    if (durum.evre !== "oyun") { kaydet(true); efekt("zil"); karne(); return; }
     isiklar = odaDurumlari(durum);
     ustCiz();
     harita.guncelle(durum, isiklar, ui.secili);
@@ -314,10 +322,12 @@ function oyun() {
     cekmeceIzle(durum);
     bitirmeIzle(durum);
     bildirimYeri();
+    sesIzle(durum);
     kaydet(eylem.tip !== "ILERLE");
   }
 
   function odaSec(id) {
+    okumayiDurdur();
     ui.secili = id;
     gonder({ tip: "GORULDU", oda: id });
     uygulama.classList.add("fk-panel-acik");
@@ -331,6 +341,7 @@ function oyun() {
 
   /* Telefonda Gün özeti (son bildirimler) alttan açılır; masaüstünde panelin varsayılan içeriğidir */
   function ozetAc() {
+    okumayiDurdur();
     ui.secili = null;
     uygulama.classList.add("fk-panel-acik");
     perde.classList.add("fk-acik");
@@ -342,6 +353,7 @@ function oyun() {
   }
 
   function paneliKapat() {
+    okumayiDurdur();
     const onceki = ui.secili;
     ui.secili = null;
     uygulama.classList.remove("fk-panel-acik");
@@ -474,7 +486,7 @@ setInterval(() => {
 }, 200);
 
 document.addEventListener("visibilitychange", () => { if (document.hidden) kaydet(true); });
-window.addEventListener("pagehide", () => kaydet(true));
+window.addEventListener("pagehide", () => { kaydet(true); okumayiDurdur(); });
 
 /* ---------------- başlat ---------------- */
 const okunan = kayittanOku(depo.oku(KAYIT));

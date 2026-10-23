@@ -60,6 +60,9 @@ const IKON = {
   dongu: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
   soru: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
   yukari: '<path d="m18 15-6-6-6 6"/>',
+  ses: '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+  sessiz: '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/>',
+  durdur: '<rect x="6" y="6" width="12" height="12" rx="1"/>',
 };
 
 export function ikon(ad, sinif = "fk-ikon") {
