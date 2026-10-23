@@ -398,7 +398,8 @@ def oda_seridi(odalar):
         simge = gezegen(o["simge"]) if o.get("kod") else ""
         alt = f'<span class="oda-ad">{e(kucuk)}</span>' if kucuk else ""
         ogeler.append(f'<li class="oda-kart">{simge}<span class="oda-kod">{e(buyuk)}</span>{alt}</li>')
-    return f'<ul class="oda-serit">{"".join(ogeler)}</ul>'
+    # Telefonda şerit yatay kayar; klavyeyle de kaydırılabilsin diye odaklanabilir
+    return f'<ul class="oda-serit" tabindex="0" aria-label="Dokuz oda">{"".join(ogeler)}</ul>'
 
 
 def ajan_gm_portresi():
@@ -420,13 +421,16 @@ def karne_ornegi():
     """"Akşam Ajan GM karneni verir": motorun 1. gün için ürettiği gerçek karneden kesit. Veri data/karne-ornegi.json'da
     (scripts/karne-ornegi.mjs üretir, sim-test güncelliğini denetler). Sorgula düğmeleri görünür, tıklanmaz."""
     k = json.loads((KOK / "data" / "karne-ornegi.json").read_text(encoding="utf-8"))
+    # Telefonda Ajan GM'in yalnızca ilk cümlesi görünür (devamı .karne-gm-devam)
+    ilk, *devam = re.split(r"(?<=[.!?])\s+", k["gmYorum"], maxsplit=1)
+    devam_html = f'<span class="karne-gm-devam"> {e(devam[0])}</span>' if devam else ""
     olculer = "".join(f'<div class="karne-olcu"><dt>{e(o["ad"])}</dt><dd><span class="karne-olcu-deger">{e(o["deger"])}</span>'
                       f'<span class="karne-olcu-alt">{e(o["alt"])}</span></dd></div>' for o in k["olculer"])
     sorular = "".join(f'<li class="karne-soru">{e(s)}</li>' for s in k["sorular"])
-    return f"""<section class="bolum" id="karne" aria-labelledby="karne-baslik">
+    return f"""<section class="bolum bolum-sik" id="karne" aria-labelledby="karne-baslik">
   <div class="kap karne-duzen">
     <div class="bolum-bas">
-      <p class="ust-yazi">Gün sonu karnesi</p>
+      <p class="ust-yazi karne-ust-yazi">Gün sonu karnesi</p>
       <h2 id="karne-baslik">Akşam Ajan GM karneni verir</h2>
       <p>Oynamadan önce ne alacağını gör: buradaki kesit, Fabricakit'in 1. gün için ürettiği gerçek bir karneden.</p>
     </div>
@@ -438,7 +442,7 @@ def karne_ornegi():
       <dl class="karne-olculer">{olculer}</dl>
       <div class="karne-gm">
         {ajan_gm_avatari()}
-        <div class="karne-gm-metin"><p class="karne-gm-ad">Ajan GM</p><p class="karne-gm-yorum">{e(k["gmYorum"])}</p></div>
+        <div class="karne-gm-metin"><p class="karne-gm-ad">Ajan GM</p><p class="karne-gm-yorum">{e(ilk)}{devam_html}</p></div>
       </div>
       <div class="karne-sorgula">
         <p class="karne-sorgula-baslik">Ajanı sorgula</p>
@@ -456,7 +460,8 @@ def ana_sayfa(urunler):
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]]) for r in RAFLAR)
     fabrika, odalar = odalari_oku()
-    tabela_cumlesi = (" Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar."
+    # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
+    tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
                       if any(o.get("kod") for o in odalar) else "")
     # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Uzay.
     # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
@@ -482,7 +487,7 @@ def ana_sayfa(urunler):
   </div>
 </section>
 
-<section class="bolum" aria-labelledby="odalar-baslik">
+<section class="bolum bolum-sik" aria-labelledby="odalar-baslik">
   <div class="kap">
     <div class="bolum-bas">
       <h2 id="odalar-baslik">Dokuz oda</h2>
@@ -495,10 +500,10 @@ def ana_sayfa(urunler):
   </div>
 </section>
 
-<section class="bolum" id="nasil" aria-labelledby="nasil-baslik">
+<section class="bolum bolum-sik" id="nasil" aria-labelledby="nasil-baslik">
   <div class="kap">
     <div class="bolum-bas"><h2 id="nasil-baslik">Nasıl çalışır</h2><p>Bir oyun günü 08:00'de başlar, 18:00'de biter. Saati istediğin an durdurabilirsin.</p></div>
-    <ol class="izgara izgara-3">
+    <ol class="izgara izgara-3 adimlar">
       <li class="kart adim">{ikon("posta", "ikon ikon-buyuk")}<span class="no">1. Sipariş gelir</span><p>Sabah Satış-Pazarlama'dan günün siparişleri düşer: birkaç müşteri, 30 günlük ufuk. Yanında görev notu açılır.</p></li>
       <li class="kart adim">{ikon("tablo", "ikon ikon-buyuk")}<span class="no">2. Planla, satın al</span><p>Siparişi plana koy, malzeme ihtiyacını gör, eksik malzemeyi sipariş et. Tedarikçi onayını sayaç dolmadan al.</p></li>
       <li class="kart adim">{ikon("kalkan", "ikon ikon-buyuk")}<span class="no">3. Karneni al</span><p>Gün sonunda zamanında teslim, hat duruşu, depoda bağlanan para ve unutulan işler karnede. Notu Ajan GM verir.</p></li>
@@ -508,14 +513,14 @@ def ana_sayfa(urunler):
 
 {karne_ornegi()}
 
-<section class="bolum" id="dosyalar" aria-labelledby="dosyalar-baslik">
+<section class="bolum bolum-sik" id="dosyalar" aria-labelledby="dosyalar-baslik">
   <div class="kap">
     <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Sahada test edilmiş, kurulumsuz Excel dosyaları; işe göre üç rafta.</p></div>
-    <ul class="izgara izgara-3">{raf_kartlari}</ul>
+    <ul class="izgara izgara-3 raf-izgara">{raf_kartlari}</ul>
   </div>
 </section>
 
-<section class="bolum" aria-labelledby="uzay-baslik">
+<section class="bolum bolum-sik" aria-labelledby="uzay-baslik">
   <div class="kap">
     <a class="kart uzay-kart" href="/uzay/">
       {ikon("roket", "ikon ikon-buyuk")}

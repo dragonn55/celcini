@@ -319,6 +319,43 @@ a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
 .arac-kart .ust { display: flex; align-items: center; justify-content: space-between; width: 100%; color: var(--koyu); }
 .arac-kart p { color: var(--metin-2); }
 
+/* Ana sayfa telefonda kısa (390 px'te 4.500 px altı): bölümler arası boşluk azalır, kahramanda portre küçülür,
+   oda şeridi yatay kayar, "Nasıl çalışır" adımları tek satır, karne örneği harf + dört gösterge (alt satırsız) + Ajan GM'in
+   ilk cümlesi, raf kartları tek sütunda sıkı, Uzay kartında simge başlığın solunda */
+@media (max-width: 759px) {
+  .bolum-sik { padding: 28px 0; }
+  .bolum-sik .bolum-bas { margin-bottom: 20px; }
+  .tabela-cumlesi, .karne-ust-yazi { display: none; }
+  .hero-fk { padding: 24px 0 40px; }
+  .hero-fk .kap { gap: 24px; }
+  .hero-fk .hero-metin { gap: 16px; }
+  .hero-fk .gm-sahne { max-width: 240px; }
+  .hero-fk .gm-balon { font-size: var(--fs-1); }
+  .hero-fk .gm-figur figcaption { justify-self: center; white-space: nowrap; }
+  .hero-fk .hero-alt { font-size: var(--fs-1); }
+  .oda-serit {
+    display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+    margin: 0 calc(-1 * var(--kenar)); padding: 0 var(--kenar) 4px; scroll-padding-inline: var(--kenar);
+  }
+  .oda-kart { flex: 0 0 104px; padding: 12px 6px; scroll-snap-align: start; }
+  .adimlar { gap: 8px; }
+  .adimlar .adim { display: flex; align-items: center; gap: 12px; padding: 10px 16px; }
+  .adimlar .adim .ikon { width: 24px; height: 24px; }
+  .adimlar .adim p { display: none; }
+  .karne-gm-devam, .karne-sorgula, .karne-senaryo, .karne-olcu-alt { display: none; }
+  .karne-ornek { gap: 12px; }
+  .karne-olculer { gap: 8px; }
+  .karne-olcu { padding: 10px 12px; }
+  .raf-izgara { gap: 12px; }
+  .raf-izgara .raf-kart { grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; padding: 16px; }
+  .raf-izgara .raf-kart > .ikon { grid-row: span 3; }
+  .raf-izgara .raf-kart .raf-sayi { margin-top: 4px; padding-top: 0; border-top: 0; justify-content: flex-start; gap: 8px; }
+  .uzay-kart { grid-template-columns: auto minmax(0, 1fr); gap: 8px 16px; padding: 20px; }
+  .uzay-kart > .ikon { align-self: start; }
+  .uzay-git { grid-column: 2; }
+}
+.oda-serit:focus-visible { outline: 2px solid var(--koyu); outline-offset: 4px; }
+
 /* ---------- Kartlar ---------- */
 .kart { background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); }
 .izgara { list-style: none; display: grid; gap: 20px; grid-template-columns: 1fr; }
@@ -468,6 +505,12 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 .alt-bilgi { border-top: var(--cizgi-k) solid var(--cizgi); padding: 48px 0 32px; color: var(--metin); }
 .alt-bilgi .kap { display: grid; gap: 32px; }
 @media (min-width: 760px) { .alt-bilgi .kap { grid-template-columns: 1.3fr 1fr 1fr; } }
+/* Telefonda Raflar ve Bilgi yan yana (sayfa kısalır) */
+@media (max-width: 759px) {
+  .alt-bilgi { padding: 32px 0 24px; }
+  .alt-bilgi .kap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 16px; }
+  .alt-marka { grid-column: 1 / -1; }
+}
 .logo-rozet { display: inline-flex; background: var(--mavi); border-radius: var(--r); padding: 8px 16px; }
 .logo-rozet img { height: 56px; width: auto; }
 .alt-marka { display: grid; gap: 12px; justify-items: start; align-content: start; }
