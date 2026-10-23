@@ -128,7 +128,9 @@ const TALIMAT = {
   ],
   UNUTULAN_IS_PLAN: [
     () => `Yarın için talimatım: saat ${planSaati()} olmadan siparişleri ${oda("planlama", "de")} plana alın.`,
-    () => `Yarın için talimatım: gün içinde sipariş değişirse bir saat içinde planı güncelleyin.`,
+  ],
+  UNUTULAN_IS_GUNCELLE: [
+    () => `Yarın için talimatım: gün içinde sipariş ya da kapasite değişirse bir saat içinde planı güncelleyin.`,
   ],
   UNUTULAN_IS_SIPARIS: [
     () => `Yarın için talimatım: BUGÜN VER yazan her kalemi aynı gün ${oda("satinalma", "e")} taşıyın.`,
@@ -153,7 +155,8 @@ function talimatAnahtari(k) {
   const tur = k.enBuyukSorun ? k.enBuyukSorun.tur : null;
   if (tur !== "UNUTULAN_IS") return tur && TALIMAT[tur] ? tur : "YOK";
   const ilk = k.unutulan.liste.find((m) => m.startsWith("Unutulan iş")) || "";
-  if (/plana alınmadı|plan güncellenmedi/.test(ilk)) return "UNUTULAN_IS_PLAN";
+  if (/plana alınmadı/.test(ilk)) return "UNUTULAN_IS_PLAN";
+  if (/plan güncellenmedi/.test(ilk)) return "UNUTULAN_IS_GUNCELLE";
   if (/sipariş verilmedi/.test(ilk)) return "UNUTULAN_IS_SIPARIS";
   if (/teslimat alınmadı/.test(ilk)) return "UNUTULAN_IS_TESLIM";
   if (/bozuk parti/.test(ilk)) return "UNUTULAN_IS_KALITE";

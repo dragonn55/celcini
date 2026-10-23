@@ -401,24 +401,75 @@ def oda_seridi(odalar):
     return f'<ul class="oda-serit">{"".join(ogeler)}</ul>'
 
 
-def ajan_gm_gorseli():
-    """Ana sayfa tanıtımındaki büyük Ajan GM portresi: tarayıcı destekliyorsa WebP, yoksa PNG."""
+def ajan_gm_portresi():
+    """Kahraman alandaki büyük, kare Ajan GM portresi: WebP head'de önceden yüklenir, PNG yedek.
+    Görsel gelene kadar aynı boyda koyu kart yer tutar; sayfa zıplamaz."""
     webp, png = "/assets/img/ajan-gm.webp", "/assets/img/ajan-gm.png"
-    return (f'<picture class="gm-gorsel"><source type="image/webp" srcset="{webp}?v={surum(webp)}">'
-            f'<img src="{png}?v={surum(png)}" alt="" width="1024" height="1024" loading="lazy" decoding="async"></picture>')
+    return (f'<picture class="gm-portre"><source type="image/webp" srcset="{webp}?v={surum(webp)}">'
+            f'<img src="{png}?v={surum(png)}" alt="" width="1024" height="1024" fetchpriority="high" decoding="async"></picture>')
+
+
+def ajan_gm_avatari():
+    """Karne örneğindeki daire avatar (simülatördeki karneyle aynı görsel)."""
+    webp, png = "/assets/img/ajan-gm-avatar.webp", "/assets/img/ajan-gm-avatar.png"
+    return (f'<picture class="karne-gm-gorsel"><source type="image/webp" srcset="{webp}?v={surum(webp)}">'
+            f'<img src="{png}?v={surum(png)}" alt="" width="512" height="512" loading="lazy" decoding="async"></picture>')
+
+
+def karne_ornegi():
+    """"Akşam Ajan GM karneni verir": motorun 1. gün için ürettiği gerçek karneden kesit. Veri data/karne-ornegi.json'da
+    (scripts/karne-ornegi.mjs üretir, sim-test güncelliğini denetler). Sorgula düğmeleri görünür, tıklanmaz."""
+    k = json.loads((KOK / "data" / "karne-ornegi.json").read_text(encoding="utf-8"))
+    olculer = "".join(f'<div class="karne-olcu"><dt>{e(o["ad"])}</dt><dd><span class="karne-olcu-deger">{e(o["deger"])}</span>'
+                      f'<span class="karne-olcu-alt">{e(o["alt"])}</span></dd></div>' for o in k["olculer"])
+    sorular = "".join(f'<li class="karne-soru">{e(s)}</li>' for s in k["sorular"])
+    return f"""<section class="bolum" id="karne" aria-labelledby="karne-baslik">
+  <div class="kap karne-duzen">
+    <div class="bolum-bas">
+      <p class="ust-yazi">Gün sonu karnesi</p>
+      <h2 id="karne-baslik">Akşam Ajan GM karneni verir</h2>
+      <p>Oynamadan önce ne alacağını gör: buradaki kesit, Fabricakit'in 1. gün için ürettiği gerçek bir karneden.</p>
+    </div>
+    <article class="kart karne-ornek" aria-labelledby="karne-gun">
+      <div class="karne-bas">
+        <p class="karne-gun"><span class="ust-yazi">Gün sonu karnesi</span><span class="karne-gun-ad" id="karne-gun">{e(k["gun"])}</span></p>
+        <p class="karne-harf karne-harf-{e(k["harf"])}"><span class="gizli">Harf notu </span><span class="karne-harf-harf">{e(k["harf"])}</span><span class="karne-harf-puan">{k["puan"]} puan</span></p>
+      </div>
+      <dl class="karne-olculer">{olculer}</dl>
+      <div class="karne-gm">
+        {ajan_gm_avatari()}
+        <div class="karne-gm-metin"><p class="karne-gm-ad">Ajan GM</p><p class="karne-gm-yorum">{e(k["gmYorum"])}</p></div>
+      </div>
+      <div class="karne-sorgula">
+        <p class="karne-sorgula-baslik">Ajanı sorgula</p>
+        <ul class="karne-sorular">{sorular}</ul>
+        <p class="karne-not">Örnektir, tıklanmaz. Oyunda bu sorulara Ajan GM o günün sayılarıyla cevap verir.</p>
+      </div>
+    </article>
+    <p class="karne-senaryo">Bu karneyi veren oyun: {e(k["senaryo"])}</p>
+    <div class="karne-eylem"><a class="dugme" href="/fabricakit/">Kendi karneni al{ikon("ok")}</a></div>
+  </div>
+</section>"""
 
 
 def ana_sayfa(urunler):
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]]) for r in RAFLAR)
     fabrika, odalar = odalari_oku()
-    fabrika_adi = (f'<p class="ust-yazi fabrika-adi">{gezegen(fabrika["simge"], "oda-simge oda-simge-kucuk")}<span>{e(galaksi_basligi(fabrika))}</span></p>'
-                   f'<p class="fabrika-alt">{e(fabrika["ad"])}</p>' if fabrika.get("kod") else f'<p class="ust-yazi fabrika-adi"><span>{e(fabrika["ad"])}</span></p>')
     tabela_cumlesi = (" Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar."
                       if any(o.get("kod") for o in odalar) else "")
+    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Uzay.
+    # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
     govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
   <div class="kap">
-    <div class="hero-metin belir">
+    <div class="gm-sahne belir">
+      <figure class="gm-figur">
+        {ajan_gm_portresi()}
+        <blockquote class="gm-balon"><p>Hoş geldiniz. Fabrika sizin, not benim.</p></blockquote>
+        <figcaption><strong>Ajan GM</strong> · Yapay zeka genel müdür</figcaption>
+      </figure>
+    </div>
+    <div class="hero-metin belir belir-2">
       <h1 id="fk-baslik">Fabricakit</h1>
       <p class="hero-slogan">{e(SLOGAN)}</p>
       <p class="hero-alt">{e(FK_ALT)}</p>
@@ -428,18 +479,19 @@ def ana_sayfa(urunler):
       </div>
       <p class="not-satiri"><span>{ikon("tik")}1. gün ücretsiz</span><span>{ikon("tik")}Üyelik yok</span><span>{ikon("kilit")}İlerleme yalnızca tarayıcında</span></p>
     </div>
-    <div class="kart fp-kart belir belir-2">{harita_basligi(fabrika)}{fabrika_plani(odalar)}</div>
   </div>
 </section>
 
 <section class="bolum" aria-labelledby="odalar-baslik">
   <div class="kap">
     <div class="bolum-bas">
-      {fabrika_adi}
       <h2 id="odalar-baslik">Dokuz oda</h2>
-      <p>Fabrikanın her departmanı bir oda.{tabela_cumlesi}</p>
+      <p>Fabrikanın adı {e(fabrika["ad"])}; her departmanı bir oda.{tabela_cumlesi}</p>
     </div>
-    {oda_seridi(odalar)}
+    <div class="odalar-harita">
+      {oda_seridi(odalar)}
+      <div class="kart fp-kart">{harita_basligi(fabrika)}{fabrika_plani(odalar)}</div>
+    </div>
   </div>
 </section>
 
@@ -454,19 +506,7 @@ def ana_sayfa(urunler):
   </div>
 </section>
 
-<section class="bolum" aria-labelledby="gm-baslik">
-  <div class="kap">
-    <div class="kart gm-tanitim">
-      {ajan_gm_gorseli()}
-      <div class="gm-metin">
-        <p class="ust-yazi">Yapay zeka genel müdür</p>
-        <h2 id="gm-baslik">Ajan GM</h2>
-        <p>Fabrikada olan her şeyi görür: geciken onayı, boşa duran hattı, gereksiz siparişi. Gün sonunda karneni verir ve yarın için tek bir talimat bırakır. Notuna katılmıyorsan sorgula; cevabını o günün sayılarıyla verir.</p>
-        <a class="dugme" href="/fabricakit/">Fabrikaya gir{ikon("ok")}</a>
-      </div>
-    </div>
-  </div>
-</section>
+{karne_ornegi()}
 
 <section class="bolum" id="dosyalar" aria-labelledby="dosyalar-baslik">
   <div class="kap">
@@ -487,8 +527,11 @@ def ana_sayfa(urunler):
 </section>"""
     org = json_ld({"@context": "https://schema.org", "@type": "Organization", "name": "Celcini",
                    "url": SITE + "/", "logo": SITE + "/assets/img/favicon-512.png", "slogan": SLOGAN})
+    # Portre ilk ekranda: WebP'yi tarayıcı HTML'i ayrıştırırken istemeye başlasın
+    webp = "/assets/img/ajan-gm.webp"
+    on_yukle = f'\n<link rel="preload" as="image" type="image/webp" href="{webp}?v={surum(webp)}" fetchpriority="high">'
     return sayfa("/", "Fabricakit: tarayıcıda fabrika simülasyonu · Celcini",
-                 f"Fabricakit: {FK_ALT[0].lower()}{FK_ALT[1:]} {SLOGAN}", govde, tam_baslik=True, ek_head=org)
+                 f"Fabricakit: {FK_ALT[0].lower()}{FK_ALT[1:]} {SLOGAN}", govde, tam_baslik=True, ek_head=org + on_yukle)
 
 
 def raf_sayfasi(r, urunler):

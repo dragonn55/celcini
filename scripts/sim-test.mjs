@@ -16,6 +16,8 @@ import { akis, rastgele, tamSayi, sec } from "../fabricakit/js/veri/tohum.js";
 import { MALZEME_IDLER, HAT_IDLER, tedarikEdebilir, tedarikSuresi, birimFiyat } from "../fabricakit/js/veri/katalog.js";
 import { ODALAR } from "../fabricakit/js/odalar.js";
 import { kuralCevap, SORULAR } from "../fabricakit/js/ajan-gm/yorumlar.js";
+import { ornekMetni } from "./karne-ornegi.mjs";
+import fs from "node:fs";
 
 let hataSayisi = 0;
 const hata = (m) => { console.error("✗ " + m); hataSayisi += 1; };
@@ -313,6 +315,11 @@ let erken = null;
   if (son.onay.yapilan !== son.onay.toplam || son.siparis.yapilan !== son.siparis.toplam) hata(`görev sayaçları tamamlanmadı: ${JSON.stringify(son)}`);
 }
 
+/* Ana sayfadaki karne örneği motorun bugünkü çıktısıyla aynı olmalı (uydurma ya da eskimiş sayı yok) */
+if (fs.readFileSync(new URL("../data/karne-ornegi.json", import.meta.url), "utf8") !== ornekMetni()) {
+  hata("data/karne-ornegi.json motorun çıktısıyla uyuşmuyor: node scripts/karne-ornegi.mjs && python3 scripts/derle.py");
+}
+
 /* Denge (1. gün): hiçbir şey yapmayan E, rastgele oynayan C–D, her şeyi doğru yapan A–B. Rastgele oyuncu
    DENGE_TOHUM farklı tohumla oynar; en az %80'i C–D olmalı. Eşikler ayarlar.js'te (HARF_NOTU, PUAN). */
 const DENGE_TOHUM = 200;
@@ -348,4 +355,4 @@ console.log(`  her şeyi doğru yapan: ${sonuc.dogru[0].harf} ${sonuc.dogru[0].p
 console.log(`  rastgele oynayan (${DENGE_TOHUM} tohum): en düşük ${rPuan[0]} · %10 ${dilimPuan(0.1)} · medyan ${dilimPuan(0.5)} · %90 ${dilimPuan(0.9)} · en yüksek ${rPuan[rPuan.length - 1]}; ${harfSayisi(rastgele1)} (C–D %${Math.round(cdOrani * 100)})`);
 if (erken) console.log(`  09:00'da "Günü bitir"e basan (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
-console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları, görev sayaçları ve Ajan GM yorumu denetimleri geçti.");
+console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları, görev sayaçları, karne örneği ve Ajan GM yorumu denetimleri geçti.");

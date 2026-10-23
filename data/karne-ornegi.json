@@ -1,0 +1,35 @@
+{
+  "senaryo": "Oyuncu 08:00'de siparişleri plana aldı, GEÇ KALINDI ve BUGÜN VER kalemlerini önerilen tedarikçi ve miktarla sipariş etti, onayları aldı; 09:00'da \"Günü bitir\"e bastı, Kalite durağında \"Yeniden işle\" dedi.",
+  "gun": "1. gün",
+  "harf": "C",
+  "puan": 77,
+  "olculer": [
+    {
+      "ad": "Zamanında teslim",
+      "deger": "%100",
+      "alt": "1 / 1 satır"
+    },
+    {
+      "ad": "Hat duruşu",
+      "deger": "0 saat",
+      "alt": "Ahşap 0 · Metal 0"
+    },
+    {
+      "ad": "Depoda bağlanan para",
+      "deger": "192.779 TL",
+      "alt": "Malzeme ve mamul stoğu"
+    },
+    {
+      "ad": "Unutulan iş",
+      "deger": "5",
+      "alt": "Ayrıntı puan dökümünde"
+    }
+  ],
+  "hitap": "Sayın Yönetici",
+  "gmYorum": "Sayın Yönetici, fabrika bugün yarım güçle çalıştı: 77 puan, C. 5 iş zamanında yapılmadı. İlki: plan güncellenmedi (gün içinde sipariş ya da kapasite değişti). Yarın için talimatım: gün içinde sipariş ya da kapasite değişirse bir saat içinde planı güncelleyin.",
+  "sorular": [
+    "Neden bu not?",
+    "En büyük hatam neydi?",
+    "Yarın ne yapmalıyım?"
+  ]
+}
