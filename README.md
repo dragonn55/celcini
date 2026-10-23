@@ -94,8 +94,9 @@ fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 
 - Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla) ve `fabricakit-oyuncu` (hitap, açılan kilit).
   Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
-- Ajan GM görseli: `assets/img/ajan-gm.png` (kare) koyup `python3 scripts/derle.py` çalıştırın. Dosya yoksa koyu
-  zeminde beyaz "GM" görünür.
+- Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfa tanıtımı) ve daire
+  avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula ve kilit ekranı). Tarayıcı WebP destekliyorsa
+  WebP, değilse PNG yüklenir (`<picture>`). Görsel değişirse `python3 scripts/derle.py` ana sayfadaki sürüm etiketini yeniler.
 - Oda kod adı değişirse ana sayfadaki oda şeridi için yeniden derleyin; `npm run check` ikisinin uyumunu denetler.
 
 ### Ajan GM

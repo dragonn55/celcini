@@ -390,10 +390,10 @@ def oda_seridi(odalar):
 
 
 def ajan_gm_gorseli():
-    """assets/img/ajan-gm.png varsa onu, yoksa koyu zeminde beyaz 'GM' yer tutucusunu gösterir."""
-    if (KOK / "assets" / "img" / "ajan-gm.png").exists():
-        return f'<img class="gm-gorsel" src="/assets/img/ajan-gm.png?v={surum("/assets/img/ajan-gm.png")}" alt="Ajan GM" width="112" height="112" loading="lazy">'
-    return '<span class="gm-yer" aria-hidden="true">GM</span>'
+    """Ana sayfa tanıtımındaki büyük Ajan GM portresi: tarayıcı destekliyorsa WebP, yoksa PNG."""
+    webp, png = "/assets/img/ajan-gm.webp", "/assets/img/ajan-gm.png"
+    return (f'<picture class="gm-gorsel"><source type="image/webp" srcset="{webp}?v={surum(webp)}">'
+            f'<img src="{png}?v={surum(png)}" alt="" width="1024" height="1024" loading="lazy" decoding="async"></picture>')
 
 
 def ana_sayfa(urunler):
@@ -716,8 +716,7 @@ def teslimat():
 
 def fabricakit_sayfasi():
     """Simülatörün kabuğu: uygulama #fk içine kurulur (fabricakit/js/uygulama.js)."""
-    ajan = "1" if (KOK / "assets" / "img" / "ajan-gm.png").exists() else "0"
-    govde = f"""<div class="fk" id="fk" data-ajan-gorsel="{ajan}">
+    govde = f"""<div class="fk" id="fk">
   <div class="kap fk-kabuk">
     <h1>Fabricakit</h1>
     <p class="hero-slogan">{e(SLOGAN)}</p>

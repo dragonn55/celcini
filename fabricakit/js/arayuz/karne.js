@@ -6,14 +6,12 @@ import { sayi, tl, ondalik, saat, gunAdi } from "../bicim.js";
 import { h, ikon } from "./dom.js";
 import { bolum, bos } from "./ortak.js";
 
-/* Ajan GM görseli: derleme assets/img/ajan-gm.png'yi bulduysa görsel, yoksa koyu zeminde beyaz "GM" */
+/* Ajan GM'nin daire avatarı (giriş, karne, sorgula, kilit): tarayıcı destekliyorsa WebP, yoksa PNG */
 export function ajanGmGorseli(sinif = "fk-gm") {
-  const yer = h("span", { sinif: `${sinif} fk-gm-yer`, "aria-hidden": "true", metin: "GM" });
-  const kok = document.getElementById("fk");
-  if (!kok || kok.dataset.ajanGorsel !== "1") return yer;
-  const img = h("img", { sinif: `${sinif} fk-gm-gorsel`, src: AYARLAR.AJAN_GM_GORSEL, alt: "", width: "96", height: "96" });
-  img.addEventListener("error", () => img.replaceWith(yer));
-  return img;
+  const { webp, png } = AYARLAR.AJAN_GM_AVATAR;
+  return h("picture", { sinif },
+    h("source", { type: "image/webp", srcset: webp }),
+    h("img", { src: png, alt: "", width: "512", height: "512", decoding: "async" }));
 }
 
 export const hitapla = (metin, hitap) => metin.split("{hitap}").join(hitap);

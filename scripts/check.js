@@ -44,7 +44,7 @@ for (const file of htmlFiles) {
   if (/\sstyle="/.test(html)) hata(`${rel}: satır içi style (CSP engeller)`);
   if (/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>/.test(html)) hata(`${rel}: satır içi script (CSP engeller)`);
   for (const [re, mesaj] of dil) if (re.test(html)) hata(`${rel}: ${mesaj}`);
-  const links = [...html.matchAll(/(?:href|src|data-src)="(\/[^"#?]*)(?:[?#][^"]*)?"/g)].map((m) => m[1]);
+  const links = [...html.matchAll(/(?:href|src|srcset|data-src)="(\/[^"#?\s]*)(?:[?#\s][^"]*)?"/g)].map((m) => m[1]);
   for (const l of links) {
     const target = l.endsWith("/") ? path.join(root, l, "index.html") : path.join(root, l);
     if (!fs.existsSync(target)) hata(`${rel}: kırık bağlantı ${l}`);
