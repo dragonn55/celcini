@@ -97,14 +97,22 @@
 .fk-gorev-sayac { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--koyu); }
 .fk-gorev-giris { color: var(--metin-2); font-size: var(--fs-0); margin-bottom: 4px; }
 .fk-gorev-adimlar { list-style: none; display: grid; gap: 2px; }
-.fk-gorev-adim { display: flex; align-items: flex-start; gap: 10px; width: 100%; min-height: 44px; padding: 6px 4px; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: 8px; cursor: pointer; }
+.fk-gorev-satir { display: flex; align-items: center; gap: 2px; border-radius: 8px; }
+.fk-gorev-adim { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; min-height: 44px; padding: 6px 4px; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: 8px; cursor: pointer; }
 .fk-gorev-adim:hover { background: var(--zemin); }
+/* Sıradaki adım: dolu numara ve açık zemin (yapılan adım üstü çizili, soluk) */
+.fk-siradaki .fk-gorev-satir { background: var(--zemin); }
+.fk-siradaki .fk-gorev-isaret { background: var(--koyu); color: var(--kart); }
+.fk-gorev-ac { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; color: var(--koyu); background: none; border: 0; border-radius: 8px; cursor: pointer; }
+.fk-gorev-ac:hover { background: var(--zemin); }
+.fk-gorev-ac[aria-expanded="false"] .fk-gorev-ac-ok { transform: rotate(180deg); }
 .fk-gorev-isaret { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border: 1.5px solid var(--koyu); border-radius: 50%; font-size: var(--fs-0); font-weight: 700; color: var(--koyu); }
 .fk-gorev-isaret .fk-ikon { width: 16px; height: 16px; stroke-width: 2; }
 .fk-yapildi .fk-gorev-isaret { background: var(--zemin); }
 .fk-yapildi .fk-gorev-metin strong { color: var(--metin-2); text-decoration: line-through; }
-.fk-gorev-metin { display: grid; gap: 2px; padding-top: 2px; }
-.fk-gorev-ayrinti { font-size: var(--fs-0); color: var(--metin-2); }
+.fk-gorev-metin { display: grid; gap: 2px; min-width: 0; padding-top: 2px; }
+.fk-gorev-kisa { font-size: var(--fs-0); color: var(--metin-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fk-gorev-ayrinti { font-size: var(--fs-0); color: var(--metin-2); padding: 2px 4px 8px 40px; }
 .fk-gorev-ok { display: none; }
 
 /* ---------- Sayaç şeridi ---------- */
@@ -190,6 +198,10 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-fabrika-alt { font-size: var(--fs-0); color: var(--metin-2); padding-left: 30px; }
 .fk-giris-form { display: grid; gap: 8px; width: 100%; }
 .fk-giris-form label { font-weight: 700; }
+/* Kayıtlı oyun: tek "devam et" düğmesi (uzun hitapta iki satıra iner), altında küçük "Baştan başla" */
+.fk-devam { justify-items: start; gap: 4px; }
+.fk-devam .dugme { max-width: 100%; padding: 10px 24px; text-align: center; }
+.fk-bastan { min-height: 44px; padding: 0 4px; font: inherit; font-size: var(--fs-0); font-weight: 600; color: var(--koyu); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .fk-giris-form input {
   width: 100%; max-width: 420px; min-height: 52px; padding: 0 14px; font: inherit; color: var(--metin);
   background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);

@@ -19,6 +19,13 @@ export function mrpEtiketi(m, bugun) {
   return MRP_ETIKET[m.durum];
 }
 
+/* Kalemin neden bugün (ya da geç) olduğunu söyleyen cümle: Planlama'nın malzeme ihtiyacı ve Satın Alma'nın formu aynı cümleyi gösterir */
+export function mrpIpucu(m) {
+  if (m.durum === "gec-kaldi") return m.yetisen.length ? `${m.yetisen.map((t) => TEDARIKCI[t].ad).join(", ")} yetişir.` : "Hiçbir tedarikçi bitişten önce getiremez; en hızlısı açığı kısaltır.";
+  if (m.durum === "bugun-ver") return `${TEDARIKCI[m.standart].ad} ile bugün verilirse tam zamanında gelir.`;
+  return "";
+}
+
 /* Önerilen tedarikçi: geç kalındıysa yetişenlerin en ucuzu (yoksa en hızlısı), değilse standart */
 export function onerilenTedarikci(m) {
   if (m.durum === "gec-kaldi" || m.durum === "bugun-ver") {
@@ -45,15 +52,25 @@ export function planlamaPaneli(b) {
     h("div", { role: "tabpanel" }, sekme === "plan" ? planSekmesi(b) : ihtiyacSekmesi(b)));
 }
 
+/* "Siparişi plana al"dan sonra panel kendiliğinden "Malzeme ihtiyacı" sekmesine geçer (görev notunun sıradaki adımı) */
+function planaAlIhtiyacaGec(b) {
+  b.ui.planSekme = "ihtiyac";
+  b.gonder({ tip: "PLANA_AL" });
+  b.gonder({ tip: "IHTIYAC_GORULDU" });
+  b.yenile();
+  const sekme = document.querySelector('.fk-panel [data-odak="sekme-ihtiyac"]');
+  if (sekme) sekme.focus({ preventScroll: true });
+}
+
 function planDurumu(b) {
   const { durum, gonder } = b;
   const pb = durum.planBilgi;
   const oyunda = durum.evre === "oyun";
-  const dugme = (metin, birincil) => h("button", {
+  const dugme = (metin, birincil, tikla = () => gonder({ tip: "PLANA_AL" })) => h("button", {
     sinif: birincil ? "dugme fk-dugme" : "dugme-cizgi", type: "button", disabled: !oyunda, "data-odak": "plana-al",
-    on: { click: () => gonder({ tip: "PLANA_AL" }) },
+    on: { click: tikla },
   }, metin);
-  if (pb.dk == null) return h("div", { sinif: "fk-kutu fk-kutu-acil" }, h("p", {}, h("strong", { metin: "Plan yok. " }), "Sabah gelen siparişler henüz plana alınmadı; hatlar ne üreteceğini bilmiyor."), dugme("Siparişi plana al", true));
+  if (pb.dk == null) return h("div", { sinif: "fk-kutu fk-kutu-acil" }, h("p", {}, h("strong", { metin: "Plan yok. " }), "Sabah gelen siparişler henüz plana alınmadı; hatlar ne üreteceğini bilmiyor."), dugme("Siparişi plana al", true, () => planaAlIhtiyacaGec(b)));
   if (!pb.guncel) return h("div", { sinif: "fk-kutu fk-kutu-dikkat" }, h("p", {}, h("strong", { metin: "Plan güncel değil. " }), "Siparişler ya da kapasite değişti; plan eski siparişlere göre."), dugme("Planı güncelle", true));
   return h("div", { sinif: "fk-kutu" }, h("p", {}, h("strong", { metin: "Plan güncel. " }), `Son planlama: ${gunAdi(Math.floor(pb.dk / 1440) + 1)}, saat ${saat(pb.dk % 1440)}.`), dugme("Yeniden planla", false));
 }
@@ -111,9 +128,7 @@ function ihtiyacSekmesi(b) {
   const satirlar = ihtiyac.map((m) => {
     const [etiket, seviye] = mrpEtiketi(m, durum.gun);
     const birim = MALZEME[m.id].birim;
-    const ipucu = m.durum === "gec-kaldi"
-      ? (m.yetisen.length ? `${m.yetisen.map((t) => TEDARIKCI[t].ad).join(", ")} yetişir.` : "Hiçbir tedarikçi bitişten önce getiremez; en hızlısı açığı kısaltır.")
-      : m.durum === "bugun-ver" ? `${TEDARIKCI[m.standart].ad} ile bugün verilirse tam zamanında gelir.` : "";
+    const ipucu = mrpIpucu(m);
     const satinAl = (m.durum === "gec-kaldi" || m.durum === "bugun-ver" || m.durum === "sonra") && m.onerilen > 0 && durum.evre === "oyun"
       ? h("button", { sinif: "dugme-cizgi fk-kucuk-dugme", type: "button", "data-odak": `al-${m.id}`,
         on: { click: () => b.odaAc("satinalma", { malzeme: m.id, miktar: m.onerilen, tedarikci: onerilenTedarikci(m) }) } }, "Satın al", ikon("ok"))

@@ -108,9 +108,13 @@ function giris({ kayit, uyari }) {
     kayit, uyari, hitap: oyuncu.hitap,
     basla: async ({ hitap: yeniHitap, yeni }) => {
       sesiBaslat();
+      /* Kayıtlı oyunda "Baştan başla": kayıt silinir, hitap alanıyla yeni başlangıç ekranı açılır */
       if (yeni && kayit) {
-        const tamam = await onayKutusu({ baslik: "Baştan başlansın mı?", metin: "Bu tarayıcıdaki kayıtlı oyun silinir ve 1. günün sabahına dönülür.", evet: "Baştan başla" });
+        const tamam = await onayKutusu({ baslik: "Baştan başlansın mı?", metin: "Bu tarayıcıdaki kayıtlı oyun silinir; 1. günün sabahından yeniden başlarsınız.", evet: "Baştan başla" });
         if (!tamam) return;
+        depo.sil(KAYIT);
+        giris({ kayit: null });
+        return;
       }
       oyuncu.hitap = yeniHitap;
       oyuncuYaz();
@@ -367,7 +371,18 @@ function oyun() {
     yapisalCiz();
     harita.guncelle(store.durum, isiklar, null);
     const dugme = onceki && kok.querySelector(`.fk-oda[data-oda="${onceki}"]`);
-    if (dugme) dugme.focus({ preventScroll: true });
+    if (!dugme) return;
+    dugme.focus({ preventScroll: true });
+    odayiGoster(dugme);
+  }
+
+  /* Panel kapanınca oda ekranda kalır: üst şeridin altında ve telefonda görev çekmecesinin üstünde tam görünmüyorsa
+     ortalanır (telefonda panel açıkken klavye ya da kaydırma sayfayı yarım yerde bırakabilir) */
+  function odayiGoster(dugme) {
+    const r = dugme.getBoundingClientRect();
+    const alt = window.innerHeight - (telefon.matches && !gorevKap.hidden ? gorevKap.getBoundingClientRect().height : 0);
+    if (r.top >= ust.getBoundingClientRect().bottom && r.bottom <= alt) return;
+    dugme.scrollIntoView({ block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
 
   async function gunuBitir() {
