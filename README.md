@@ -83,7 +83,7 @@ Tarayıcıda çalışan tek sayfalık uygulama: `fabricakit/index.html` kabuğu,
 Harici kütüphane ve derleme yok; motor arayüzden bağımsızdır ve Node'da da çalışır (`npm run sim-test`).
 
 ```
-fabricakit/js/ayarlar.js   Bütün sayılar: puanlar, sayaçlar, tedarik süreleri, oyun saati, tohumlar, Ajan GM ayarları
+fabricakit/js/ayarlar.js   Oyunun kural ve denge sayıları: puanlar, sayaçlar, tedarik süreleri, oyun saati, eşikler, tohumlar, Ajan GM ayarları
 fabricakit/js/odalar.js    Dokuz oda ve fabrika adı (kod adı "" yapılırsa her yerde gerçek ad görünür)
 fabricakit/js/veri/        Tohumlu rastgelelik, katalog, sipariş ve olay üretimi
 fabricakit/js/motor/       Tek store, eylemler, MRP, satın alma, üretim, olaylar, gün sonu, karne, kayıt

@@ -91,13 +91,14 @@
 .fk-cip .dugme-cizgi { flex: none; }
 
 /* ---------- Bildirimler ---------- */
-/* Telefonda altta; panel açıkken üstte (üst şerit o sırada perdenin altında kalır, panelin düğmeleri örtülmez).
-   Masaüstünde sol altta: sağdaki karar panelinin formunu örtmez. */
+/* Telefonda altta (üst şeridin düğmelerini örtmez). Panel açıkken üstte ve yalnızca en yenisi: üst şerit o sırada
+   perdenin altındadır, tek bildirim panelin üstündeki boşluğa sığar. Masaüstünde sol altta: karar panelinin formunu örtmez. */
 .fk-bildirimler {
   position: fixed; z-index: 70; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px));
   display: grid; gap: 6px; pointer-events: none;
 }
 .fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: 8px; bottom: auto; }
+@media (max-width: 959px) { .fk-uygulama.fk-panel-acik ~ .fk-bildirimler .fk-bildirim + .fk-bildirim { display: none; } }
 @media (min-width: 960px) {
   .fk-bildirimler, .fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: auto; right: auto; left: 20px; bottom: 20px; width: 380px; }
 }

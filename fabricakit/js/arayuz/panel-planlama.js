@@ -76,7 +76,7 @@ function planSekmesi(b) {
       h("p", { sinif: "fk-kapasite-ad" }, h("strong", { metin: t.ad }), t.verim < 1 ? rozet(`Kapasite ${yuzde(t.verim * 100)}`, "dikkat") : null),
       h("ol", { sinif: "fk-kapasite-gunler" }, t.gunler.map((g) => {
         const oran = g.kapasite > 0 ? g.yuk / g.kapasite : g.yuk > 0 ? 2 : 0;
-        const seviye = oran > 1 ? "acil" : oran > 0.85 ? "dikkat" : "yolunda";
+        const seviye = oran > 1 ? "acil" : oran > AYARLAR.KAPASITE_UYARI_ORANI ? "dikkat" : "yolunda";
         return h("li", { sinif: `fk-kapasite-gun fk-seviye-${seviye}` },
           h("span", { sinif: "fk-kapasite-gun-ad", metin: gunEtiketi(g.gun) }),
           cubuk(Math.min(1, oran), `fk-cubuk-${seviye}`),

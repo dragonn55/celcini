@@ -1,7 +1,8 @@
 /* Fabricakit · ayarlar
    Oyunun bütün kural ve denge sayıları burada: puanlar, sayaç süreleri, tedarik süreleri, oyun saati hızı, ürün ağaçları,
    fiyatlar, olasılıklar, uyarı eşikleri, günlerin tohumları ve zorluk. Sayıyı değiştirip sayfayı yenilemeniz yeterli.
-   Kodda yalnızca birim dönüşümleri (60 dk, 1440 dk, %100), yuvarlama adımları ve ekran düzeni sayıları kalır.
+   Kodda yalnızca birim dönüşümleri (60 dk, 1440 dk, %100), yuvarlama adımları, ekran düzeni sayıları ve yazı-tura (0,5)
+   seçimleri kalır.
    Kayıt yapısını bozan bir değişiklik yaparsanız KAYIT_SURUMU'nu bir artırın: eski kayıtlar sıfırlanır.
    Tüm veriler sentetiktir: gerçek firma, gerçek müşteri ya da gerçek fiyat değildir. */
 
@@ -158,7 +159,8 @@ export const AYARLAR = {
   UNUTULAN_MALZEME_EN_FAZLA: 3, // gün sonunda verilmemiş sipariş için en fazla bu kadar kalem cezalandırılır
 
   /* ---- Uyarı eşikleri ve görev notu ---- */
-  BUTCE_UYARI_ORANI: 0.8,    // harcama bütçenin bu oranını geçince Finans-Muhasebe "dikkat" olur
+  BUTCE_UYARI_ORANI: 0.8,    // harcama bütçenin bu oranını geçince Finans-Muhasebe ve bütçe çubuğu "dikkat" olur
+  KAPASITE_UYARI_ORANI: 0.85, // hat yükü kapasitenin bu oranını geçince kapasite tablosunda "dikkat" görünür
   SAYAC_ACIL_DK: 30,         // onay sayacında bu kadar dakika kalınca sayaç ve Satın Alma "acil" olur
   FAZLA_MIKTAR_UYARI_KATI: 2, // sipariş miktarı önerilenin bu katını aşarsa uyarı çıkar
   GOREV_NOTU_AYRINTILI_SON_GUN: 1, // bu güne kadar görev notu adımları ayrıntılı yazar

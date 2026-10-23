@@ -1,5 +1,6 @@
 /* Bildirimler: günlükteki yeni kayıtlar kısa süre ekranda görünür; dokununca ilgili oda açılır.
    Metinler gerçek oda adını kullanır. Ekran okuyucu için kibar (polite) duyurulur. */
+import { GUN_BASI } from "../motor/zaman.js";
 import { h, ikon } from "./dom.js";
 
 const SURE = { bilgi: 3500, dikkat: 7000, acil: 9000 };
@@ -20,8 +21,12 @@ export function bildirimKur(kap, { odaAc }) {
   }
 
   return {
-    /* Kayıttan açılışta eski bildirimleri gösterme */
-    sifirla(durum) { sonId = durum.gunluk.reduce((m, g) => Math.max(m, no(g)), 0); },
+    /* Kayıttan açılışta eski bildirimleri gösterme. Gün başındaysa (08:00) sabahın "Sipariş geldi" kaydı gösterilir:
+       3. günden sonra görev notu yok, oyuncuya yalnızca bu bildirim gelir. */
+    sifirla(durum) {
+      const gunBasi = durum.evre === "oyun" && durum.dk === GUN_BASI;
+      sonId = durum.gunluk.reduce((m, g) => (gunBasi && g.dk === GUN_BASI ? m : Math.max(m, no(g))), 0);
+    },
     guncelle(durum) {
       const yeni = durum.gunluk.filter((g) => no(g) > sonId);
       for (const g of yeni) sonId = Math.max(sonId, no(g));

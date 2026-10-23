@@ -1,5 +1,6 @@
 /* Sentetik veri üreteci: sipariş defteri, gece değişimleri, günün olay planı, başlangıç stoku.
-   Gerçek firma, gerçek müşteri, gerçek kişi yoktur. Tüm sayılar ayarlar.js'den gelir. */
+   Gerçek firma, gerçek müşteri, gerçek kişi yoktur. Oyun sayıları ayarlar.js'den gelir; burada yalnızca
+   yuvarlama adımları ve yazı-tura (0,5) seçimleri var. */
 import { AYARLAR } from "../ayarlar.js";
 import { tamSayi, aralik, sec, karisik, rastgele } from "./tohum.js";
 import { MALZEME_IDLER, MALZEME, URUN_IDLER, yuvarlaYukari } from "./katalog.js";

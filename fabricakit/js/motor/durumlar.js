@@ -73,7 +73,7 @@ export function odaDurumlari(durum, ihtiyac = malzemeIhtiyaci(durum)) {
   /* Finans-Muhasebe */
   const { harcanan, limit } = durum.butce;
   if (harcanan > limit) yaz("finans", "acil", "Bütçe aşıldı");
-  else if (harcanan > limit * AYARLAR.BUTCE_UYARI_ORANI) yaz("finans", "dikkat", `Bütçenin %${Math.round(AYARLAR.BUTCE_UYARI_ORANI * 100)}'i harcandı`);
+  else if (harcanan > limit * AYARLAR.BUTCE_UYARI_ORANI) yaz("finans", "dikkat", `Harcama, bütçenin %${Math.round(AYARLAR.BUTCE_UYARI_ORANI * 100)} sınırını geçti`);
   if (gorulmemis(durum, "finans").length) yaz("finans", "dikkat", "Bütçe değişti");
 
   /* Satın Alma */

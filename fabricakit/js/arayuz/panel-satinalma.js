@@ -12,7 +12,7 @@ export function butceBilgisi(durum) {
   const asim = harcanan > limit;
   return h("div", { sinif: "fk-butce" },
     h("p", {}, h("strong", { metin: "Günlük bütçe " }), `${tl(limit)} · harcanan ${tl(harcanan)} · ${asim ? `aşım ${tl(harcanan - limit)}` : `kalan ${tl(limit - harcanan)}`}`),
-    cubuk(limit > 0 ? harcanan / limit : 1, asim ? "fk-cubuk-acil" : harcanan > limit * 0.8 ? "fk-cubuk-dikkat" : ""));
+    cubuk(limit > 0 ? harcanan / limit : 1, asim ? "fk-cubuk-acil" : harcanan > limit * AYARLAR.BUTCE_UYARI_ORANI ? "fk-cubuk-dikkat" : ""));
 }
 
 export function siparisSatiri(durum, s, gonder) {
