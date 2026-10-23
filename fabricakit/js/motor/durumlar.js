@@ -1,5 +1,6 @@
 /* Oda ışıkları: yolunda / dikkat / acil. Işık her zaman metin etiketiyle gösterilir.
    Neden metinleri gerçek adları kullanır. */
+import { AYARLAR } from "../ayarlar.js";
 import { HAT, HAT_IDLER, MALZEME } from "../veri/katalog.js";
 import { ODALAR } from "../odalar.js";
 import { simdi } from "./zaman.js";
@@ -57,7 +58,7 @@ export function odaDurumlari(durum, ihtiyac = malzemeIhtiyaci(durum)) {
   /* Depo */
   for (const s of durum.satinalma) {
     if (s.durum !== "kapida") continue;
-    yaz("depo", simdi(durum) - s.kapidaDk >= 60 ? "acil" : "dikkat", "Kapıda teslimat bekliyor");
+    yaz("depo", simdi(durum) - s.kapidaDk >= AYARLAR.KAPIDA_BEKLEME_DK ? "acil" : "dikkat", "Kapıda teslimat bekliyor");
   }
   if (gorulmemis(durum, "depo").length) yaz("depo", "dikkat", "Sayım farkı");
 
@@ -72,12 +73,12 @@ export function odaDurumlari(durum, ihtiyac = malzemeIhtiyaci(durum)) {
   /* Finans-Muhasebe */
   const { harcanan, limit } = durum.butce;
   if (harcanan > limit) yaz("finans", "acil", "Bütçe aşıldı");
-  else if (harcanan > limit * 0.8) yaz("finans", "dikkat", "Bütçenin %80'i harcandı");
+  else if (harcanan > limit * AYARLAR.BUTCE_UYARI_ORANI) yaz("finans", "dikkat", `Bütçenin %${Math.round(AYARLAR.BUTCE_UYARI_ORANI * 100)}'i harcandı`);
   if (gorulmemis(durum, "finans").length) yaz("finans", "dikkat", "Bütçe değişti");
 
   /* Satın Alma */
   for (const s of durum.satinalma) {
-    if (s.durum === "onay-bekliyor") yaz("satinalma", s.kalanDk <= 30 ? "acil" : "dikkat", "Onay bekleyen sipariş");
+    if (s.durum === "onay-bekliyor") yaz("satinalma", s.kalanDk <= AYARLAR.SAYAC_ACIL_DK ? "acil" : "dikkat", "Onay bekleyen sipariş");
     if (s.durum === "yanit-bekliyor") yaz("satinalma", "dikkat", "Tedarikçi yanıtı bekleniyor");
   }
   if (ihtiyac.some((m) => m.durum === "gec-kaldi")) yaz("satinalma", "acil", "Geç kalınan malzeme");

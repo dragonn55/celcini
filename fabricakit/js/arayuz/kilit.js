@@ -65,7 +65,7 @@ export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
         durum,
         h("div", { sinif: "fk-satir" }, dugme,
           shopier ? h("a", { sinif: "dugme-cizgi", href: shopier, target: "_blank", rel: "noopener" }, "Kodu Shopier'den al") : null)),
-      h("p", { sinif: "fk-soluk" }, "Kod yalnızca doğrulama için sunucuya gönderilir, saklanmaz. İlerlemeniz ve açılan kilit yalnızca bu tarayıcıda tutulur. ",
+      h("p", { sinif: "fk-soluk" }, "Kod doğrulama için sunucuya gönderilir; sunucuda saklanmaz. İlerlemeniz, açılan kilit ve kodunuz yalnızca bu tarayıcıda tutulur. ",
         h("a", { href: "/gizlilik/", metin: "Gizlilik ve KVKK" })),
       h("div", { sinif: "fk-satir" },
         karneyeDon ? h("button", { sinif: "dugme-cizgi", type: "button", on: { click: karneyeDon } }, ikon("geri"), "Karneye dön") : null,

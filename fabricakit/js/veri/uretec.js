@@ -28,7 +28,7 @@ export function ilkDefter(a, yeniId) {
     const m = musteriler[i % musteriler.length];
     const urun = sec(a, m.urunler);
     let miktar = satirMiktari(a, urun);
-    if (gun <= 3) miktar = yuvarla(miktar * AYARLAR.YAKIN_SATIR_CARPANI, adim(urun));
+    if (gun <= AYARLAR.YAKIN_SATIR_GUN) miktar = yuvarla(miktar * AYARLAR.YAKIN_SATIR_CARPANI, adim(urun));
     return { id: yeniId("M"), musteri: m.ad, urun, miktar, gun, durum: "acik", degisim: { tur: "yeni" } };
   });
   return { musteriler: musteriler.map((m) => m.ad), satirlar };
@@ -79,14 +79,14 @@ export function geceDegisimi(a, durum, gunAyari, yeniId) {
     if (s.miktar === d.eskiMiktar && s.gun === d.eskiGun) delete s.degisim;
   }
 
-  /* Yeni satırlar (en erken 6 gün sonrasına) */
+  /* Yeni satırlar (en erken YENI_SATIR_EN_ERKEN_GUN gün sonrasına) */
   const yeniSayisi = tamSayi(a, ...gunAyari.yeniSatir);
   for (let i = 0; i < yeniSayisi; i++) {
     const m = musteriTanimi(sec(a, durum.musteriler));
     const urun = sec(a, m.urunler);
     durum.siparisler.push({
       id: yeniId("M"), musteri: m.ad, urun, miktar: satirMiktari(a, urun),
-      gun: yigilmisGun(a, bugun + 6, bugun + AYARLAR.UFUK_GUN - 1), durum: "acik", degisim: { tur: "yeni" },
+      gun: yigilmisGun(a, bugun + AYARLAR.YENI_SATIR_EN_ERKEN_GUN, bugun + AYARLAR.UFUK_GUN - 1), durum: "acik", degisim: { tur: "yeni" },
     });
   }
   return { degisen: durum.siparisler.filter((s) => s.degisim && s.degisim.tur !== "yeni").length, yeni: yeniSayisi };
@@ -125,11 +125,11 @@ function olayParametreleri(a, tur) {
     case "usta-ayrildi": return { hat: hat() };
     case "urun-degisikligi": return { sira: tamSayi(a, 0, AYARLAR.URUN_DEGISIKLIKLERI.length - 1) };
     case "makine-durusu": return { hat: hat(), sure: Math.round(tamSayi(a, ...AYARLAR.MAKINE_DURUSU_DK) / 15) * 15 };
-    case "sayim-farki": return { malzeme: yerliMalzeme(), oran: aralik(a, ...AYARLAR.SAYIM_FARKI_ORANI), yon: rastgele(a) < 0.8 ? -1 : 1 };
+    case "sayim-farki": return { malzeme: yerliMalzeme(), oran: aralik(a, ...AYARLAR.SAYIM_FARKI_ORANI), yon: rastgele(a) < AYARLAR.SAYIM_EKSIK_OLASILIGI ? -1 : 1 };
     case "nakit-siniri": return { oran: aralik(a, ...AYARLAR.NAKIT_SINIRI_ORANI) };
     case "siparis-degisti": return {
-      alt: rastgele(a) < 0.5 ? "acil" : "artis", urun: sec(a, URUN_IDLER), secim: rastgele(a),
-      oran: aralik(a, 0.2, 0.4), gun: tamSayi(a, ...AYARLAR.ACIL_SIPARIS_GUN),
+      alt: rastgele(a) < AYARLAR.ACIL_SIPARIS_OLASILIGI ? "acil" : "artis", urun: sec(a, URUN_IDLER), secim: rastgele(a),
+      oran: aralik(a, ...AYARLAR.SIPARIS_ARTIS_ORANI), gun: tamSayi(a, ...AYARLAR.ACIL_SIPARIS_GUN),
     };
     default: return {};
   }

@@ -6,6 +6,7 @@ import {
 } from "../veri/katalog.js";
 import { GUN_SONU, simdi } from "./zaman.js";
 import { netIhtiyac, satirMetni } from "./siparis.js";
+import { kopya } from "./kayit.js";
 
 const UFUK = AYARLAR.UFUK_GUN;
 
@@ -188,6 +189,18 @@ export function malzemeIhtiyaci(durum) {
       yetisen, onerilen, bekleyen, gelecek, standart,
     };
   });
+}
+
+/* Gün kapanınca "sipariş verilmedi" sayılacak kalemler: GEÇ KALINDI ya da BUGÜN VER ve önerilen miktar > 0.
+   Plan güncel değilse siparişler şimdi plana alınsaydı ne olacağına göre bakılır.
+   Gün sonu cezası, "Günü bitir" penceresi ve görev notu aynı ölçütü kullanır. */
+export function verilmeyenSiparisler(durum) {
+  let d = durum;
+  if (!durum.planBilgi.guncel) {
+    d = kopya(durum);
+    planla(d);
+  }
+  return malzemeIhtiyaci(d).filter((m) => (m.durum === "gec-kaldi" || m.durum === "bugun-ver") && m.onerilen > 0);
 }
 
 /* Sipariş defterine göre (plandan bağımsız) bir malzemenin ufuk boyunca toplam ihtiyacı */

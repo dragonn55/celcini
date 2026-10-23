@@ -91,15 +91,22 @@
 .fk-cip .dugme-cizgi { flex: none; }
 
 /* ---------- Bildirimler ---------- */
-/* Telefonda üstte (alttan açılan panelin düğmelerini örtmesin), masaüstünde sağ altta */
-.fk-bildirimler { position: fixed; z-index: 70; left: 8px; right: 8px; top: 8px; display: grid; gap: 6px; pointer-events: none; }
-@media (min-width: 960px) { .fk-bildirimler { left: auto; top: auto; right: 20px; bottom: 20px; width: 380px; } }
+/* Telefonda altta; panel açıkken üstte (üst şerit o sırada perdenin altında kalır, panelin düğmeleri örtülmez).
+   Masaüstünde sol altta: sağdaki karar panelinin formunu örtmez. */
+.fk-bildirimler {
+  position: fixed; z-index: 70; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  display: grid; gap: 6px; pointer-events: none;
+}
+.fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: 8px; bottom: auto; }
+@media (min-width: 960px) {
+  .fk-bildirimler, .fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: auto; right: auto; left: 20px; bottom: 20px; width: 380px; }
+}
 .fk-bildirim { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-left: 4px solid var(--mavi); border-radius: 10px; }
 .fk-bildirim-dikkat { border-left-color: var(--turuncu); }
 .fk-bildirim-acil { border-left-color: var(--acil); }
 .fk-bildirim-metin { flex: 1; min-height: 40px; padding: 6px 0; font: inherit; font-size: var(--fs-0); text-align: left; color: var(--metin); background: none; border: 0; cursor: pointer; }
 span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
-.fk-bildirim-kapat { display: grid; place-items: center; width: 40px; height: 40px; flex: none; padding: 0; color: var(--metin-2); background: none; border: 0; cursor: pointer; }
+.fk-bildirim-kapat { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; color: var(--metin-2); background: none; border: 0; cursor: pointer; }
 @media (prefers-reduced-motion: no-preference) {
   .fk-bildirim { animation: fk-gir 200ms ease both; }
   @keyframes fk-gir { from { opacity: 0; transform: translateY(6px); } }
@@ -128,7 +135,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-gm-bolum { border-left: 4px solid var(--mavi); padding-left: 16px; border-top: 0; margin: 8px 0; }
 .fk-gm-yorum { font-size: var(--fs-1); line-height: 1.65; color: var(--metin); }
 .fk-gm-govde { display: grid; gap: 6px; min-width: 0; }
-@media (max-width: 479px) { .fk-gm { width: 52px; height: 52px; } .fk-gm-yer { font-size: var(--fs-1); } .fk-gm-satir { gap: 12px; } }
+@media (max-width: 479px) { .fk-gm { width: 56px; height: 56px; } .fk-gm-satir { gap: 12px; } }
 .fk-bekliyor { color: var(--metin-2); }
 
 /* Ajanı sorgula */

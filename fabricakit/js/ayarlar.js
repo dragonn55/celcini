@@ -1,6 +1,7 @@
 /* Fabricakit · ayarlar
-   Oyundaki bütün sayılar burada: puanlar, sayaç süreleri, tedarik süreleri, oyun saati hızı, ürün ağaçları,
-   fiyatlar, günlerin tohumları ve zorluk. Sayıyı değiştirip sayfayı yenilemeniz yeterli.
+   Oyunun bütün kural ve denge sayıları burada: puanlar, sayaç süreleri, tedarik süreleri, oyun saati hızı, ürün ağaçları,
+   fiyatlar, olasılıklar, uyarı eşikleri, günlerin tohumları ve zorluk. Sayıyı değiştirip sayfayı yenilemeniz yeterli.
+   Kodda yalnızca birim dönüşümleri (60 dk, 1440 dk, %100), yuvarlama adımları ve ekran düzeni sayıları kalır.
    Kayıt yapısını bozan bir değişiklik yaparsanız KAYIT_SURUMU'nu bir artırın: eski kayıtlar sıfırlanır.
    Tüm veriler sentetiktir: gerçek firma, gerçek müşteri ya da gerçek fiyat değildir. */
 
@@ -35,6 +36,7 @@ export const AYARLAR = {
   ONE_CEKME_ORANI: 0.65,
   ONE_CEKME_GUN: [1, 2],
   NET_DEGISIM_SINIRI: 0.05,           // gece değişiminden sonra toplam miktar en fazla %5 oynar
+  YENI_SATIR_EN_ERKEN_GUN: 6,         // gece eklenen yeni satırın teslimi en erken bu kadar gün sonra
 
   /* ---- Siparişler (Satış-Pazarlama) ---- */
   MUSTERI_SAYISI: [2, 4],
@@ -52,7 +54,8 @@ export const AYARLAR = {
   SATIR_YUVARLAMA: { masa: 2, sandalye: 6, raf: 4 },
   ILK_GUNLER_EN_AZ_SATIR: 1,          // 1–5. günlerin her birinde en az bu kadar satır teslim edilir
   TESLIM_YIGILMA: 1.6,                // 1'den büyükse kalan satırlar ufkun başına yığılır
-  YAKIN_SATIR_CARPANI: 0.6,           // 1–3. gün teslim edilecek satırlar bu oranda küçük gelir (ilk günler sığsın)
+  YAKIN_SATIR_GUN: 3,                 // 1. günden bu güne kadar teslim edilecek satırlar küçük gelir
+  YAKIN_SATIR_CARPANI: 0.6,           // o satırların miktar çarpanı (ilk günler sığsın)
   BASLANGIC_MAMUL_ORANI: [0.6, 0.3],  // depoda hazır mamul: 1. ve 2. gün teslim edilecek miktarın bu kadarı
 
   /* ---- Ürünler ve hatlar (Üretim) ---- */
@@ -123,8 +126,11 @@ export const AYARLAR = {
   MAKINE_DURUSU_DK: [60, 180],
   ACIL_BAKIM: { maliyet: 4000, durusDk: 45 },
   SAYIM_FARKI_ORANI: [0.08, 0.18],
+  SAYIM_EKSIK_OLASILIGI: 0.8,         // sayım farkının eksik yönde çıkma olasılığı (kalanı fazla)
   NAKIT_SINIRI_ORANI: [0.6, 0.75],
   ACIL_SIPARIS_GUN: [2, 3],
+  ACIL_SIPARIS_OLASILIGI: 0.5,        // Satış-Pazarlama olayında acil yeni sipariş olasılığı (kalanı miktar artışı)
+  SIPARIS_ARTIS_ORANI: [0.2, 0.4],    // miktar artışı olayında artış oranı
   URUN_DEGISIKLIKLERI: [              // Ar-Ge'nin yapabileceği ürün ağacı değişiklikleri
     { urun: "masa", malzeme: "braket", yeni: 6 },
     { urun: "sandalye", malzeme: "vida", yeni: 2 },
@@ -148,7 +154,15 @@ export const AYARLAR = {
     ZAMANINDA_TESLIM: 2,     // teslim gününde sevk edilen her satır
   },
   ZAMANINDA_PLAN_SAAT: 10,
-  KAPIDA_BEKLEME_DK: 60,     // gün sonunda en az bu kadar kapıda bekleyen teslimat "unutulan iş" sayılır
+  KAPIDA_BEKLEME_DK: 60,     // en az bu kadar kapıda bekleyen teslimat Depo'yu "acil" yapar; gün sonunda "unutulan iş" sayılır
+  UNUTULAN_MALZEME_EN_FAZLA: 3, // gün sonunda verilmemiş sipariş için en fazla bu kadar kalem cezalandırılır
+
+  /* ---- Uyarı eşikleri ve görev notu ---- */
+  BUTCE_UYARI_ORANI: 0.8,    // harcama bütçenin bu oranını geçince Finans-Muhasebe "dikkat" olur
+  SAYAC_ACIL_DK: 30,         // onay sayacında bu kadar dakika kalınca sayaç ve Satın Alma "acil" olur
+  FAZLA_MIKTAR_UYARI_KATI: 2, // sipariş miktarı önerilenin bu katını aşarsa uyarı çıkar
+  GOREV_NOTU_AYRINTILI_SON_GUN: 1, // bu güne kadar görev notu adımları ayrıntılı yazar
+  GOREV_NOTU_SON_GUN: 2,     // bu günden sonra görev notu yok, yalnızca "Sipariş geldi" bildirimi
   HARF_NOTU: [               // puan bu sınırın üstündeyse o harf
     { harf: "A", alt: 100 },
     { harf: "B", alt: 85 },

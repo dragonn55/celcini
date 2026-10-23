@@ -3,10 +3,11 @@
    tek somut talimatla biter. Metinde {hitap} yer tutucusu kalır; tarayıcı oyuncunun hitabıyla değiştirir. */
 import { AYARLAR } from "../ayarlar.js";
 import { gmAdi } from "../odalar.js";
-import { sayi, tl, ondalik, ek } from "../bicim.js";
+import { sayi, tl, ondalik, ek, saat } from "../bicim.js";
 import { PUAN_TURU_ADI } from "../motor/puan.js";
 
 const oda = (id, tur) => (tur ? ek(gmAdi(id), tur) : gmAdi(id));
+const planSaati = () => saat(AYARLAR.ZAMANINDA_PLAN_SAAT * 60);
 const kucukBas = (s) => (s ? s.charAt(0).toLocaleLowerCase("tr") + s.slice(1) : s);
 const ilkUnutulan = (k) => {
   const t = k.unutulan.liste[0] || "";
@@ -126,7 +127,7 @@ const TALIMAT = {
     () => `Yarın için talimatım: her siparişten önce malzemenin bitiş gününe bakın.`,
   ],
   UNUTULAN_IS_PLAN: [
-    () => `Yarın için talimatım: saat 10:00'dan önce siparişleri ${oda("planlama", "de")} plana alın.`,
+    () => `Yarın için talimatım: saat ${planSaati()} olmadan siparişleri ${oda("planlama", "de")} plana alın.`,
     () => `Yarın için talimatım: gün içinde sipariş değişirse bir saat içinde planı güncelleyin.`,
   ],
   UNUTULAN_IS_SIPARIS: [
@@ -143,7 +144,7 @@ const TALIMAT = {
   ],
   YOK: [
     () => `Yarın için talimatım: siparişler gece yine değişecek; saat 09:00 olmadan planı güncelleyin.`,
-    () => `Yarın için talimatım: aynı disiplini koruyun; sabah planını 10:00'dan önce bitirin.`,
+    () => `Yarın için talimatım: aynı disiplini koruyun; sabah planını saat ${planSaati()} olmadan bitirin.`,
     () => `Yarın için talimatım: ithal kalemin sipariş gününü kaçırmayın; ${oda("planlama", "de")} her sabah kontrol edin.`,
   ],
 };

@@ -1,6 +1,8 @@
 /* Görev notu: sipariş gelince yanda açılır, adımlar yapıldıkça kendiliğinden işaretlenir.
    1. gün bütün adımlar ayrıntılı, 2. gün yalnız başlıklar, 3. gün ve sonrası not yok (yalnız "Sipariş geldi" bildirimi).
+   Gün eşikleri ayarlar.js'te (GOREV_NOTU_AYRINTILI_SON_GUN, GOREV_NOTU_SON_GUN).
    Not, karne ve uyarılar gerçek oda adlarını kullanır. */
+import { AYARLAR } from "../ayarlar.js";
 import { gercekAd } from "../odalar.js";
 import { ek } from "../bicim.js";
 import { h, ikon } from "./dom.js";
@@ -19,8 +21,8 @@ const ADIMLAR = [
 ];
 
 export function gorevNotu(durum, ui, { odaAc }) {
-  if (durum.gun >= 3) return null;
-  const ayrintili = durum.gun === 1;
+  if (durum.gun > AYARLAR.GOREV_NOTU_SON_GUN) return null;
+  const ayrintili = durum.gun <= AYARLAR.GOREV_NOTU_AYRINTILI_SON_GUN;
   const yapilan = ADIMLAR.filter((a) => durum.gorev[a.id]).length;
   const acik = ui.gorevAcik !== false;
   const el = h("details", { sinif: "fk-gorev", open: acik },

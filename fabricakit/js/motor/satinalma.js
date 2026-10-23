@@ -7,7 +7,7 @@ import { sayi, tl, gunAdi, sure } from "../bicim.js";
 import { simdi, gunAyari } from "./zaman.js";
 import { puanEkle } from "./puan.js";
 import { bildir, yeniId } from "./ortak.js";
-import { siparisIhtiyaci } from "./mrp.js";
+import { siparisIhtiyaci, verilmeyenSiparisler } from "./mrp.js";
 
 export const ACIK_SIPARIS = ["yanit-bekliyor", "onay-bekliyor", "onaylandi", "kapida"];
 export const malzemeMetni = (m, miktar) => `${MALZEME[m].ad} · ${sayi(miktar)} ${MALZEME[m].birim}`;
@@ -42,7 +42,8 @@ export function siparisVer(durum, { malzeme, tedarikci, miktar }) {
     kalanDk: AYARLAR.ONAY_SURESI_DK, varisGun: null, varisDk: null, kapidaDk: null, teslimDk: null,
   };
   durum.satinalma.push(s);
-  durum.gorev.siparis = true;
+  /* Görev notunun "Eksik malzemeyi sipariş et" adımı: GEÇ KALINDI / BUGÜN VER kalemi kalmayınca tamam */
+  if (!durum.gorev.siparis && !verilmeyenSiparisler(durum).length) durum.gorev.siparis = true;
   bildir(durum, "satinalma", `Satın Alma: sipariş verildi — ${malzemeMetni(malzeme, miktar)}, ${TEDARIKCI[tedarikci].ad}. Tedarikçi yanıtı bekleniyor.`);
   harca(durum, s.tutar, `${MALZEME[malzeme].ad} siparişi`);
 

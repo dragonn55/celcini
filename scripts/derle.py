@@ -639,7 +639,7 @@ def hakkinda():
 <ul>
   <li>Tarayıcıda çalışır; kurulum ve üyelik gerekmez.</li>
   <li>1. gün ücretsizdir; 2–5. günler erişim koduyla açılır.</li>
-  <li>İlerleme yalnızca senin tarayıcında saklanır; sunucuya oyuncu verisi gitmez.</li>
+  <li>İlerleme yalnızca senin tarayıcında saklanır; sunucuda oyuncu verisi tutulmaz.</li>
 </ul>
 <h2>Dosyalar: derin Excel havuzu</h2>
 <p>Sahada çalışmış bir endüstri mühendisinin hazırladığı, kurulum gerektirmeyen Excel dosyaları üç rafta durur:</p>
@@ -755,7 +755,7 @@ def uzay_sayfasi():
         <p>Depoda hareket görmeyen stoğu bulmak için bir araç.</p>
       </article></li>
     </ul>
-    <p class="not-satiri"><span>{ikon("kilit")}Uzay araçlarına girdiğin veri işlem sonrası saklanmaz.</span></p>
+    <p class="not-satiri"><span>{ikon("kilit")}Uzay araçlarına girdiğin veri işlem sonrası sunucuda saklanmaz.</span></p>
   </div>
 </section>"""
     return sayfa("/uzay/", "Uzay · Yapay zeka araçları",

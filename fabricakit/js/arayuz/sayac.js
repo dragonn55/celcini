@@ -1,5 +1,6 @@
 /* Sayaç şeridi: onay bekleyen siparişler, kalite kararları ve teslimatlar. Aynı anda birden çok sayaç olabilir.
    Şerit yalnız sayaç listesi değişince yeniden çizilir; kalan süreler yerinde güncellenir (düğmeler kaybolmaz). */
+import { AYARLAR } from "../ayarlar.js";
 import { MALZEME, TEDARIKCI } from "../veri/katalog.js";
 import { gercekAd } from "../odalar.js";
 import { sayaclar } from "../motor/sayac.js";
@@ -28,7 +29,7 @@ export function sayacKur(kap, { gonder, odaAc }) {
       const el = kalanEl.get(s.id);
       if (!el) continue;
       el.textContent = geriSayim(s.kalanDk);
-      el.closest(".fk-cip").classList.toggle("fk-cip-acil", s.kalanDk <= 30);
+      el.closest(".fk-cip").classList.toggle("fk-cip-acil", s.kalanDk <= AYARLAR.SAYAC_ACIL_DK);
     }
   }
 

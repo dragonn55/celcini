@@ -4,6 +4,7 @@ import { AYARLAR } from "./ayarlar.js";
 import { olusturStore } from "./motor/durum.js";
 import { kaydaYaz, kayittanOku } from "./motor/kayit.js";
 import { odaDurumlari } from "./motor/durumlar.js";
+import { verilmeyenSiparisler } from "./motor/mrp.js";
 import { saat, gunAdi, sayi } from "./bicim.js";
 import { h, temizle, ikon } from "./arayuz/dom.js";
 import { haritaKur } from "./arayuz/harita.js";
@@ -211,8 +212,10 @@ function oyun() {
     const onay = d.satinalma.filter((s) => s.durum === "yanit-bekliyor" || s.durum === "onay-bekliyor").length;
     const karar = d.kararlar.filter((k) => k.durum === "bekliyor" && k.kalanDk != null).length;
     const kapida = d.satinalma.filter((s) => s.durum === "kapida").length;
+    const verilmeyen = verilmeyenSiparisler(d);
     const acik = [
       !d.planBilgi.guncel ? "plan güncel değil" : null,
+      verilmeyen.length ? `${verilmeyen.length} malzeme siparişi verilmedi (${verilmeyen.map((m) => m.ad).join(", ")})` : null,
       onay ? `${onay} sipariş onay bekliyor` : null,
       karar ? `${karar} kalite kararı bekliyor` : null,
       kapida ? `${kapida} teslimat kapıda` : null,
@@ -265,6 +268,8 @@ function karne() {
       bastanBasla,
     },
   }));
+  /* Ekran değişince sayfa başa döner: telefonda karnenin başı (harf notu) görünsün */
+  window.scrollTo(0, 0);
   const baslik = kok.querySelector("#fk-karne-baslik");
   if (baslik) baslik.focus({ preventScroll: true });
 }
@@ -298,9 +303,10 @@ function kilit({ gun = store.durum.gun, sonra = oyun, karneyeDon = null } = {}) 
   kok.appendChild(kilitEkrani({
     gun, hitap: hitap(),
     ac: (kod) => { oyuncu.erisim = { acik: true, kod }; oyuncuYaz(); sonra(); window.scrollTo(0, 0); },
-    karneyeDon: karneyeDon ? () => { karneyeDon(); window.scrollTo(0, 0); } : null,
+    karneyeDon,
     secenek: tekrar ? { metin: `${d.gun}. günü baştan oyna`, f: gunuTekrarla } : { metin: "Baştan başla", f: bastanBasla },
   }));
+  window.scrollTo(0, 0);
   const baslik = kok.querySelector("#fk-kilit-baslik");
   if (baslik) baslik.focus({ preventScroll: true });
 }

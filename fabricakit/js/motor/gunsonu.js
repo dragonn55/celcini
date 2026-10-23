@@ -3,8 +3,7 @@ import { AYARLAR } from "../ayarlar.js";
 import { GUN_SONU, mutlak } from "./zaman.js";
 import { acikSatirlar, sevkiyat } from "./siparis.js";
 import { ikinciVardiya } from "./uretim.js";
-import { malzemeIhtiyaci, planla } from "./mrp.js";
-import { kopya } from "./kayit.js";
+import { verilmeyenSiparisler } from "./mrp.js";
 import { malzemeMetni } from "./satinalma.js";
 import { puanEkle } from "./puan.js";
 import { karneOlustur } from "./karne.js";
@@ -19,15 +18,7 @@ export function gunuKapat(durum) {
   if (!durum.planBilgi.guncel && acikSatirlar(durum).length) {
     puanEkle(durum, "UNUTULAN_IS", "Unutulan iş: siparişler plana alınmadı ya da plan güncellenmedi");
   }
-  /* Plan güncel değilse malzeme ihtiyacı, siparişler şimdi plana alınsaydı ne olacağına göre değerlendirilir */
-  let ihtiyac;
-  if (durum.planBilgi.guncel) ihtiyac = malzemeIhtiyaci(durum);
-  else {
-    const sanal = kopya(durum);
-    planla(sanal);
-    ihtiyac = malzemeIhtiyaci(sanal);
-  }
-  const unutulanMalzemeler = ihtiyac.filter((m) => (m.durum === "gec-kaldi" || m.durum === "bugun-ver") && m.onerilen > 0).slice(0, 3);
+  const unutulanMalzemeler = verilmeyenSiparisler(durum).slice(0, AYARLAR.UNUTULAN_MALZEME_EN_FAZLA);
   for (const m of unutulanMalzemeler) {
     puanEkle(durum, "UNUTULAN_IS", `Unutulan iş: sipariş verilmedi — ${m.ad} (${m.durum === "gec-kaldi" ? "geç kalınmıştı" : "bugün verilmeliydi"})`);
   }

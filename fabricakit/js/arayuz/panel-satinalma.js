@@ -21,7 +21,7 @@ export function siparisSatiri(durum, s, gonder) {
   let eylem = null;
   if (s.durum === "yanit-bekliyor") durumMetni = [rozet("Yanıt bekleniyor", "bilgi"), h("span", { sinif: "fk-geri-sayim", "data-kalan": s.id, metin: `${geriSayim(s.kalanDk)} kaldı` })];
   else if (s.durum === "onay-bekliyor") {
-    durumMetni = [rozet("Onaya hazır", s.kalanDk <= 30 ? "acil" : "dikkat"), h("span", { sinif: "fk-geri-sayim", "data-kalan": s.id, metin: `${geriSayim(s.kalanDk)} kaldı` })];
+    durumMetni = [rozet("Onaya hazır", s.kalanDk <= AYARLAR.SAYAC_ACIL_DK ? "acil" : "dikkat"), h("span", { sinif: "fk-geri-sayim", "data-kalan": s.id, metin: `${geriSayim(s.kalanDk)} kaldı` })];
     eylem = h("button", { sinif: "dugme fk-dugme fk-kucuk-dugme", type: "button", "data-odak": `onay-${s.id}`, disabled: durum.evre !== "oyun", on: { click: () => gonder({ tip: "ONAY_AL", id: s.id }) } }, "Onayı al");
   } else if (s.durum === "onaylandi") durumMetni = [rozet("Onaylandı", "yolunda"), h("span", { metin: `Teslimat ${gunAdi(s.varisGun)} (${goreli(s.varisGun, durum.gun)})` })];
   else if (s.durum === "kapida") durumMetni = [rozet("Kapıda", "dikkat"), h("span", { metin: "Depoda teslim alın" })];
@@ -66,7 +66,7 @@ export function satinAlmaPaneli(b) {
     ver.disabled = !oyunda || !gecerli;
     temizle(uyariKap);
     if (gecerli && durum.butce.harcanan + tutar > durum.butce.limit) uyariKap.appendChild(not(`Bu sipariş günlük bütçeyi aşar (${tl(durum.butce.harcanan + tutar)} / ${tl(durum.butce.limit)}).`, "dikkat"));
-    if (gecerli && m.onerilen > 0 && miktar > m.onerilen * 2) uyariKap.appendChild(not("Miktar önerilenin iki katından fazla; gereksiz fazla sipariş puan düşürür.", "dikkat"));
+    if (gecerli && m.onerilen > 0 && miktar > m.onerilen * AYARLAR.FAZLA_MIKTAR_UYARI_KATI) uyariKap.appendChild(not(`Miktar önerilenin ${AYARLAR.FAZLA_MIKTAR_UYARI_KATI} katından fazla; gereksiz fazla sipariş puan düşürür.`, "dikkat"));
     if (!gecerli && String(form.miktar).trim() !== "") uyariKap.appendChild(not("Miktar 1 ile 1.000.000 arasında tam sayı olmalı.", "acil"));
   };
 

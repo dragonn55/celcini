@@ -83,7 +83,7 @@ export function gmBolumu({ durum, hitap, erisim, yorumKaydet }) {
       h("label", { for: "fk-soru", metin: "Kendi sorunuz" }),
       girdi,
       h("div", { sinif: "fk-satir" }, sor, sayac, hakEl),
-      h("p", { sinif: "fk-soluk", id: "fk-soru-not", metin: "Sorunuz ve günün karnesi yanıt için yapay zeka sağlayıcısına gönderilir; hitabınız gönderilmez, hiçbiri saklanmaz. Kişisel bilgi yazmayın." }));
+      h("p", { sinif: "fk-soluk", id: "fk-soru-not", metin: "Sorunuz ve günün karnesi yanıt için yapay zeka sağlayıcısına gönderilir; hitabınız gönderilmez. Celcini bunları saklamaz. Kişisel bilgi yazmayın." }));
     hakYaz();
   }
 

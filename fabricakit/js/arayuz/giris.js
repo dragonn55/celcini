@@ -9,7 +9,7 @@ export const VARSAYILAN_HITAP = "Sayın Yönetici";
 
 export function girisEkrani({ kayit, uyari, hitap, basla }) {
   const fab = fabrikaTabelasi();
-  const girdi = h("input", { id: "fk-hitap", type: "text", maxlength: "40", autocomplete: "off", placeholder: "Örnek: Bay Çakır", deger: hitap || "" });
+  const girdi = h("input", { id: "fk-hitap", type: "text", maxlength: "40", autocomplete: "off", placeholder: "Örnek: Ayşe Hanım", deger: hitap || "" });
   const gonder = (yeni) => (e) => {
     if (e) e.preventDefault();
     basla({ hitap: girdi.value.trim().slice(0, 40), yeni });
