@@ -58,6 +58,10 @@ const CEKMECE_SURE_MS = 5000;
 const telefon = window.matchMedia("(max-width: 959px)");
 let yerlesimDegisti = null;
 telefon.addEventListener("change", () => { if (ekran === "oyun" && yerlesimDegisti) yerlesimDegisti(); });
+/* Bildirim alanı üst şeridin hemen altında durur; şerit yapışkan olduğu için sayfa kayınca yeri yeniden hesaplanır */
+let bildirimYeri = null;
+window.addEventListener("scroll", () => { if (bildirimYeri) bildirimYeri(); }, { passive: true });
+window.addEventListener("resize", () => { if (bildirimYeri) bildirimYeri(); });
 let oyuncu = oyuncuOku();
 let store = null;
 let ekran = null;
@@ -74,6 +78,7 @@ window.addEventListener("pointercancel", () => { basili = false; });
 function ekranAc(ad) {
   ekran = ad;
   temizle(kok);
+  bildirimYeri = null;
   document.body.classList.remove("fk-cekmeceli");
 }
 
@@ -154,12 +159,13 @@ function oyun() {
   const sayac = sayacKur(sayacKap, { gonder, odaAc });
   const bildirim = bildirimKur(bildirimKap, { odaAc: (id) => odaSec(id) });
   bildirim.sifirla(store.durum);
+  bildirimYeri = () => { bildirimKap.style.top = `${Math.max(0, Math.round(ust.getBoundingClientRect().bottom)) + 8}px`; };
   let sonDegisim = -1;
   let isiklar = {};
 
   function gonder(eylem) {
     const sonuc = store.gonder(eylem);
-    if (sonuc && sonuc.hata) bildirimKap.prepend(h("div", { sinif: "fk-bildirim fk-bildirim-acil" }, h("span", { sinif: "fk-bildirim-metin", metin: sonuc.hata })));
+    if (sonuc && sonuc.hata) bildirim.hata(sonuc.hata);
     return sonuc || {};
   }
 
@@ -290,6 +296,7 @@ function oyun() {
       kapida ? oge(`Kapıda ${sayi(kapida)} teslimat`, () => odaSec("depo")) : null,
       yolda ? oge(`Yolda ${sayi(yolda)} teslimat`, () => sayacKap.scrollIntoView({ behavior: "smooth", block: "start" })) : null,
       adimlar ? oge(`Görev ${gorevOzeti(adimlar)}`, () => cekmece(true)) : null,
+      oge("Gün özeti", ozetAc),
     ].filter(Boolean);
     ogeler.forEach((o, i) => ozetEl.append(i ? h("span", { sinif: "fk-ozet-ayrac", "aria-hidden": "true", metin: "·" }) : "", o));
   }
@@ -306,6 +313,7 @@ function oyun() {
     else canliGuncelle(panelKap, durum);
     cekmeceIzle(durum);
     bitirmeIzle(durum);
+    bildirimYeri();
     kaydet(eylem.tip !== "ILERLE");
   }
 
@@ -319,6 +327,18 @@ function oyun() {
     const baslik = panelKap.querySelector("#fk-panel-baslik");
     if (baslik) baslik.focus({ preventScroll: true });
     if (window.matchMedia("(min-width: 960px)").matches) panelKap.scrollTop = 0;
+  }
+
+  /* Telefonda Gün özeti (son bildirimler) alttan açılır; masaüstünde panelin varsayılan içeriğidir */
+  function ozetAc() {
+    ui.secili = null;
+    uygulama.classList.add("fk-panel-acik");
+    perde.classList.add("fk-acik");
+    yapisalCiz();
+    harita.guncelle(store.durum, isiklar, null);
+    panelKap.scrollTop = 0;
+    const baslik = panelKap.querySelector("#fk-panel-baslik");
+    if (baslik) baslik.focus({ preventScroll: true });
   }
 
   function paneliKapat() {

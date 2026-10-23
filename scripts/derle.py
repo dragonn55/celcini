@@ -31,8 +31,9 @@ BUGUN = datetime.date.today().isoformat()
 SLOGAN = "İşini kurgula, ajanı sorgula."
 FK_ALT = ("Tarayıcıda fabrika simülasyonu. Yapay zeka genel müdür Ajan GM seni değerlendirir, "
           "sen de onu sorgularsın.")
-HAVUZ = "Derin Excel havuzu."
-ALT_SATIR = "Sahada test edilmiş, kurulumsuz Excel dosyaları. İstanbul, 2026."
+ALT_BILGI = "Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul, 2026."
+# Sayfa açıklamalarının sonundaki site cümlesi: önce Fabricakit
+SITE_CUMLESI = "Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları."
 FORMUL_TESTI = ("Her dosya havuza girmeden önce yeniden hesaplanır; "
                 "sıfır formül hatasıyla geçmeyen dosya satışa çıkmaz.")
 
@@ -209,7 +210,7 @@ def alt_bilgi():
   <div class="kap">
     <div class="alt-marka">
       <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
-      <p>{e(HAVUZ)} {e(ALT_SATIR)}</p>
+      <p>{e(ALT_BILGI)}</p>
     </div>
     <nav aria-label="Raflar"><h2>Raflar</h2><ul>{raflar}</ul></nav>
     <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
@@ -475,7 +476,7 @@ def ana_sayfa(urunler):
 </section>"""
     org = json_ld({"@context": "https://schema.org", "@type": "Organization", "name": "Celcini",
                    "url": SITE + "/", "logo": SITE + "/assets/img/favicon-512.png", "slogan": SLOGAN})
-    return sayfa("/", "Celcini · Fabricakit: tarayıcıda fabrika simülasyonu",
+    return sayfa("/", "Fabricakit: tarayıcıda fabrika simülasyonu · Celcini",
                  f"Fabricakit: {FK_ALT[0].lower()}{FK_ALT[1:]} {SLOGAN}", govde, tam_baslik=True, ek_head=org)
 
 
@@ -516,7 +517,7 @@ def raf_sayfasi(r, urunler):
     {icerik}
   </div>
 </section>"""
-    return sayfa(f"/{r['slug']}/", r["ad"], f"{r['ad']}: {r['aciklama']}. Celcini Excel havuzu.", govde,
+    return sayfa(f"/{r['slug']}/", r["ad"], f"{r['ad']}: {r['aciklama']}. {SITE_CUMLESI}", govde,
                  etkin=f"/{r['slug']}/")
 
 
@@ -649,7 +650,7 @@ def hakkinda():
 <p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü. İlk araç Fabricakit; sırada Ölü Stok Dedektörü var.</p>
 <p>İstanbul, 2026.</p>"""
     return metin_sayfasi("/hakkinda/", "Hakkında",
-                         "Celcini bir platform: ana gövdesi Fabricakit fabrika simülatörü; yanında Excel dosyaları ve yapay zeka araçları. Burak Çakır hazırlıyor.",
+                         "Fabricakit, Celcini'nin ana gövdesi: tarayıcıda fabrika simülasyonu. Yanında Excel dosyaları ve yapay zeka araçları; Burak Çakır hazırlıyor.",
                          ic, etkin="/hakkinda/")
 
 
@@ -661,7 +662,7 @@ def iletisim():
   <li><a class="kart" data-link="shopier_magaza" href="#" hidden>{ikon("sepet")}<span>Shopier mağazası</span></a></li>
 </ul>
 <noscript><p>İletişim bağlantılarını görmek için tarayıcınızda JavaScript'i açın.</p></noscript>"""
-    return metin_sayfasi("/iletisim/", "İletişim", "Celcini ile iletişim: Instagram, e-posta ve Shopier mağazası.", ic)
+    return metin_sayfasi("/iletisim/", "İletişim", "Fabricakit ve Celcini ile iletişim: Instagram, e-posta ve Shopier mağazası.", ic)
 
 
 def sss_sayfasi():
@@ -694,7 +695,7 @@ def gizlilik():
 <p>KVKK'nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini ya da silinmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz. Başvurularınızı <a href="/iletisim/">İletişim</a> sayfasındaki kanallardan iletebilirsiniz.</p>
 <p>Veri sorumlusu: Celcini.</p>"""
     return metin_sayfasi("/gizlilik/", "Gizlilik ve KVKK",
-                         "Celcini gizlilik ve KVKK aydınlatma metni: site çerez kullanmaz, Fabricakit kaydı yalnızca tarayıcınızda kalır, ödeme Shopier'de yapılır.", ic)
+                         "Fabricakit ve Celcini gizlilik, KVKK aydınlatma metni: Fabricakit kaydı yalnızca tarayıcınızda kalır, site çerez kullanmaz, ödeme Shopier'de yapılır.", ic)
 
 
 def teslimat():

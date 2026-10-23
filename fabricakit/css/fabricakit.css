@@ -133,26 +133,23 @@
 }
 
 /* ---------- Bildirimler ---------- */
-/* Telefonda altta (üst şeridin düğmelerini örtmez). Panel açıkken üstte ve yalnızca en yenisi: üst şerit o sırada
-   perdenin altındadır, tek bildirim panelin üstündeki boşluğa sığar. Masaüstünde sol altta: karar panelinin formunu örtmez. */
+/* Üst şeridin hemen altında, ortada, sabit alanda; aynı anda tek balon (kuyruk). Yeri (top) uygulama.js üst şeride göre verir.
+   Panel ve perdenin üstünde durur: telefonda panel açıkken de görünür. */
 .fk-bildirimler {
-  position: fixed; z-index: 70; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-  display: grid; gap: 6px; pointer-events: none;
-}
-.fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: 8px; bottom: auto; }
-@media (max-width: 959px) { .fk-uygulama.fk-panel-acik ~ .fk-bildirimler .fk-bildirim + .fk-bildirim { display: none; } }
-@media (min-width: 960px) {
-  .fk-bildirimler, .fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: auto; right: auto; left: 20px; bottom: 20px; width: 380px; }
+  position: fixed; z-index: 70; top: 8px; left: 50%; transform: translateX(-50%);
+  width: min(480px, calc(100% - 16px)); display: grid; pointer-events: none;
 }
 .fk-bildirim { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-left: 4px solid var(--mavi); border-radius: 10px; }
 .fk-bildirim-dikkat { border-left-color: var(--turuncu); }
 .fk-bildirim-acil { border-left-color: var(--acil); }
 .fk-bildirim-metin { flex: 1; min-height: 40px; padding: 6px 0; font: inherit; font-size: var(--fs-0); text-align: left; color: var(--metin); background: none; border: 0; cursor: pointer; }
 span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
+.fk-bildirim-sira { flex: none; font-size: var(--fs-0); font-weight: 700; color: var(--metin-2); font-variant-numeric: tabular-nums; }
+.fk-bildirim-sira:empty { display: none; }
 .fk-bildirim-kapat { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; color: var(--metin-2); background: none; border: 0; cursor: pointer; }
 @media (prefers-reduced-motion: no-preference) {
   .fk-bildirim { animation: fk-gir 200ms ease both; }
-  @keyframes fk-gir { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes fk-gir { from { opacity: 0; transform: translateY(-6px); } }
 }
 
 /* ---------- Onay kutusu ---------- */
@@ -350,6 +347,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-panel-neden.fk-durum-acil { color: var(--acil); }
 .fk-panel-aciklama { color: var(--metin-2); margin-bottom: 12px; }
 .fk-ozet > * + * { margin-top: 12px; }
+@media (min-width: 960px) { .fk-ozet-kapat { display: none; } }
 
 .fk-sekmeler { display: flex; gap: 8px; margin: 4px 0 16px; border-bottom: var(--cizgi-k) solid var(--cizgi); }
 .fk-sekme { min-height: 44px; padding: 0 4px; margin-bottom: -1px; font: inherit; font-weight: 600; color: var(--metin-2); background: none; border: 0; border-bottom: 3px solid transparent; cursor: pointer; }
