@@ -17,8 +17,8 @@ export function harca(durum, tutar, neden) {
   durum.butce.harcanan += tutar;
   if (durum.butce.harcanan > durum.butce.limit && !durum.butce.asildi) {
     durum.butce.asildi = true;
-    puanEkle(durum, "BUTCE_ASIMI", `Bütçe aşıldı: ${neden} (${tl(durum.butce.harcanan)} / ${tl(durum.butce.limit)})`);
-    bildir(durum, "finans", `Finans-Muhasebe: günlük bütçe aşıldı (${tl(durum.butce.harcanan)} / ${tl(durum.butce.limit)}).`, "acil");
+    puanEkle(durum, "BUTCE_ASIMI", `Bütçe aşıldı: ${neden} (${tl(durum.butce.harcanan)} harcandı, sınır ${tl(durum.butce.limit)})`);
+    bildir(durum, "finans", `Finans-Muhasebe: günlük bütçe aşıldı (${tl(durum.butce.harcanan)} harcandı, sınır ${tl(durum.butce.limit)}).`, "acil");
   }
 }
 

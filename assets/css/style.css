@@ -338,7 +338,7 @@ a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
     margin: 0 calc(-1 * var(--kenar)); padding: 0 var(--kenar) 4px; scroll-padding-inline: var(--kenar);
   }
   .oda-kart { flex: 0 0 104px; padding: 12px 6px; scroll-snap-align: start; }
-  .adimlar { gap: 8px; }
+  .izgara.adimlar { gap: 8px; }
   .adimlar .adim { display: flex; align-items: center; gap: 12px; padding: 10px 16px; }
   .adimlar .adim .ikon { width: 24px; height: 24px; }
   .adimlar .adim p { display: none; }
@@ -346,7 +346,7 @@ a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
   .karne-ornek { gap: 12px; }
   .karne-olculer { gap: 8px; }
   .karne-olcu { padding: 10px 12px; }
-  .raf-izgara { gap: 12px; }
+  .izgara.raf-izgara { gap: 12px; }
   .raf-izgara .raf-kart { grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; padding: 16px; }
   .raf-izgara .raf-kart > .ikon { grid-row: span 3; }
   .raf-izgara .raf-kart .raf-sayi { margin-top: 4px; padding-top: 0; border-top: 0; justify-content: flex-start; gap: 8px; }

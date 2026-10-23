@@ -200,7 +200,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-giris-form label { font-weight: 700; }
 /* Kayıtlı oyun: tek "devam et" düğmesi (uzun hitapta iki satıra iner), altında küçük "Baştan başla" */
 .fk-devam { justify-items: start; gap: 4px; }
-.fk-devam .dugme { max-width: 100%; padding: 10px 24px; text-align: center; }
+.fk-devam .dugme { max-width: 100%; padding: 10px 24px; text-align: center; overflow-wrap: anywhere; }
 .fk-bastan { min-height: 44px; padding: 0 4px; font: inherit; font-size: var(--fs-0); font-weight: 600; color: var(--koyu); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .fk-giris-form input {
   width: 100%; max-width: 420px; min-height: 52px; padding: 0 14px; font: inherit; color: var(--metin);

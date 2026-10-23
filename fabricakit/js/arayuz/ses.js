@@ -97,7 +97,8 @@ export function sesIzleyici(durum) {
    Ses motoru rakamı kendi okursa "135.200 TL"yi noktadan böler ("135." ve "200 TL"). Okumadan önce sayılar yazıya çevrilir:
    "135.200 TL" → "yüz otuz beş bin iki yüz lira", "%80" → "yüzde seksen", "10:00" → "saat on", "08:06" → "saat sekiz sıfır altı",
    "1. gün" → "birinci gün", "(4/5)" → "(beşte dört)", "(-15)" → "(eksi on beş)", "1,5" → "bir buçuk".
-   Kesme işaretli ek okunuşa yapışır: "08:00'de" → "saat sekizde", "TL'ye" → "liraya". */
+   Kesme işaretli ek okunuşa yapışır: "08:00'de" → "saat sekizde", "TL'ye" → "liraya". Orta nokta virgül olur:
+   "Ahşap hattı · MDF levha" → "Ahşap hattı, MDF levha". */
 const BIRLER = ["", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"];
 const ONLAR = ["", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"];
 const BUYUKLER = ["", "bin", "milyon", "milyar", "trilyon"];
@@ -145,6 +146,7 @@ const SAYI = String.raw`(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?`;
 
 export function seseHazirla(metin) {
   return String(metin)
+    .replace(/\s·\s/g, ", ")
     .replace(/(\d)\s?TL(?:['’](\p{L}+))?(?!\p{L})/gu, (_, r, e = "") => `${r} lira${kalinEk(e)}`)
     .replace(/(saat\s+)?\b([01]?\d|2[0-3]):([0-5]\d)(?!\d)(?:['’](\p{L}+))?/giu, (_, onu, sa, dk, e = "") => `${onu || "saat "}${saatYazi(sa, dk)}${e}`)
     .replace(new RegExp(`%\\s?${SAYI}(?:['’](\\p{L}+))?`, "gu"), (_, t, k, e = "") => `yüzde ${ondalikYazi(t, k)}${e}`)

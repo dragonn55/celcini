@@ -334,6 +334,10 @@ let erken = null;
   k.defter.push({ dk: 600, tur: "UNUTULAN_IS", puan: AYARLAR.PUAN.UNUTULAN_IS, metin });
   Object.assign(k, { unutulan: { sayi: 1, liste: [metin] }, enBuyukSorun: { tur: "UNUTULAN_IS", adet: 1, puan: AYARLAR.PUAN.UNUTULAN_IS } });
   if (/temiz/.test(kuralYorumu(k).metin)) hata("cezalı A gününde temiz yorumu seçildi");
+  /* Kısaltmayla başlayan örnek küçültülmez: "MDF levha", "mDF levha" değil */
+  const onay = "Unutulan onay: MDF levha · 120 adet siparişi düştü";
+  Object.assign(k, { defter: [{ dk: 600, tur: "UNUTULAN_ONAY", puan: AYARLAR.PUAN.UNUTULAN_ONAY, metin: onay }], enBuyukSorun: { tur: "UNUTULAN_ONAY", adet: 1, puan: AYARLAR.PUAN.UNUTULAN_ONAY } });
+  if (!kuralCevap(k, "hata").includes("Örnek: MDF levha")) hata(`kısaltma küçültüldü: ${kuralCevap(k, "hata")}`);
 }
 
 /* Sesli oku metni sese hazırlar: sayılar yazıya döner, cümle binlik ayracında bölünmez */
@@ -347,6 +351,7 @@ let erken = null;
     ["Kalemler: plan (-6); teslim (+2).", "Kalemler: plan (eksi altı); teslim (artı iki)."],
     ["Hatlar 1,5 saat durdu; bütçe 1.000.000 TL'ye indi.", "Hatlar bir buçuk saat durdu; bütçe bir milyon liraya indi."],
     ["GEÇ KALINDI yazan MDF levha.", "geç kalındı yazan MDF levha."],
+    ["Hatta malzeme bitti: Ahşap hattı · MDF levha", "Hatta malzeme bitti: Ahşap hattı, MDF levha"],
   ];
   for (const [girdi, cikti] of beklenen) if (seseHazirla(girdi) !== cikti) hata(`sese hazırlama: "${girdi}" → "${seseHazirla(girdi)}"`);
   const c = cumlelereBol(["Depoda 135.200 TL var. Yarın 09:00'da başlayın."]);

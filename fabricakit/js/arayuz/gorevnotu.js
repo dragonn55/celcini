@@ -12,7 +12,7 @@ import { ek } from "../bicim.js";
 import { h, ikon } from "./dom.js";
 
 const ADIMLAR = [
-  { id: "plana", baslik: "Siparişi plana koy", oda: "planlama", kisa: () => `${gercekAd("planlama")} › "Siparişi plana al"`,
+  { id: "plana", baslik: "Siparişi plana koy", oda: "planlama", sekme: "plan", kisa: () => `${gercekAd("planlama")} › "Siparişi plana al"`,
     ayrinti: () => `${ek(gercekAd("planlama"), "de")} "Siparişi plana al" düğmesine basın.` },
   { id: "ihtiyac", baslik: "Malzeme ihtiyacını gör", oda: "planlama", sekme: "ihtiyac", kisa: () => `${gercekAd("planlama")} › Malzeme ihtiyacı`,
     ayrinti: () => `${ek(gercekAd("planlama"), "de")} "Malzeme ihtiyacı" sekmesini açın; GEÇ KALINDI ve BUGÜN VER yazan kalemlere bakın.` },

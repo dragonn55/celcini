@@ -52,7 +52,8 @@ export function planlamaPaneli(b) {
     h("div", { role: "tabpanel" }, sekme === "plan" ? planSekmesi(b) : ihtiyacSekmesi(b)));
 }
 
-/* "Siparişi plana al"dan sonra panel kendiliğinden "Malzeme ihtiyacı" sekmesine geçer (görev notunun sıradaki adımı) */
+/* Planlamadan sonra panel kendiliğinden "Malzeme ihtiyacı" sekmesine geçer (görev notunun sıradaki adımı):
+   1. gün "Siparişi plana al", sonraki günler "Planı güncelle"; o gün ihtiyaç zaten görüldüyse sekme değişmez */
 function planaAlIhtiyacaGec(b) {
   b.ui.planSekme = "ihtiyac";
   b.gonder({ tip: "PLANA_AL" });
@@ -66,11 +67,12 @@ function planDurumu(b) {
   const { durum, gonder } = b;
   const pb = durum.planBilgi;
   const oyunda = durum.evre === "oyun";
-  const dugme = (metin, birincil, tikla = () => gonder({ tip: "PLANA_AL" })) => h("button", {
+  const planla = durum.gorev.ihtiyac ? () => gonder({ tip: "PLANA_AL" }) : () => planaAlIhtiyacaGec(b);
+  const dugme = (metin, birincil) => h("button", {
     sinif: birincil ? "dugme fk-dugme" : "dugme-cizgi", type: "button", disabled: !oyunda, "data-odak": "plana-al",
-    on: { click: tikla },
+    on: { click: planla },
   }, metin);
-  if (pb.dk == null) return h("div", { sinif: "fk-kutu fk-kutu-acil" }, h("p", {}, h("strong", { metin: "Plan yok. " }), "Sabah gelen siparişler henüz plana alınmadı; hatlar ne üreteceğini bilmiyor."), dugme("Siparişi plana al", true, () => planaAlIhtiyacaGec(b)));
+  if (pb.dk == null) return h("div", { sinif: "fk-kutu fk-kutu-acil" }, h("p", {}, h("strong", { metin: "Plan yok. " }), "Sabah gelen siparişler henüz plana alınmadı; hatlar ne üreteceğini bilmiyor."), dugme("Siparişi plana al", true));
   if (!pb.guncel) return h("div", { sinif: "fk-kutu fk-kutu-dikkat" }, h("p", {}, h("strong", { metin: "Plan güncel değil. " }), "Siparişler ya da kapasite değişti; plan eski siparişlere göre."), dugme("Planı güncelle", true));
   return h("div", { sinif: "fk-kutu" }, h("p", {}, h("strong", { metin: "Plan güncel. " }), `Son planlama: ${gunAdi(Math.floor(pb.dk / 1440) + 1)}, saat ${saat(pb.dk % 1440)}.`), dugme("Yeniden planla", false));
 }

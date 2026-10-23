@@ -134,6 +134,8 @@ function oyun() {
   ekranAc("oyun");
   ui.secili = null;
   ui.durak = null;
+  /* Gün planlamayla başlar: Planlama dünkü "Malzeme ihtiyacı" sekmesinde değil, "Plan ve kapasite"de açılır */
+  ui.planSekme = "plan";
 
   const gunEl = h("span", { sinif: "fk-gun" });
   const saatEl = h("span", { sinif: "fk-saat" });
