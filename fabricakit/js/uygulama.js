@@ -20,7 +20,7 @@ import { gmBolumu } from "./arayuz/ajan.js";
 import { kilitEkrani } from "./arayuz/kilit.js";
 import { girisEkrani, VARSAYILAN_HITAP } from "./arayuz/giris.js";
 import { onayKutusu } from "./arayuz/onay.js";
-import { efekt, sesIzleyici, sesiBaslat, okumayiDurdur, sesDugmesi } from "./arayuz/ses.js";
+import { efekt, sesIzleyici, sesiBaslat, okumayiDurdur, sesDugmesi, SESSIZ_ANAHTAR_IPUCU } from "./arayuz/ses.js";
 
 const KAYIT = "fabricakit-kayit";
 const OYUNCU = "fabricakit-oyuncu";
@@ -151,7 +151,7 @@ function oyun() {
   const ust = h("div", { sinif: "fk-ust" },
     h("div", { sinif: "fk-ust-satir" },
       h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakEl),
-      h("div", { sinif: "fk-ust-sag" }, puanEl, sesDugmesi(), duraklat, bitir)),
+      h("div", { sinif: "fk-ust-sag" }, puanEl, sesDugmesi({ acilinca: () => bildirim.bilgi(`Ses açık. ${SESSIZ_ANAHTAR_IPUCU}`) }), duraklat, bitir)),
     /* Telefonda fabrika adı şeridin ikinci satırında (gün ve saatin yanına sığmaz); CSS ikisinden birini gösterir */
     h("div", { sinif: "fk-ust-alt-satir" }, h("span", { sinif: "fk-fabrika-adi", metin: FABRIKA.ad }), durakAltEl),
     bitirmeEl);

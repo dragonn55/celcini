@@ -98,8 +98,17 @@ fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 - Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla), `fabricakit-oyuncu` (hitap, açılan kilit)
   ve `fabricakit-ses` (ses açık/kapalı).
   Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
-- Sesler dosyasız: efektler `arayuz/ses.js`'te Web Audio API ile üretilir. Ajan GM'in "Sesli oku"su tarayıcının
-  SpeechSynthesis API'siyle cihazdaki Türkçe sesi kullanır (tr-TR, hız 0,95, perde 0,85); yerel Türkçe ses yoksa düğme görünmez.
+- Efektler dosyasız: `arayuz/ses.js`'te Web Audio API ile üretilir. Ses motoru askıdayken (iPhone'da ilk dokunuştan hemen
+  sonra) gelen efekt atlanmaz, motor açılınca çalar. Ses kapalıyken hiçbir ses çalmaz (Ajan GM dahil).
+- Ajan GM'nin sesi iki parçalı: sabit cümleler (en fazla 40; `ajan-gm/cumleler.js`) `assets/ses/ajan-gm/<id>.mp3`'ten sabit
+  erkek sesle çalar, aradaki değişken parçalar (hitap, sayı, ürün adı) tarayıcının SpeechSynthesis API'siyle cihazdaki Türkçe
+  sesle okunur (tr-TR, hız 0,95, perde 0,85). Cihazda yerel Türkçe ses yoksa değişken parça atlanır; ses dosyaları henüz
+  üretilmediyse (`ajan-gm/ses-dosyalari.js`) sabit cümleler de cihaz sesiyle okunur.
+  Cümle listesi değişince: `npm run ses-cumleler` (→ `data/ses/cumleler.json`), sonra sesleri yeniden üretin:
+  `scripts/ses-piper.py` (Piper, Türkçe erkek ses; modeli bir kez huggingface.co'dan indirir) ya da Windows'ta
+  `powershell -ExecutionPolicy Bypass -File scripts\ses-tolga.ps1` ("Microsoft Tolga" + ffmpeg). İkisi de aynı dosya adlarını
+  yazar, sesi -23 LUFS'a eşitler ve `ses-dosyalari.js`'i günceller. `npm run check` (`scripts/ses-test.mjs`) liste, JSON ve
+  dosyaların birebir eşleştiğini denetler.
   Metin okunmadan önce sese hazırlanır: sayı, tutar, yüzde ve saat yazıya çevrilir ("135.200 TL" → "yüz otuz beş bin iki yüz lira",
   "08:00'de" → "saat sekizde"); `npm run sim-test` Ajan GM metinlerinde okunmamış rakam kalmadığını denetler.
 - Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfanın açılışı) ve daire

@@ -7,8 +7,7 @@ import { saat, gunAdi } from "../bicim.js";
 import { h, gezegen } from "./dom.js";
 import { ajanGmGorseli } from "./karne.js";
 import { sesliOkuDugmesi } from "./ses.js";
-
-const GM_SOZU = "Fabrikanın genel müdürüyüm. Gün boyu her kararınızı izlerim; akşam notunuzu veririm. Sabah 08:00'de siparişler gelecek.";
+import { GM_SOZU } from "../ajan-gm/cumleler.js";
 
 export const VARSAYILAN_HITAP = "Sayın Yönetici";
 
@@ -37,7 +36,7 @@ export function girisEkrani({ kayit, uyari, hitap, basla }) {
       h("h1", { metin: "Fabricakit" }),
       h("p", { sinif: "hero-slogan", metin: "İşini kurgula, ajanı sorgula." }),
       h("div", { sinif: "fk-gm-satir" }, ajanGmGorseli("fk-gm"),
-        h("div", { sinif: "fk-gm-soz" }, h("p", { metin: `Ajan GM: ${GM_SOZU}` }), sesliOkuDugmesi(() => [GM_SOZU]))),
+        h("div", { sinif: "fk-gm-soz" }, h("p", { metin: `Ajan GM: ${GM_SOZU}` }), sesliOkuDugmesi(() => [GM_SOZU], { etiket: "Ajan GM konuşsun" }))),
       uyari ? h("p", { sinif: "fk-not fk-not-dikkat", metin: uyari }) : null,
       form,
       h("p", { sinif: "fk-soluk", metin: `${AYARLAR.UCRETSIZ_GUN}. gün ücretsiz; ${AYARLAR.UCRETSIZ_GUN + 1}–${AYARLAR.GUNLER.length}. günler erişim koduyla açılır. Bir oyun saati gerçekte ${AYARLAR.OYUN_SAATI_SANIYE} saniye sürer; saati istediğiniz an durdurabilirsiniz.` }),

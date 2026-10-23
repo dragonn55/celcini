@@ -741,7 +741,7 @@ def gizlilik():
 <h2>Fabricakit</h2>
 <ul>
   <li>Oyun ilerlemeniz, ses tercihiniz, Ajan GM'nin size nasıl hitap edeceği ve açtığınız günler yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur. Üyelik yoktur; bu bilgiler sunucuya gönderilmez. Tarayıcı verilerini sildiğinizde kayıt da silinir.</li>
-  <li>Sesler: efekt sesleri tarayıcıda üretilir, ses dosyası indirilmez. "Sesli oku" cihazınızdaki Türkçe sesi kullanır; okunan metin hiçbir sunucuya gönderilmez. Cihazda Türkçe ses yoksa düğme görünmez.</li>
+  <li>Sesler: efekt sesleri tarayıcıda üretilir. "Sesli oku" ve "Ajan GM konuşsun", Ajan GM'nin sabit cümlelerini bu sitedeki ses dosyalarından çalar; hitabınız ve sayılar gibi değişen kısımları cihazınızdaki Türkçe sesle okur. Okunan metin hiçbir sunucuya gönderilmez. Ses kapalıyken hiçbir ses çalmaz.</li>
   <li>Erişim kodu: Kilidi açmak için girdiğiniz kod doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod, kilidin açık kalması için yalnızca bu tarayıcıda tutulur.</li>
   <li>Ajan GM: Yorumlar varsayılan olarak tarayıcıda, hazır şablonlardan üretilir ve hiçbir veri gönderilmez. Yapay zeka modu açılırsa günün karnesindeki oyun verileri (puan, teslim, hat duruşu, olaylar gibi) ve Ajan GM'ye yazdığınız soru, yanıt üretmek için ABD merkezli yapay zeka sağlayıcısı Anthropic'e iletilir; bu mod yalnızca kod girenlere açıksa erişim kodunuz da her istekte yeniden doğrulanmak üzere sunucuya gönderilir. Hitabınız gönderilmez ve bu veriler Celcini tarafından saklanmaz. Sorularınıza kişisel bilgi yazmayın.</li>
 </ul>
