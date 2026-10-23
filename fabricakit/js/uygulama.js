@@ -510,6 +510,8 @@ setInterval(() => {
 
 document.addEventListener("visibilitychange", () => { if (document.hidden) kaydet(true); });
 window.addEventListener("pagehide", () => { kaydet(true); okumayiDurdur(); });
+/* Sayfa arka plana geçince Ajan GM susar (iPhone'da ses dosyası arka planda da çalmayı sürdürebilir) */
+document.addEventListener("visibilitychange", () => { if (document.hidden) okumayiDurdur(); });
 
 /* ---------------- başlat ---------------- */
 const okunan = kayittanOku(depo.oku(KAYIT));

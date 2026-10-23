@@ -4,8 +4,8 @@
 
 .DESCRIPTION
   Her cümle önce wav olarak üretilir (%TEMP%\celcini-ses). ffmpeg varsa assets\ses\ajan-gm\<id>.mp3'e çevrilir:
-  64 kbps, tek kanal, 22.050 Hz; baştaki ve sondaki sessizlik kırpılır, ses düzeyi -23 LUFS'a eşitlenir
-  (scripts/ses-piper.py ile aynı ayarlar). Her mp3 ffprobe ile denetlenir: 0,3 sn'den kısa ya da boşsa yeniden
+  64 kbps, tek kanal, 22.050 Hz; baştaki ve sondaki sessizlik kırpılır, ses düzeyi -30 LUFS'a eşitlenir (-Duzey ile
+  değişir; oyunun en yüksek efektleri yaklaşık -35 LUFS). Ayarlar scripts/ses-piper.py ile aynı. Her mp3 ffprobe ile denetlenir: 0,3 sn'den kısa ya da boşsa yeniden
   üretilir. Toplam 3 MB'ı geçemez. Bitince fabricakit\js\ajan-gm\ses-dosyalari.js'te SES_DOSYALARI_HAZIR true olur;
   o zamana kadar site cihaz sesine düşer.
   Metin: cumleler.json'daki "okunus" (sayılar yazıyla). Hız biraz yavaş (ciddi ton).
@@ -16,9 +16,16 @@
   - Türkçe konuşma sesi: Ayarlar > Saat ve dil > Konuşma > Ses ekle > Türkçe (Türkiye)
   - ffmpeg: winget install Gyan.FFmpeg (kurduktan sonra yeni bir PowerShell penceresi açın)
 
+.PARAMETER Duzey
+  Hedef ses düzeyi (LUFS). Varsayılan -30; daha yüksek ses için örneğin -26.
+
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File scripts\ses-tolga.ps1
+
+.EXAMPLE
+  powershell -ExecutionPolicy Bypass -File scripts\ses-tolga.ps1 -Duzey -26
 #>
+param([double]$Duzey = -30)
 $ErrorActionPreference = 'Stop'
 
 $kok = Split-Path -Parent $PSScriptRoot
@@ -29,8 +36,11 @@ $gecici = Join-Path ([System.IO.Path]::GetTempPath()) 'celcini-ses'
 $enKisaSn = 0.3
 $enFazlaBayt = 3MB
 $denemeSayisi = 3
-$suzgec = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05,areverse,' +
-  'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.1,areverse,loudnorm=I=-23:TP=-3:LRA=11'
+# Başa ve sona kısa sessizlik eklenir (hiç sessizliği olmayan seste silenceremove + loudnorm takılıyor), sonra kırpılır
+$suzgec = 'adelay=100,apad=pad_dur=0.2,' +
+  'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05,areverse,' +
+  'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.1,areverse,' +
+  'loudnorm=I=' + $Duzey.ToString([System.Globalization.CultureInfo]::InvariantCulture) + ':TP=-3:LRA=11'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 # System.Speech: Tolga masaüstü sesi olarak kuruluysa
@@ -87,7 +97,7 @@ function WavYaz([string]$metin, [string]$wav) {
 }
 
 function Mp3Yap([string]$wav, [string]$mp3) {
-  & ffmpeg -v error -y -i $wav -af $suzgec -ac 1 -ar 22050 -c:a libmp3lame -b:a 64k -map_metadata -1 $mp3
+  & ffmpeg -nostdin -v error -y -i $wav -af $suzgec -ac 1 -ar 22050 -c:a libmp3lame -b:a 64k -map_metadata -1 $mp3
   return ($LASTEXITCODE -eq 0)
 }
 
@@ -125,7 +135,7 @@ if (-not $sapi -and -not $winrt) {
 }
 $kaynak = if ($sapi) { 'Microsoft Tolga (System.Speech)' } else { 'Microsoft Tolga (Windows.Media.SpeechSynthesis)' }
 $ffmpegVar = [bool](Get-Command ffmpeg -ErrorAction SilentlyContinue) -and [bool](Get-Command ffprobe -ErrorAction SilentlyContinue)
-Write-Host "Ses: $kaynak, $($liste.Count) cümle"
+Write-Host "Ses: $kaynak, $($liste.Count) cümle, düzey $Duzey LUFS"
 
 New-Item -ItemType Directory -Force -Path $gecici | Out-Null
 if (-not $ffmpegVar) {

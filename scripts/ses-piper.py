@@ -5,13 +5,14 @@ assets/ses/ajan-gm/<id>.mp3 olarak yazar ve fabricakit/js/ajan-gm/ses-dosyalari.
 Ses: önce tr_TR-fahrettin-medium, olmazsa tr_TR-fettah-medium. Model Piper'ın ses deposundan (huggingface.co) bir kez
 indirilir, sonra her şey çevrimdışı çalışır. Metin: cumleler.json'daki "okunus" (seseHazirla: sayılar yazıyla).
 Hız yavaş, ton ciddi: length_scale 1,1.
-mp3: ffmpeg ile 64 kbps, tek kanal, 22.050 Hz. Baştaki ve sondaki sessizlik kırpılır, ses düzeyi -23 LUFS'a eşitlenir:
-efektler kısık, iPhone da audio.volume'u yok sayar; düzey bu yüzden dosyaya işlenir (scripts/ses-tolga.ps1 ile aynı).
+mp3: ffmpeg ile 64 kbps, tek kanal, 22.050 Hz. Baştaki ve sondaki sessizlik kırpılır, ses düzeyi -30 LUFS'a eşitlenir
+(--duzey ile değişir): oyunun en yüksek efektleri (sipariş, zil) yaklaşık -35 LUFS, konuşma onların biraz üstünde kalır.
+iPhone audio.volume'u yok saydığı için düzey dosyaya işlenir (scripts/ses-tolga.ps1 ile aynı ayarlar).
 Her dosya ffprobe ile denetlenir: 0,3 sn'den kısa ya da boşsa yeniden üretilir. Toplam 3 MB'ı geçerse betik durur.
 Üretim bitene kadar SES_DOSYALARI_HAZIR false kalır; yarıda kalırsa site cihaz sesine düşer, npm run check uyarır.
 
 Kurulum:    python3 -m venv ~/.piper && ~/.piper/bin/pip install piper-tts      (ffmpeg ve ffprobe da gerekir)
-Çalıştırma: ~/.piper/bin/python scripts/ses-piper.py [--model-klasoru KLASOR]
+Çalıştırma: ~/.piper/bin/python scripts/ses-piper.py [--model-klasoru KLASOR] [--duzey -30]
 Sonra:      npm run check (scripts/ses-test.mjs dosyaları listeyle karşılaştırır)
 """
 import argparse
@@ -33,9 +34,17 @@ LENGTH_SCALE = 1.1
 EN_KISA_SN = 0.3
 EN_FAZLA_BAYT = 3 * 1024 * 1024
 DENEME = 3
-SUZGEC = ("silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05,areverse,"
-          "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.1,areverse,"
-          "loudnorm=I=-23:TP=-3:LRA=11")
+DUZEY = -30.0  # LUFS
+FFMPEG_SN = 120
+
+
+def suzgec(duzey):
+    """Başa ve sona kısa sessizlik eklenir (hiç sessizliği olmayan seste silenceremove + loudnorm takılıyor), sonra
+    sessizlik 0,05 / 0,1 sn kalacak biçimde kırpılır ve düzey eşitlenir"""
+    return ("adelay=100,apad=pad_dur=0.2,"
+            "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05,areverse,"
+            "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.1,areverse,"
+            f"loudnorm=I={duzey:g}:TP=-3:LRA=11")
 
 
 def ses_ac(klasor):
@@ -53,13 +62,13 @@ def ses_ac(klasor):
              "Windows'ta scripts/ses-tolga.ps1 kullanılabilir.")
 
 
-def mp3_uret(ses, metin, mp3, gecici):
+def mp3_uret(ses, metin, mp3, gecici, duzey):
     from piper import SynthesisConfig
     wav = gecici / "ses.wav"
     with wave.open(str(wav), "wb") as w:
         ses.synthesize_wav(metin, w, syn_config=SynthesisConfig(length_scale=LENGTH_SCALE))
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-af", SUZGEC, "-ac", "1", "-ar", "22050",
-                    "-c:a", "libmp3lame", "-b:a", "64k", "-map_metadata", "-1", str(mp3)], check=True)
+    subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(wav), "-af", suzgec(duzey), "-ac", "1", "-ar", "22050",
+                    "-c:a", "libmp3lame", "-b:a", "64k", "-map_metadata", "-1", str(mp3)], check=True, timeout=FFMPEG_SN)
 
 
 def sure(yol):
@@ -84,13 +93,14 @@ def bayrak_yaz(hazir, kaynak):
 def main():
     ap = argparse.ArgumentParser(description="Ajan GM ses dosyalarını Piper ile üretir.")
     ap.add_argument("--model-klasoru", type=Path, default=Path.home() / ".cache/piper", help="Piper ses modellerinin klasörü")
+    ap.add_argument("--duzey", type=float, default=DUZEY, help="hedef ses düzeyi, LUFS (varsayılan -30)")
     args = ap.parse_args()
     for arac in ("ffmpeg", "ffprobe"):
         if not shutil.which(arac):
             sys.exit(f"{arac} bulunamadı: kurun (ör. sudo apt install ffmpeg) ve yeniden çalıştırın.")
     liste = json.loads(LISTE.read_text(encoding="utf-8"))
     ad, ses = ses_ac(args.model_klasoru)
-    print(f"Ses: {ad}, {len(liste)} cümle")
+    print(f"Ses: {ad}, {len(liste)} cümle, düzey {args.duzey:g} LUFS")
     CIKTI.mkdir(parents=True, exist_ok=True)
     bayrak_yaz(False, "")
     with tempfile.TemporaryDirectory() as g:
@@ -98,9 +108,9 @@ def main():
             mp3 = CIKTI / c["dosya"]
             for deneme in range(1, DENEME + 1):
                 try:
-                    mp3_uret(ses, c["okunus"], mp3, Path(g))
+                    mp3_uret(ses, c["okunus"], mp3, Path(g), args.duzey)
                     sn = sure(mp3)
-                except subprocess.CalledProcessError:  # boş ses: ffmpeg çıktı üretemedi
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired):  # boş ses ya da takılan ffmpeg
                     sn = 0.0
                 if sn >= EN_KISA_SN:
                     break

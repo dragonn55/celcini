@@ -28,11 +28,12 @@ export const CUMLELER = [
 ];
 
 /* Metni sabit parçalara ({ id, metin }) ve aradaki değişken parçalara ({ metin }) böler. Metinde en önce geçen parça
-   alınır (aynı yerde uzun olan); okunacak harf ya da rakam içermeyen ara parça (": ", ".") atılır. */
+   alınır (aynı yerde uzun olan); okunacak harf ya da rakam içermeyen ara parça (": ", ".") atılır, değişken parçanın
+   başındaki noktalama kırpılır (": 77 puan" → "77 puan"; bazı ses motorları onu da okur). */
 export function parcala(metin) {
   const sonuc = [];
   let kalan = String(metin || "");
-  const ekle = (m) => { if (/[\p{L}\p{N}]/u.test(m)) sonuc.push({ metin: m.trim() }); };
+  const ekle = (m) => { if (/[\p{L}\p{N}]/u.test(m)) sonuc.push({ metin: m.replace(/^[\s:;,.]+/, "").trim() }); };
   while (kalan) {
     let ilk = null;
     for (const c of CUMLELER) {

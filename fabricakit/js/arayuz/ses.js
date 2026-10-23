@@ -287,7 +287,8 @@ function konus(cumleler) {
 }
 
 /* iPhone: ses öğesi ancak dokunuşla bir kez çalınca, konuşma da dokunuşla bir kez başlayınca sonradan kendiliğinden
-   çalabilir. İlk parça dokunuşun içinde başlar; burada öteki türün kilidi açılır (ses öğesi sessiz başlayıp durur). */
+   çalabilir. İlk parça dokunuşun içinde başlar; burada öteki türün kilidi açılır: ses öğesi sessiz başlayıp durur,
+   konuşma boş sözle başlayıp kesilir (plan yalnız dosyaysa da: dosya açılamazsa cihaz sesine düşebilsin). */
 function kilitleriAc(plan) {
   const ilkDosya = plan.find((a) => a.dosya);
   if (ilkDosya && !calar) calar = new Audio();

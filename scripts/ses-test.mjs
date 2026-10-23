@@ -4,12 +4,14 @@
      bir başkasının içinde geçmiyor; her kalıbın sabit parçası metinde bulunuyor (parcala).
    - data/ses/cumleler.json listeyle aynı (değilse: node scripts/ses-cumleler.mjs).
    - assets/ses/ajan-gm/ ya boş (sesler henüz üretilmedi: uyarı, cihaz sesi kullanılır) ya da listeyle birebir:
-     her cümlenin mp3'ü var, fazla dosya yok, toplam ≤ 3 MB; ffprobe varsa her dosya mp3, tek kanal ve en az 0,3 sn.
+     her cümlenin mp3'ü var, fazla dosya yok, toplam ≤ 3 MB; ffprobe varsa her dosya mp3, tek kanal, en fazla 64 kbps
+     ve en az 0,3 sn.
    - fabricakit/js/ajan-gm/ses-dosyalari.js dosyalarla uyumlu: dosya yoksa SES_DOSYALARI_HAZIR false, varsa true ve
      SES_KAYNAGI dolu (üretim betikleri yazar).
    Çalıştırma: node scripts/ses-test.mjs */
 import fs from "node:fs";
 import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { CUMLELER, EN_FAZLA_CUMLE, parcala, KILIT_SOZU } from "../fabricakit/js/ajan-gm/cumleler.js";
 import { ACILIS, TALIMAT } from "../fabricakit/js/ajan-gm/yorumlar.js";
 import { SES_DOSYALARI_HAZIR, SES_KAYNAGI } from "../fabricakit/js/ajan-gm/ses-dosyalari.js";
@@ -80,11 +82,12 @@ if (!dosyalar.length) {
     if (boyut < 1024) hata(`ses dosyası boş ya da çok küçük (${boyut} bayt): ${d}`);
     if (!ffprobe) continue;
     try {
-      const bilgi = JSON.parse(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration:stream=codec_name,channels", "-of", "json", yol.pathname], { encoding: "utf8" }));
+      const bilgi = JSON.parse(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration:stream=codec_name,channels,bit_rate", "-of", "json", fileURLToPath(yol)], { encoding: "utf8" }));
       const sure = Number(bilgi.format && bilgi.format.duration);
       const akis = (bilgi.streams || [])[0] || {};
       if (!(sure >= EN_KISA_SN)) hata(`ses ${EN_KISA_SN} sn'den kısa (${sure} sn): ${d}`);
       if (akis.codec_name !== "mp3" || akis.channels !== 1) hata(`ses mp3 tek kanal değil (${akis.codec_name}, ${akis.channels} kanal): ${d}`);
+      if (Number(akis.bit_rate) > 64000) hata(`ses 64 kbps'den yüksek (${Math.round(Number(akis.bit_rate) / 1000)} kbps): ${d}`);
     } catch (e) {
       if (e.code === "ENOENT") { ffprobe = false; console.warn("! ffprobe yok: süre ve biçim denetimi atlandı"); } else hata(`ffprobe okuyamadı: ${d}`);
     }

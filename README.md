@@ -25,6 +25,11 @@ scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt
 scripts/karne-ornegi.mjs Motorun 1. gün karnesinden ana sayfa örneğini üretir (senaryo dosyanın başında)
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
+scripts/ses-*.mjs        Ajan GM sesi: ses-cumleler (→ data/ses/cumleler.json), ses-test (liste, JSON, dosyalar)
+scripts/ses-piper.py     Ajan GM ses dosyaları, Piper ile (Linux/macOS; model huggingface.co'dan bir kez iner)
+scripts/ses-tolga.ps1    Ajan GM ses dosyaları, Windows'ta "Microsoft Tolga" ile
+data/ses/cumleler.json   Ajan GM'nin ses dosyası olan 40 sabit cümlesi (ses-cumleler üretir; elle düzenlenmez)
+assets/ses/ajan-gm/      Ajan GM ses dosyaları (<id>.mp3; üretim betikleri yazar)
 assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
 assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
@@ -41,7 +46,8 @@ uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat
 python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
 npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
-npm run check                         # üretim çıktısı + sim-test + api-test
+npm run check                         # üretim çıktısı + sim-test + api-test + ses-test
+npm run ses-cumleler                  # Ajan GM cümle listesi değişince data/ses/cumleler.json'ı yenile (sonra sesleri üret)
 node scripts/karne-ornegi.mjs         # oyun kuralı ya da Ajan GM şablonu değişince karne örneğini yenile, sonra derle
 npm run check:onizleme                # önizleme çıktısını kontrol et
 npm run dev                           # http://localhost:3000 (üretim)
@@ -107,8 +113,8 @@ fabricakit/js/uygulama.js  Tarayıcı giriş noktası
   Cümle listesi değişince: `npm run ses-cumleler` (→ `data/ses/cumleler.json`), sonra sesleri yeniden üretin:
   `scripts/ses-piper.py` (Piper, Türkçe erkek ses; modeli bir kez huggingface.co'dan indirir) ya da Windows'ta
   `powershell -ExecutionPolicy Bypass -File scripts\ses-tolga.ps1` ("Microsoft Tolga" + ffmpeg). İkisi de aynı dosya adlarını
-  yazar, sesi -23 LUFS'a eşitler ve `ses-dosyalari.js`'i günceller. `npm run check` (`scripts/ses-test.mjs`) liste, JSON ve
-  dosyaların birebir eşleştiğini denetler.
+  yazar, sesi -30 LUFS'a eşitler (oyunun en yüksek efektleri yaklaşık -35 LUFS; değiştirmek için `--duzey` / `-Duzey`) ve
+  `ses-dosyalari.js`'i günceller. `npm run check` (`scripts/ses-test.mjs`) liste, JSON ve dosyaların birebir eşleştiğini denetler.
   Metin okunmadan önce sese hazırlanır: sayı, tutar, yüzde ve saat yazıya çevrilir ("135.200 TL" → "yüz otuz beş bin iki yüz lira",
   "08:00'de" → "saat sekizde"); `npm run sim-test` Ajan GM metinlerinde okunmamış rakam kalmadığını denetler.
 - Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfanın açılışı) ve daire
