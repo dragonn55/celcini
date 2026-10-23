@@ -3,7 +3,7 @@
 ## Proje
 - Celcini'nin resmî sitesi: saf HTML + CSS + JS. Sayfalar `data/urunler.json`'dan `scripts/derle.py` ile üretilir, derlenmiş HTML depoda durur; Vercel'de derleme adımı yok. Ayrıntılar `README.md`'de.
 - Site Vercel'e bağlı: `main`'e giren her değişiklik doğrudan canlıya çıkar; diğer dallar önizleme adresi alır.
-- Komutlar: `python3 scripts/derle.py` (üretim) · `python3 scripts/derle.py --onizleme` (önizleme, `_onizleme/`) · `npm run dev` (yerel sunucu, port 3000) · `npm run check` (SEO etiketleri, kırık iç bağlantı, örnek kayıt sızıntısı).
+- Komutlar: `python3 scripts/derle.py` (üretim) · `python3 scripts/derle.py --onizleme` (önizleme, `_onizleme/`) · `npm run dev` (yerel sunucu, port 3000) · `npm run check` (SEO etiketleri, kırık iç bağlantı, örnek kayıt sızıntısı, dil kuralları, Fabricakit sim-test ve api-test).
 
 ## Proje kuralları
 - Mağaza, Google Form, e-posta ve Instagram bağlantıları yalnızca `assets/js/config.js`'te değişir. Ürünlerin Shopier bağlantıları `data/urunler.json`'da.
