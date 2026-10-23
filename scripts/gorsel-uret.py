@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """Favicon, Apple touch icon ve og-cover.png üretir. Pillow gerekir (pip install pillow).
 
-Logolar olduğu gibi kullanılır: yalnızca #0096C7 zemine yerleştirilip boyutlandırılır.
+Logolar olduğu gibi kullanılır: yalnızca koyu turkuaz zemine yerleştirilip boyutlandırılır.
+Zemin rengi assets/css/style.css :root'taki --koyu-turkuaz'dan okunur (beyaz logo yalnızca koyu turkuaz üstünde).
     python3 scripts/gorsel-uret.py
 """
+import re
 from pathlib import Path
 from PIL import Image
 
 KOK = Path(__file__).resolve().parent.parent
 IMG = KOK / "assets" / "img"
-MAVI = (0, 150, 199, 255)  # #0096C7
+_renk = re.search(r"--koyu-turkuaz:\s*#([0-9A-Fa-f]{6})\b", (KOK / "assets" / "css" / "style.css").read_text(encoding="utf-8")).group(1)
+ZEMIN = tuple(int(_renk[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
 
 
 def zemine_koy(logo, boyut, oran, radius=0):
-    """logo'yu boyut×boyut (ya da (w,h)) mavi zemine, kısa kenarın `oran` katı kadar yer kaplayacak şekilde ortalar."""
+    """logo'yu boyut×boyut (ya da (w,h)) koyu turkuaz zemine, kısa kenarın `oran` katı kadar yer kaplayacak şekilde ortalar."""
     w, h = boyut if isinstance(boyut, tuple) else (boyut, boyut)
-    zemin = Image.new("RGBA", (w, h), MAVI)
+    zemin = Image.new("RGBA", (w, h), ZEMIN)
     kutu = logo.getbbox()
     kirp = logo.crop(kutu)
     hedef_h = int(h * oran)
@@ -37,7 +40,7 @@ def zemine_koy(logo, boyut, oran, radius=0):
 gul = Image.open(IMG / "logo-gul-beyaz.png").convert("RGBA")
 tam = Image.open(IMG / "logo-tam-beyaz.png").convert("RGBA")
 
-# Favicon: #0096C7 kare içinde beyaz gül
+# Favicon: koyu turkuaz kare içinde beyaz gül
 for ad, boyut in [("favicon-32.png", 32), ("favicon-192.png", 192), ("favicon-512.png", 512), ("apple-touch-icon.png", 180)]:
     zemine_koy(gul, boyut, 0.78).save(IMG / ad, optimize=True)
 zemine_koy(gul, 64, 0.78).save(KOK / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])

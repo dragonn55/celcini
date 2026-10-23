@@ -82,6 +82,24 @@ def surum(yol):
     return hashlib.md5((KOK / yol.lstrip("/")).read_bytes()).hexdigest()[:8]
 
 
+def kok_rengi(ad):
+    """assets/css/style.css :root'taki renk (#RRGGBB). theme-color ve site.webmanifest buradan okur; palet tek yerde kalır."""
+    m = re.search(rf"--{ad}:\s*(#[0-9A-Fa-f]{{6}})\b", (KOK / "assets" / "css" / "style.css").read_text(encoding="utf-8"))
+    if not m:
+        sys.exit(f"style.css :root içinde --{ad} bulunamadı")
+    return m.group(1).upper()
+
+
+def manifest_renkleri():
+    """site.webmanifest'in zemin ve tema rengini :root'la eşitler (dosyanın biçimi korunur)."""
+    yol = KOK / "site.webmanifest"
+    metin = yol.read_text(encoding="utf-8")
+    yeni = re.sub(r'"background_color":\s*"[^"]*"', f'"background_color": "{kok_rengi("zemin")}"', metin)
+    yeni = re.sub(r'"theme_color":\s*"[^"]*"', f'"theme_color": "{kok_rengi("koyu-turkuaz")}"', yeni)
+    if yeni != metin:
+        yol.write_text(yeni, encoding="utf-8")
+
+
 def gorunur(u):
     if ONIZLEME:
         return True
@@ -256,7 +274,7 @@ def sayfa(yol, baslik, aciklama, govde, *, etkin="", og_gorsel="/assets/img/og-c
 <meta property="og:image" content="{mutlak(og_gorsel)}">
 <meta property="og:image:alt" content="Celcini">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0096C7">
+<meta name="theme-color" content="{kok_rengi("koyu-turkuaz")}">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
@@ -837,6 +855,7 @@ def main():
     urunler = [u for u in tumu if gorunur(u)]
     gizlenen = [u["slug"] for u in tumu if not gorunur(u)]
 
+    manifest_renkleri()
     if ONIZLEME:
         if CIKTI.exists():
             shutil.rmtree(CIKTI)

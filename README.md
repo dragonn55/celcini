@@ -133,11 +133,17 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 
 ## Tasarım kuralları (özet)
 
-- Palet: zemin `#CBE6F6`, kart `#FFFFFF`, çizgi `#9CCBEA`, okyanus mavisi `#0096C7`, koyu okyanus `#005F93`,
-  metin `#0B1F3A` / `#46586D`, turuncu çizgi `#F4A27A`, turuncu zemin `#FDEBDD`.
-- `#0096C7` üstünde beyaz yazı yalnızca ≥ 20px kalın (kontrast 3,39). Açık zeminde link ve ikon `#005F93`.
+- Palet (`assets/css/style.css` `:root`): zemin `#F2FBFA`, kart `#FFFFFF`, çizgi `#D3EFEC`, marka turkuazı `#1FB7B2`,
+  koyu turkuaz `#0B7F7B`, metin `#0B1F3A` / `#4A5B6E`, turuncu çizgi `#F4A27A`, turuncu zemin `#FDEBDD`
+  (Fabricakit "acil" durumu için ayrıca `#B42318`).
+- Üstünde beyaz yazı ya da logo olan her şey (üst şerit, mobil menü, butonlar, rozetler, logo zeminleri) koyu turkuaz
+  `#0B7F7B` (beyazla kontrast 4,84). Açık zeminde link, form çerçevesi, odak ve seçili durum da koyu turkuaz.
+- Parlak turkuaz `#1FB7B2` yalnızca vurgu, ikon ve çizgi; üstüne beyaz yazı konmaz, yazı rengi olarak kullanılmaz
+  (beyazla 2,48).
+- Renk kodu yalnızca `:root`'ta yazılır; `npm run check` CSS'te başka yerde `#hex` ya da `rgb()` görürse hata verir.
+  `theme-color`, `site.webmanifest` ve `scripts/gorsel-uret.py` (favicon, og-cover) renkleri `:root`'tan okur.
 - Turuncu yalnızca vurgu: rozet zemini, fiyat alt çizgisi, ince çizgi. Turuncu renkte yazı yok.
-- Logolar beyaz ve şeffaf; her zaman `#0096C7` zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
+- Logolar beyaz ve şeffaf; her zaman koyu turkuaz zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
 - İkonlar Lucide, çizgi kalınlığı 1,5. Kartlar ince çizgi çerçeveli, gölge yok.
 - Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px.
 

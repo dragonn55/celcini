@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Yayın öncesi kontrol: SEO etiketleri, kırık iç bağlantı, uydurma/yer tutucu, örnek kayıt sızıntısı,
-   dil kuralları, ana sayfadaki oda şeridinin fabricakit/js/odalar.js ile uyumu.
+   dil kuralları, ana sayfadaki oda şeridinin fabricakit/js/odalar.js ile uyumu, CSS'te :root dışında renk kodu.
    node scripts/check.js              → depo kökü (üretim)
    node scripts/check.js _onizleme    → önizleme derlemesi */
 const fs = require("fs");
@@ -13,6 +13,7 @@ const uretim = root === depo;
 const atla = new Set(["node_modules", ".git", ".vercel", ".claude", "_onizleme", "scripts", "data", "docs"]);
 const htmlFiles = [];
 const jsFiles = [];
+const cssFiles = [];
 (function walk(dir) {
   for (const name of fs.readdirSync(dir)) {
     if (atla.has(name)) continue;
@@ -20,6 +21,7 @@ const jsFiles = [];
     if (fs.statSync(p).isDirectory()) walk(p);
     else if (name.endsWith(".html")) htmlFiles.push(p);
     else if (/\.(c|m)?js$/.test(name)) jsFiles.push(p);
+    else if (name.endsWith(".css")) cssFiles.push(p);
   }
 })(root);
 
@@ -36,6 +38,14 @@ const dil = [
 
 const urunler = JSON.parse(fs.readFileSync(path.join(depo, "data/urunler.json"), "utf8"));
 const gizli = urunler.filter((u) => u.ornek || !String(u.shopier_url || "").trim()).map((u) => u.slug);
+
+/* Palet tek yerde: CSS'te renk kodu (#hex, rgb/rgba) yalnızca style.css :root içinde yazılır */
+for (const file of cssFiles) {
+  const rel = path.relative(root, file);
+  const css = fs.readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/:root\s*\{[^}]*\}/g, "");
+  const kod = css.match(/#[0-9a-fA-F]{3,8}\b|rgba?\(/);
+  if (kod) hata(`${rel}: renk kodu "${kod[0]}" :root dışında; style.css :root'taki bir değişkene bağlanmalı`);
+}
 
 for (const file of htmlFiles) {
   const rel = path.relative(root, file);
