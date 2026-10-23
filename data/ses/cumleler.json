@@ -1,0 +1,242 @@
+[
+  {
+    "id": "acilis",
+    "metin": "Fabrikanın genel müdürüyüm. Gün boyu her kararınızı izlerim; akşam notunuzu veririm. Sabah 08:00'de siparişler gelecek.",
+    "okunus": "Fabrikanın genel müdürüyüm. Gün boyu her kararınızı izlerim; akşam notunuzu veririm. Sabah saat sekizde siparişler gelecek.",
+    "dosya": "acilis.mp3"
+  },
+  {
+    "id": "kilit",
+    "metin": "1. gün ücretsizdi. Sonraki günlerde siparişler gece değişir, olaylar sıklaşır. Devam etmek için erişim kodunuzu girin.",
+    "okunus": "birinci gün ücretsizdi. Sonraki günlerde siparişler gece değişir, olaylar sıklaşır. Devam etmek için erişim kodunuzu girin.",
+    "dosya": "kilit.mp3"
+  },
+  {
+    "id": "not-a-1",
+    "metin": "bugünü temiz kapattınız",
+    "okunus": "bugünü temiz kapattınız",
+    "dosya": "not-a-1.mp3"
+  },
+  {
+    "id": "not-a-2",
+    "metin": "fabrika bugün sözünü tuttu.",
+    "okunus": "fabrika bugün sözünü tuttu.",
+    "dosya": "not-a-2.mp3"
+  },
+  {
+    "id": "not-a-3",
+    "metin": "kayıtlarıma A notuyla geçiyorsunuz",
+    "okunus": "kayıtlarıma A notuyla geçiyorsunuz",
+    "dosya": "not-a-3.mp3"
+  },
+  {
+    "id": "not-b-1",
+    "metin": "iyi bir gün ama kusursuz değil",
+    "okunus": "iyi bir gün ama kusursuz değil",
+    "dosya": "not-b-1.mp3"
+  },
+  {
+    "id": "not-b-2",
+    "metin": "hedefe yakın kaldınız.",
+    "okunus": "hedefe yakın kaldınız.",
+    "dosya": "not-b-2.mp3"
+  },
+  {
+    "id": "not-b-3",
+    "metin": "işler büyük ölçüde yürüdü.",
+    "okunus": "işler büyük ölçüde yürüdü.",
+    "dosya": "not-b-3.mp3"
+  },
+  {
+    "id": "not-c-1",
+    "metin": "fabrika bugün yarım güçle çalıştı",
+    "okunus": "fabrika bugün yarım güçle çalıştı",
+    "dosya": "not-c-1.mp3"
+  },
+  {
+    "id": "not-c-2",
+    "metin": "ortalama bir gün.",
+    "okunus": "ortalama bir gün.",
+    "dosya": "not-c-2.mp3"
+  },
+  {
+    "id": "not-c-3",
+    "metin": "kaçan işler kazanılanları dengeledi.",
+    "okunus": "kaçan işler kazanılanları dengeledi.",
+    "dosya": "not-c-3.mp3"
+  },
+  {
+    "id": "not-d-1",
+    "metin": "bugün çok şey elden kaçtı",
+    "okunus": "bugün çok şey elden kaçtı",
+    "dosya": "not-d-1.mp3"
+  },
+  {
+    "id": "not-d-2",
+    "metin": "zayıf bir gün.",
+    "okunus": "zayıf bir gün.",
+    "dosya": "not-d-2.mp3"
+  },
+  {
+    "id": "not-d-3",
+    "metin": "bu gün kontrol sizde değildi.",
+    "okunus": "bu gün kontrol sizde değildi.",
+    "dosya": "not-d-3.mp3"
+  },
+  {
+    "id": "not-e-1",
+    "metin": "bu günü olduğu gibi kayda geçiriyorum",
+    "okunus": "bu günü olduğu gibi kayda geçiriyorum",
+    "dosya": "not-e-1.mp3"
+  },
+  {
+    "id": "not-e-2",
+    "metin": "fabrika bugün kendi başına kaldı.",
+    "okunus": "fabrika bugün kendi başına kaldı.",
+    "dosya": "not-e-2.mp3"
+  },
+  {
+    "id": "not-e-3",
+    "metin": "bugün yönetim yoktu, yalnızca olaylar vardı.",
+    "okunus": "bugün yönetim yoktu, yalnızca olaylar vardı.",
+    "dosya": "not-e-3.mp3"
+  },
+  {
+    "id": "talimat",
+    "metin": "Yarın için talimatım:",
+    "okunus": "Yarın için talimatım:",
+    "dosya": "talimat.mp3"
+  },
+  {
+    "id": "talimat-gec-teslim-1",
+    "metin": "saat 09:00 olmadan Dünya'da kapasite tablosuna bakın, yüzde yüzü aşan günü Mars'ta ikinci vardiyayla kapatın.",
+    "okunus": "saat dokuz olmadan Dünya'da kapasite tablosuna bakın, yüzde yüzü aşan günü Mars'ta ikinci vardiyayla kapatın.",
+    "dosya": "talimat-gec-teslim-1.mp3"
+  },
+  {
+    "id": "talimat-gec-teslim-2",
+    "metin": "siparişler gelir gelmez Dünya'da planı güncelleyin ve geç kalacak satır uyarısını aynı saat içinde kapatın.",
+    "okunus": "siparişler gelir gelmez Dünya'da planı güncelleyin ve geç kalacak satır uyarısını aynı saat içinde kapatın.",
+    "dosya": "talimat-gec-teslim-2.mp3"
+  },
+  {
+    "id": "talimat-gec-teslim-3",
+    "metin": "geç kalacak her satır için Mars'ta ikinci vardiyayı 12:00'den önce açın.",
+    "okunus": "geç kalacak her satır için Mars'ta ikinci vardiyayı saat on ikiden önce açın.",
+    "dosya": "talimat-gec-teslim-3.mp3"
+  },
+  {
+    "id": "talimat-unutulan-onay-1",
+    "metin": "Plüton'da her siparişin onayını sayaç bir saatin altına inmeden alın.",
+    "okunus": "Plüton'da her siparişin onayını sayaç bir saatin altına inmeden alın.",
+    "dosya": "talimat-unutulan-onay-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-onay-2",
+    "metin": "sipariş verdikten sonra sayaç şeridini izleyin; \"Onaya hazır\" yazınca hemen onaylayın.",
+    "okunus": "sipariş verdikten sonra sayaç şeridini izleyin; \"Onaya hazır\" yazınca hemen onaylayın.",
+    "dosya": "talimat-unutulan-onay-2.mp3"
+  },
+  {
+    "id": "talimat-unutulan-onay-3",
+    "metin": "aynı anda en fazla iki onay bekletin; üçüncüyü vermeden öncekini kapatın.",
+    "okunus": "aynı anda en fazla iki onay bekletin; üçüncüyü vermeden öncekini kapatın.",
+    "dosya": "talimat-unutulan-onay-3.mp3"
+  },
+  {
+    "id": "talimat-malzeme-bitti-1",
+    "metin": "sabah ilk iş Dünya'da malzeme ihtiyacını açın ve GEÇ KALINDI yazan her kalemi en hızlı tedarikçiye verin.",
+    "okunus": "sabah ilk iş Dünya'da malzeme ihtiyacını açın ve geç kalındı yazan her kalemi en hızlı tedarikçiye verin.",
+    "dosya": "talimat-malzeme-bitti-1.mp3"
+  },
+  {
+    "id": "talimat-malzeme-bitti-2",
+    "metin": "BUGÜN VER yazan kalemi o gün, öğleden önce sipariş edin.",
+    "okunus": "bugün ver yazan kalemi o gün, öğleden önce sipariş edin.",
+    "dosya": "talimat-malzeme-bitti-2.mp3"
+  },
+  {
+    "id": "talimat-malzeme-bitti-3",
+    "metin": "stoğu iki gün içinde bitecek her kalemi sabah sipariş edin.",
+    "okunus": "stoğu iki gün içinde bitecek her kalemi sabah sipariş edin.",
+    "dosya": "talimat-malzeme-bitti-3.mp3"
+  },
+  {
+    "id": "talimat-butce-asimi-1",
+    "metin": "sipariş vermeden önce Neptün'deki kalan bütçeye bakın.",
+    "okunus": "sipariş vermeden önce Neptün'deki kalan bütçeye bakın.",
+    "dosya": "talimat-butce-asimi-1.mp3"
+  },
+  {
+    "id": "talimat-fazla-siparis-1",
+    "metin": "Plüton'da önerilen miktarı aşmayın.",
+    "okunus": "Plüton'da önerilen miktarı aşmayın.",
+    "dosya": "talimat-fazla-siparis-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-plan-1",
+    "metin": "saat 10:00 olmadan siparişleri Dünya'da plana alın.",
+    "okunus": "saat on olmadan siparişleri Dünya'da plana alın.",
+    "dosya": "talimat-unutulan-is-plan-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-guncelle-1",
+    "metin": "gün içinde sipariş ya da kapasite değişirse bir saat içinde planı güncelleyin.",
+    "okunus": "gün içinde sipariş ya da kapasite değişirse bir saat içinde planı güncelleyin.",
+    "dosya": "talimat-unutulan-is-guncelle-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-siparis-1",
+    "metin": "BUGÜN VER yazan her kalemi aynı gün Plüton'a taşıyın.",
+    "okunus": "bugün ver yazan her kalemi aynı gün Plüton'a taşıyın.",
+    "dosya": "talimat-unutulan-is-siparis-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-siparis-2",
+    "metin": "gün bitmeden Dünya'da malzeme ihtiyacını bir kez daha kontrol edin.",
+    "okunus": "gün bitmeden Dünya'da malzeme ihtiyacını bir kez daha kontrol edin.",
+    "dosya": "talimat-unutulan-is-siparis-2.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-teslim-1",
+    "metin": "kapıya gelen her teslimatı bir saat içinde Jüpiter'de teslim alın.",
+    "okunus": "kapıya gelen her teslimatı bir saat içinde Jüpiter'de teslim alın.",
+    "dosya": "talimat-unutulan-is-teslim-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-teslim-2",
+    "metin": "Jüpiter ışığı yandığında önce kapıdaki teslimatı alın.",
+    "okunus": "Jüpiter ışığı yandığında önce kapıdaki teslimatı alın.",
+    "dosya": "talimat-unutulan-is-teslim-2.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-kalite-1",
+    "metin": "Satürn'den gelen kararı sayaç bitmeden verin.",
+    "okunus": "Satürn'den gelen kararı sayaç bitmeden verin.",
+    "dosya": "talimat-unutulan-is-kalite-1.mp3"
+  },
+  {
+    "id": "talimat-unutulan-is-kalite-2",
+    "metin": "bozuk parti bildirimi gelince Satürn'e hemen gidin.",
+    "okunus": "bozuk parti bildirimi gelince Satürn'e hemen gidin.",
+    "dosya": "talimat-unutulan-is-kalite-2.mp3"
+  },
+  {
+    "id": "talimat-yok-1",
+    "metin": "siparişler gece yine değişecek; saat 09:00 olmadan planı güncelleyin.",
+    "okunus": "siparişler gece yine değişecek; saat dokuz olmadan planı güncelleyin.",
+    "dosya": "talimat-yok-1.mp3"
+  },
+  {
+    "id": "talimat-yok-2",
+    "metin": "aynı disiplini koruyun; sabah planını saat 10:00 olmadan bitirin.",
+    "okunus": "aynı disiplini koruyun; sabah planını saat on olmadan bitirin.",
+    "dosya": "talimat-yok-2.mp3"
+  },
+  {
+    "id": "talimat-yok-3",
+    "metin": "ithal kalemin sipariş gününü kaçırmayın; Dünya'da her sabah kontrol edin.",
+    "okunus": "ithal kalemin sipariş gününü kaçırmayın; Dünya'da her sabah kontrol edin.",
+    "dosya": "talimat-yok-3.mp3"
+  }
+]
