@@ -40,6 +40,7 @@
 .fk-ust-dugme:hover { background: var(--zemin); }
 .fk-ust-dugme[aria-pressed="true"] { border-width: 2px; padding: 0 11px; }
 .fk-ust-dugme:disabled { opacity: 0.5; cursor: not-allowed; }
+.fk-dugme-kisa { display: none; }
 /* Masaüstü: tek satır; yer daralırsa fabrika adı kısalır (…), düğmeler alt satıra inmez */
 @media (min-width: 960px) {
   .fk-ust-satir { flex-wrap: nowrap; }
@@ -56,15 +57,18 @@
   .fk-ust-alt-satir .fk-durak { flex: none; }
   .fk-ust-alt-satir .fk-durak:not(:empty) { padding: 0 8px; }
 }
-/* Dar ekran: üst şerit düğmeleri yalnız ikon (44 px), şerit tek satır */
+/* Dar ekran: üst şerit düğmeleri 44 × 44 px, ikonun altında kısa etiket (Ses · Durdur · Bitir); şerit tek satır.
+   Düğmeler daralmaz; yer yetmezse "Puan 100" iki satıra, 375 px altında gün ve saat alt alta iner. */
 @media (max-width: 719px) {
   .fk-ust-satir { flex-wrap: nowrap; }
-  .fk-ust-dugme { width: 44px; padding: 0; justify-content: center; }
+  .fk-ust-dugme { flex: none; flex-direction: column; justify-content: center; gap: 3px; width: 44px; padding: 0; }
   .fk-ust-dugme[aria-pressed="true"] { padding: 0; }
-  .fk-ust-dugme .fk-dugme-metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .fk-ust-dugme .fk-dugme-metin { display: none; }
+  .fk-ust-dugme .fk-dugme-kisa { display: block; font-size: var(--fs-etiket); line-height: 1; white-space: nowrap; }
   .fk-ust-sol { gap: 6px; }
-  .fk-ust-sag { gap: 6px; flex-wrap: nowrap; }
+  .fk-ust-sag { gap: 4px; flex-wrap: nowrap; }
 }
+/* 375–479 px: gün ve saat tek satırda kalır (sol taraf daralmaz); sıkışırsa "Puan 100" iki satıra iner */
 @media (min-width: 375px) and (max-width: 479px) { .fk-ust-sol { flex-shrink: 0; } }
 
 /* "Günü bitir" durağı: üst şeridin altında, ilerleme neyi bekliyor */

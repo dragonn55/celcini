@@ -147,7 +147,8 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 - Turuncu yalnızca vurgu: rozet zemini, fiyat alt çizgisi, ince çizgi. Turuncu renkte yazı yok.
 - Logolar beyaz ve şeffaf; her zaman `#0096C7` zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
 - İkonlar Lucide, çizgi kalınlığı 1,5. Kartlar ince çizgi çerçeveli, gölge yok.
-- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px.
+- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px. Fabricakit'in yoğun ekranında ikincil etiket 14px;
+  telefonda üst şerit düğmelerinin ikon altı etiketi (Ses · Durdur · Bitir) 10px.
 
 ## Yayın (Vercel)
 

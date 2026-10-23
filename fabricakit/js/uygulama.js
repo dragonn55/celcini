@@ -138,7 +138,9 @@ function oyun() {
   const durakAltEl = h("span", { sinif: "fk-durak" });
   const puanEl = h("span", { sinif: "fk-puan" });
   const duraklat = h("button", { sinif: "fk-ust-dugme", type: "button", on: { click: () => { saatAcik = !saatAcik; ustCiz(); } } });
-  const bitir = h("button", { sinif: "fk-ust-dugme fk-bitir", type: "button", "aria-label": "Günü bitir", on: { click: gunuBitir } }, ikon("bayrak"), h("span", { sinif: "fk-dugme-metin", metin: "Günü bitir" }));
+  /* Üst şerit düğmeleri: masaüstünde ikon + yazı, telefonda ikon + altında kısa etiket (fk-dugme-kisa) */
+  const kisa = (metin) => h("span", { sinif: "fk-dugme-kisa", "aria-hidden": "true", metin });
+  const bitir = h("button", { sinif: "fk-ust-dugme fk-bitir", type: "button", "aria-label": "Günü bitir", on: { click: gunuBitir } }, ikon("bayrak"), h("span", { sinif: "fk-dugme-metin", metin: "Günü bitir" }), kisa("Bitir"));
   const bitirmeEl = h("div", { sinif: "fk-bitirme", role: "status", hidden: true });
   const ust = h("div", { sinif: "fk-ust" },
     h("div", { sinif: "fk-ust-satir" },
@@ -193,8 +195,9 @@ function oyun() {
     puanEl.textContent = `Puan ${sayi(d.puan.deger)}`;
     durakEl.textContent = saatAcik || d.bitirme ? "" : "Duraklatıldı";
     durakAltEl.textContent = durakEl.textContent;
-    temizle(duraklat).append(ikon(saatAcik ? "duraklat" : "oynat"), h("span", { sinif: "fk-dugme-metin", metin: saatAcik ? "Duraklat" : "Devam" }));
-    duraklat.setAttribute("aria-label", saatAcik ? "Saati duraklat" : "Saati devam ettir");
+    const durdurMetni = saatAcik ? "Durdur" : "Devam";
+    temizle(duraklat).append(ikon(saatAcik ? "duraklat" : "oynat"), h("span", { sinif: "fk-dugme-metin", metin: durdurMetni }), kisa(durdurMetni));
+    duraklat.setAttribute("aria-label", saatAcik ? "Saati durdur" : "Saati devam ettir");
     duraklat.setAttribute("aria-pressed", String(!saatAcik));
     duraklat.disabled = Boolean(d.bitirme);
     bitir.disabled = Boolean(d.bitirme);

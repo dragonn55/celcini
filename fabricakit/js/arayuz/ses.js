@@ -226,7 +226,8 @@ export function sesliOkuDugmesi(metin) {
 export function sesDugmesi() {
   const dugme = h("button", { sinif: "fk-ust-dugme fk-ses", type: "button" });
   const ciz = () => {
-    temizle(dugme).append(ikon(acik ? "ses" : "sessiz"), h("span", { sinif: "fk-dugme-metin", metin: acik ? "Sesi kapat" : "Sesi aç" }));
+    temizle(dugme).append(ikon(acik ? "ses" : "sessiz"), h("span", { sinif: "fk-dugme-metin", metin: acik ? "Sesi kapat" : "Sesi aç" }),
+      h("span", { sinif: "fk-dugme-kisa", "aria-hidden": "true", metin: "Ses" }));
     dugme.setAttribute("aria-label", acik ? "Sesi kapat" : "Sesi aç");
   };
   dugme.addEventListener("click", () => { sesiDegistir(); ciz(); });
