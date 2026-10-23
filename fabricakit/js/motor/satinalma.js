@@ -17,8 +17,8 @@ export function harca(durum, tutar, neden) {
   durum.butce.harcanan += tutar;
   if (durum.butce.harcanan > durum.butce.limit && !durum.butce.asildi) {
     durum.butce.asildi = true;
-    puanEkle(durum, "BUTCE_ASIMI", `Bütçe aşıldı: ${neden} (${tl(durum.butce.harcanan)} / ${tl(durum.butce.limit)})`);
-    bildir(durum, "finans", `Finans-Muhasebe: günlük bütçe aşıldı (${tl(durum.butce.harcanan)} / ${tl(durum.butce.limit)}).`, "acil");
+    puanEkle(durum, "BUTCE_ASIMI", `Bütçe aşıldı: ${neden} (${tl(durum.butce.harcanan)} harcandı, sınır ${tl(durum.butce.limit)})`);
+    bildir(durum, "finans", `Finans-Muhasebe: günlük bütçe aşıldı (${tl(durum.butce.harcanan)} harcandı, sınır ${tl(durum.butce.limit)}).`, "acil");
   }
 }
 
@@ -32,6 +32,8 @@ export function siparisVer(durum, { malzeme, tedarikci, miktar }) {
   if (!tedarikEdebilir(malzeme, tedarikci)) return { hata: `${MALZEME[malzeme].ad} yalnızca ithalatçıdan alınır.` };
   if (!Number.isInteger(miktar) || miktar < 1 || miktar > 1000000) return { hata: "Miktar 1 ile 1.000.000 arasında tam sayı olmalı." };
 
+  /* Görev notunun sipariş adımı: GEÇ KALINDI / BUGÜN VER kalemi için verilen sipariş sayaca yazılır */
+  const gerekli = verilmeyenSiparisler(durum).some((m) => m.id === malzeme);
   const id = yeniId(durum, "S");
   const tohum = gunAyari(durum.gun).tohum;
   const [yAlt, yUst] = AYARLAR.YANIT_SURESI_DK;
@@ -42,8 +44,8 @@ export function siparisVer(durum, { malzeme, tedarikci, miktar }) {
     kalanDk: AYARLAR.ONAY_SURESI_DK, varisGun: null, varisDk: null, kapidaDk: null, teslimDk: null,
   };
   durum.satinalma.push(s);
-  /* Görev notunun "Eksik malzemeyi sipariş et" adımı: GEÇ KALINDI / BUGÜN VER kalemi kalmayınca tamam */
-  if (!durum.gorev.siparis && !verilmeyenSiparisler(durum).length) durum.gorev.siparis = true;
+  const kalemler = durum.gorev.siparisKalemleri || (durum.gorev.siparisKalemleri = []);
+  if (gerekli && !kalemler.includes(malzeme)) kalemler.push(malzeme);
   bildir(durum, "satinalma", `Satın Alma: sipariş verildi — ${malzemeMetni(malzeme, miktar)}, ${TEDARIKCI[tedarikci].ad}. Tedarikçi yanıtı bekleniyor.`);
   harca(durum, s.tutar, `${MALZEME[malzeme].ad} siparişi`);
 
@@ -68,7 +70,6 @@ export function onayAl(durum, id) {
   s.onayDk = simdi(durum);
   s.varisGun = durum.gun + tedarikSuresi(s.malzeme, s.tedarikci);
   s.varisDk = Math.round((vAlt * 60 + tekSefer(tohum, id, "varis") * (vUst - vAlt) * 60) / 15) * 15;
-  durum.gorev.onay = true;
   bildir(durum, "satinalma", `Satın Alma: tedarikçi onayı alındı — ${malzemeMetni(s.malzeme, s.miktar)}. Teslimat ${gunAdi(s.varisGun)}.`);
   return {};
 }
@@ -82,6 +83,19 @@ export function teslimAl(durum, id) {
   durum.gorev.teslim = true;
   bildir(durum, "depo", `Depo: teslim alındı — ${malzemeMetni(s.malzeme, s.miktar)}.`);
   return {};
+}
+
+/* Görev notunun sayaçlı adımları.
+   sipariş: bugün sipariş gereken kalemler (verilmiş + hâlâ verilmeyen); kalem tam karşılanınca sayılır.
+   onay: bugün verilen siparişler; tedarikçi onayı alınınca sayılır (düşen sipariş sayılmaz, tamamlanmaz). */
+export function gorevSayaclari(durum) {
+  const kalan = new Set(verilmeyenSiparisler(durum).map((m) => m.id));
+  const verilen = durum.gorev.siparisKalemleri || [];
+  const bugun = durum.satinalma.filter((s) => s.gun === durum.gun && !s.oncedenVerilmis);
+  return {
+    siparis: { yapilan: verilen.filter((m) => !kalan.has(m)).length, toplam: new Set([...verilen, ...kalan]).size },
+    onay: { yapilan: bugun.filter((s) => ["onaylandi", "kapida", "teslim"].includes(s.durum)).length, toplam: bugun.length },
+  };
 }
 
 /* Her oyun dakikası: tedarikçi yanıtı, onay sayacı, düşen sipariş, kapıya gelen teslimat */

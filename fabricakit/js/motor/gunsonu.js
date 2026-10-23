@@ -16,7 +16,9 @@ export function gunuKapat(durum) {
 
   /* Unutulan işler */
   if (!durum.planBilgi.guncel && acikSatirlar(durum).length) {
-    puanEkle(durum, "UNUTULAN_IS", "Unutulan iş: siparişler plana alınmadı ya da plan güncellenmedi");
+    puanEkle(durum, "UNUTULAN_IS", durum.gunPlanDk == null
+      ? "Unutulan iş: siparişler plana alınmadı"
+      : "Unutulan iş: plan güncellenmedi (gün içinde sipariş ya da kapasite değişti)");
   }
   const unutulanMalzemeler = verilmeyenSiparisler(durum).slice(0, AYARLAR.UNUTULAN_MALZEME_EN_FAZLA);
   for (const m of unutulanMalzemeler) {
@@ -31,6 +33,7 @@ export function gunuKapat(durum) {
   const sevk = sevkiyat(durum);
   const gece = ikinciVardiya(durum);
   durum.evre = "gun-sonu";
+  durum.bitirme = null;
   durum.karne = karneOlustur(durum, { sevk, gece, unutulanMalzemeler: unutulanMalzemeler.map((m) => m.id) });
   const yorum = kuralYorumu(durum.karne, durum.gmKullanilan);
   durum.karne.gmYorum = yorum.metin;

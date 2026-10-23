@@ -16,18 +16,21 @@
 /* ---------- Üst şerit: gün, saat, duraklat, puan, günü bitir ---------- */
 .fk-uygulama { width: 100%; max-width: calc(var(--en) + 2 * var(--kenar)); margin: 0 auto; padding: 0 var(--kenar) 48px; }
 .fk-ust {
-  position: sticky; top: 0; z-index: 30;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px;
+  position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px;
   margin: 0 calc(-1 * var(--kenar)); padding: 8px var(--kenar);
   background: var(--zemin); border-bottom: var(--cizgi-k) solid var(--cizgi);
 }
+.fk-ust-satir { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
 .fk-ust-sol, .fk-ust-sag { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
-.fk-gun { font-weight: 700; }
+.fk-gun { font-weight: 700; white-space: nowrap; }
 .fk-saat-kap { display: inline-flex; align-items: center; gap: 6px; color: var(--koyu); }
 .fk-saat { font-size: var(--fs-2); font-weight: 700; color: var(--metin); font-variant-numeric: tabular-nums; }
 .fk-durak { color: var(--metin); font-weight: 700; }
 .fk-durak:not(:empty) { padding: 2px 10px; border: var(--cizgi-k) solid var(--turuncu); background: var(--turuncu-zemin); border-radius: 999px; }
 .fk-puan { font-weight: 700; font-variant-numeric: tabular-nums; }
+/* Fabrika adı: masaüstünde gün ve saatin yanında, telefonda şeridin ikinci satırında */
+.fk-fabrika-adi { font-size: var(--fs-0); color: var(--metin-2); }
+.fk-ust-alt-satir { display: none; }
 .fk-ikon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .fk-ust-dugme {
   display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px;
@@ -36,14 +39,43 @@
 }
 .fk-ust-dugme:hover { background: var(--zemin); }
 .fk-ust-dugme[aria-pressed="true"] { border-width: 2px; padding: 0 11px; }
-@media (max-width: 479px) {
-  .fk-ust { flex-wrap: nowrap; }
-  .fk-ust-dugme { width: 44px; padding: 0; justify-content: center; }
-  .fk-ust-dugme[aria-pressed="true"] { padding: 0; }
-  .fk-ust-dugme .fk-dugme-metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .fk-ust-sol { gap: 6px; }
-  .fk-ust-sag { gap: 6px; flex-wrap: nowrap; }
+.fk-ust-dugme:disabled { opacity: 0.5; cursor: not-allowed; }
+.fk-dugme-kisa { display: none; }
+/* Masaüstü: tek satır; yer daralırsa fabrika adı kısalır (…), düğmeler alt satıra inmez */
+@media (min-width: 960px) {
+  .fk-ust-satir { flex-wrap: nowrap; }
+  .fk-ust-sol { flex-wrap: nowrap; min-width: 0; }
+  .fk-ust-sol .fk-fabrika-adi { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .fk-ust-sol > :not(.fk-fabrika-adi) { flex: none; }
+  .fk-ust-sag { flex: none; }
 }
+/* Telefon ve tablet (panel alttan açılır): fabrika adı ve "Duraklatıldı" şeridin ikinci satırında */
+@media (max-width: 959px) {
+  .fk-ust-sol .fk-fabrika-adi, .fk-ust-sol .fk-durak { display: none; }
+  .fk-ust-alt-satir { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: -4px; line-height: 1.3; }
+  .fk-ust-alt-satir .fk-fabrika-adi { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .fk-ust-alt-satir .fk-durak { flex: none; }
+  .fk-ust-alt-satir .fk-durak:not(:empty) { padding: 0 8px; }
+}
+/* Dar ekran: üst şerit düğmeleri 44 × 44 px, ikonun altında kısa etiket (Ses · Durdur · Bitir); şerit tek satır.
+   Düğmeler daralmaz; yer yetmezse "Puan 100" iki satıra, 375 px altında gün ve saat alt alta iner. */
+@media (max-width: 719px) {
+  .fk-ust-satir { flex-wrap: nowrap; }
+  .fk-ust-dugme { flex: none; flex-direction: column; justify-content: center; gap: 3px; width: 44px; padding: 0; }
+  .fk-ust-dugme[aria-pressed="true"] { padding: 0; }
+  .fk-ust-dugme .fk-dugme-metin { display: none; }
+  .fk-ust-dugme .fk-dugme-kisa { display: block; font-size: var(--fs-etiket); line-height: 1; white-space: nowrap; }
+  .fk-ust-sol { gap: 6px; }
+  .fk-ust-sag { gap: 4px; flex-wrap: nowrap; }
+}
+/* 375–479 px: gün ve saat tek satırda kalır (sol taraf daralmaz); sıkışırsa "Puan 100" iki satıra iner */
+@media (min-width: 375px) and (max-width: 479px) { .fk-ust-sol { flex-shrink: 0; } }
+
+/* "Günü bitir" durağı: üst şeridin altında, ilerleme neyi bekliyor */
+.fk-bitirme { display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 12px; font-size: var(--fs-0); background: var(--kart); border: var(--cizgi-k) solid var(--turuncu); border-left-width: 4px; border-radius: 10px; }
+.fk-bitirme > .fk-ikon { color: var(--koyu); }
+.fk-bitirme-metin { margin-right: auto; font-weight: 600; }
+.fk-bitirme .dugme-cizgi { flex: none; }
 
 /* ---------- Gövde: görev notu + harita + panel ---------- */
 .fk-govde { display: grid; gap: 16px; padding-top: 16px; }
@@ -65,14 +97,23 @@
 .fk-gorev-sayac { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--koyu); }
 .fk-gorev-giris { color: var(--metin-2); font-size: var(--fs-0); margin-bottom: 4px; }
 .fk-gorev-adimlar { list-style: none; display: grid; gap: 2px; }
-.fk-gorev-adim { display: flex; align-items: flex-start; gap: 10px; width: 100%; min-height: 44px; padding: 6px 4px; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: 8px; cursor: pointer; }
+.fk-gorev-satir { display: flex; align-items: center; gap: 2px; border-radius: 8px; }
+.fk-gorev-adim { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; min-height: 44px; padding: 6px 4px; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: 8px; cursor: pointer; }
 .fk-gorev-adim:hover { background: var(--zemin); }
+/* Sıradaki adım: dolu numara ve açık zemin (yapılan adım üstü çizili, soluk) */
+.fk-siradaki .fk-gorev-satir { background: var(--zemin); }
+.fk-siradaki .fk-gorev-isaret { background: var(--koyu); color: var(--kart); }
+.fk-gorev-ac { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; color: var(--koyu); background: none; border: 0; border-radius: 8px; cursor: pointer; }
+.fk-gorev-ac:hover { background: var(--zemin); }
+.fk-gorev-ac[aria-expanded="false"] .fk-gorev-ac-ok { transform: rotate(180deg); }
 .fk-gorev-isaret { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border: 1.5px solid var(--koyu); border-radius: 50%; font-size: var(--fs-0); font-weight: 700; color: var(--koyu); }
 .fk-gorev-isaret .fk-ikon { width: 16px; height: 16px; stroke-width: 2; }
 .fk-yapildi .fk-gorev-isaret { background: var(--zemin); }
 .fk-yapildi .fk-gorev-metin strong { color: var(--metin-2); text-decoration: line-through; }
-.fk-gorev-metin { display: grid; gap: 2px; padding-top: 2px; }
-.fk-gorev-ayrinti { font-size: var(--fs-0); color: var(--metin-2); }
+.fk-gorev-metin { display: grid; gap: 2px; min-width: 0; padding-top: 2px; }
+.fk-gorev-kisa { font-size: var(--fs-0); color: var(--metin-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fk-gorev-ayrinti { font-size: var(--fs-0); color: var(--metin-2); padding: 2px 4px 8px 40px; }
+.fk-gorev-ok { display: none; }
 
 /* ---------- Sayaç şeridi ---------- */
 .fk-sayaclar { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
@@ -90,27 +131,58 @@
 .fk-cip-sure { font-weight: 700; font-variant-numeric: tabular-nums; }
 .fk-cip .dugme-cizgi { flex: none; }
 
-/* ---------- Bildirimler ---------- */
-/* Telefonda altta (üst şeridin düğmelerini örtmez). Panel açıkken üstte ve yalnızca en yenisi: üst şerit o sırada
-   perdenin altındadır, tek bildirim panelin üstündeki boşluğa sığar. Masaüstünde sol altta: karar panelinin formunu örtmez. */
-.fk-bildirimler {
-  position: fixed; z-index: 70; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-  display: grid; gap: 6px; pointer-events: none;
+/* ---------- Telefon: üst şerit → özet satırı → harita → sayaç şeridi; görev notu alttan çekmece ---------- */
+.fk-ozet-satir { display: none; }
+@media (max-width: 959px) {
+  body.fk-cekmeceli { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px)); }
+  .fk-ozet-satir {
+    display: flex; align-items: center; gap: 0 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--kenar)); padding: 0 var(--kenar); font-size: var(--fs-0);
+  }
+  .fk-ozet-satir::-webkit-scrollbar { display: none; }
+  .fk-ozet-satir:empty { display: none; }
+  .fk-ozet-oge {
+    flex: none; min-height: 44px; padding: 0; font: inherit; font-weight: 700; color: var(--koyu); background: none; border: 0; cursor: pointer;
+    text-decoration: underline; text-decoration-color: var(--cizgi); text-underline-offset: 3px;
+  }
+  .fk-ozet-acil { color: var(--acil); text-decoration-color: var(--acil); }
+  .fk-ozet-ayrac { color: var(--metin-2); }
+  .fk-govde { padding-top: 4px; }
+  .fk-sayaclar {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-margin-top: 100px;
+    margin: 0 calc(-1 * var(--kenar)); padding: 16px var(--kenar) 4px; scroll-padding-inline: var(--kenar);
+  }
+  .fk-cip, .fk-cip-yolda { flex: 0 0 min(300px, 84%); scroll-snap-align: start; }
+  .fk-gorev-kap { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; }
+  .fk-gorev {
+    max-height: 72vh; overflow: auto; overscroll-behavior: contain; padding: 0 var(--kenar) calc(12px + env(safe-area-inset-bottom, 0px));
+    border: 0; border-top: 4px solid var(--turuncu); border-radius: 16px 16px 0 0;
+  }
+  .fk-gorev:not([open]) { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .fk-gorev summary { justify-content: flex-start; min-height: 52px; }
+  .fk-gorev-sayac { margin-left: auto; }
+  .fk-gorev-ok { display: block; color: var(--koyu); transition: transform var(--gecis); }
+  .fk-gorev[open] .fk-gorev-ok { transform: rotate(180deg); }
 }
-.fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: 8px; bottom: auto; }
-@media (max-width: 959px) { .fk-uygulama.fk-panel-acik ~ .fk-bildirimler .fk-bildirim + .fk-bildirim { display: none; } }
-@media (min-width: 960px) {
-  .fk-bildirimler, .fk-uygulama.fk-panel-acik ~ .fk-bildirimler { top: auto; right: auto; left: 20px; bottom: 20px; width: 380px; }
+
+/* ---------- Bildirimler ---------- */
+/* Üst şeridin hemen altında, ortada, sabit alanda; aynı anda tek balon (kuyruk). Yeri (top) uygulama.js üst şeride göre verir.
+   Panel ve perdenin üstünde durur: telefonda panel açıkken de görünür. */
+.fk-bildirimler {
+  position: fixed; z-index: 70; top: 8px; left: 50%; transform: translateX(-50%);
+  width: min(480px, calc(100% - 16px)); display: grid; pointer-events: none;
 }
 .fk-bildirim { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-left: 4px solid var(--mavi); border-radius: 10px; }
 .fk-bildirim-dikkat { border-left-color: var(--turuncu); }
 .fk-bildirim-acil { border-left-color: var(--acil); }
 .fk-bildirim-metin { flex: 1; min-height: 40px; padding: 6px 0; font: inherit; font-size: var(--fs-0); text-align: left; color: var(--metin); background: none; border: 0; cursor: pointer; }
 span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
+.fk-bildirim-sira { flex: none; font-size: var(--fs-0); font-weight: 700; color: var(--metin-2); font-variant-numeric: tabular-nums; }
+.fk-bildirim-sira:empty { display: none; }
 .fk-bildirim-kapat { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; color: var(--metin-2); background: none; border: 0; cursor: pointer; }
 @media (prefers-reduced-motion: no-preference) {
   .fk-bildirim { animation: fk-gir 200ms ease both; }
-  @keyframes fk-gir { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes fk-gir { from { opacity: 0; transform: translateY(-6px); } }
 }
 
 /* ---------- Onay kutusu ---------- */
@@ -118,11 +190,18 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-onay { width: 100%; max-width: 480px; padding: 24px; display: grid; gap: 12px; }
 .fk-onay h2 { font-size: var(--fs-2); }
 .fk-onay p { color: var(--metin-2); }
+.fk-onay-liste { display: grid; gap: 2px; padding-left: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ---------- Giriş ---------- */
 .fk-fabrika-satir { display: inline-flex; align-items: center; gap: 8px; }
+.fk-fabrika-tabela { display: grid; gap: 2px; }
+.fk-fabrika-alt { font-size: var(--fs-0); color: var(--metin-2); padding-left: 30px; }
 .fk-giris-form { display: grid; gap: 8px; width: 100%; }
 .fk-giris-form label { font-weight: 700; }
+/* Kayıtlı oyun: tek "devam et" düğmesi (uzun hitapta iki satıra iner), altında küçük "Baştan başla" */
+.fk-devam { justify-items: start; gap: 4px; }
+.fk-devam .dugme { max-width: 100%; padding: 10px 24px; text-align: center; overflow-wrap: anywhere; }
+.fk-bastan { min-height: 44px; padding: 0 4px; font: inherit; font-size: var(--fs-0); font-weight: 600; color: var(--koyu); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .fk-giris-form input {
   width: 100%; max-width: 420px; min-height: 52px; padding: 0 14px; font: inherit; color: var(--metin);
   background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
@@ -135,6 +214,9 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-gm-bolum { border-left: 4px solid var(--mavi); padding-left: 16px; border-top: 0; margin: 8px 0; }
 .fk-gm-yorum { font-size: var(--fs-1); line-height: 1.65; color: var(--metin); }
 .fk-gm-govde { display: grid; gap: 6px; min-width: 0; }
+.fk-gm-baslik-satir { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.fk-gm-soz { display: grid; gap: 10px; justify-items: start; min-width: 0; }
+.fk-sesli-oku .fk-ikon { width: 18px; height: 18px; }
 @media (max-width: 479px) { .fk-gm { width: 56px; height: 56px; } .fk-gm-satir { gap: 12px; } }
 .fk-bekliyor { color: var(--metin-2); }
 
@@ -187,11 +269,10 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 
 /* ---------- Fabrika planı ---------- */
 .fk-harita { background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); padding: 12px; }
-.fk-harita-bas { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 4px 12px; }
+.fk-harita-bas { display: flex; align-items: center; gap: 8px; margin: 0 4px 12px; }
+.fk-harita-baslik { font-weight: 700; letter-spacing: 0.06em; color: var(--koyu); }
 .fk-simge { width: 28px; height: 28px; max-width: none; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--koyu); }
 .fk-simge-kucuk { width: 22px; height: 22px; }
-.fk-fabrika-kod { font-weight: 700; letter-spacing: 0.06em; color: var(--koyu); }
-.fk-fabrika-ad { color: var(--metin-2); }
 
 /* Duvarlar: ızgara aralığı çizgi rengini, odalar kart rengini gösterir; dış duvar koyu */
 .fk-plan {
@@ -207,15 +288,22 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
     "kalite sevk"
     "depo depo";
 }
+/* Masaüstü: üst sıra altı ofis; orta sıra Mars (yarım genişlik, üretim holü) · Satürn · Jüpiter aynı yükseklikte;
+   alt sıra sevkiyat kapısı tam genişlikte. Hücreler içerikleri kadar uzar, boş alan kalmaz. */
 @media (min-width: 720px) {
   .fk-plan {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-areas:
-      "bolge bolge bolge bolge bolge bolge"
-      "satis arge planlama ik finans satinalma"
-      "uretim uretim uretim uretim kalite kalite"
-      "depo depo depo depo sevk sevk";
+      "bolge bolge bolge bolge bolge bolge bolge bolge bolge bolge bolge bolge"
+      "satis satis arge arge planlama planlama ik ik finans finans satinalma satinalma"
+      "uretim uretim uretim uretim uretim uretim kalite kalite kalite depo depo depo"
+      "sevk sevk sevk sevk sevk sevk sevk sevk sevk sevk sevk sevk";
   }
+  .fk-plan .fk-oda-uretim { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 20px; }
+  .fk-plan .fk-oda-uretim .fk-isik { align-self: start; }
+  .fk-plan .fk-oda-uretim .fk-hol { grid-column: 2; grid-row: 1 / span 2; }
+  .fk-plan .fk-oda-kalite, .fk-plan .fk-oda-depo { align-content: space-between; }
+  .fk-plan .fk-sevk { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
 }
 .fk-bolge { grid-area: bolge; background: var(--zemin); color: var(--metin-2); font-size: var(--fs-0); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; }
 .fk-oda-satis { grid-area: satis; } .fk-oda-arge { grid-area: arge; } .fk-oda-planlama { grid-area: planlama; }
@@ -247,6 +335,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-durum-acil .fk-isik { color: var(--acil); }
 
 /* Üretim holü: iki hat, bant ve makineler */
+.fk-hol { display: grid; gap: 6px; min-width: 0; }
 .fk-bolge-ic { font-size: var(--fs-0); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--metin-2); }
 .fk-hatlar { display: grid; gap: 10px; }
 .fk-hat { display: grid; gap: 4px; }
@@ -270,6 +359,11 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
   .fk-durum-acil .fk-isik-nokta { animation: fk-nabiz 1.6s ease-in-out infinite; }
   @keyframes fk-nabiz { 50% { opacity: 0.35; } }
 }
+
+/* Kalite: kontrol masasındaki partiler (bozuk parti varsa biri kırmızı) */
+.fk-partiler { display: flex; gap: 6px; }
+.fk-partiler span { width: 14px; height: 14px; background: var(--zemin); border: 1.5px solid var(--koyu); border-radius: 3px; }
+.fk-partiler-bozuk span:nth-child(2) { background: var(--kart); border-color: var(--acil); }
 
 /* Depo ve sevkiyat kapısı */
 .fk-raflar { display: grid; gap: 4px; max-width: 220px; }
@@ -307,6 +401,7 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-panel-neden.fk-durum-acil { color: var(--acil); }
 .fk-panel-aciklama { color: var(--metin-2); margin-bottom: 12px; }
 .fk-ozet > * + * { margin-top: 12px; }
+@media (min-width: 960px) { .fk-ozet-kapat { display: none; } }
 
 .fk-sekmeler { display: flex; gap: 8px; margin: 4px 0 16px; border-bottom: var(--cizgi-k) solid var(--cizgi); }
 .fk-sekme { min-height: 44px; padding: 0 4px; margin-bottom: -1px; font: inherit; font-weight: 600; color: var(--metin-2); background: none; border: 0; border-bottom: 3px solid transparent; cursor: pointer; }

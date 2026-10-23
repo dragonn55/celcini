@@ -2,18 +2,24 @@
 /* Fabricakit motor testi (arayüzsüz). 1–5. günleri üç oyuncu tipiyle oynar:
    pasif (hiçbir şey yapmaz), doğru (her şeyi zamanında yapar), rastgele (tohumlu rastgele eylemler).
    Denetler: karnede NaN / sonsuz / tanımsız yok, eksi stok yok, puan sınır içinde, harf A–E,
-   kayıt → yükleme aynı durumu verir ve aynı eylemlerle aynı yere varır, aynı tohum aynı sonucu verir.
+   kayıt → yükleme aynı durumu verir ve aynı eylemlerle aynı yere varır, aynı tohum aynı sonucu verir,
+   "Günü bitir" olayları atlamaz ve karar isteyen olayda durur, Ajan GM'in "temiz" cümlesi yalnızca cezasız günde,
+   "Sesli oku" metninde okunmamış rakam kalmaz.
    Çalıştırma: node scripts/sim-test.mjs */
 import { AYARLAR } from "../fabricakit/js/ayarlar.js";
 import { olusturStore } from "../fabricakit/js/motor/durum.js";
-import { malzemeIhtiyaci } from "../fabricakit/js/motor/mrp.js";
+import { malzemeIhtiyaci, verilmeyenSiparisler } from "../fabricakit/js/motor/mrp.js";
+import { gorevSayaclari } from "../fabricakit/js/motor/satinalma.js";
 import { odaDurumlari } from "../fabricakit/js/motor/durumlar.js";
 import { sayaclar } from "../fabricakit/js/motor/sayac.js";
 import { kaydaYaz, kayittanOku, kopya } from "../fabricakit/js/motor/kayit.js";
 import { akis, rastgele, tamSayi, sec } from "../fabricakit/js/veri/tohum.js";
 import { MALZEME_IDLER, HAT_IDLER, tedarikEdebilir, tedarikSuresi, birimFiyat } from "../fabricakit/js/veri/katalog.js";
 import { ODALAR } from "../fabricakit/js/odalar.js";
-import { kuralCevap, SORULAR } from "../fabricakit/js/ajan-gm/yorumlar.js";
+import { kuralCevap, kuralYorumu, SORULAR } from "../fabricakit/js/ajan-gm/yorumlar.js";
+import { seseHazirla, cumlelereBol } from "../fabricakit/js/arayuz/ses.js";
+import { ornekMetni } from "./karne-ornegi.mjs";
+import fs from "node:fs";
 
 let hataSayisi = 0;
 const hata = (m) => { console.error("✗ " + m); hataSayisi += 1; };
@@ -49,10 +55,18 @@ function karneyiDenetle(k, nerede) {
   /* Ajan GM: hitapla başlar, yarın için talimatla biter, NaN/undefined yok */
   if (!k.gmYorum || !k.gmYorum.startsWith("{hitap}, ")) hata(`${nerede}: Ajan GM yorumu hitapla başlamıyor`);
   if (!/Yarın için talimatım: [^.]+\.$/.test(k.gmYorum)) hata(`${nerede}: Ajan GM yorumu talimatla bitmiyor: ${k.gmYorum}`);
-  for (const s of SORULAR) {
+  const cevaplar = SORULAR.map((s) => {
     const c = kuralCevap(k, s.id);
     if (!c || !c.startsWith("{hitap}, ") || /NaN|undefined|null/.test(c)) hata(`${nerede}: "${s.metin}" cevabı bozuk: ${c}`);
-  }
+    return c;
+  });
+  /* "Bugünü temiz kapattınız" yalnızca cezasız günde; "İlki:" yarının talimatıyla aynı kaleme (ilk "Unutulan iş") bakar */
+  if (/temiz/.test(k.gmYorum) && k.defter.some((x) => x.puan < 0)) hata(`${nerede}: cezalı günde "temiz" yorumu: ${k.gmYorum}`);
+  const ilkIs = k.unutulan.liste.find((m) => m.startsWith("Unutulan iş"));
+  const anilan = k.gmYorum.match(/(?:İlki|en önemlisi|Başta): ([^.]+)/);
+  if (anilan && ilkIs && !ilkIs.toLocaleLowerCase("tr").includes(anilan[1].toLocaleLowerCase("tr"))) hata(`${nerede}: "İlki" ilk unutulan işi anmıyor: ${anilan[1]} / ${ilkIs}`);
+  /* Sesli oku: yorumda ve cevaplarda okunmamış rakam kalmaz ("135.200 TL" → "yüz otuz beş bin iki yüz lira") */
+  for (const c of cumlelereBol([k.gmYorum, ...cevaplar])) if (/\d/.test(c)) hata(`${nerede}: sesli okumada rakam kaldı: ${c}`);
   if (k.puan < AYARLAR.PUAN.ALT || k.puan > AYARLAR.PUAN.UST) hata(`${nerede}: karne puanı sınır dışı ${k.puan}`);
   if (!["A", "B", "C", "D", "E"].includes(k.harf)) hata(`${nerede}: harf ${k.harf}`);
   if (k.teslim.yuzde !== null && (k.teslim.yuzde < 0 || k.teslim.yuzde > 100)) hata(`${nerede}: teslim yüzdesi ${k.teslim.yuzde}`);
@@ -101,11 +115,7 @@ const oyuncular = {
         const m = malzemeIhtiyaci(d).find((x) => x.id === k.malzeme);
         if (m.bitis !== null && m.bitis <= d.gun + 2) { store.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-isle" }); continue; }
         const sonuc = store.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-siparis" });
-        if (sonuc.satinAlma) {
-          const hizli = AYARLAR.TEDARIKCILER.filter((t) => tedarikEdebilir(sonuc.satinAlma.malzeme, t.id))
-            .sort((a, b) => tedarikSuresi(sonuc.satinAlma.malzeme, a.id) - tedarikSuresi(sonuc.satinAlma.malzeme, b.id))[0];
-          store.gonder({ tip: "SIPARIS_VER", malzeme: sonuc.satinAlma.malzeme, tedarikci: hizli.id, miktar: sonuc.satinAlma.miktar });
-        }
+        if (sonuc.satinAlma) store.gonder({ tip: "SIPARIS_VER", malzeme: sonuc.satinAlma.malzeme, tedarikci: enHizli(sonuc.satinAlma.malzeme), miktar: sonuc.satinAlma.miktar });
       }
       if (k.tur === "makine-durusu") store.gonder({ tip: "KARAR", id: k.id, secim: "acil-bakim" });
     }
@@ -135,6 +145,22 @@ const oyuncular = {
     else if (r < 0.603) store.gonder({ tip: "GUNU_BITIR" });
   },
 };
+
+/* "Günü bitir" gün kapanana kadar: duraklarda karar verir (bozuk parti → yeniden işle, makine → bekle) ya da onay alır */
+function gunuBitir(store) {
+  const duraklar = [];
+  let sonuc = store.gonder({ tip: "GUNU_BITIR" });
+  while (sonuc.durak && duraklar.length < 50) {
+    duraklar.push({ ...sonuc.durak, dk: store.durum.dk });
+    const { tur, id } = sonuc.durak;
+    if (tur === "onay") store.gonder({ tip: "ONAY_AL", id });
+    else store.gonder({ tip: "KARAR", id, secim: store.durum.kararlar.find((k) => k.id === id).tur === "bozuk-parti" ? "yeniden-isle" : "bekle" });
+    sonuc = store.gonder({ tip: "GUNU_BITIR" });
+  }
+  return duraklar;
+}
+const enHizli = (malzeme) => AYARLAR.TEDARIKCILER.filter((t) => tedarikEdebilir(malzeme, t.id))
+  .sort((a, b) => tedarikSuresi(malzeme, a.id) - tedarikSuresi(malzeme, b.id))[0].id;
 
 /* ---------------- oyun döngüsü ---------------- */
 function oyna(tip, { kayitDenemesi = false } = {}) {
@@ -215,7 +241,7 @@ if (kayittanOku("{bozuk").neden !== "bozuk") hata("bozuk kayıt reddedilmedi");
   const s = olusturStore();
   s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "{hitap}, erken." });
   if (s.durum.karne !== null) hata("gün bitmeden Ajan GM yorumu yazıldı");
-  s.gonder({ tip: "GUNU_BITIR" });
+  gunuBitir(s);
   const sablon = s.durum.karne.gmYorum;
   s.gonder({ tip: "GM_YORUMU", gun: 2, metin: "{hitap}, yanlış gün." });
   s.gonder({ tip: "GM_YORUMU", gun: 1, metin: "Hitapsız metin." });
@@ -225,11 +251,140 @@ if (kayittanOku("{bozuk").neden !== "bozuk") hata("bozuk kayıt reddedilmedi");
   if (!okunan.tamam || okunan.durum.karne.gmKaynak !== "yapay-zeka" || !okunan.durum.karne.gmYorum.startsWith("{hitap}, yapay")) hata("yapay zeka yorumu kayda geçmedi");
 }
 
-/* Denge: doğru oyuncu pasiften belirgin iyi olmalı */
+/* "Günü bitir" olayları da işletir. 1. gün: en az 2 olay, 09:00–16:00 arasında, her biri kendi diliminde, biri Kalite
+   bozuk parti. 09:00'da bitiren oyuncu bütün olayları görür; karar isteyen olayda ilerleme durur ve karar verilmeden
+   sürmez; karar verilince 18:00'e kadar sürer. */
+let erken = null;
+{
+  const [bas, son] = AYARLAR.OLAY_SAATI.map((x) => x * 60);
+  const s = olusturStore();
+  const plan = s.durum.olayPlani;
+  const dilim = (son - bas) / plan.length;
+  if (plan.length < 2) hata(`1. günde ${plan.length} olay var, en az 2 olmalı`);
+  if (plan.some((o, i) => o.dk < bas + i * dilim || o.dk >= bas + (i + 1) * dilim)) hata(`olaylar 09:00–16:00 dilimlerine dağılmadı: ${plan.map((o) => o.dk).join(", ")}`);
+  for (const t of AYARLAR.GUNLER[0].zorunluOlay || []) if (!plan.some((o) => o.tur === t)) hata(`1. günde zorunlu olay yok: ${t}`);
+  while (s.durum.dk < 9 * 60) { oyuncular.dogru(s); s.gonder({ tip: "ILERLE", dk: 5 }); }
+  const ilk = s.gonder({ tip: "GUNU_BITIR" });
+  if (!ilk.durak || ilk.durak.tur !== "karar") hata("Günü bitir karar isteyen olayda durmadı");
+  else {
+    const dk = s.durum.dk;
+    const ikinci = s.gonder({ tip: "GUNU_BITIR" });
+    if (!ikinci.durak || ikinci.durak.id !== ilk.durak.id || s.durum.dk !== dk) hata("karar verilmeden Günü bitir sürdü");
+    if (s.durum.olayPlani.some((o) => o.dk < dk - 1 && o.durum !== "oldu")) hata("Günü bitir durağa kadar olay atladı");
+  }
+  gunuBitir(s);
+  const k = s.durum.karne;
+  if (s.durum.evre !== "gun-sonu" || !k) hata("Günü bitir günü kapatmadı");
+  else {
+    if (s.durum.olayPlani.some((o) => o.durum !== "oldu")) hata("Günü bitir olay atladı");
+    if (k.olaylar.length !== plan.length) hata(`karnede ${k.olaylar.length} olay var, planda ${plan.length}`);
+    if (s.durum.kararlar.some((x) => x.durum === "zaman-asimi")) hata("Günü bitir durağındaki karar zaman aşımına düştü");
+    erken = k;
+  }
+}
+/* Durakta "Yeniden sipariş" seçip sipariş veren oyuncu: ilerleme siparişin onayında da durur, sipariş düşmez */
+{
+  const s = olusturStore();
+  const r = s.gonder({ tip: "GUNU_BITIR" });
+  const k = r.durak && s.durum.kararlar.find((x) => x.id === r.durak.id);
+  if (!k || k.tur !== "bozuk-parti") hata("08:00'da Günü bitir bozuk partide durmadı");
+  else {
+    const { satinAlma } = s.gonder({ tip: "KARAR", id: k.id, secim: "yeniden-siparis" });
+    if (!s.durum.bitirme || s.durum.bitirme.siparis !== satinAlma.malzeme) hata("yeniden sipariş kararı ilerlemeyi bekletmedi");
+    const { id } = s.gonder({ tip: "SIPARIS_VER", malzeme: satinAlma.malzeme, tedarikci: enHizli(satinAlma.malzeme), miktar: satinAlma.miktar });
+    const r2 = s.gonder({ tip: "GUNU_BITIR" });
+    if (!r2.durak || r2.durak.tur !== "onay" || r2.durak.id !== id) hata("durakta verilen siparişin onayında durmadı");
+    gunuBitir(s);
+    const sip = s.durum.satinalma.find((x) => x.id === id);
+    if (!sip || sip.durum === "dustu") hata("durakta verilen sipariş onaysız düştü");
+    if (s.durum.bitirme !== null) hata("gün kapanınca Günü bitir durumu temizlenmedi");
+  }
+}
+
+/* Görev notu sayaçları: sipariş adımı her GEÇ KALINDI / BUGÜN VER kalemiyle bir artar ("1/2");
+   onay adımı bugün verilen siparişleri, onay alındıkça sayar */
+{
+  const s = olusturStore();
+  s.gonder({ tip: "PLANA_AL" });
+  const kalemler = verilmeyenSiparisler(s.durum);
+  const bas = gorevSayaclari(s.durum);
+  if (kalemler.length < 2 || bas.siparis.yapilan !== 0 || bas.siparis.toplam !== kalemler.length) hata(`görev sayacı başta ${JSON.stringify(bas.siparis)}, kalem ${kalemler.length}`);
+  kalemler.forEach((m, i) => {
+    s.gonder({ tip: "SIPARIS_VER", malzeme: m.id, tedarikci: m.yetisen.length ? m.yetisen[0] : enHizli(m.id), miktar: m.onerilen });
+    const c = gorevSayaclari(s.durum);
+    if (c.siparis.yapilan !== i + 1 || c.siparis.toplam !== kalemler.length) hata(`${i + 1}. siparişten sonra sipariş sayacı ${JSON.stringify(c.siparis)}`);
+    if (c.onay.yapilan !== 0 || c.onay.toplam !== i + 1) hata(`${i + 1}. siparişten sonra onay sayacı ${JSON.stringify(c.onay)}`);
+  });
+  s.gonder({ tip: "ILERLE", dk: AYARLAR.YANIT_SURESI_DK[1] + 1 });
+  s.durum.satinalma.filter((x) => x.durum === "onay-bekliyor").forEach((x, i) => {
+    s.gonder({ tip: "ONAY_AL", id: x.id });
+    const c = gorevSayaclari(s.durum);
+    if (c.onay.yapilan !== i + 1) hata(`${i + 1}. onaydan sonra onay sayacı ${JSON.stringify(c.onay)}`);
+  });
+  const son = gorevSayaclari(s.durum);
+  if (son.onay.yapilan !== son.onay.toplam || son.siparis.yapilan !== son.siparis.toplam) hata(`görev sayaçları tamamlanmadı: ${JSON.stringify(son)}`);
+}
+
+/* "Temiz" cümlesi yalnızca cezasız günde: A notlu ama cezalı karnede seçilmez */
+{
+  const k = kopya(sonuc.dogru[0]);
+  Object.assign(k, { gun: 1, harf: "A", enBuyukSorun: null, unutulan: { sayi: 0, liste: [] }, defter: k.defter.filter((x) => x.puan > 0) });
+  if (!kuralYorumu(k).metin.includes("temiz kapattınız")) hata("cezasız A gününde temiz yorumu seçilmedi");
+  const metin = "Unutulan iş: siparişler plana alınmadı";
+  k.defter.push({ dk: 600, tur: "UNUTULAN_IS", puan: AYARLAR.PUAN.UNUTULAN_IS, metin });
+  Object.assign(k, { unutulan: { sayi: 1, liste: [metin] }, enBuyukSorun: { tur: "UNUTULAN_IS", adet: 1, puan: AYARLAR.PUAN.UNUTULAN_IS } });
+  if (/temiz/.test(kuralYorumu(k).metin)) hata("cezalı A gününde temiz yorumu seçildi");
+  /* Kısaltmayla başlayan örnek küçültülmez: "MDF levha", "mDF levha" değil */
+  const onay = "Unutulan onay: MDF levha · 120 adet siparişi düştü";
+  Object.assign(k, { defter: [{ dk: 600, tur: "UNUTULAN_ONAY", puan: AYARLAR.PUAN.UNUTULAN_ONAY, metin: onay }], enBuyukSorun: { tur: "UNUTULAN_ONAY", adet: 1, puan: AYARLAR.PUAN.UNUTULAN_ONAY } });
+  if (!kuralCevap(k, "hata").includes("Örnek: MDF levha")) hata(`kısaltma küçültüldü: ${kuralCevap(k, "hata")}`);
+}
+
+/* Sesli oku metni sese hazırlar: sayılar yazıya döner, cümle binlik ayracında bölünmez */
+{
+  const beklenen = [
+    ["Depoda 135.200 TL bağlı duruyor.", "Depoda yüz otuz beş bin iki yüz lira bağlı duruyor."],
+    ["Zamanında teslim %80 (4/5).", "Zamanında teslim yüzde seksen (beşte dört)."],
+    ["Yarın için talimatım: saat 10:00 olmadan plana alın.", "Yarın için talimatım: saat on olmadan plana alın."],
+    ["Sabah 08:00'de siparişler gelecek, 12:00'den önce 08:06'da.", "Sabah saat sekizde siparişler gelecek, saat on ikiden önce saat sekiz sıfır altıda."],
+    ["Bay Çakır, 1. gün ücretsizdi.", "Bay Çakır, birinci gün ücretsizdi."],
+    ["Kalemler: plan (-6); teslim (+2).", "Kalemler: plan (eksi altı); teslim (artı iki)."],
+    ["Hatlar 1,5 saat durdu; bütçe 1.000.000 TL'ye indi.", "Hatlar bir buçuk saat durdu; bütçe bir milyon liraya indi."],
+    ["GEÇ KALINDI yazan MDF levha.", "geç kalındı yazan MDF levha."],
+    ["Hatta malzeme bitti: Ahşap hattı · MDF levha", "Hatta malzeme bitti: Ahşap hattı, MDF levha"],
+  ];
+  for (const [girdi, cikti] of beklenen) if (seseHazirla(girdi) !== cikti) hata(`sese hazırlama: "${girdi}" → "${seseHazirla(girdi)}"`);
+  const c = cumlelereBol(["Depoda 135.200 TL var. Yarın 09:00'da başlayın."]);
+  if (c.length !== 2) hata(`sesli oku cümleleri yanlış bölündü: ${JSON.stringify(c)}`);
+}
+
+/* Ana sayfadaki karne örneği motorun bugünkü çıktısıyla aynı olmalı (uydurma ya da eskimiş sayı yok) */
+if (fs.readFileSync(new URL("../data/karne-ornegi.json", import.meta.url), "utf8") !== ornekMetni()) {
+  hata("data/karne-ornegi.json motorun çıktısıyla uyuşmuyor: node scripts/karne-ornegi.mjs && python3 scripts/derle.py");
+}
+
+/* Denge (1. gün): hiçbir şey yapmayan E, rastgele oynayan C–D, her şeyi doğru yapan A–B. Rastgele oyuncu
+   DENGE_TOHUM farklı tohumla oynar; en az %80'i C–D olmalı. Eşikler ayarlar.js'te (HARF_NOTU, PUAN). */
+const DENGE_TOHUM = 200;
 const ort = (l) => l.reduce((t, k) => t + k.puan, 0) / l.length;
 if (ort(sonuc.dogru) < ort(sonuc.pasif) + 20) hata(`denge: doğru oyuncu (${ort(sonuc.dogru)}) pasiften (${ort(sonuc.pasif)}) yeterince iyi değil`);
 if (!["A", "B"].includes(sonuc.dogru[0].harf)) hata(`denge: doğru oyuncu 1. gün ${sonuc.dogru[0].harf} aldı`);
-if (["A", "B"].includes(sonuc.pasif[0].harf)) hata(`denge: pasif oyuncu 1. gün ${sonuc.pasif[0].harf} aldı`);
+if (sonuc.pasif[0].harf !== "E") hata(`denge: pasif oyuncu 1. gün ${sonuc.pasif[0].harf} aldı`);
+const rastgele1 = Array.from({ length: DENGE_TOHUM }, (_, i) => {
+  const s = olusturStore();
+  const a = akis(20261023 + i);
+  while (s.durum.evre === "oyun") {
+    oyuncular.rastgele(s, a);
+    if (s.durum.evre === "oyun") s.gonder({ tip: "ILERLE", dk: tamSayi(a, 1, 20) });
+  }
+  karneyiDenetle(s.durum.karne, `rastgele tohum ${20261023 + i}`);
+  return s.durum.karne;
+});
+const harfSayisi = (l) => ["A", "B", "C", "D", "E"].map((h) => `${h} ${l.filter((k) => k.harf === h).length}`).join(" · ");
+const rPuan = rastgele1.map((k) => k.puan).sort((x, y) => x - y);
+const dilimPuan = (q) => rPuan[Math.min(rPuan.length - 1, Math.floor(q * rPuan.length))];
+const cdOrani = rastgele1.filter((k) => k.harf === "C" || k.harf === "D").length / DENGE_TOHUM;
+if (cdOrani < 0.8) hata(`denge: rastgele oyuncunun 1. gün C–D oranı %${Math.round(cdOrani * 100)}`);
 
 console.log("gün  " + Object.keys(sonuc).map((t) => `${t} (ort. ${Math.round(ort(sonuc[t]))})`.padEnd(30)).join(""));
 for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
@@ -238,5 +393,10 @@ for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
     return `${k.harf} ${String(k.puan).padStart(3)}  teslim ${k.teslim.zamaninda}/${k.teslim.toplam}  duruş ${k.durus.saat} sa  unutulan ${k.unutulan.sayi}`.padEnd(30).slice(0, 29) + " ";
   }).join(""));
 }
+console.log(`\n1. gün puan dağılımı (harf eşikleri ${AYARLAR.HARF_NOTU.map((h) => `${h.harf} ≥ ${h.alt}`).join(", ")})`);
+console.log(`  hiçbir şey yapmayan: ${sonuc.pasif[0].harf} ${sonuc.pasif[0].puan}`);
+console.log(`  her şeyi doğru yapan: ${sonuc.dogru[0].harf} ${sonuc.dogru[0].puan}`);
+console.log(`  rastgele oynayan (${DENGE_TOHUM} tohum): en düşük ${rPuan[0]} · %10 ${dilimPuan(0.1)} · medyan ${dilimPuan(0.5)} · %90 ${dilimPuan(0.9)} · en yüksek ${rPuan[rPuan.length - 1]}; ${harfSayisi(rastgele1)} (C–D %${Math.round(cdOrani * 100)})`);
+if (erken) console.log(`  09:00'da "Günü bitir"e basan (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
-console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum ve Ajan GM yorumu denetimleri geçti.");
+console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları, görev sayaçları, karne örneği ve Ajan GM yorumu denetimleri geçti.");

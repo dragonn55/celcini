@@ -23,7 +23,7 @@ const yeniHat = () => ({
 export function yeniOyun() {
   const durum = {
     surum: AYARLAR.KAYIT_SURUMU,
-    gun: 1, dk: GUN_BASI, evre: "oyun", bitirDk: null,
+    gun: 1, dk: GUN_BASI, evre: "oyun", bitirDk: null, bitirme: null,
     rng: akis(gunAyari(1).tohum), degisim: 0, sonId: 0,
     musteriler: [], siparisler: [], mamul: {}, stok: {}, sabahStok: {},
     urunAgaci: JSON.parse(JSON.stringify(AYARLAR.URUN_AGACI)), agacDegisiklikleri: [],
@@ -67,9 +67,9 @@ function gunuBaslat(durum) {
   const ayar = gunAyari(durum.gun);
   if (durum.gun > 1) durum.rng = akis(ayar.tohum);
   Object.assign(durum, {
-    dk: GUN_BASI, evre: "oyun", bitirDk: null, karne: null,
+    dk: GUN_BASI, evre: "oyun", bitirDk: null, bitirme: null, karne: null,
     butce: { limit: AYARLAR.GUNLUK_BUTCE, harcanan: 0 }, puan: yeniPuan(),
-    gorev: { plana: false, ihtiyac: false, siparis: false, onay: false, teslim: false },
+    gorev: { plana: false, ihtiyac: false, teslim: false, siparisKalemleri: [] },
     gunUretim: {}, gunPlanDk: null, olayKaydi: [], gunluk: [], gorulen: {},
   });
   for (const h of Object.values(durum.hatlar)) {
@@ -114,17 +114,28 @@ export function uygula(durum, eylem) {
         durum.degisim += 1;
       }
       return {};
-    case "SIPARIS_VER":
-      return siparisVer(durum, eylem);
+    case "SIPARIS_VER": {
+      const sonuc = siparisVer(durum, eylem);
+      /* "Günü bitir" dururken verilen siparişin onayı da ilerlemeyi durdurur: sipariş onaysız düşmesin */
+      if (!sonuc.hata && durum.bitirme) {
+        durum.satinalma.find((s) => s.id === sonuc.id).bitirmede = true;
+        durum.bitirme.siparis = null;
+      }
+      return sonuc;
+    }
     case "ONAY_AL":
       if (!oyunda) return { hata: "Gün kapandı." };
       return onayAl(durum, eylem.id);
     case "TESLIM_AL":
       if (!oyunda) return { hata: "Gün kapandı." };
       return teslimAl(durum, eylem.id);
-    case "KARAR":
+    case "KARAR": {
       if (!oyunda) return { hata: "Gün kapandı." };
-      return kararVer(durum, eylem.id, eylem.secim);
+      const sonuc = kararVer(durum, eylem.id, eylem.secim);
+      /* "Günü bitir" dururken "Yeniden sipariş" seçildiyse ilerleme sipariş verilene ya da "Devam et"e kadar bekler */
+      if (sonuc.satinAlma && durum.bitirme) durum.bitirme.siparis = sonuc.satinAlma.malzeme;
+      return sonuc;
+    }
     case "VARDIYA": {
       const h = durum.hatlar[eylem.hat];
       if (!oyunda || !h || Boolean(eylem.acik) === h.ikinciVardiya) return {};
@@ -148,8 +159,7 @@ export function uygula(durum, eylem) {
       return {};
     }
     case "GUNU_BITIR":
-      hizliBitir(durum);
-      return {};
+      return hizliBitir(durum);
     case "GM_YORUMU":
       /* Yapay zeka yorumu gelirse o günün karnesinde şablon yorumunun yerine geçer */
       if (durum.evre !== "gun-sonu" || !durum.karne || durum.karne.gun !== eylem.gun

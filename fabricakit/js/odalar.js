@@ -60,6 +60,7 @@ export function gercekAd(odaVeyaId) {
   return oda ? oda.ad : "";
 }
 
-export function fabrikaTabelasi() {
-  return FABRIKA.kod ? { buyuk: BUYUK_HARF(FABRIKA.kod), kucuk: FABRIKA.ad } : { buyuk: FABRIKA.ad, kucuk: "" };
+/* Haritanın tek başlığı: "SAMANYOLU GALAKSİSİ" (galaksi kod adı boşsa fabrika adı). Fabrika adı ayrıca üst şeritte yazar. */
+export function galaksiBasligi() {
+  return BUYUK_HARF(FABRIKA.kod ? `${FABRIKA.kod} galaksisi` : FABRIKA.ad);
 }

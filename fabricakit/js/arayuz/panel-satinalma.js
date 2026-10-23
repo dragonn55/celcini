@@ -5,7 +5,7 @@ import { malzemeIhtiyaci } from "../motor/mrp.js";
 import { sayi, tl, gunAdi, geriSayim, goreli } from "../bicim.js";
 import { h, cubuk, temizle } from "./dom.js";
 import { bolum, rozet, bos, not } from "./ortak.js";
-import { mrpEtiketi, onerilenTedarikci } from "./panel-planlama.js";
+import { mrpEtiketi, mrpIpucu, onerilenTedarikci } from "./panel-planlama.js";
 
 export function butceBilgisi(durum) {
   const { harcanan, limit } = durum.butce;
@@ -27,7 +27,7 @@ export function siparisSatiri(durum, s, gonder) {
   else if (s.durum === "kapida") durumMetni = [rozet("Kapıda", "dikkat"), h("span", { metin: "Depoda teslim alın" })];
   else if (s.durum === "teslim") durumMetni = [rozet("Teslim alındı", "yolunda")];
   else durumMetni = [rozet("Düştü", "acil"), h("span", { metin: "Onay alınmadı" })];
-  return h("li", { sinif: `fk-siparis fk-siparis-${s.durum}` },
+  return h("li", { sinif: `fk-siparis fk-siparis-${s.durum}`, "data-durak": s.id },
     h("div", { sinif: "fk-siparis-bas" }, h("strong", { metin: `${m.ad} · ${sayi(s.miktar)} ${m.birim}` }), h("span", { sinif: "fk-soluk", metin: `${TEDARIKCI[s.tedarikci].ad} · ${tl(s.tutar)}` })),
     h("div", { sinif: "fk-siparis-durum" }, durumMetni, eylem));
 }
@@ -108,10 +108,12 @@ export function satinAlmaPaneli(b) {
   ozetiGuncelle();
 
   const [etiket, seviye] = mrpEtiketi(m, durum.gun);
+  const ipucu = mrpIpucu(m);
   const formBolumu = bolum("Yeni sipariş",
     h("div", { sinif: "fk-alan" }, h("label", { for: "fk-sa-malzeme", metin: "Malzeme" }), malzemeSecimi),
     h("p", { sinif: "fk-sa-ozet" }, rozet(etiket, seviye),
       ` Stok ${sayi(m.stok)} ${birim} · bugün ${sayi(m.bugunIhtiyac)} · bitiş ${m.bitis ? gunAdi(m.bitis) : "ufukta yok"}${m.bekleyen ? ` · onay bekleyen ${sayi(m.bekleyen)}` : ""}`),
+    ipucu ? h("p", { sinif: "fk-mrp-ipucu", metin: ipucu }) : null,
     tedarikciler, miktarAlani,
     h("p", { sinif: "fk-tutar" }, "Tutar: ", tutarEl),
     uyariKap, ver,

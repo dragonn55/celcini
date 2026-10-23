@@ -7,6 +7,7 @@ import { yapayZekaAcik, gmYorumuIste, gmCevabiIste, soruyuHazirla } from "../aja
 import { sayi } from "../bicim.js";
 import { h } from "./dom.js";
 import { ajanGmGorseli, hitapla } from "./karne.js";
+import { sesliOkuDugmesi } from "./ses.js";
 
 const YANITSIZ = "{hitap}, bu soruyu şu an yanıtlayamıyorum. Hazır sorulardan birini seçin.";
 
@@ -87,9 +88,14 @@ export function gmBolumu({ durum, hitap, erisim, yorumKaydet }) {
     hakYaz();
   }
 
+  /* Sesli oku: günün yorumu, ardından sorulan soruların cevapları */
+  const sesli = sesliOkuDugmesi(() => [yorum.textContent, ...[...soruListesi.querySelectorAll(".fk-cevap span")].map((el) => el.textContent)]);
+
   return h("section", { sinif: "fk-bolum fk-gm-bolum", "aria-labelledby": "fk-gm-baslik" },
     h("div", { sinif: "fk-gm-satir" }, ajanGmGorseli("fk-gm"),
-      h("div", { sinif: "fk-gm-govde" }, h("h2", { sinif: "fk-bolum-baslik", id: "fk-gm-baslik", metin: "Ajan GM" }), yorum)),
+      h("div", { sinif: "fk-gm-govde" },
+        h("div", { sinif: "fk-gm-baslik-satir" }, h("h2", { sinif: "fk-bolum-baslik", id: "fk-gm-baslik", metin: "Ajan GM" }), sesli),
+        yorum)),
     h("div", { sinif: "fk-sorgula" },
       h("h3", { sinif: "fk-sorgula-baslik", metin: "Ajanı sorgula" }),
       hazir,

@@ -107,14 +107,21 @@ export const OLAY_TURLERI = Object.keys(OLAY_ODASI);
 
 export function gunOlaylari(a, gun, gunAyari, dunku = []) {
   const sayi = Math.min(OLAY_TURLERI.length, tamSayi(a, ...gunAyari.olay));
+  const zorunlu = gunAyari.zorunluOlay || [];
   /* Dün yaşanan türler sona itilir: aynı olay art arda günlerde tekrar etmesin */
-  const turler = karisik(a, OLAY_TURLERI).sort((x, y) => dunku.includes(x) - dunku.includes(y)).slice(0, sayi);
-  const [bas, son] = AYARLAR.OLAY_SAATI;
-  const dakikalar = new Set();
-  while (dakikalar.size < turler.length) dakikalar.add(Math.round(aralik(a, bas * 60, son * 60) / 5) * 5);
-  const sirali = [...dakikalar].sort((x, y) => x - y);
+  let turler = karisik(a, OLAY_TURLERI.filter((t) => !zorunlu.includes(t)))
+    .sort((x, y) => dunku.includes(x) - dunku.includes(y)).slice(0, Math.max(0, sayi - zorunlu.length));
+  /* Zorunlu türler de tohumla bir dilime düşer */
+  if (zorunlu.length) turler = karisik(a, zorunlu.concat(turler));
+  /* Olaylar güne dağılır: saat aralığı olay sayısı kadar eşit dilime bölünür, her olay kendi diliminde gelir */
+  const [bas, son] = AYARLAR.OLAY_SAATI.map((s) => s * 60);
+  const dilim = (son - bas) / turler.length;
+  const dakikalar = turler.map((_, i) => {
+    const alt = bas + i * dilim;
+    return Math.max(Math.ceil(alt / 5) * 5, Math.floor(aralik(a, alt, alt + dilim) / 5) * 5);
+  });
   return turler.map((tur, i) => ({
-    id: `O${gun}-${i + 1}`, tur, oda: OLAY_ODASI[tur], dk: sirali[i], durum: "bekliyor", p: olayParametreleri(a, tur),
+    id: `O${gun}-${i + 1}`, tur, oda: OLAY_ODASI[tur], dk: dakikalar[i], durum: "bekliyor", p: olayParametreleri(a, tur),
   }));
 }
 

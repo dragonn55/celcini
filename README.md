@@ -12,6 +12,7 @@ Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 
 ```
 data/urunler.json        Tüm ürünler (tek kaynak)
+data/karne-ornegi.json   Ana sayfadaki karne örneği (scripts/karne-ornegi.mjs üretir; elle düzenlenmez)
 fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
 fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
 api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
@@ -20,7 +21,8 @@ scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Pytho
 scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
 scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
 scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı, dil kuralları)
-scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum
+scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum, 1. gün puan dağılımı
+scripts/karne-ornegi.mjs Motorun 1. gün karnesinden ana sayfa örneğini üretir (senaryo dosyanın başında)
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
 assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
@@ -40,6 +42,7 @@ python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
 npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
 npm run check                         # üretim çıktısı + sim-test + api-test
+node scripts/karne-ornegi.mjs         # oyun kuralı ya da Ajan GM şablonu değişince karne örneğini yenile, sonra derle
 npm run check:onizleme                # önizleme çıktısını kontrol et
 npm run dev                           # http://localhost:3000 (üretim)
 npm run onizleme                      # önizlemeyi derle ve http://localhost:3001'de aç
@@ -88,14 +91,19 @@ fabricakit/js/odalar.js    Dokuz oda ve fabrika adı (kod adı "" yapılırsa he
 fabricakit/js/veri/        Tohumlu rastgelelik, katalog, sipariş ve olay üretimi
 fabricakit/js/motor/       Tek store, eylemler, MRP, satın alma, üretim, olaylar, gün sonu, karne, kayıt
 fabricakit/js/ajan-gm/     Kural şablonları (yorumlar.js) ve yapay zeka kaynağı (kaynak.js)
-fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, karne, kilit ekranı
+fabricakit/js/arayuz/      Harita, paneller, görev notu, sayaçlar, bildirimler, karne, kilit ekranı, sesler (ses.js)
 fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 ```
 
-- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla) ve `fabricakit-oyuncu` (hitap, açılan kilit).
+- Kayıt yalnızca tarayıcıda: `fabricakit-kayit` (oyun, `KAYIT_SURUMU` alanıyla), `fabricakit-oyuncu` (hitap, açılan kilit)
+  ve `fabricakit-ses` (ses açık/kapalı).
   Kayıt yapısını bozan bir değişiklikte `KAYIT_SURUMU`'nu bir artırın; eski kayıtlar sıfırlanır ve oyuncuya söylenir.
-- Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfa tanıtımı) ve daire
-  avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula ve kilit ekranı). Tarayıcı WebP destekliyorsa
+- Sesler dosyasız: efektler `arayuz/ses.js`'te Web Audio API ile üretilir. Ajan GM'in "Sesli oku"su tarayıcının
+  SpeechSynthesis API'siyle cihazdaki Türkçe sesi kullanır (tr-TR, hız 0,95, perde 0,85); yerel Türkçe ses yoksa düğme görünmez.
+  Metin okunmadan önce sese hazırlanır: sayı, tutar, yüzde ve saat yazıya çevrilir ("135.200 TL" → "yüz otuz beş bin iki yüz lira",
+  "08:00'de" → "saat sekizde"); `npm run sim-test` Ajan GM metinlerinde okunmamış rakam kalmadığını denetler.
+- Ajan GM görselleri `assets/img/` altında: büyük portre `ajan-gm.webp` / `ajan-gm.png` (ana sayfanın açılışı) ve daire
+  avatar `ajan-gm-avatar.webp` / `ajan-gm-avatar.png` (giriş, karne, sorgula, kilit ekranı ve ana sayfadaki karne örneği). Tarayıcı WebP destekliyorsa
   WebP, değilse PNG yüklenir (`<picture>`). Görsel değişirse `python3 scripts/derle.py` ana sayfadaki sürüm etiketini yeniler.
 - Oda kod adı değişirse ana sayfadaki oda şeridi için yeniden derleyin; `npm run check` ikisinin uyumunu denetler.
 
@@ -139,7 +147,8 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 - Turuncu yalnızca vurgu: rozet zemini, fiyat alt çizgisi, ince çizgi. Turuncu renkte yazı yok.
 - Logolar beyaz ve şeffaf; her zaman `#0096C7` zemin üstünde. Yeniden çizilmez, yalnızca boyutlandırılır.
 - İkonlar Lucide, çizgi kalınlığı 1,5. Kartlar ince çizgi çerçeveli, gölge yok.
-- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px.
+- Tek yazı ailesi (sistem yazısı), üç boyut: 16 / 20 / 32–48px. Fabricakit'in yoğun ekranında ikincil etiket 14px;
+  telefonda üst şerit düğmelerinin ikon altı etiketi (Ses · Durdur · Bitir) 10px.
 
 ## Yayın (Vercel)
 

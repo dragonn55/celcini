@@ -16,13 +16,22 @@ export function ajanGmGorseli(sinif = "fk-gm") {
 
 export const hitapla = (metin, hitap) => metin.split("{hitap}").join(hitap);
 
-const olcu = (ad, deger, alt) => h("div", { sinif: "fk-olcu" }, h("dt", { metin: ad }), h("dd", {}, h("span", { sinif: "fk-olcu-deger", metin: deger }), alt ? h("span", { sinif: "fk-olcu-alt", metin: alt }) : null));
+/* Karnenin dört göstergesi (simülatör karnesi ve ana sayfadaki karne örneği aynı metni kullanır) */
+export function karneOlculeri(k) {
+  return [
+    { ad: "Zamanında teslim", deger: k.teslim.yuzde === null ? "—" : `%${k.teslim.yuzde}`,
+      alt: k.teslim.toplam ? `${sayi(k.teslim.zamaninda)} / ${sayi(k.teslim.toplam)} satır${k.teslim.gecSevk ? ` · ${sayi(k.teslim.gecSevk)} gecikmiş satır da çıktı` : ""}` : "Bugün teslim günü gelen satır yoktu" },
+    { ad: "Hat duruşu", deger: `${ondalik(k.durus.saat)} saat`, alt: `Ahşap\u00a0${ondalik(k.durus.hatlar.ahsap ?? 0)} · Metal\u00a0${ondalik(k.durus.hatlar.metal ?? 0)}` },
+    { ad: "Depoda bağlanan para", deger: tl(k.bagliPara), alt: "Malzeme ve mamul stoğu" },
+    { ad: "Unutulan iş", deger: sayi(k.unutulan.sayi), alt: k.unutulan.sayi ? "Her biri puan düşürdü" : "Hiç yok" },
+  ];
+}
+
+const olcu = ({ ad, deger, alt }) => h("div", { sinif: "fk-olcu" }, h("dt", { metin: ad }), h("dd", {}, h("span", { sinif: "fk-olcu-deger", metin: deger }), alt ? h("span", { sinif: "fk-olcu-alt", metin: alt }) : null));
 
 export function karneEkrani({ durum, eylemler, gmBolumu, kilitli }) {
   const k = durum.karne;
   const son = durum.gun >= AYARLAR.GUNLER.length;
-  const teslim = k.teslim.yuzde === null ? "—" : `%${k.teslim.yuzde}`;
-  const teslimAlt = k.teslim.toplam ? `${sayi(k.teslim.zamaninda)} / ${sayi(k.teslim.toplam)} satır${k.teslim.gecSevk ? ` · ${sayi(k.teslim.gecSevk)} gecikmiş satır da çıktı` : ""}` : "Bugün teslim günü gelen satır yoktu";
   const gece = Object.values(k.gece || {}).length;
 
   const defter = k.defter.length
@@ -42,11 +51,7 @@ export function karneEkrani({ durum, eylemler, gmBolumu, kilitli }) {
           h("h1", { tabindex: "-1", id: "fk-karne-baslik", metin: gunAdi(k.gun) })),
         h("div", { sinif: `fk-harf fk-harf-${k.harf}`, "aria-label": `Harf notu ${k.harf}, puan ${k.puan}` },
           h("span", { sinif: "fk-harf-harf", metin: k.harf }), h("span", { sinif: "fk-harf-puan", metin: `${sayi(k.puan)} puan` }))),
-      h("dl", { sinif: "fk-olculer" },
-        olcu("Zamanında teslim", teslim, teslimAlt),
-        olcu("Hat duruşu", `${ondalik(k.durus.saat)} saat`, `Ahşap ${ondalik(k.durus.hatlar.ahsap ?? 0)} · Metal ${ondalik(k.durus.hatlar.metal ?? 0)}`),
-        olcu("Depoda bağlanan para", tl(k.bagliPara), "Malzeme ve mamul stoğu"),
-        olcu("Unutulan iş", sayi(k.unutulan.sayi), k.unutulan.sayi ? "Ayrıntı puan dökümünde" : "Hiç yok")),
+      h("dl", { sinif: "fk-olculer" }, karneOlculeri(k).map(olcu)),
       gmBolumu,
       bolum("Puan dökümü", defter, h("p", { sinif: "fk-soluk", metin: `Gün ${sayi(AYARLAR.PUAN.BASLANGIC)} puanla başlar; puan ${AYARLAR.PUAN.ALT}–${AYARLAR.PUAN.UST} arasında tutulur.` })),
       bolum("Bugünün olayları", olaylar),

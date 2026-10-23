@@ -41,9 +41,12 @@ const mesaj = (metin, stop = "end_turn") => () => new Response(JSON.stringify({
   stop_reason: stop, stop_sequence: null, usage: { input_tokens: 10, output_tokens: 10 },
 }), { status: 200, headers: { "content-type": "application/json" } });
 
-/* Gerçek bir karne: motor 1. günü baştan sona oynar */
+/* Gerçek bir karne: motor 1. günü baştan sona oynar ("Günü bitir" duraklarında karar verilir) */
 const durum = yeniOyun();
-uygula(durum, { tip: "GUNU_BITIR" });
+for (let r = uygula(durum, { tip: "GUNU_BITIR" }), i = 0; r.durak && i < 20; i++) {
+  uygula(durum, { tip: "KARAR", id: r.durak.id, secim: "yeniden-isle" });
+  r = uygula(durum, { tip: "GUNU_BITIR" });
+}
 const karne = durum.karne;
 dogrula(karne && durum.evre === "gun-sonu", "motor karne üretmedi");
 

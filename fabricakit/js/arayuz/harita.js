@@ -1,6 +1,7 @@
-/* Fabrika haritası: üstten bakılan plan. Ofisler, iki üretim hattı, kalite, depo ve sevkiyat kapısı.
+/* Fabrika haritası: üstten bakılan plan. Üst sıra altı ofis; orta sıra üretim holü (Mars), kalite ve depo;
+   alt sıra sevkiyat kapısı. Haritanın tek başlığı galaksi adıdır; fabrika adı üst şeritte yazar.
    Gezegenler yalnızca kapı tabelasıdır. Her odada durum ışığı (renk + metin). */
-import { ODALAR, tabela, fabrikaTabelasi, FABRIKA } from "../odalar.js";
+import { ODALAR, tabela, galaksiBasligi, FABRIKA } from "../odalar.js";
 import { HAT, URUN, MALZEME, HAT_IDLER, hatUrunleri } from "../veri/katalog.js";
 import { SEVIYE_ADI } from "../motor/durumlar.js";
 import { hatHali } from "../motor/uretim.js";
@@ -11,7 +12,6 @@ import { h, gezegen, ikon } from "./dom.js";
 const OFISLER = ["satis", "arge", "planlama", "ik", "finans", "satinalma"];
 
 export function haritaKur(kok, { odaSec }) {
-  const fab = fabrikaTabelasi();
   const odaEl = {};
 
   const odaDugmesi = (oda, ...ek) => {
@@ -35,22 +35,23 @@ export function haritaKur(kok, { odaSec }) {
     return h("span", { sinif: "fk-hat" }, h("span", { sinif: "fk-hat-ad", metin: HAT[id].ad }), bant, durumMetni);
   }));
   const depoMetni = h("span", { sinif: "fk-alan-metin", metin: "" });
+  const partiler = h("span", { sinif: "fk-partiler", "aria-hidden": "true" }, h("span"), h("span"), h("span"));
+  const kaliteMetni = h("span", { sinif: "fk-alan-metin", metin: "" });
   const sevkMetni = h("span", { sinif: "fk-alan-metin", metin: "" });
 
   const oda = (id) => ODALAR.find((o) => o.id === id);
   const plan = h("div", { sinif: "fk-plan" },
     h("span", { sinif: "fk-bolge fk-bolge-ofis", metin: "Ofisler" }),
     OFISLER.map((id) => odaDugmesi(oda(id))),
-    odaDugmesi(oda("uretim"), h("span", { sinif: "fk-bolge-ic", metin: "Üretim holü" }), hatlar),
-    odaDugmesi(oda("kalite")),
+    odaDugmesi(oda("uretim"), h("span", { sinif: "fk-hol" }, h("span", { sinif: "fk-bolge-ic", metin: "Üretim holü" }), hatlar)),
+    odaDugmesi(oda("kalite"), partiler, kaliteMetni),
     odaDugmesi(oda("depo"), h("span", { sinif: "fk-raflar", "aria-hidden": "true" }, h("span"), h("span"), h("span")), depoMetni),
     h("div", { sinif: "fk-sevk" }, ikon("kamyon", "fk-ikon fk-sevk-ikon"), h("span", { sinif: "fk-sevk-ad", metin: "Sevkiyat kapısı" }), sevkMetni));
 
-  const kap = h("section", { sinif: "fk-harita", "aria-label": `Fabrika planı: ${fab.buyuk}${fab.kucuk ? `, ${fab.kucuk}` : ""}` },
-    h("div", { sinif: "fk-harita-bas" },
+  const kap = h("section", { sinif: "fk-harita", "aria-label": `Fabrika planı: ${galaksiBasligi()}, ${FABRIKA.ad}` },
+    h("p", { sinif: "fk-harita-bas" },
       FABRIKA.kod ? gezegen(FABRIKA.simge, "fk-simge fk-simge-kucuk") : null,
-      h("span", { sinif: "fk-fabrika-kod", metin: fab.buyuk }),
-      fab.kucuk ? h("span", { sinif: "fk-fabrika-ad", metin: fab.kucuk }) : null),
+      h("span", { sinif: "fk-harita-baslik", metin: galaksiBasligi() })),
     plan);
   kok.appendChild(kap);
 
@@ -77,6 +78,9 @@ export function haritaKur(kok, { odaSec }) {
           : hal.tur === "malzeme" ? `Durdu: ${MALZEME[hal.malzeme].ad} yok`
           : durum.evre === "oyun" ? `Boşta · ${hedef}` : `Gün bitti · ${hedef}`;
       }
+      const bozuk = durum.kararlar.filter((k) => k.durum === "bekliyor" && k.tur === "bozuk-parti").length;
+      partiler.classList.toggle("fk-partiler-bozuk", bozuk > 0);
+      kaliteMetni.textContent = bozuk ? `${sayi(bozuk)} bozuk parti karar bekliyor` : "Bozuk parti yok";
       const kapida = durum.satinalma.filter((s) => s.durum === "kapida").length;
       const yolda = durum.satinalma.filter((s) => s.durum === "onaylandi").length;
       depoMetni.textContent = kapida ? `Kapıda ${kapida} teslimat bekliyor` : yolda ? `Yolda ${yolda} teslimat` : "Kapıda teslimat yok";

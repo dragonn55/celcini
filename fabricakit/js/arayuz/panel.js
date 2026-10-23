@@ -15,15 +15,20 @@ const ICERIK = {
   uretim: uretimPaneli, depo: depoPaneli, kalite: kalitePaneli, ik: ikPaneli, finans: finansPaneli,
 };
 
+/* Gün özeti: sevkiyat ve son bildirimler (kaçan bildirim kaybolmasın). Telefonda özet satırından alttan açılır. */
+const SON_BILDIRIM = 10;
+
 function ozet(b) {
   const { durum } = b;
-  const kayit = durum.gunluk.slice().reverse().slice(0, 12);
+  const kayit = durum.gunluk.slice().reverse().slice(0, SON_BILDIRIM);
   const bugunku = acikSatirlar(durum).filter((s) => s.gun <= durum.gun).length;
   return h("div", { sinif: "fk-ozet" },
-    h("h2", { sinif: "fk-panel-baslik", id: "fk-panel-baslik" }, "Gün özeti"),
+    h("div", { sinif: "fk-panel-bas" },
+      h("h2", { sinif: "fk-panel-baslik", id: "fk-panel-baslik", tabindex: "-1" }, "Gün özeti"),
+      h("button", { sinif: "fk-kapat fk-ozet-kapat", type: "button", "aria-label": "Gün özetini kapat", "data-odak": "kapat", on: { click: b.kapat } }, ikon("kapat"))),
     h("p", { sinif: "fk-panel-aciklama", metin: "Bir odaya dokunun: karar paneli burada açılır. Işıklar odaların durumunu gösterir." }),
     h("p", { metin: `Bugün 18:00'de ${sayi(bugunku)} satır sevk edilecek. Açık satır: ${sayi(acikSatirlar(durum).length)}.` }),
-    bolum("Olay kaydı", kayit.length ? h("ul", { sinif: "fk-olaylar" }, kayit.map((g) =>
+    bolum(`Son ${SON_BILDIRIM} bildirim`, kayit.length ? h("ul", { sinif: "fk-olaylar" }, kayit.map((g) =>
       h("li", { sinif: `fk-olay fk-olay-${g.seviye}` },
         h("span", { sinif: "fk-olay-saat", metin: saat(g.dk) }),
         h("button", { sinif: "fk-olay-dugme", type: "button", on: { click: () => b.odaAc(g.oda) } }, g.metin)))) : bos("Henüz olay yok.")));

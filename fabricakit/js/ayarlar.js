@@ -25,14 +25,15 @@ export const AYARLAR = {
   /* ---- Günler: 1. gün ücretsiz, 2–5 erişim koduyla. Aynı tohum her açılışta aynı siparişleri ve olayları verir. ---- */
   UCRETSIZ_GUN: 1,
   GUNLER: [
-    { gun: 1, tohum: 410261, olay: [2, 3], degisim: [0.00, 0.00], siddet: 0.00, yeniSatir: [0, 0] },
+    { gun: 1, tohum: 410261, olay: [2, 3], degisim: [0.00, 0.00], siddet: 0.00, yeniSatir: [0, 0], zorunluOlay: ["bozuk-parti"] },
     { gun: 2, tohum: 410262, olay: [2, 3], degisim: [0.60, 0.66], siddet: 0.15, yeniSatir: [1, 2] },
     { gun: 3, tohum: 410263, olay: [3, 4], degisim: [0.66, 0.74], siddet: 0.20, yeniSatir: [2, 3] },
     { gun: 4, tohum: 410264, olay: [3, 4], degisim: [0.72, 0.80], siddet: 0.25, yeniSatir: [2, 3] },
     { gun: 5, tohum: 410265, olay: [4, 5], degisim: [0.78, 0.85], siddet: 0.30, yeniSatir: [2, 4] },
   ],
-  /* degisim: gece satırların ne kadarının miktarı değişir (alt, üst oran); siddet: değişimin büyüklüğü;
-     yeniSatir: gece eklenen yeni satır sayısı. 1. gün defter ilk kez gelir, değişim yoktur.
+  /* olay: o gün kaç olay gelir (alt, üst); zorunluOlay: o gün her zaman gelen olay türleri (1. gün Kalite bozuk parti:
+     karar isteyen olay ücretsiz günde de görülsün); degisim: gece satırların ne kadarının miktarı değişir (alt, üst oran);
+     siddet: değişimin büyüklüğü; yeniSatir: gece eklenen yeni satır sayısı. 1. gün defter ilk kez gelir, değişim yoktur.
      ONE_CEKME_ORANI: değişen satırların yaklaşık bu kadarı aynı zamanda öne çekilir */
   ONE_CEKME_ORANI: 0.65,
   ONE_CEKME_GUN: [1, 2],
@@ -119,7 +120,7 @@ export const AYARLAR = {
   GUNLUK_BUTCE: 120000,               // günlük harcama bütçesi (TL): satın alma, ikinci vardiya, acil bakım
 
   /* ---- Olaylar ---- */
-  OLAY_SAATI: [10, 16.5],             // olaylar bu saatler arasında gelir
+  OLAY_SAATI: [9, 16],                // olaylar bu saatler arasında gelir; aralık olay sayısı kadar eşit dilime bölünür
   KALITE_KARAR_DK: 90,                // bozuk parti kararı için süre
   BOZUK_PARTI_ORANI: [0.2, 0.35],     // stoğun bu kadarı bozuk çıkar
   YENIDEN_ISLEME: { kurtarma: 0.6, hatDakika: 60 },
@@ -165,11 +166,13 @@ export const AYARLAR = {
   FAZLA_MIKTAR_UYARI_KATI: 2, // sipariş miktarı önerilenin bu katını aşarsa uyarı çıkar
   GOREV_NOTU_AYRINTILI_SON_GUN: 1, // bu güne kadar görev notu adımları ayrıntılı yazar
   GOREV_NOTU_SON_GUN: 2,     // bu günden sonra görev notu yok, yalnızca "Sipariş geldi" bildirimi
-  HARF_NOTU: [               // puan bu sınırın üstündeyse o harf
+  /* Harf notu: puan bu sınıra eşit ya da üstündeyse o harf. 1. gün hedefi (scripts/sim-test.mjs denetler):
+     hiçbir şey yapmayan E, rastgele oynayan C–D, her şeyi doğru yapan A–B. */
+  HARF_NOTU: [
     { harf: "A", alt: 100 },
-    { harf: "B", alt: 85 },
-    { harf: "C", alt: 70 },
-    { harf: "D", alt: 55 },
+    { harf: "B", alt: 90 },
+    { harf: "C", alt: 75 },
+    { harf: "D", alt: 60 },
     { harf: "E", alt: 0 },
   ],
 };

@@ -5,6 +5,7 @@ import { AYARLAR } from "../ayarlar.js";
 import { gunAdi } from "../bicim.js";
 import { h, ikon } from "./dom.js";
 import { ajanGmGorseli, hitapla } from "./karne.js";
+import { sesliOkuDugmesi } from "./ses.js";
 
 const SATISTA_DEGIL = "Erişim kodları henüz satışta değil.";
 
@@ -21,6 +22,7 @@ async function istek(yontem, govde) {
 /* secenek: { metin, f } — kilit açılmadan geri dönüş (günü baştan oynamak ya da baştan başlamak) */
 export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
   const shopier = (window.CELCINI_LINKS && window.CELCINI_LINKS.shopier_magaza) || "";
+  const gmSozu = hitapla(`{hitap}, ${AYARLAR.UCRETSIZ_GUN}. gün ücretsizdi. Sonraki günlerde siparişler gece değişir, olaylar sıklaşır. Devam etmek için erişim kodunuzu girin.`, hitap);
   const son = AYARLAR.GUNLER.length;
   const girdi = h("input", {
     id: "fk-kod", type: "text", maxlength: "40", autocomplete: "off", autocapitalize: "characters", spellcheck: "false",
@@ -58,7 +60,7 @@ export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
       h("p", { sinif: "ust-yazi fk-fabrika-satir" }, ikon("kilit"), `${gunAdi(gun)} kilitli`),
       h("h1", { tabindex: "-1", id: "fk-kilit-baslik", metin: `${AYARLAR.UCRETSIZ_GUN + 1}–${son}. günler erişim koduyla açılır` }),
       h("div", { sinif: "fk-gm-satir" }, ajanGmGorseli("fk-gm"),
-        h("p", { metin: hitapla(`Ajan GM: {hitap}, ${AYARLAR.UCRETSIZ_GUN}. gün ücretsizdi. Sonraki günlerde siparişler gece değişir, olaylar sıklaşır. Devam etmek için erişim kodunuzu girin.`, hitap) })),
+        h("div", { sinif: "fk-gm-soz" }, h("p", { metin: `Ajan GM: ${gmSozu}` }), sesliOkuDugmesi(() => [gmSozu]))),
       h("form", { sinif: "fk-giris-form", on: { submit: gonder } },
         h("label", { for: "fk-kod", metin: "Erişim kodu" }),
         girdi,
