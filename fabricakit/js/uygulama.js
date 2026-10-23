@@ -6,12 +6,13 @@ import { kaydaYaz, kayittanOku } from "./motor/kayit.js";
 import { odaDurumlari } from "./motor/durumlar.js";
 import { verilmeyenSiparisler } from "./motor/mrp.js";
 import { bitirmeDuragi } from "./motor/sayac.js";
+import { GUN_BASI } from "./motor/zaman.js";
 import { gercekAd } from "./odalar.js";
 import { saat, gunAdi, sayi } from "./bicim.js";
 import { h, temizle, ikon } from "./arayuz/dom.js";
 import { haritaKur } from "./arayuz/harita.js";
 import { panelCiz, canliGuncelle } from "./arayuz/panel.js";
-import { gorevNotu } from "./arayuz/gorevnotu.js";
+import { gorevNotu, gorevAdimlari, gorevOzeti } from "./arayuz/gorevnotu.js";
 import { sayacKur } from "./arayuz/sayac.js";
 import { bildirimKur } from "./arayuz/bildirim.js";
 import { karneEkrani } from "./arayuz/karne.js";
@@ -48,9 +49,15 @@ const erisimAcik = () => Boolean(oyuncu.erisim.acik);
 const kilitli = (gun) => gun > AYARLAR.UCRETSIZ_GUN && !erisimAcik();
 
 const kok = document.getElementById("fk");
-const ui = { secili: null, planSekme: "plan", form: null, gorevAcik: true, durak: null };
+const ui = { secili: null, planSekme: "plan", form: null, gorevAcik: true, cekmeceAcik: false, durak: null };
 /* "Günü bitir" durağında karar verilince ilerleme bu kadar bekleyip sürer (sonuç bildirimi görünsün) */
 const DEVAM_BEKLEME_MS = 1200;
+/* Telefonda görev notu çekmecesi yeni sipariş gelince bu kadar açık kalır */
+const CEKMECE_SURE_MS = 5000;
+/* Telefon yerleşimi (paneli alttan açan genişlik): özet satırı, harita, sayaç şeridi, görev notu çekmecesi */
+const telefon = window.matchMedia("(max-width: 959px)");
+let yerlesimDegisti = null;
+telefon.addEventListener("change", () => { if (ekran === "oyun" && yerlesimDegisti) yerlesimDegisti(); });
 let oyuncu = oyuncuOku();
 let store = null;
 let ekran = null;
@@ -59,9 +66,16 @@ let aboneCik = null;
 /* Panelde düğmeye basılıyken yeniden çizim ertelenir (tık kaybolmasın) */
 let basili = false;
 let ertelenen = null;
-window.addEventListener("pointerdown", (e) => { basili = Boolean(e.target.closest && e.target.closest(".fk-panel, .fk-sayaclar")); });
+window.addEventListener("pointerdown", (e) => { basili = Boolean(e.target.closest && e.target.closest(".fk-panel, .fk-sayaclar, .fk-gorev-kap, .fk-ozet-satir")); });
 window.addEventListener("pointerup", () => { basili = false; if (ertelenen) { const f = ertelenen; ertelenen = null; setTimeout(f, 0); } });
 window.addEventListener("pointercancel", () => { basili = false; });
+
+/* Ekran değişince eski ekranın izleri temizlenir (telefonda görev notu çekmecesinin bıraktığı alt boşluk) */
+function ekranAc(ad) {
+  ekran = ad;
+  temizle(kok);
+  document.body.classList.remove("fk-cekmeceli");
+}
 
 /* ---------------- kayıt ---------------- */
 let sonKayit = 0;
@@ -82,8 +96,7 @@ function storeKur(kayit) {
 
 /* ---------------- giriş ---------------- */
 function giris({ kayit, uyari }) {
-  ekran = "giris";
-  temizle(kok);
+  ekranAc("giris");
   kok.appendChild(girisEkrani({
     kayit, uyari, hitap: oyuncu.hitap,
     basla: async ({ hitap: yeniHitap, yeni }) => {
@@ -106,8 +119,7 @@ function oyun() {
   if (aboneCik) { aboneCik(); aboneCik = null; }
   if (kilitli(store.durum.gun)) { kilit(); return; }
   if (store.durum.evre !== "oyun") { karne(); return; }
-  ekran = "oyun";
-  temizle(kok);
+  ekranAc("oyun");
   ui.secili = null;
   ui.durak = null;
 
@@ -123,14 +135,20 @@ function oyun() {
       h("div", { sinif: "fk-ust-sol" }, gunEl, h("span", { sinif: "fk-saat-kap" }, ikon("saat"), saatEl), durakEl),
       h("div", { sinif: "fk-ust-sag" }, puanEl, duraklat, bitir)),
     bitirmeEl);
+  const ozetEl = h("div", { sinif: "fk-ozet-satir", role: "group", "aria-label": "Özet" });
   const sayacKap = h("div", { sinif: "fk-sayaclar", "aria-label": "Sayaçlar ve teslimatlar" });
-  const gorevKap = h("div", { sinif: "fk-gorev-kap" });
+  const gorevKap = h("div", { sinif: "fk-gorev-kap", on: { pointerdown: () => { clearTimeout(cekmeceSayaci); cekmeceSayaci = null; } } });
   const haritaKap = h("div", { sinif: "fk-harita-kap" });
   const panelKap = h("aside", { sinif: "fk-panel", id: "fk-panel", "aria-labelledby": "fk-panel-baslik" });
   const perde = h("div", { sinif: "fk-perde", on: { click: paneliKapat } });
   const bildirimKap = h("div", { sinif: "fk-bildirimler", "aria-live": "polite" });
-  const uygulama = h("div", { sinif: "fk-uygulama" }, ust, sayacKap, h("div", { sinif: "fk-govde" }, gorevKap, haritaKap, panelKap));
+  const govde = h("div", { sinif: "fk-govde" }, gorevKap, haritaKap, panelKap);
+  const uygulama = h("div", { sinif: "fk-uygulama" }, ust, ozetEl, sayacKap, govde);
   kok.append(uygulama, perde, bildirimKap);
+  /* Telefonda sayaç şeridi haritanın altına iner (okuma sırası görünen sırayla aynı kalsın diye yeri değişir) */
+  const yerlestir = () => { if (telefon.matches) govde.after(sayacKap); else govde.before(sayacKap); };
+  yerlestir();
+  yerlesimDegisti = () => { yerlestir(); yapisalCiz(); };
 
   const harita = haritaKur(haritaKap, { odaSec: (id) => odaSec(id) });
   const sayac = sayacKur(sayacKap, { gonder, odaAc });
@@ -218,10 +236,62 @@ function oyun() {
     if (basili) { ertelenen = yapisalCiz; return; }
     sonDegisim = store.durum.degisim;
     panelCiz(panelKap, baglam());
+    const adimlar = gorevAdimlari(store.durum);
+    gorevCiz(adimlar);
+    ozetCiz(store.durum, adimlar);
+  }
+
+  /* Görev notu: masaüstünde haritanın yanında, telefonda alttan çekmece (ayrı açık/kapalı hâli) */
+  function gorevCiz(adimlar) {
     temizle(gorevKap);
-    const not = gorevNotu(store.durum, ui, { odaAc });
-    if (not) gorevKap.appendChild(not);
-    gorevKap.hidden = !not;
+    gorevKap.hidden = !adimlar;
+    document.body.classList.toggle("fk-cekmeceli", Boolean(adimlar));
+    if (!adimlar) return;
+    const tel = telefon.matches;
+    gorevKap.appendChild(gorevNotu(store.durum, adimlar, {
+      acik: tel ? ui.cekmeceAcik : ui.gorevAcik,
+      degisti: (acik) => { if (tel) ui.cekmeceAcik = acik; else ui.gorevAcik = acik; },
+      odaAc: (oda, form, sekme) => { if (tel) cekmece(false); odaAc(oda, form, sekme); },
+    }));
+  }
+
+  let cekmeceSayaci = null;
+  function cekmece(acik, sure = 0) {
+    clearTimeout(cekmeceSayaci);
+    cekmeceSayaci = null;
+    ui.cekmeceAcik = acik;
+    gorevCiz(gorevAdimlari(store.durum));
+    if (acik && sure) cekmeceSayaci = setTimeout(() => { cekmeceSayaci = null; if (ekran === "oyun") cekmece(false); }, sure);
+  }
+
+  /* Telefonda yeni sipariş gelince (Satış-Pazarlama "dikkat" kaydı) çekmece bir kez açılır, CEKMECE_SURE_MS sonra kapanır.
+     Gün başında (08:00) sabahın "Sipariş geldi" kaydı da yeni sayılır. */
+  const kayitNo = (g) => Number(g.id.slice(1)) || 0;
+  const gunBasinda = store.durum.evre === "oyun" && store.durum.dk === GUN_BASI;
+  let cekmeceSonId = store.durum.gunluk.reduce((m, g) => (gunBasinda && g.dk === GUN_BASI ? m : Math.max(m, kayitNo(g))), 0);
+  function cekmeceIzle(d) {
+    const yeni = d.gunluk.filter((g) => kayitNo(g) > cekmeceSonId);
+    if (!yeni.length) return;
+    cekmeceSonId = Math.max(...yeni.map(kayitNo));
+    if (telefon.matches && gorevAdimlari(d) && yeni.some((g) => g.oda === "satis" && g.seviye === "dikkat")) cekmece(true, CEKMECE_SURE_MS);
+  }
+
+  /* Telefonda tek satır özet: acil işler, teslimatlar, görev notu */
+  function ozetCiz(d, adimlar) {
+    temizle(ozetEl);
+    const karar = d.kararlar.find((k) => k.durum === "bekliyor");
+    const onay = d.satinalma.filter((s) => s.durum === "onay-bekliyor");
+    const kapida = d.satinalma.filter((s) => s.durum === "kapida").length;
+    const yolda = d.satinalma.filter((s) => s.durum === "onaylandi").length;
+    const oge = (metin, f, sinif = "") => h("button", { sinif: `fk-ozet-oge ${sinif}`.trim(), type: "button", on: { click: f } }, metin);
+    const ogeler = [
+      karar ? oge(`${sayi(d.kararlar.filter((k) => k.durum === "bekliyor").length)} karar bekliyor`, () => durakaGit(karar), "fk-ozet-acil") : null,
+      onay.length ? oge(`${sayi(onay.length)} onay hazır`, () => durakaGit({ oda: "satinalma", id: onay[0].id }), "fk-ozet-acil") : null,
+      kapida ? oge(`Kapıda ${sayi(kapida)} teslimat`, () => odaSec("depo")) : null,
+      yolda ? oge(`Yolda ${sayi(yolda)} teslimat`, () => sayacKap.scrollIntoView({ behavior: "smooth", block: "start" })) : null,
+      adimlar ? oge(`Görev ${gorevOzeti(adimlar)}`, () => cekmece(true)) : null,
+    ].filter(Boolean);
+    ogeler.forEach((o, i) => ozetEl.append(i ? h("span", { sinif: "fk-ozet-ayrac", "aria-hidden": "true", metin: "·" }) : "", o));
   }
 
   function ciz(durum, eylem) {
@@ -234,6 +304,7 @@ function oyun() {
     bildirim.guncelle(durum);
     if (durum.degisim !== sonDegisim || eylem.tip !== "ILERLE") yapisalCiz();
     else canliGuncelle(panelKap, durum);
+    cekmeceIzle(durum);
     bitirmeIzle(durum);
     kaydet(eylem.tip !== "ILERLE");
   }
@@ -306,8 +377,7 @@ document.addEventListener("keydown", (e) => {
 /* ---------------- gün sonu ---------------- */
 function karne() {
   if (aboneCik) { aboneCik(); aboneCik = null; }
-  ekran = "karne";
-  temizle(kok);
+  ekranAc("karne");
   const d = store.durum;
   const gm = gmBolumu({
     durum: d, hitap: hitap(), erisim: oyuncu.erisim,
@@ -352,8 +422,7 @@ async function bastanBasla() {
 /* ---------------- kilit (2. günden sonrası erişim koduyla) ---------------- */
 function kilit({ gun = store.durum.gun, sonra = oyun, karneyeDon = null } = {}) {
   if (aboneCik) { aboneCik(); aboneCik = null; }
-  ekran = "kilit";
-  temizle(kok);
+  ekranAc("kilit");
   const d = store.durum;
   /* Ücretsiz günün karnesinden gelindiyse o gün baştan oynanabilir; kilitli bir kayıttan gelindiyse baştan başlanır */
   const tekrar = d.evre === "gun-sonu" && !kilitli(d.gun);

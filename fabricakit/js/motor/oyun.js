@@ -69,7 +69,7 @@ function gunuBaslat(durum) {
   Object.assign(durum, {
     dk: GUN_BASI, evre: "oyun", bitirDk: null, bitirme: null, karne: null,
     butce: { limit: AYARLAR.GUNLUK_BUTCE, harcanan: 0 }, puan: yeniPuan(),
-    gorev: { plana: false, ihtiyac: false, siparis: false, onay: false, teslim: false },
+    gorev: { plana: false, ihtiyac: false, teslim: false, siparisKalemleri: [] },
     gunUretim: {}, gunPlanDk: null, olayKaydi: [], gunluk: [], gorulen: {},
   });
   for (const h of Object.values(durum.hatlar)) {

@@ -7,7 +7,8 @@
    Çalıştırma: node scripts/sim-test.mjs */
 import { AYARLAR } from "../fabricakit/js/ayarlar.js";
 import { olusturStore } from "../fabricakit/js/motor/durum.js";
-import { malzemeIhtiyaci } from "../fabricakit/js/motor/mrp.js";
+import { malzemeIhtiyaci, verilmeyenSiparisler } from "../fabricakit/js/motor/mrp.js";
+import { gorevSayaclari } from "../fabricakit/js/motor/satinalma.js";
 import { odaDurumlari } from "../fabricakit/js/motor/durumlar.js";
 import { sayaclar } from "../fabricakit/js/motor/sayac.js";
 import { kaydaYaz, kayittanOku, kopya } from "../fabricakit/js/motor/kayit.js";
@@ -288,6 +289,30 @@ let erken = null;
   }
 }
 
+/* Görev notu sayaçları: sipariş adımı her GEÇ KALINDI / BUGÜN VER kalemiyle bir artar ("1/2");
+   onay adımı bugün verilen siparişleri, onay alındıkça sayar */
+{
+  const s = olusturStore();
+  s.gonder({ tip: "PLANA_AL" });
+  const kalemler = verilmeyenSiparisler(s.durum);
+  const bas = gorevSayaclari(s.durum);
+  if (kalemler.length < 2 || bas.siparis.yapilan !== 0 || bas.siparis.toplam !== kalemler.length) hata(`görev sayacı başta ${JSON.stringify(bas.siparis)}, kalem ${kalemler.length}`);
+  kalemler.forEach((m, i) => {
+    s.gonder({ tip: "SIPARIS_VER", malzeme: m.id, tedarikci: m.yetisen.length ? m.yetisen[0] : enHizli(m.id), miktar: m.onerilen });
+    const c = gorevSayaclari(s.durum);
+    if (c.siparis.yapilan !== i + 1 || c.siparis.toplam !== kalemler.length) hata(`${i + 1}. siparişten sonra sipariş sayacı ${JSON.stringify(c.siparis)}`);
+    if (c.onay.yapilan !== 0 || c.onay.toplam !== i + 1) hata(`${i + 1}. siparişten sonra onay sayacı ${JSON.stringify(c.onay)}`);
+  });
+  s.gonder({ tip: "ILERLE", dk: AYARLAR.YANIT_SURESI_DK[1] + 1 });
+  s.durum.satinalma.filter((x) => x.durum === "onay-bekliyor").forEach((x, i) => {
+    s.gonder({ tip: "ONAY_AL", id: x.id });
+    const c = gorevSayaclari(s.durum);
+    if (c.onay.yapilan !== i + 1) hata(`${i + 1}. onaydan sonra onay sayacı ${JSON.stringify(c.onay)}`);
+  });
+  const son = gorevSayaclari(s.durum);
+  if (son.onay.yapilan !== son.onay.toplam || son.siparis.yapilan !== son.siparis.toplam) hata(`görev sayaçları tamamlanmadı: ${JSON.stringify(son)}`);
+}
+
 /* Denge: doğru oyuncu pasiften belirgin iyi olmalı */
 const ort = (l) => l.reduce((t, k) => t + k.puan, 0) / l.length;
 if (ort(sonuc.dogru) < ort(sonuc.pasif) + 20) hata(`denge: doğru oyuncu (${ort(sonuc.dogru)}) pasiften (${ort(sonuc.pasif)}) yeterince iyi değil`);
@@ -303,4 +328,4 @@ for (let i = 0; i < AYARLAR.GUNLER.length; i++) {
 }
 if (erken) console.log(`\n1. gün 09:00'da "Günü bitir" (duraklarda karar veren doğru oyuncu): ${erken.harf} ${erken.puan}, ${erken.olaylar.length} olay`);
 if (hataSayisi) { console.error(`\n${hataSayisi} sorun bulundu.`); process.exit(1); }
-console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları ve Ajan GM yorumu denetimleri geçti.");
+console.log("\n✓ sim-test: 3 oyuncu × 5 gün, kayıt-yükleme, tohum, Günü bitir olayları, görev sayaçları ve Ajan GM yorumu denetimleri geçti.");

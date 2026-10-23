@@ -80,6 +80,7 @@
 .fk-yapildi .fk-gorev-metin strong { color: var(--metin-2); text-decoration: line-through; }
 .fk-gorev-metin { display: grid; gap: 2px; padding-top: 2px; }
 .fk-gorev-ayrinti { font-size: var(--fs-0); color: var(--metin-2); }
+.fk-gorev-ok { display: none; }
 
 /* ---------- Sayaç şeridi ---------- */
 .fk-sayaclar { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
@@ -96,6 +97,40 @@
 .fk-cip-metin strong { font-size: var(--fs-0); }
 .fk-cip-sure { font-weight: 700; font-variant-numeric: tabular-nums; }
 .fk-cip .dugme-cizgi { flex: none; }
+
+/* ---------- Telefon: üst şerit → özet satırı → harita → sayaç şeridi; görev notu alttan çekmece ---------- */
+.fk-ozet-satir { display: none; }
+@media (max-width: 959px) {
+  body.fk-cekmeceli { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px)); }
+  .fk-ozet-satir {
+    display: flex; align-items: center; gap: 0 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--kenar)); padding: 0 var(--kenar); font-size: var(--fs-0);
+  }
+  .fk-ozet-satir::-webkit-scrollbar { display: none; }
+  .fk-ozet-satir:empty { display: none; }
+  .fk-ozet-oge {
+    flex: none; min-height: 44px; padding: 0; font: inherit; font-weight: 700; color: var(--koyu); background: none; border: 0; cursor: pointer;
+    text-decoration: underline; text-decoration-color: var(--cizgi); text-underline-offset: 3px;
+  }
+  .fk-ozet-acil { color: var(--acil); text-decoration-color: var(--acil); }
+  .fk-ozet-ayrac { color: var(--metin-2); }
+  .fk-govde { padding-top: 4px; }
+  .fk-sayaclar {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-margin-top: 72px;
+    margin: 0 calc(-1 * var(--kenar)); padding: 16px var(--kenar) 4px; scroll-padding-inline: var(--kenar);
+  }
+  .fk-cip, .fk-cip-yolda { flex: 0 0 min(300px, 84%); scroll-snap-align: start; }
+  .fk-gorev-kap { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; }
+  .fk-gorev {
+    max-height: 72vh; overflow: auto; overscroll-behavior: contain; padding: 0 var(--kenar) calc(12px + env(safe-area-inset-bottom, 0px));
+    border: 0; border-top: 4px solid var(--turuncu); border-radius: 16px 16px 0 0;
+  }
+  .fk-gorev:not([open]) { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .fk-gorev summary { justify-content: flex-start; min-height: 52px; }
+  .fk-gorev-sayac { margin-left: auto; }
+  .fk-gorev-ok { display: block; color: var(--koyu); transition: transform var(--gecis); }
+  .fk-gorev[open] .fk-gorev-ok { transform: rotate(180deg); }
+}
 
 /* ---------- Bildirimler ---------- */
 /* Telefonda altta (üst şeridin düğmelerini örtmez). Panel açıkken üstte ve yalnızca en yenisi: üst şerit o sırada
