@@ -154,9 +154,13 @@ function ihtiyacSekmesi(b) {
       h("tbody", {}, AYARLAR.MALZEMELER.map((m) => h("tr", {}, h("th", { scope: "row", metin: m.ad }),
         URUN_IDLER.map((u) => h("td", { sinif: "fk-sayi", metin: (durum.urunAgaci[u] || {})[m.id] ? sayi(durum.urunAgaci[u][m.id]) : "·" }))))))));
 
+  /* Plan gün içinde eskidiyse (sipariş ya da kapasite değişti) güncelleme düğmesi bu sekmede de var: oyuncu çoğu zaman burada kalır */
+  const planEski = !planYok && !durum.planBilgi.guncel;
   return h("div", {},
     planYok ? h("div", { sinif: "fk-kutu fk-kutu-dikkat" }, h("p", { metin: "Plan yok: günlük ihtiyaç plandan hesaplanır. Önce siparişi plana alın." }),
       h("button", { sinif: "dugme fk-dugme", type: "button", disabled: durum.evre !== "oyun", on: { click: () => b.gonder({ tip: "PLANA_AL" }) } }, "Siparişi plana al")) : null,
+    planEski ? h("div", { sinif: "fk-kutu fk-kutu-dikkat" }, h("p", { metin: "Plan güncel değil: ihtiyaç eski plana göre hesaplandı. Önce planı güncelleyin." }),
+      h("button", { sinif: "dugme fk-dugme", type: "button", disabled: durum.evre !== "oyun", on: { click: () => b.gonder({ tip: "PLANA_AL" }) } }, "Planı güncelle")) : null,
     not(`Sabah sayımı saat 08:00'de yapıldı. Sipariş günü, ${TEDARIKCI[AYARLAR.STANDART_TEDARIKCI].ad} (ithal kalemde ithalatçı) tedarik süresiyle hesaplanır.`),
     h("ul", { sinif: "fk-mrp-liste" }, satirlar),
     agac);
