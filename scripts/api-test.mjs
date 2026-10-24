@@ -1,4 +1,4 @@
-/* api/ işlevlerinin testi: erişim kodu doğrulama ve Ajan GM (yapay zeka modu).
+/* api/ işlevlerinin testi: erişim kodu doğrulama, rehberli dersler (api/ders.js) ve Ajan GM (yapay zeka modu).
    Ağa çıkmaz: Claude API çağrısı sahte fetch ile taklit edilir; anahtar ve kodlar test değerleridir.
    Çalıştırma: node scripts/api-test.mjs (npm run check içinde de çalışır) */
 import { createRequire } from "node:module";
@@ -13,6 +13,7 @@ const require = createRequire(import.meta.url);
 const KOK = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ortak = require("../api/_ortak.js");
 const erisimKodu = require("../api/erisim-kodu.js");
+const dersApi = require("../api/ders.js");
 const ajanGm = require("../api/ajan-gm.js");
 
 let hatalar = 0;
@@ -76,6 +77,46 @@ r = await cagir(erisimKodu, "POST", { kod: "YANLIS-KOD-99" });
 dogrula(r.govde.gecerli === false && r.statusCode === 200, "yanlış kod reddedilmeli");
 r = await cagir(erisimKodu, "PUT");
 dogrula(r.statusCode === 405, "GET/POST dışı istek 405 almalı");
+
+/* ---------- Rehberli dersler (api/ders.js): ürüne özel kod listesi, kilitli ders içeriği ---------- */
+const dersCagir = async (method, { query, body } = {}) => {
+  const res = { statusCode: 200, basliklar: {}, govde: undefined };
+  res.setHeader = (k, v) => { res.basliklar[k.toLowerCase()] = v; };
+  res.status = (k) => { res.statusCode = k; return res; };
+  res.json = (v) => { res.govde = v; return res; };
+  await dersApi({ method, query, body, headers: {} }, res);
+  return res;
+};
+const DERS_KOD = "DERS-KOD-0001";
+const kilitliDers = JSON.parse(fs.readFileSync(path.join(KOK, "data/datakit/dersler.json"), "utf8")).dersler.find((d) => !d.ucretsiz);
+const acikDers = JSON.parse(fs.readFileSync(path.join(KOK, "data/datakit/dersler.json"), "utf8")).dersler.find((d) => d.ucretsiz);
+env("DATAKIT_KOD_HASHLERI", undefined);
+r = await dersCagir("GET", { query: { urun: "datakit" } });
+dogrula(r.govde.satista === false && r.basliklar["cache-control"] === "no-store", "ders: liste yokken satista: false ve no-store");
+r = await dersCagir("GET", { query: {} });
+dogrula(r.statusCode === 400, "ders: ürün yoksa 400");
+r = await dersCagir("GET", { query: { urun: "toString" } });
+dogrula(r.statusCode === 400, "ders: bilinmeyen ürün 400");
+r = await dersCagir("POST", { body: { urun: "datakit", id: kilitliDers.id, kod: DERS_KOD } });
+dogrula(r.govde.satista === false && r.govde.gecerli === false && !r.govde.ders, "ders: liste yokken içerik verilmemeli");
+env("DATAKIT_KOD_HASHLERI", ortak.kodHash(DERS_KOD));
+r = await dersCagir("GET", { query: { urun: "datakit" } });
+dogrula(r.govde.satista === true, "ders: liste varken satista: true");
+r = await dersCagir("POST", { body: { urun: "datakit", id: kilitliDers.id, kod: TEST_KOD } });
+dogrula(r.govde.gecerli === false && !r.govde.ders, "ders: Fabricakit kodu Datakit dersini açmamalı");
+r = await dersCagir("POST", { body: { urun: "datakit", id: kilitliDers.id, kod: "YANLIS-KOD-99" } });
+dogrula(r.govde.gecerli === false && !r.govde.ders, "ders: yanlış kod reddedilmeli");
+r = await dersCagir("POST", { body: JSON.stringify({ urun: "datakit", id: kilitliDers.id, kod: "ders kod 0001" }) });
+dogrula(r.govde.gecerli === true && r.govde.ders && r.govde.ders.id === kilitliDers.id && r.govde.ders.notlar.length === kilitliDers.notlar.length && r.govde.ders.sayfa,
+  "ders: doğru kodla kilitli dersin notları ve sayfası gelmeli");
+r = await dersCagir("POST", { body: { urun: "datakit", id: "../../vercel", kod: DERS_KOD } });
+dogrula(r.statusCode === 404 && !r.govde.ders, "ders: geçersiz kimlik 404");
+r = await dersCagir("POST", { body: { urun: "datakit", id: acikDers.id, kod: DERS_KOD } });
+dogrula(r.statusCode === 404, "ders: ücretsiz ders api/_dersler'de olmamalı (herkese açık klasörde)");
+r = await dersCagir("PUT");
+dogrula(r.statusCode === 405, "ders: GET/POST dışı istek 405");
+dogrula(!ortak.kodGecerli(DERS_KOD), "Datakit kodu Fabricakit listesinde geçmemeli");
+env("DATAKIT_KOD_HASHLERI", undefined);
 
 /* ---------- Ajan GM: varsayılan ayar "kural" ---------- */
 env("ANTHROPIC_API_KEY", "test-anahtar");
@@ -177,4 +218,4 @@ if (hatalar) {
   console.error(`\n✗ api-test: ${hatalar} hata`);
   process.exit(1);
 }
-console.log(`✓ api-test: erişim kodu ve Ajan GM işlevleri${sdkVar ? "" : " (SDK'sız kısım)"} geçti.`);
+console.log(`✓ api-test: erişim kodu, rehberli dersler ve Ajan GM işlevleri${sdkVar ? "" : " (SDK'sız kısım)"} geçti.`);

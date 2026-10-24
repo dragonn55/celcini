@@ -1,5 +1,6 @@
 /* api/ ortak yardımcıları ("_" ile başladığı için Vercel bunu fonksiyon yapmaz).
-   Erişim kodu: SHA-256'sı ERISIM_KOD_HASHLERI ortam değişkenindeki (virgülle ayrılmış) listeyle karşılaştırılır.
+   Erişim kodu: SHA-256'sı ortam değişkenindeki (virgülle ayrılmış) listeyle karşılaştırılır. Varsayılan liste Fabricakit'in
+   ERISIM_KOD_HASHLERI'dir; rehberli dersler kendi listesini verir (api/ders.js: DATAKIT_KOD_HASHLERI).
    Kod hiçbir yerde saklanmaz ve günlüğe yazılmaz. scripts/kod-hash.mjs de aynı normalleştirmeyi kullanır. */
 const crypto = require("crypto");
 const fs = require("fs");
@@ -14,19 +15,19 @@ function kodHash(kod) {
   return crypto.createHash("sha256").update(normalKod(kod), "utf8").digest("hex");
 }
 
-function hashListesi() {
-  return String(process.env.ERISIM_KOD_HASHLERI || "")
+function hashListesi(degisken = "ERISIM_KOD_HASHLERI") {
+  return String(process.env[degisken] || "")
     .split(",")
     .map((s) => s.trim().toLowerCase())
     .filter((s) => /^[0-9a-f]{64}$/.test(s));
 }
 
-function kodGecerli(kod) {
+function kodGecerli(kod, degisken = "ERISIM_KOD_HASHLERI") {
   const n = normalKod(kod);
   if (n.length < 6 || n.length > 64) return false;
   const h = Buffer.from(kodHash(kod), "hex");
   let bulundu = false;
-  for (const x of hashListesi()) if (crypto.timingSafeEqual(Buffer.from(x, "hex"), h)) bulundu = true;
+  for (const x of hashListesi(degisken)) if (crypto.timingSafeEqual(Buffer.from(x, "hex"), h)) bulundu = true;
   return bulundu;
 }
 

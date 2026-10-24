@@ -386,6 +386,197 @@
     "ornek": false
   },
   {
+    "slug": "satis-analizi",
+    "ad": "Satış Analizi",
+    "raf": "datakit",
+    "kisa": "Satış verinizi yapıştırın; 30 sayfada ciro, ürün, müşteri, stok ve tahmin analizi formülle kurulur. Makrosuz, Excel 2010 ve sonrası.",
+    "aciklama": "Satış Analizi, Datakit rafındaki satış veri analizi dosyasıdır. Satış listenizi 'Veri' sayfasına başlıklarıyla yapıştırır, sütunları bir kez eşleştirirsiniz; veri kalitesi, temel istatistik, dönem karşılaştırması, trend ve mevsimsellik, ABC, fiyat-hacim, müşteri (RFM, CLTV, kohort), stok devir hızı ve satış tahmini sayfaları formülle hesaplanır. Dashboard'daki filtreler bütün sayfaları birlikte günceller. Dosyanın 12 ana sayfası sitede rehberli derslerle anlatılır.",
+    "ozellikler": [
+      "30 sayfa: Dashboard, Otomatik Yorum, Veri Kalitesi, Satış Özeti, Trend ve Mevsim, Ürün ve ABC, Fiyat-Hacim, Müşteri Analizi, Kohort, Stok ve Devir, Tahmin ve daha fazlası",
+      "Esnek veri girişi: sütun sırası serbest, alanlar Sütun Eşleştirme sayfasında bir kez seçilir",
+      "Dashboard filtreleri (tarih, kategori, bölge, kanal) bütün sayfaları birlikte günceller",
+      "Otomatik Yorum: 30 ölçü Ayarlar'daki eşiklerle karşılaştırılıp hazır cümleye dönüşür",
+      "Makrosuz: bütün analizler formüldür; Excel 2010 ve sonrası",
+      "Örnek verili ve boş dosya; sitedeki 12 dersin tamamını açan erişim kodu"
+    ],
+    "kimin_icin": "Satışlarını Excel'de izleyen mağaza, e-ticaret ve dağıtım işletmeleri; satış verisini okumayı öğrenmek isteyen herkes.",
+    "etiketler": [
+      "satış analizi",
+      "veri analizi",
+      "RFM",
+      "tahmin"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/satis-analizi/1-dashboard.png",
+        "alt": "Satış Analizi Dashboard sayfası: filtreler, altı ana gösterge, aylık ciro ve kategori grafikleri"
+      },
+      {
+        "src": "/assets/img/urun/satis-analizi/2-kohort.png",
+        "alt": "Kohort sayfası: ilk alış ayına göre müşteri grupları, aylara göre geri dönüş oranları ve açık bir Ajan GM notu"
+      },
+      {
+        "src": "/assets/img/urun/satis-analizi/3-tahmin.png",
+        "alt": "Tahmin sayfasının grafiği: son 12 ayın gerçekleşen cirosu ve önümüzdeki 12 ayın tahmini"
+      }
+    ],
+    "excel_surum": "Excel 2010 ve sonrası",
+    "makro": false,
+    "sayfa_sayisi": 30,
+    "one_cikan": false,
+    "ornek": false,
+    "soz": "Satış verinizi yapıştırın; dosya 30 sayfada ne olduğunu ve nereye bakmanız gerektiğini söylesin.",
+    "icindekiler": [
+      {
+        "sayfa": "Dashboard",
+        "aciklama": "Filtreler, ana göstergeler, grafikler, ilk 5 uyarı"
+      },
+      {
+        "sayfa": "Otomatik Yorum",
+        "aciklama": "İlk 5 özet cümle ve metrik bazında hazır yorumlar"
+      },
+      {
+        "sayfa": "Uyarılar",
+        "aciklama": "Kritik durumların tek listesi"
+      },
+      {
+        "sayfa": "Veri",
+        "aciklama": "Satış verisi tablosu (giriş)"
+      },
+      {
+        "sayfa": "Stok",
+        "aciklama": "Stok tablosu (giriş)"
+      },
+      {
+        "sayfa": "Sütun Eşleştirme",
+        "aciklama": "Hangi sütunun hangi alan olduğunu seçme"
+      },
+      {
+        "sayfa": "Veri Kalitesi",
+        "aciklama": "Eksik, tekrar, tutarsız format, aykırı değer özeti"
+      },
+      {
+        "sayfa": "Kalite Detay",
+        "aciklama": "Sorunlu satırların listesi (isteğe bağlı makro ile yenilenir)"
+      },
+      {
+        "sayfa": "Temel İstatistik",
+        "aciklama": "Betimsel istatistikler"
+      },
+      {
+        "sayfa": "Satış Özeti",
+        "aciklama": "Dönem karşılaştırması ve yıllık büyüme"
+      },
+      {
+        "sayfa": "Trend ve Mevsim",
+        "aciklama": "Aylık seri, trend, mevsimsellik, sezonluk talep"
+      },
+      {
+        "sayfa": "Ürün ve ABC",
+        "aciklama": "Ürün tablosu, ABC, en iyi/en kötü"
+      },
+      {
+        "sayfa": "Fiyat-Hacim",
+        "aciklama": "Fiyat-hacim ayrıştırması, esneklik"
+      },
+      {
+        "sayfa": "Kırılımlar",
+        "aciklama": "Kategori, kanal, bölge kırılımları ve kârlılık"
+      },
+      {
+        "sayfa": "Kampanya ve İade",
+        "aciklama": "Kampanya etkisi, iade ve iptal"
+      },
+      {
+        "sayfa": "Müşteri Analizi",
+        "aciklama": "Churn, tekrar satın alma, CLTV, RFM segmentleri, yaş ve cinsiyet"
+      },
+      {
+        "sayfa": "Kohort",
+        "aciklama": "Elde tutma (kohort) matrisi"
+      },
+      {
+        "sayfa": "Müşteri Tablosu",
+        "aciklama": "Müşteri bazında ara tablo"
+      },
+      {
+        "sayfa": "Stok ve Devir",
+        "aciklama": "Stok devir hızı, stok durumu, sipariş önerisi"
+      },
+      {
+        "sayfa": "Ürün İlişkileri",
+        "aciklama": "Birlikte alınan ürünler ve çapraz satış"
+      },
+      {
+        "sayfa": "Ürün Önerileri",
+        "aciklama": "Çıkar/koru/ekle önerileri ve gerekçeleri"
+      },
+      {
+        "sayfa": "Tedarikçi",
+        "aciklama": "Tedarikçi performansı"
+      },
+      {
+        "sayfa": "Korelasyon",
+        "aciklama": "Korelasyon matrisleri"
+      },
+      {
+        "sayfa": "Tahmin",
+        "aciklama": "Satış tahmini"
+      },
+      {
+        "sayfa": "Senaryo",
+        "aciklama": "Fiyat/adet/maliyet senaryoları"
+      },
+      {
+        "sayfa": "Hedef Takip",
+        "aciklama": "Aylık hedef ve gerçekleşme"
+      },
+      {
+        "sayfa": "Nakit Akış",
+        "aciklama": "Nakit akış özeti"
+      },
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Eşikler ve genel parametreler"
+      },
+      {
+        "sayfa": "Veri Sözlüğü",
+        "aciklama": "Alan ve metrik tanımları"
+      },
+      {
+        "sayfa": "Kullanım Kılavuzu",
+        "aciklama": "Kurulum, sayfa haritası, sınırlar ve sık karşılaşılan durumlar"
+      }
+    ],
+    "adimlar": [
+      "'Veri' sayfasındaki tabloya satış verinizi başlıklarıyla yapıştırın. Sütun sırası ve sayısı serbesttir; her satır bir sipariş satırıdır.",
+      "'Sütun Eşleştirme' sayfasında sarı hücrelerden her alan için veri sütununu seçin. Zorunlu alanlar eksikse üstte uyarı görünür.",
+      "'Stok' sayfasına ürün, mevcut stok, birim maliyet ve tedarik süresini girin (stok analizini kullanmayacaksanız boş bırakabilirsiniz).",
+      "'Ayarlar' sayfasında durum değerlerini (Tamamlandı/İade/İptal), para birimini ve eşikleri kendi işinize göre düzenleyin.",
+      "Dashboard'dan tarih, kategori, bölge ve kanal seçin; bütün sayfalar kendiliğinden güncellenir.",
+      "Önce 'Otomatik Yorum'un ilk 5 cümlesini ve 'Uyarılar' listesini okuyun: nereye bakmanız gerektiğini söyler."
+    ],
+    "teknik_not": "Kapasite: 10.000 veri satırı ve 2.000 müşteri; 150 ürün, 30 kategori, 30 bölge, 20 kanal, 30 kampanya, 30 tedarikçi. Bütün analizler formüldür; filtre değişince yeniden hesaplama veri büyüklüğüne göre birkaç saniye sürebilir. Örnek verili dosyadaki veri kurgusaldır.",
+    "sss": [
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Boş dosyayı açıp satış listenizi 'Veri' sayfasına yapıştırırsınız, ardından 'Sütun Eşleştirme' sayfasında alanları seçersiniz. Veriniz bilgisayarınızda kalır; siteye ya da başka bir yere gönderilmez."
+      },
+      {
+        "soru": "Erişim kodu ne işe yarar?",
+        "cevap": "Sitedeki Datakit derslerinin tamamını açar. İlk dört ders herkese açıktır; kalan sekiz ders bu kodla açılır."
+      },
+      {
+        "soru": "Makro gerekiyor mu?",
+        "cevap": "Hayır. Bütün analizler formüldür; dosya makrosuz eksiksiz çalışır."
+      }
+    ]
+  },
+  {
     "slug": "ornek-vardiya",
     "ad": "VARDİYA (örnek)",
     "raf": "fabrika",

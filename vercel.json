@@ -9,6 +9,10 @@
     },
     "api/erisim-kodu.js": {
       "maxDuration": 5
+    },
+    "api/ders.js": {
+      "maxDuration": 5,
+      "includeFiles": "api/_dersler/**"
     }
   },
   "rewrites": [
@@ -19,6 +23,10 @@
     {
       "source": "/api/ajan-gm/",
       "destination": "/api/ajan-gm"
+    },
+    {
+      "source": "/api/ders/",
+      "destination": "/api/ders"
     }
   ],
   "headers": [

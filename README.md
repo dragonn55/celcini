@@ -1,7 +1,8 @@
 # Celcini · Fabricakit ve derin Excel havuzu
 
 Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatörü (`/fabricakit/`).
-Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`);
+Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`); Datakit'in açılış sayfası
+rehberli dersleri de taşır (`/datakit/<ders>/`: Excel sayfası sitede, notlarıyla);
 tarayıcı araçları `/uzay/` altında (ilk araç ROTA 3D, `/uzay/rota/`).
 
 celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
@@ -13,6 +14,11 @@ Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 ```
 data/urunler.json        Tüm ürünler (tek kaynak)
 data/karne-ornegi.json   Ana sayfadaki karne örneği (scripts/karne-ornegi.mjs üretir; elle düzenlenmez)
+data/datakit/            Datakit rehberli dersleri: dersler.json (notlar, sorular, açılış metinleri), sayfalar/<id>.json (Excel dışa aktarımı)
+assets/js/rehber/        Rehberli dersler: rehber.js (sayfa, notlar, kilit, soru), tablo.js (Excel ızgarası), grafik.js (SVG grafikler)
+assets/css/rehber.css    Rehberli derslerin stili
+api/_dersler/<urun>/     Kilitli dersler (derle.py yazar; statik yayınlanmaz, yalnızca api/ders.js okur)
+datakit/veri/            Herkese açık ders dizini ve ücretsiz dersler (derle.py yazar)
 fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
 fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
 api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
@@ -28,6 +34,7 @@ scripts/karne-ornegi.mjs Motorun 1. gün karnesinden ana sayfa örneğini üreti
 scripts/rota-test.mjs    ROTA 3D yönlendirici testi: engel dolanma, erişilemeyen göz, optimum ≤ sıralı, Held-Karp = kaba kuvvet
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
+scripts/rehber-disa-aktar.py  Excel sayfalarını rehber JSON'una çevirir (openpyxl gerekir; derlemenin parçası değildir)
 scripts/ses-*.mjs        Ajan GM sesi: ses-cumleler (→ data/ses/cumleler.json), ses-test (liste, JSON, dosyalar)
 scripts/ses-piper.py     Ajan GM ses dosyaları, Piper ile (Linux/macOS; model huggingface.co'dan bir kez iner)
 scripts/ses-tolga.ps1    Ajan GM ses dosyaları, Windows'ta "Microsoft Tolga" ile
@@ -38,7 +45,7 @@ assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-po
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 
-index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/, urun/<slug>/, uzay/, uzay/rota/index.html,
+index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html,
 uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
@@ -157,10 +164,36 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 | Ad | Gerekli mi | Açıklama |
 |---|---|---|
 | `ERISIM_KOD_HASHLERI` | Kod satışı için | Virgülle ayrılmış SHA-256 listesi (`scripts/kod-hash.mjs`) |
+| `DATAKIT_KOD_HASHLERI` | Datakit kodu için | Datakit'in kilitli derslerini açan kodların listesi (Fabricakit'inkinden ayrı; aynı betikle) |
 | `ANTHROPIC_API_KEY` | Yalnız yapay zeka modunda | Claude API anahtarı. Koda ya da repoya yazılmaz. |
 | `AJAN_GM_MODEL` | Hayır | Varsayılan `claude-haiku-5-5` (en ucuz güncel Claude modeli) |
 
 `npm run dev` yalnızca statik dosyaları sunar; `/api` işlevlerini yerelde denemek için Vercel CLI ile `vercel dev`.
+
+## Rehberli dersler (Datakit)
+
+Excel dosyasının sayfaları sitede dosyadaki değerleri, renkleri, birleşik hücreleri, dondurulmuş bölmeleri ve grafikleriyle açılır.
+Notlu alanın sağ üst köşesinde turuncu üçgen durur; alandaki bir hücreye dokununca Ajan GM'nin notu açılır (masaüstünde yanında,
+telefonda alttan). "Notları sırayla gez" notları sırayla dolaşır, ad kutusu tıklanan hücrenin değerini ve formül sonucu olup
+olmadığını gösterir, her dersin sonunda tek soru vardır (cevap tarayıcıda hatırlanır: `celcini-rehber`). Site veri almaz.
+
+- **İçerik:** `data/datakit/dersler.json`. Her ders: `id`, `sira`, `sayfa_adi`, `baslik`, `ozet`, `ucretsiz`, `ajan_gm`
+  (isteğe bağlı `ajan_gm_ses`), `notlar[]` ve `soru`. Not: `aralik` ("B7:M9"), `baslik`, `metin`, `karar` ("Ne yapmalı?"),
+  isteğe bağlı `ses` (metinde okunuşu bozan işaret ya da kısaltma varsa sesli okuma bunu okur). Soru: `metin`, `secenekler[]`,
+  `dogru` (sıfırdan başlayan sıra), `aciklama`. `acilis` açılış sayfasının metinleridir. Değiştirince
+  `python3 scripts/derle.py` ve `npm run check`.
+- **Kilit:** ilk `ucretsiz_ders` ders herkese açıktır (`datakit/veri/ders/<id>.json`); kalanların notu, sorusu ve sayfası yalnızca
+  `api/_dersler/datakit/<id>.json`'dadır ve `POST /api/ders/ { urun, id, kod }` geçerli kodla döndürür. Kod listesi Vercel'de
+  `DATAKIT_KOD_HASHLERI` (`node scripts/kod-hash.mjs --uret 20`; Fabricakit'in kodları Datakit'i açmaz). Kod tarayıcıda
+  `celcini-kod-datakit` olarak saklanır; sunucu saklamaz. `npm run check` kilitli bir dersin herkese açık dosyalara
+  sızmadığını denetler. Liste boşsa kilit paneli "Erişim kodları henüz satışta değil." der.
+- **Sayfaları yeniden dışa aktarma** (Excel değişince): `pip install openpyxl`, sonra
+  `python3 scripts/rehber-disa-aktar.py <dosya.xlsx> data/datakit/sayfalar "Dashboard=dashboard" "Otomatik Yorum=otomatik-yorum" …`.
+  Hücrelerin önbellekteki değerleri okunur (dosya Excel'de hesaplanıp kaydedilmiş olmalı); sayı biçimleri Türkçeye, koşullu
+  biçimler renge çevrilir. Excel dosyası repoda durmaz.
+- **Sesli oku:** yalnızca cihazda erkek Türkçe ses (`ERKEK_SESLER`) varsa görünür; derslerde ses dosyası kullanılmaz.
+- Yeni bir ürün (ör. Motor): `scripts/derle.py`'deki `REHBERLER` listesine kayıt, `api/ders.js`'teki `KOD_LISTESI`'ne ürün,
+  `scripts/check.js`'teki `REHBERLER`'e satır ve `data/<urun>/`.
 
 ## Tasarım kuralları (özet)
 

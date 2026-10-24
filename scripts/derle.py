@@ -9,6 +9,8 @@ Tüm ürünler data/urunler.json'dan gelir. Bağlantılar (Shopier mağaza, form
 tarayıcıda assets/js/config.js'den uygulanır.
 Fabricakit'in dokuz odası fabricakit/js/odalar.js'den okunur (ana sayfadaki oda şeridi).
 /fabricakit/ sayfasının yalnızca kabuğu burada üretilir; simülatörün kendisi fabricakit/js/ altındadır.
+Rehberli Excel dersleri (REHBERLER; ilki Datakit) data/<urun>/'dan üretilir: açılış ve ders sayfaları, herkese açık
+<taban>/veri/ ve kilitli dersler için api/_dersler/<urun>/ (yalnızca api/ders.js okur).
 """
 import datetime
 import hashlib
@@ -47,6 +49,11 @@ RAFLAR = [
      "aciklama": "Veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)"},
 ]
 RAF = {r["slug"]: r for r in RAFLAR}
+# Rehberli Excel dersleri: kaynak data/<urun>/ (dersler.json + sayfalar/), sayfalar <taban>/ ve <taban>/<id>/.
+# Raf sayfası yerine açılış sayfası çıkar; "urun_slug" dosyaların Shopier ürünü (data/urunler.json).
+REHBERLER = [
+    {"urun": "datakit", "raf": "datakit", "taban": "/datakit/", "urun_slug": "satis-analizi"},
+]
 # Menü: ("/yol/", "Ad") ya da ("Ad", [alt öğeler]) — alt menü
 MENU = [("/fabricakit/", "Fabricakit"),
         ("Dosyalar", [(f"/{r['slug']}/", r["ad"]) for r in RAFLAR]),
@@ -1121,6 +1128,185 @@ ZORUNLU = ["slug", "ad", "raf", "kisa", "aciklama", "ozellikler", "kimin_icin", 
            "liste_fiyat", "shopier_url", "gorseller", "excel_surum", "makro", "sayfa_sayisi", "one_cikan", "ornek"]
 
 
+# ---------------------------------------------------------------- rehberli dersler (Datakit; sonra Motor)
+REHBER_ACIK = ("id", "sira", "sayfa_adi", "baslik", "ozet", "ucretsiz", "ajan_gm")
+
+
+def rehber_kaynagi(rh):
+    """data/<urun>/dersler.json'u okur ve denetler (sayfa dosyası, sıra, ücretsiz dersler başta)."""
+    kaynak = json.loads((KOK / "data" / rh["urun"] / "dersler.json").read_text(encoding="utf-8"))
+    for i, d in enumerate(kaynak["dersler"], 1):
+        if d["sira"] != i:
+            sys.exit(f"HATA: {rh['urun']}: {d['id']} dersinin sırası {d['sira']}, {i} olmalı")
+        if d["ucretsiz"] != (i <= kaynak["ucretsiz_ders"]):
+            sys.exit(f"HATA: {rh['urun']}: ücretsiz dersler ilk {kaynak['ucretsiz_ders']} ders olmalı ({d['id']})")
+        if not (KOK / "data" / rh["urun"] / "sayfalar" / f"{d['id']}.json").exists():
+            sys.exit(f"HATA: {rh['urun']}: data/{rh['urun']}/sayfalar/{d['id']}.json yok")
+    return kaynak
+
+
+def rehber_verisi(rh, kaynak):
+    """Yayın verisi: herkese açık dizin (notların yalnız başlıkları) ve ücretsiz dersler <taban>veri/ altına;
+    kilitli derslerin notları, sorusu ve sayfası api/_dersler/<urun>/ altına (yalnızca api/ders.js okur, statik yayınlanmaz).
+    Önizlemede kilitli dersler yazılmaz (api çalışmaz)."""
+    def json_yaz(yol, veri, girintili=False):
+        yol.parent.mkdir(parents=True, exist_ok=True)
+        metin = json.dumps(veri, ensure_ascii=False, indent=1) if girintili else json.dumps(veri, ensure_ascii=False, separators=(",", ":"))
+        yol.write_text(metin + "\n", encoding="utf-8")
+
+    acik = CIKTI / rh["taban"].strip("/") / "veri"
+    gizli = KOK / "api" / "_dersler" / rh["urun"]
+    for klasor in (acik / "ders",) + (() if ONIZLEME else (gizli,)):
+        if klasor.exists():
+            for f in klasor.glob("*.json"):
+                f.unlink()
+    dizin = {"surum": kaynak["surum"], "urun": rh["urun"], "ad": kaynak["ad"], "ucretsiz_ders": kaynak["ucretsiz_ders"], "dersler": []}
+    for d in kaynak["dersler"]:
+        kayit = {k: d[k] for k in REHBER_ACIK}
+        if d.get("ajan_gm_ses"):
+            kayit["ajan_gm_ses"] = d["ajan_gm_ses"]
+        kayit["konular"] = [n["baslik"] for n in d["notlar"]]
+        dizin["dersler"].append(kayit)
+        sayfa_verisi = json.loads((KOK / "data" / rh["urun"] / "sayfalar" / f"{d['id']}.json").read_text(encoding="utf-8"))
+        icerik = {"id": d["id"], "notlar": d["notlar"], "soru": d["soru"], "sayfa": sayfa_verisi}
+        if d["ucretsiz"]:
+            json_yaz(acik / "ders" / f"{d['id']}.json", icerik)
+        elif not ONIZLEME:
+            json_yaz(gizli / f"{d['id']}.json", icerik)
+    json_yaz(acik / "dersler.json", dizin, girintili=True)
+
+
+def rehber_gm_karti(metin, ses="", sinif=""):
+    """Ajan GM kartı: avatar, cümle ve "Sesli oku" yeri (düğmeyi rehber.js koyar; cihazda erkek ses yoksa görünmez)."""
+    webp, png = "/assets/img/ajan-gm-avatar.webp", "/assets/img/ajan-gm-avatar.png"
+    ses_oz = f' data-ses="{e(ses)}"' if ses else ""
+    siniflar = " ".join(["kart", "rh-gm"] + ([sinif] if sinif else []))
+    return f"""<div class="{siniflar}">
+      <picture class="rh-gm-gorsel"><source type="image/webp" srcset="{webp}?v={surum(webp)}"><img src="{png}?v={surum(png)}" alt="" width="512" height="512" decoding="async"></picture>
+      <div class="rh-gm-metin">
+        <p class="rh-gm-ad">Ajan GM</p>
+        <p class="rh-gm-soz" data-rehber-gm{ses_oz}>{e(metin)}</p>
+        <span class="rh-gm-ses" data-rehber-ses></span>
+      </div>
+    </div>"""
+
+
+def rehber_urunu(rh, urunler):
+    return next((u for u in urunler if u["slug"] == rh["urun_slug"]), None)
+
+
+def rehber_ders_sayfasi(rh, kaynak, d, urunler):
+    taban, n = rh["taban"], len(kaynak["dersler"])
+    u = rehber_urunu(rh, urunler)
+    shopier = (u.get("shopier_url") or "").strip() if u else ""
+    durum = "Ücretsiz" if d["ucretsiz"] else "Erişim koduyla"
+    konular = "".join(f"<li>{e(x['baslik'])}</li>" for x in d["notlar"])
+    govde = f"""<section class="sayfa-bas rh-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), (taban, kaynak["ad"]), (None, d["sayfa_adi"])])}
+    <p class="rh-ders-no">Ders {d["sira"]} / {n} · {durum}</p>
+    <h1>{e(d["sayfa_adi"])}</h1>
+    <p>{e(d["baslik"])}</p>
+    {rehber_gm_karti(d["ajan_gm"], d.get("ajan_gm_ses", ""))}
+  </div>
+</section>
+<section class="rh-govde" aria-label="{e(d["sayfa_adi"])} sayfası ve notları">
+  <div class="kap">
+    <div class="rehber" data-rehber data-urun="{rh["urun"]}" data-ders="{d["id"]}" data-veri="{taban}veri/" data-api="/api/ders/" data-taban="{taban}" data-shopier="{e(shopier)}">
+      <div class="rh-onbilgi">
+        <p>{e(d["ozet"])}</p>
+        <h2 class="h3-boy">Bu derste</h2>
+        <ul>{konular}</ul>
+        <noscript><p>Excel sayfasını ve notları görmek için tarayıcınızda JavaScript'i açın.</p></noscript>
+      </div>
+    </div>
+  </div>
+</section>"""
+    return sayfa(f"{taban}{d['id']}/", f"{d['sayfa_adi']} · {kaynak['ad']}", d["ozet"], govde,
+                 etkin=taban, ek_css=("/assets/css/rehber.css",), modul="/assets/js/rehber/rehber.js")
+
+
+def rehber_acilis_sayfasi(rh, kaynak, urunler):
+    """Rehberin açılış sayfası (raf sayfasının yerine): Ajan GM, nasıl çalışır, ders haritası, dosyalar ve SSS."""
+    r, a, taban = RAF[rh["raf"]], kaynak["acilis"], rh["taban"]
+    dersler = kaynak["dersler"]
+    ilk_kilitli = next((d for d in dersler if not d["ucretsiz"]), None)
+    kartlar = "".join(f"""<li><a class="kart rh-ders-kart" href="{taban}{d["id"]}/" data-ders-id="{d["id"]}">
+      <span class="rh-ders-ust"><span>Ders {d["sira"]} · {"Ücretsiz" if d["ucretsiz"] else "Erişim koduyla"}</span>{ikon("tablo" if d["ucretsiz"] else "kilit")}</span>
+      <h3>{e(d["sayfa_adi"])}</h3>
+      <p>{e(d["baslik"])}</p>
+    </a></li>""" for d in dersler)
+    adimlar = "".join(f'<li class="kart rh-adim"><h3>{e(x["baslik"])}</h3><p>{e(x["metin"])}</p></li>' for x in a["adimlar"])
+    paket = "".join(f"<li>{ikon('tik')}<span>{e(x)}</span></li>" for x in a["paket"])
+    u = rehber_urunu(rh, urunler)
+    url = (u.get("shopier_url") or "").strip() if u else ""
+    if url:
+        al = f'<a class="dugme" href="{e(url)}" rel="noopener">Shopier\'de al{ikon("ok")}</a>'
+    else:
+        al = ('<span class="dugme-pasif" aria-disabled="true">Shopier\'de yakında</span>'
+              f'<a class="dugme-cizgi" data-link="shopier_magaza" href="#" hidden>Shopier mağazasına git{ikon("ok")}</a>')
+    urun_linki = f'<a class="dugme-cizgi" href="/urun/{e(u["slug"])}/">Dosyanın ayrıntıları</a>' if u else ""
+    gorseller = gorsel_listesi(u) if u else []
+    onizleme = ""
+    if gorseller:
+        g = gorseller[0]
+        gorsel_ek = ' alt="' + e(g["alt"]) + '" decoding="async"'
+        onizleme = (f'<a class="kart rh-onizleme" href="{taban}{dersler[0]["id"]}/">{resim(g, gorsel_ek)}'
+                    f'<span class="rh-onizleme-yazi">{e(dersler[0]["sayfa_adi"])} dersi: dosyadaki değerler, renkler ve grafikler{ikon("ok")}</span></a>')
+    raf_urunleri = [x for x in urunler if x["raf"] == r["slug"]]
+    raf_bolumu = ""
+    if raf_urunleri:
+        raf_bolumu = f"""<section class="bolum" aria-labelledby="raf-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="raf-baslik">{e(r["ad"])} rafı</h2><p>{e(r["aciklama"])}</p></div>
+    <ul class="izgara izgara-urun">{"".join(urun_karti(x, raf_goster=False) for x in raf_urunleri)}</ul>
+  </div>
+</section>"""
+    govde = f"""<section class="sayfa-bas rh-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (None, a["baslik"])])}
+    {ikon(r["ikon"], "ikon ikon-buyuk")}
+    <h1>{e(a["baslik"])}</h1>
+    <p>{e(a["alt_baslik"])}</p>
+    {rehber_gm_karti(a["ajan_gm"], a.get("ajan_gm_ses", ""), "rh-acilis-gm")}
+    <div class="eylemler">
+      <a class="dugme" href="{taban}{dersler[0]["id"]}/">İlk derse başla{ikon("ok")}</a>
+      <a class="dugme-cizgi" href="#dersler">{len(dersler)} dersin listesi</a>
+    </div>
+    {onizleme}
+  </div>
+</section>
+<section class="bolum" aria-labelledby="nasil-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="nasil-baslik">Nasıl çalışır</h2><p>{e(a["aciklama"])}</p></div>
+    <ol class="rh-adimlar">{adimlar}</ol>
+  </div>
+</section>
+<section class="bolum" id="dersler" aria-labelledby="dersler-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="dersler-baslik">{len(dersler)} ders</h2><p>İlk {kaynak["ucretsiz_ders"]} ders ücretsiz.{f" {ilk_kilitli['sira']}. dersten itibaren dersler, dosyalarla gelen erişim koduyla açılır." if ilk_kilitli else ""}</p></div>
+    <ol class="rh-dersler" data-rehber-dersler data-urun="{rh["urun"]}">{kartlar}</ol>
+  </div>
+</section>
+<section class="bolum" aria-labelledby="paket-baslik">
+  <div class="kap iki-sutun">
+    <div class="kart">
+      <h2 id="paket-baslik" class="h3-boy">Dosyalar ve erişim kodu</h2>
+      <ul class="rh-paket">{paket}</ul>
+      <div class="eylemler">{al}{urun_linki}</div>
+    </div>
+    <div class="sss">{sss_html([(x["soru"], x["cevap"]) for x in a["sss"]])}</div>
+  </div>
+</section>
+{raf_bolumu}
+<section class="bolum" aria-label="Örnek veri">
+  <div class="kap"><p class="rh-veri-notu">{e(a["veri_notu"])}</p></div>
+</section>"""
+    aciklama = f"{a['baslik']}: {a['alt_baslik'].lower()}. {len(dersler)} rehberli ders, ilk {kaynak['ucretsiz_ders']} ders ücretsiz. {SITE_CUMLESI}"
+    return sayfa(taban, f"{a['baslik']}: {a['alt_baslik']}", aciklama, govde, etkin=taban,
+                 ek_css=("/assets/css/rehber.css",), modul="/assets/js/rehber/rehber.js")
+
+
 def urunleri_oku():
     veri = json.loads((KOK / "data" / "urunler.json").read_text(encoding="utf-8"))
     sluglar = set()
@@ -1176,8 +1362,18 @@ def main():
     yollar = []
     yollar.append(yaz("/", ana_sayfa(urunler)))
     yollar.append(yaz("/fabricakit/", fabricakit_sayfasi()))
+    rehber_raflari = {rh["raf"] for rh in REHBERLER}
+    rehber_adresleri = []
+    for rh in REHBERLER:
+        kaynak = rehber_kaynagi(rh)
+        rehber_verisi(rh, kaynak)
+        yollar.append(yaz(rh["taban"], rehber_acilis_sayfasi(rh, kaynak, urunler)))
+        for d in kaynak["dersler"]:
+            yollar.append(yaz(f"{rh['taban']}{d['id']}/", rehber_ders_sayfasi(rh, kaynak, d, urunler)))
+            rehber_adresleri.append(f"{rh['taban']}{d['id']}/")
     for r in RAFLAR:
-        yollar.append(yaz(f"/{r['slug']}/", raf_sayfasi(r, urunler)))
+        if r["slug"] not in rehber_raflari:
+            yollar.append(yaz(f"/{r['slug']}/", raf_sayfasi(r, urunler)))
     for u in urunler:
         yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler)))
     yollar.append(yaz("/uzay/", uzay_sayfasi()))
@@ -1191,7 +1387,7 @@ def main():
     yollar.append(yaz("/teslimat-ve-iade/", teslimat()))
     yollar.append(yaz("/404.html", sayfa_404()))
 
-    adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + [f"/urun/{u['slug']}/" for u in urunler] + [
+    adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + rehber_adresleri + [f"/urun/{u['slug']}/" for u in urunler] + [
         "/uzay/", "/uzay/rota/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']

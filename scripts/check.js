@@ -65,6 +65,49 @@ for (const file of jsFiles) {
 }
 if (uretim) for (const s of gizli) if (fs.existsSync(path.join(root, "urun", s))) hata(`urun/${s}/ üretimde olmamalı`);
 
+/* Rehberli dersler (data/<urun>/dersler.json → derle.py): kilitli dersin notu ve sorusu herkese açık dosyalara sızmasın,
+   ücretsiz dersin dosyası olsun, not aralıkları sayfanın içinde ve soru geçerli olsun. */
+const harfNo = (h) => [...h].reduce((n, c) => n * 26 + c.charCodeAt(0) - 64, 0);
+const REHBERLER = [{ urun: "datakit", taban: "datakit" }];
+for (const rh of REHBERLER) {
+  const kaynakYolu = path.join(depo, "data", rh.urun, "dersler.json");
+  if (!fs.existsSync(kaynakYolu)) continue;
+  const kaynak = JSON.parse(fs.readFileSync(kaynakYolu, "utf8"));
+  const veri = path.join(root, rh.taban, "veri");
+  const dizinYolu = path.join(veri, "dersler.json");
+  if (!fs.existsSync(dizinYolu)) { hata(`${rh.taban}/veri/dersler.json yok (python3 scripts/derle.py)`); continue; }
+  const dizin = JSON.parse(fs.readFileSync(dizinYolu, "utf8"));
+  if (dizin.dersler.length !== kaynak.dersler.length) hata(`${rh.taban}/veri/dersler.json eski (python3 scripts/derle.py)`);
+  for (const d of dizin.dersler) if (d.notlar || d.soru) hata(`${rh.taban}/veri/dersler.json: ${d.id} dersinin notları herkese açık dizinde`);
+  const acikMetin = [...htmlFiles, ...fs.readdirSync(veri, { recursive: true }).map((f) => path.join(veri, f)).filter((f) => f.endsWith(".json"))]
+    .map((f) => fs.readFileSync(f, "utf8")).join("\n");
+  for (const d of kaynak.dersler) {
+    const acik = path.join(veri, "ders", `${d.id}.json`);
+    const gizli = path.join(depo, "api", "_dersler", rh.urun, `${d.id}.json`);
+    if (d.ucretsiz && !fs.existsSync(acik)) hata(`${rh.taban}/veri/ders/${d.id}.json yok (ücretsiz ders)`);
+    if (!d.ucretsiz) {
+      if (fs.existsSync(acik)) hata(`kilitli ders herkese açık: ${rh.taban}/veri/ders/${d.id}.json`);
+      if (uretim && !fs.existsSync(gizli)) hata(`api/_dersler/${rh.urun}/${d.id}.json yok (python3 scripts/derle.py)`);
+      for (const n of d.notlar) if (acikMetin.includes(n.karar)) hata(`kilitli dersin notu herkese açık dosyada: ${d.id} · ${n.baslik}`);
+      if (acikMetin.includes(d.soru.aciklama)) hata(`kilitli dersin soru açıklaması herkese açık dosyada: ${d.id}`);
+    }
+    const sayfaYolu = path.join(depo, "data", rh.urun, "sayfalar", `${d.id}.json`);
+    if (!fs.existsSync(sayfaYolu)) { hata(`data/${rh.urun}/sayfalar/${d.id}.json yok`); continue; }
+    const sayfa = JSON.parse(fs.readFileSync(sayfaYolu, "utf8"));
+    const sonSutun = sayfa.sutunlar.length, sonSatir = sayfa.satirlar[sayfa.satirlar.length - 1].r;
+    d.notlar.forEach((n, i) => {
+      const m = String(n.aralik).match(/^([A-Z]+)(\d+)(?::([A-Z]+)(\d+))?$/);
+      if (!m) { hata(`${rh.urun}/${d.id} not ${i + 1}: aralık "${n.aralik}" geçersiz`); return; }
+      const c2 = harfNo(m[3] || m[1]), r2 = Number(m[4] || m[2]);
+      if (c2 > sonSutun || r2 > sonSatir) hata(`${rh.urun}/${d.id} not ${i + 1}: ${n.aralik} sayfanın dışında`);
+      for (const alan of ["baslik", "metin", "karar"]) if (!String(n[alan] || "").trim()) hata(`${rh.urun}/${d.id} not ${i + 1}: ${alan} boş`);
+      for (const [re, mesaj] of dil) if (re.test(`${n.metin} ${n.karar} ${n.ses || ""}`)) hata(`${rh.urun}/${d.id} not ${i + 1}: ${mesaj}`);
+    });
+    const s = d.soru;
+    if (!Array.isArray(s.secenekler) || s.secenekler.length < 2 || !(s.dogru >= 0 && s.dogru < s.secenekler.length)) hata(`${rh.urun}/${d.id}: soru geçersiz`);
+  }
+}
+
 const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
 for (const m of sitemap.matchAll(/<loc>https:\/\/celcini\.com(\/[^<]*)<\/loc>/g)) {
   if (!fs.existsSync(path.join(root, m[1], "index.html"))) hata(`sitemap: sayfa yok ${m[1]}`);

@@ -229,7 +229,7 @@ export const cumlelereBol = (metinler) => metinler.filter(Boolean)
   .flatMap((m) => seseHazirla(m).replace(/([.!?…]+)\s+/g, "$1\n").split("\n")).map((c) => c.trim()).filter(Boolean);
 
 /* Okuma planı: { dosya, metin } ses dosyasından, { cumleler } cihaz sesiyle (ardışık konuşma parçaları birleşir) */
-function planKur(metinler) {
+function planKur(metinler, dosyasiz = false) {
   const plan = [];
   const konusma = (metin) => {
     const cumleler = turkce ? cumlelereBol([metin]) : [];
@@ -239,7 +239,7 @@ function planKur(metinler) {
     else plan.push({ cumleler });
   };
   for (const m of metinler.filter(Boolean)) {
-    if (!SES_DOSYALARI_HAZIR) { konusma(m); continue; }
+    if (!SES_DOSYALARI_HAZIR || dosyasiz) { konusma(m); continue; }
     for (const p of parcala(m)) {
       if (p.id) plan.push({ dosya: `${SES_KLASORU}${p.id}.mp3`, metin: p.metin });
       else konusma(p.metin);
@@ -318,9 +318,9 @@ async function cal(plan, kayit, no) {
   kayit.ciz();
 }
 
-function oku(metinler, kayit) {
+function oku(metinler, kayit, dosyasiz = false) {
   okumayiDurdur();
-  const plan = acik ? planKur(metinler) : [];
+  const plan = acik ? planKur(metinler, dosyasiz) : [];
   if (!plan.length) return;
   kilitleriAc(plan);
   okuyan = kayit;
@@ -329,8 +329,10 @@ function oku(metinler, kayit) {
 }
 
 /* "Sesli oku" düğmesi: metin() okunacak metinleri (dizi) verir. Okurken düğme "Durdur" olur.
-   Ses kapalıyken düğme pasif, yanındaki "Sesi aç" sesi açar. */
-export function sesliOkuDugmesi(metin, { etiket = "Sesli oku" } = {}) {
+   Ses kapalıyken düğme pasif, yanındaki "Sesi aç" sesi açar.
+   yalnizCihaz: metin Fabricakit'in sabit cümlelerinden değilse (rehberli dersler) ses dosyası aranmaz; düğme yalnızca
+   cihazda erkek Türkçe ses varken görünür (yoksa gizli; yazı zaten ekranda). */
+export function sesliOkuDugmesi(metin, { etiket = "Sesli oku", yalnizCihaz = false } = {}) {
   const dugme = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme fk-sesli-oku", type: "button" });
   const ac = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme fk-ses-ac", type: "button" }, ikon("sessiz"), "Sesi aç");
   const kutu = h("span", { sinif: "fk-sesli" }, dugme, ac);
@@ -341,10 +343,10 @@ export function sesliOkuDugmesi(metin, { etiket = "Sesli oku" } = {}) {
       dugme.setAttribute("aria-pressed", String(okuyor));
       dugme.disabled = !acik;
       ac.hidden = acik;
-      kutu.hidden = !SES_DOSYALARI_HAZIR && !turkce;
+      kutu.hidden = yalnizCihaz ? !turkce : !SES_DOSYALARI_HAZIR && !turkce;
     },
   };
-  dugme.addEventListener("click", () => { if (okuyan === kayit) okumayiDurdur(); else oku(metin(), kayit); });
+  dugme.addEventListener("click", () => { if (okuyan === kayit) okumayiDurdur(); else oku(metin(), kayit, yalnizCihaz); });
   ac.addEventListener("click", () => { if (!acik) sesiDegistir(); dugme.focus(); });
   kayit.ciz();
   dugmeler.set(kutu, kayit.ciz);
