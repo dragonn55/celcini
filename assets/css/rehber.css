@@ -178,14 +178,14 @@ a.rh-sekme:hover { background: var(--zemin); color: var(--metin); }
 @media (max-height: 500px) and (orientation: landscape) {
   .rh-balon-alt-kart { left: auto; width: min(460px, 50vw); max-height: calc(100vh - 24px); max-height: calc(100svh - 24px); gap: 6px; padding-top: 12px; }
   .rh-balon-alt-kart.rh-balon-solda { left: 8px; right: auto; }
-  .rh-balon-alt-kart .rh-balon-ust { top: -12px; margin-top: -12px; padding-top: 6px; }
+  .rh-balon-alt-kart .rh-balon-ust { top: -12px; margin-top: -12px; padding-top: 2px; }
   .rh-balon-alt-kart .rh-balon-baslik { font-size: var(--fs-1); }
   .rh-balon-alt-kart .rh-balon-metin, .rh-balon-alt-kart .rh-karar { font-size: 0.9375rem; line-height: 1.5; }
 }
 /* Üst şerit (not no ve kapat) de sabit: kart kaydırılınca kapat düğmesi görünür kalır, metin çizginin altına girer */
 .rh-balon-ust {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  position: sticky; top: -16px; margin: -16px -16px 0; padding: 10px 10px 0 16px;
+  position: sticky; top: -16px; margin: -16px -16px 0; padding: 6px 10px 0 16px;
   background: var(--kart); border-bottom: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r) var(--r) 0 0;
 }
 .rh-balon-no { color: var(--metin-2); font-size: var(--fs-0); font-weight: 600; }
