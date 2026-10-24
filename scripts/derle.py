@@ -4,7 +4,7 @@
     python3 scripts/derle.py              üretim: depo köküne yazar (Vercel bunu yayınlar)
     python3 scripts/derle.py --onizleme   önizleme: _onizleme/ klasörüne yazar, örnek kayıtlar "ÖRNEK" etiketiyle görünür
 
-Üretimde "ornek": true olan ve shopier_url'si boş olan kayıtlar hiçbir yerde görünmez.
+Üretimde "ornek": true olan kayıtlar ve shopier_url'si boş olup "yakinda": true olmayan kayıtlar hiçbir yerde görünmez.
 Tüm ürünler data/urunler.json'dan gelir. Bağlantılar (Shopier mağaza, form, e-posta, Instagram)
 tarayıcıda assets/js/config.js'den uygulanır.
 Fabricakit'in dokuz odası fabricakit/js/odalar.js'den okunur (ana sayfadaki oda şeridi).
@@ -16,6 +16,7 @@ import html
 import json
 import re
 import shutil
+import struct
 import sys
 from pathlib import Path
 
@@ -79,6 +80,10 @@ def tl(sayi):
     return f"{int(sayi):,}".replace(",", ".") + " TL"
 
 
+def fiyat_var(u):
+    return bool(u.get("fiyat"))
+
+
 def surum(yol):
     return hashlib.md5((KOK / yol.lstrip("/")).read_bytes()).hexdigest()[:8]
 
@@ -86,17 +91,41 @@ def surum(yol):
 def gorunur(u):
     if ONIZLEME:
         return True
-    return not u.get("ornek") and bool((u.get("shopier_url") or "").strip())
+    if u.get("ornek"):
+        return False
+    # "yakinda": true → Shopier bağlantısı gelene kadar sayfa "Shopier'de yakında" düğmesiyle görünür
+    return bool((u.get("shopier_url") or "").strip()) or bool(u.get("yakinda"))
+
+
+def png_boyutu(yol):
+    """PNG başlığından (IHDR) genişlik ve yükseklik; dosya PNG değilse None."""
+    dosya = KOK / yol.lstrip("/")
+    if not yol.endswith(".png") or not dosya.exists():
+        return None
+    bas = dosya.read_bytes()[:24]
+    return struct.unpack(">II", bas[16:24]) if bas[:8] == b"\x89PNG\r\n\x1a\n" else None
 
 
 def gorsel_listesi(u):
     sonuc = []
     for g in u.get("gorseller") or []:
         if isinstance(g, str):
-            sonuc.append({"src": g, "alt": f"{u['ad']} ekran görüntüsü"})
-        elif isinstance(g, dict) and g.get("src"):
-            sonuc.append({"src": g["src"], "alt": g.get("alt") or f"{u['ad']} ekran görüntüsü"})
+            g = {"src": g}
+        if not isinstance(g, dict) or not g.get("src"):
+            continue
+        o = {"src": g["src"], "alt": g.get("alt") or f"{u['ad']} ekran görüntüsü", "webp": "", "boyut": png_boyutu(g["src"])}
+        webp = re.sub(r"\.png$", ".webp", g["src"])
+        if webp != g["src"] and (KOK / webp.lstrip("/")).exists():  # yanında WebP varsa önce o yüklenir
+            o["webp"] = webp
+        sonuc.append(o)
     return sonuc
+
+
+def resim(g, ek=""):
+    """<picture>: WebP varsa önce o, yoksa PNG; boyut biliniyorsa width/height (sayfa zıplamaz)."""
+    boyut = f' width="{g["boyut"][0]}" height="{g["boyut"][1]}"' if g["boyut"] else ""
+    kaynak = f'<source type="image/webp" srcset="{e(g["webp"])}">' if g["webp"] else ""
+    return f'<picture>{kaynak}<img src="{e(g["src"])}"{boyut}{ek}></picture>'
 
 
 def mutlak(yol):
@@ -309,12 +338,18 @@ def urun_karti(u, raf_goster=True):
     if any(t.lower() == "yapay zeka" for t in u.get("etiketler", [])):
         ust.append('<span class="etiket etiket-turuncu">yapay zeka</span>')
     ara = " ".join([u["ad"], u["kisa"], " ".join(u.get("etiketler", []))])
+    if fiyat_var(u):
+        alt = (f'<span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>'
+               f'<span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>')
+    else:
+        durum = "Fiyatı Shopier'de" if (u.get("shopier_url") or "").strip() else "Shopier'de yakında"
+        alt = f'<span class="fiyat-yok">{durum}</span>'
     return f"""<li data-urun data-ara="{e(ara)}" data-etiketler="{e("|".join(u.get("etiketler", [])))}">
   <article class="kart urun-kart">
     <div class="ust">{"".join(ust)}</div>
     <h3><a href="/urun/{e(u["slug"])}/">{e(u["ad"])}</a></h3>
     <p>{e(u["kisa"])}</p>
-    <div class="alt"><span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span><span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span></div>
+    <div class="alt">{alt}</div>
   </article>
 </li>"""
 
@@ -540,7 +575,8 @@ def ana_sayfa(urunler):
 
 
 def raf_sayfasi(r, urunler):
-    liste = [u for u in urunler if u["raf"] == r["slug"]]
+    # Öne çıkan ürün rafın başında; ötekiler data/urunler.json sırasıyla aynı ızgarada
+    liste = sorted((u for u in urunler if u["raf"] == r["slug"]), key=lambda u: not u.get("one_cikan"))
     if liste:
         etiketler = sorted({t for u in liste for t in u.get("etiketler", [])}, key=lambda s: s.lower())
         etiket_dugmeleri = '<button class="etiket-dugme" type="button" data-etiket="" aria-pressed="true">Tümü</button>' + "".join(
@@ -587,13 +623,15 @@ def urun_sayfasi(u, urunler):
         ilk = gorseller[0]
         kucukler = ""
         if len(gorseller) > 1:
+            kucuk_ek = ' alt="" loading="lazy" decoding="async"'
             kucukler = '<ul class="galeri-kucuk">' + "".join(
-                f'<li><button type="button" data-galeri-kucuk data-src="{e(g["src"])}" data-alt="{e(g["alt"])}" '
+                f'<li><button type="button" data-galeri-kucuk data-src="{e(g["src"])}" data-webp="{e(g["webp"])}" '
+                f'data-alt="{e(g["alt"])}" data-boyut="{"x".join(map(str, g["boyut"] or ()))}" '
                 f'aria-current="{"true" if i == 0 else "false"}" aria-label="Görsel {i + 1}">'
-                f'<img src="{e(g["src"])}" alt="" loading="lazy"></button></li>'
+                f'{resim(g, kucuk_ek)}</button></li>'
                 for i, g in enumerate(gorseller)) + "</ul>"
-        galeri = (f'<div class="galeri"><div class="kart galeri-ana"><img data-galeri-ana src="{e(ilk["src"])}" '
-                  f'alt="{e(ilk["alt"])}"></div>{kucukler}</div>')
+        ana_ek = f' alt="{e(ilk["alt"])}" data-galeri-ana'
+        galeri = f'<div class="galeri"><div class="kart galeri-ana">{resim(ilk, ana_ek)}</div>{kucukler}</div>'
     else:
         galeri = (f'<div class="kart galeri-bos">{ikon("gorsel", "ikon ikon-buyuk")}'
                   f'<p>Ekran görüntüleri hazırlanıyor.</p></div>')
@@ -607,12 +645,50 @@ def urun_sayfasi(u, urunler):
     url = (u.get("shopier_url") or "").strip()
     if url:
         al = (f'<a class="dugme" href="{e(url)}" rel="noopener">Shopier\'de al{ikon("ok")}</a>')
+    elif u.get("yakinda"):
+        # Bağlantı gelince yalnızca shopier_url doldurulur; mağaza adresi assets/js/config.js'ten uygulanır
+        al = ('<div class="eylemler"><span class="dugme-pasif" aria-disabled="true">Shopier\'de yakında</span>'
+              f'<a class="dugme-cizgi" data-link="shopier_magaza" href="#" hidden>Shopier mağazasına git{ikon("ok")}</a></div>')
     else:
         al = '<span class="dugme-pasif">Shopier bağlantısı henüz yok</span>'
+    if fiyat_var(u):
+        fiyatlar = f"""<div class="fiyatlar">
+          <span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>
+          <span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>
+        </div>
+        <p class="not">Açılış fiyatı. Ödeme ve teslim Shopier'de yapılır; ayrıntılar <a href="/teslimat-ve-iade/">Teslimat ve iade</a> sayfasında.</p>"""
+    else:
+        fiyatlar = """<p class="not">Dosya Shopier'den satılır; fiyatı satışa açılınca orada yazar. Ödeme ve teslim Shopier'de yapılır; ayrıntılar <a href="/teslimat-ve-iade/">Teslimat ve iade</a> sayfasında.</p>"""
 
     ozellikler = "".join(f'<li>{ikon("tik")}<span>{e(o)}</span></li>' for o in u.get("ozellikler", []))
     etiketler = "".join(etiket_html(t) for t in u.get("etiketler", []))
     makro = "Var" if u.get("makro") else "Yok (makrosuz)"
+    # Genişletilmiş ürün sayfası: "icindekiler", "adimlar", "teknik_not" ve "sss" alanları olan kayıtlarda ek bölümler
+    teknik_not = f'\n        <p class="kimin">{e(u["teknik_not"])}</p>' if u.get("teknik_not") else ""
+    ek_bolumler = ""
+    if u.get("icindekiler") or u.get("adimlar"):
+        icindekiler = "".join(f'<div><dt>{e(x["sayfa"])}</dt><dd>{e(x["aciklama"])}</dd></div>'
+                              for x in u.get("icindekiler", []))
+        adimlar = "".join(f"<li>{e(a)}</li>" for a in u.get("adimlar", []))
+        ek_bolumler += f"""
+  <section class="bolum" aria-labelledby="icinde-baslik">
+    <div class="iki-sutun">
+      <div class="kart">
+        <h2 id="icinde-baslik" class="h3-boy">İçinde ne var</h2>
+        <dl class="icindekiler">{icindekiler}</dl>
+      </div>
+      <div class="kart">
+        <h2 class="h3-boy">Nasıl kullanılır</h2>
+        <ol class="adim-listesi">{adimlar}</ol>
+      </div>
+    </div>
+  </section>"""
+    if u.get("sss"):
+        ek_bolumler += f"""
+  <section class="bolum" aria-labelledby="urun-sss-baslik">
+    <div class="bolum-bas"><h2 id="urun-sss-baslik">Sık sorulan sorular</h2></div>
+    <div class="sss">{sss_html([(x["soru"], x["cevap"]) for x in u["sss"]])}</div>
+  </section>"""
 
     benzer = [x for x in urunler if x["raf"] == u["raf"] and x["slug"] != u["slug"]][:3]
     benzer_bolum = ""
@@ -628,14 +704,10 @@ def urun_sayfasi(u, urunler):
     <div class="urun-bilgi">
       <div class="ust">{"".join(rozetler)}</div>
       <h1>{e(u["ad"])}</h1>
-      <p class="ozet">{e(u["kisa"])}</p>
+      <p class="ozet">{e(u.get("soz") or u["kisa"])}</p>
       <p class="aciklama">{e(u["aciklama"])}</p>
       <div class="kart satin-al">
-        <div class="fiyatlar">
-          <span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>
-          <span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>
-        </div>
-        <p class="not">Açılış fiyatı. Ödeme ve teslim Shopier'de yapılır; ayrıntılar <a href="/teslimat-ve-iade/">Teslimat ve iade</a> sayfasında.</p>
+        {fiyatlar}
         {al}
       </div>
     </div>
@@ -644,7 +716,7 @@ def urun_sayfasi(u, urunler):
   <section class="bolum" aria-labelledby="ne-baslik">
     <div class="iki-sutun">
       <div class="kart">
-        <h2 id="ne-baslik" class="h3-boy">Ne yapar</h2>
+        <h2 id="ne-baslik" class="h3-boy">{"Ne işe yarar" if u.get("icindekiler") else "Ne yapar"}</h2>
         <ul class="ozellikler">{ozellikler}</ul>
       </div>
       <div class="kart">
@@ -655,18 +727,18 @@ def urun_sayfasi(u, urunler):
           <dt>Makro</dt><dd>{makro}</dd>
           <dt>Sayfa sayısı</dt><dd>{int(u["sayfa_sayisi"])}</dd>
           <dt>Kurulum</dt><dd>Gerekmez</dd>
-        </dl>
+        </dl>{teknik_not}
         <h2 class="h3-boy">Kimin için</h2>
         <p class="kimin">{e(u["kimin_icin"])}</p>
         <div class="etiketler">{etiketler}</div>
       </div>
     </div>
-  </section>
+  </section>{ek_bolumler}
   {benzer_bolum}
 </div>"""
 
     ek = ""
-    if url and not u.get("ornek"):
+    if url and fiyat_var(u) and not u.get("ornek"):
         resimler = [mutlak(g["src"]) for g in gorseller] or [SITE + "/assets/img/og-cover.png"]
         ek = json_ld({
             "@context": "https://schema.org", "@type": "Product",
@@ -741,7 +813,7 @@ def gizlilik():
 <h2>Fabricakit</h2>
 <ul>
   <li>Oyun ilerlemeniz, ses tercihiniz, Ajan GM'nin size nasıl hitap edeceği ve açtığınız günler yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur. Üyelik yoktur; bu bilgiler sunucuya gönderilmez. Tarayıcı verilerini sildiğinizde kayıt da silinir.</li>
-  <li>Sesler: efekt sesleri tarayıcıda üretilir. "Sesli oku" ve "Ajan GM konuşsun" cihazınızdaki Türkçe sesi kullanır; Ajan GM'nin sabit cümleleri, bu sitede ses dosyası olarak bulunduğunda oradan çalınır. Okunan metin hiçbir sunucuya gönderilmez. Ses kapalıyken hiçbir ses çalmaz.</li>
+  <li>Sesler: efekt sesleri tarayıcıda üretilir. "Sesli oku" ve "Ajan GM konuşsun" cihazınızdaki erkek Türkçe sesi kullanır; Ajan GM'nin sabit cümleleri, bu sitede ses dosyası olarak bulunduğunda oradan çalınır. Okunan metin hiçbir sunucuya gönderilmez. Ses kapalıyken hiçbir ses çalmaz.</li>
   <li>Erişim kodu: Kilidi açmak için girdiğiniz kod doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod, kilidin açık kalması için yalnızca bu tarayıcıda tutulur.</li>
   <li>Ajan GM: Yorumlar varsayılan olarak tarayıcıda, hazır şablonlardan üretilir ve hiçbir veri gönderilmez. Yapay zeka modu açılırsa günün karnesindeki oyun verileri (puan, teslim, hat duruşu, olaylar gibi) ve Ajan GM'ye yazdığınız soru, yanıt üretmek için ABD merkezli yapay zeka sağlayıcısı Anthropic'e iletilir; bu mod yalnızca kod girenlere açıksa erişim kodunuz da her istekte yeniden doğrulanmak üzere sunucuya gönderilir. Hitabınız gönderilmez ve bu veriler Celcini tarafından saklanmaz. Sorularınıza kişisel bilgi yazmayın.</li>
 </ul>
@@ -883,6 +955,7 @@ def urunleri_oku():
         url = (u["shopier_url"] or "").strip()
         if url and not url.startswith("https://"):
             sys.exit(f"HATA: {u['slug']}: shopier_url https:// ile başlamalı")
+
     return veri
 
 
@@ -947,6 +1020,9 @@ def main():
     print(f"{kip}: {len(yollar)} sayfa, {len(urunler)} ürün, sitemap {len(adresler)} adres.")
     if gizlenen:
         print(f"Gizlenen kayıtlar (örnek ya da Shopier bağlantısı boş): {', '.join(gizlenen)}")
+    yakinda = [u["slug"] for u in urunler if u.get("yakinda") and not (u.get("shopier_url") or "").strip()]
+    if yakinda and not ONIZLEME:
+        print(f"Shopier'de yakında (bağlantı bekleniyor): {', '.join(yakinda)}")
 
 
 if __name__ == "__main__":
