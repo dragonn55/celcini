@@ -73,6 +73,10 @@ npm run onizleme                      # önizlemeyi derle ve http://localhost:30
 
 ## Ürün ekleme
 
+Ürün görselleri (`assets/img/urun/<slug>/`): 1600 px genişlik, PNG + yanında WebP. Excel sayfasının görseli için sayfa
+`scripts/rehber-disa-aktar.py` ile JSON'a çevrilip sitenin ızgarasıyla (`assets/js/rehber/tablo.js`) çizilir ve ekran görüntüsü
+alınır; Excel Kliniği'ndeki yedi analiz motorunun görselleri böyle üretildi.
+
 1. `data/urunler.json`'a bir kayıt ekle. Alanlar:
 
    | Alan | Açıklama |
@@ -207,6 +211,7 @@ vardır (cevap tarayıcıda hatırlanır: `celcini-rehber`). Site veri almaz. Do
   `python3 scripts/rehber-disa-aktar.py <dosya.xlsx> data/datakit/sayfalar "Dashboard=dashboard" "Otomatik Yorum=otomatik-yorum" …`.
   Büyük sayfanın yalnız dolu bölümünü göstermek için seçime satır ve son sütun eklenir:
   `"MPS=mps:satir=1-45,328:sutun=CQ"` (Motor'un 12 sayfası böyle aktarıldı; seçim dışında kalan grafik `disarida` olur).
+  Son sütun dolu alandan genişse araya boş sütunlar eklenir (taşan metin ve dolu alanın sağındaki grafik görünsün diye).
   Hücrelerin önbellekteki değerleri okunur (dosya Excel'de hesaplanıp kaydedilmiş olmalı); sayı biçimleri Türkçeye (bölümlü ve
   koşullu biçimler dahil), koşullu biçimler renge ve veri çubuğuna çevrilir; çubuk, halka ve pasta grafikler SVG ile çizilir.
   Excel dosyası repoda durmaz.

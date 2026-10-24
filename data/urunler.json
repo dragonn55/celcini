@@ -847,5 +847,630 @@
     "sayfa_sayisi": 6,
     "one_cikan": false,
     "ornek": true
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "olu-stok-baglanan-para",
+    "ad": "Ölü Stok ve Bağlanan Para",
+    "kisa": "Stokta ne kadar paranız yatıyor, hangi kalem ölü? ABC ve FSN sınıflarıyla kalem kalem bağlanan tutar, eritme önceliği ve serbest kalabilecek nakit.",
+    "aciklama": "ERP'den aldığınız stok raporunu (kod, miktar, birim maliyet, son hareket tarihi, son 12 ay çıkış) Veri Girişi'ne yapıştırırsınız; dosya her kalemi değerine göre ABC, hareketine göre FSN (hızlı / yavaş / hareketsiz) sınıfına koyar, kaç aylık stok tuttuğunuzu ve devir hızını hesaplar, ölü stoğu işaretler ve hedef stok süresini aşan miktarın maliyetini \"fazla bağlanan tutar\" olarak çıkarır. Özet sayfası toplam stok değerini, ölü stok tutarını, serbest kalabilecek nakit oranını ve en çok para bağlayan 10 kalemi verir. Örnek veride 15 kalemlik 4.299.560 TL stokun 977.800 TL'si fazla bağlanmış, 233.200 TL'si ölü stok çıkıyor.",
+    "ozellikler": [
+      "Veri Girişi'ne 100 kaleme kadar stok raporu; 7 sütun yeter",
+      "ABC (değer) × FSN (hareket) sınıflandırması, kaç aylık stok, devir hızı",
+      "Ölü stok kuralı: C sınıfı + 6 aydan uzun hareketsiz, ya da 12 aydır çıkışı olmayan kalem",
+      "Hedef stok süresine göre fazla bağlanan tutar ve kalem başına AKSİYON",
+      "Özet: toplam stok değeri, ölü stok oranı, serbest kalabilecek nakit, en çok para bağlayan 10 kalem",
+      "Ayarlar'dan eşikler: hızlı/yavaş/hareketsiz gün sınırları, ABC sınırları, hedef stok süresi"
+    ],
+    "kimin_icin": "Depo ve satın alma sorumluları, nakit sıkışıklığının stokta nerede biriktiğini görmek isteyen işletme sahipleri ve mali işler.",
+    "etiketler": [
+      "stok",
+      "ölü stok",
+      "nakit",
+      "ABC analizi",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Stok raporunu yapıştırın; hangi kalemde ne kadar para yattığını ve neyi eritmeniz gerektiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/olu-stok-baglanan-para/1-ozet.png",
+        "alt": "Özet sayfası: toplam stok değeri, ölü stok tutarı, serbest kalabilecek nakit oranı ve en çok para bağlayan 10 kalem"
+      },
+      {
+        "src": "/assets/img/urun/olu-stok-baglanan-para/2-analiz.png",
+        "alt": "Analiz sayfası: kalem başına stok değeri, hareketsiz gün, kaç aylık stok, devir hızı, ABC ve FSN sınıfı, ölü stok işareti ve aksiyon"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Analiz tarihi, FSN gün eşikleri, ABC sınırları, hedef stok süresi"
+      },
+      {
+        "sayfa": "Veri Girişi",
+        "aciklama": "Stok raporu: kod, ad, kategori, miktar, birim maliyet, son hareket, son 12 ay çıkış (100 kalem)"
+      },
+      {
+        "sayfa": "Analiz",
+        "aciklama": "Stok değeri, hareketsiz gün, aylık çıkış, kaç aylık stok, devir hızı, ABC, FSN, ölü stok, fazla bağlanan tutar, aksiyon"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve en çok para bağlayan 10 kalem; \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'da analiz tarihini ve eşikleri (hızlı/yavaş/hareketsiz gün, ABC sınırları, hedef stok süresi) kendi işinize göre girin.",
+      "Örnek satırları temizleyip ERP stok raporunuzu Veri Girişi'ne değer olarak yapıştırın; mavi başlıklı sütunların hepsi dolu olmalı.",
+      "Analiz sayfasında ilk üç satırı gözle kontrol edin; sonra Özet'e geçin.",
+      "Ölü stok listesindeki her kalemi teyit edin: bazıları yedek parça ya da yasal saklama zorunluluğu olabilir."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 100 kalem (Veri Girişi 5–104). Daha fazlası için Analiz'deki ABC aralığı ($E$5:$E$104) ve Özet'teki aralıklar da genişletilmelidir; adımlar kılavuzda.",
+    "sss": [
+      {
+        "soru": "Ölü stok nasıl tanımlanıyor?",
+        "cevap": "C sınıfı (düşük değerli) ve 6 aydan uzun süredir hareketsiz olan kalemler ile 12 aydır hiç çıkışı olmayan kalemler. Eşikler Ayarlar'dan değişir."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "musteri-karliligi-balina-egrisi",
+    "ad": "Müşteri Kârlılığı ve Balina Eğrisi",
+    "kisa": "En çok ciro yapan müşteri en çok kâr ettiren mi? İskonto, nakliye, iade, vade ve sipariş işlem maliyetini düşüp müşteri başına net kârı ve balina eğrisini çıkarır.",
+    "aciklama": "Müşteri bazında yıllık ciro, satılan malın maliyeti, iskonto, nakliye, iade tutarı, ortalama vade ve sipariş sayısını girersiniz; dosya her müşterinin brüt kârından görünmeyen maliyetleri (vade maliyeti, sipariş işlem maliyeti, iade kaybı) düşerek NET kârı, net marjı, ciro ve kâr payını hesaplar; müşterileri BALİNA / kârlı / marjinal / ZARAR olarak sınıflar ve hangi kalemin kârı yediğini AKSİYON sütununda söyler. Sıralama sayfası müşterileri kâra göre dizip kümülatif kârı toplar; Özet'teki balina eğrisi kârın tepe noktasını ve alttaki müşterilerin yediği kârı gösterir. Örnek veride 18 müşterinin 11'i zarar ettiriyor, 4 balina toplam kârın %114'ünü üretiyor; eğrinin tepesi ile toplam kâr arasındaki fark 789.118 TL.",
+    "ozellikler": [
+      "100 müşteriye kadar; 11 sütunluk yıllık toplamlar yeter",
+      "Görünmeyen dört maliyet: vade (finansman maliyetiyle), sipariş işlem, iade kaybı, nakliye",
+      "Müşteri başına NET kâr, net marj, ciro payı, kâr payı, SINIF ve AKSİYON",
+      "Sıralama sayfası ve balina eğrisi grafiği: kümülatif kârın tepe noktası ve kayıp kâr oranı",
+      "Ayarlar'dan finansman maliyeti, sipariş işlem maliyeti, iade kayıp oranı, hedef marj, balina dilimi",
+      "Zarar ettiren müşteriyi bırakmadan önce sebebe bakmayı öğreten \"nasıl okunur\" notları"
+    ],
+    "kimin_icin": "Satış ve pazarlama yöneticileri, bayi kanalı olan üreticiler, vadeli ve iskontolu çalışan toptancılar; \"hangi müşteriyle çalışmalıyım\" sorusunu sayıyla cevaplamak isteyen patronlar.",
+    "etiketler": [
+      "müşteri",
+      "kârlılık",
+      "satış",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Müşteri listenizi girin; ciro sıralamasıyla kâr sıralamasının ne kadar farklı olduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/musteri-karliligi-balina-egrisi/1-ozet.png",
+        "alt": "Özet sayfası: toplam ciro, net kâr, zarar ettiren müşteri sayısı, balina sayısı, eğrinin tepe noktası ve kayıp kâr oranı"
+      },
+      {
+        "src": "/assets/img/urun/musteri-karliligi-balina-egrisi/2-balina-egrisi.png",
+        "alt": "Balina eğrisi: müşteriler kârlıdan zararlıya sıralı, kümülatif net kâr tepe yapıp düşüyor"
+      },
+      {
+        "src": "/assets/img/urun/musteri-karliligi-balina-egrisi/3-analiz.png",
+        "alt": "Analiz sayfası: müşteri başına ciro, brüt kâr, iskonto, nakliye, iade, vade ve sipariş işlem maliyeti, net kâr, marj, sınıf ve aksiyon"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Finansman maliyeti, sipariş işlem maliyeti, iade kayıp oranı, hedef net marj, balina dilimi"
+      },
+      {
+        "sayfa": "Veri Girişi",
+        "aciklama": "Müşteri bazında yıllık toplamlar: ciro, maliyet, iskonto, nakliye, iade, vade, sipariş sayısı (100 müşteri)"
+      },
+      {
+        "sayfa": "Analiz",
+        "aciklama": "Görünmeyen maliyetler, NET kâr, net marj, ciro ve kâr payı, SINIF, AKSİYON"
+      },
+      {
+        "sayfa": "Sıralama",
+        "aciklama": "Kâra göre sıralama, kümülatif kâr ve kümülatif yüzdeler (balina eğrisinin verisi)"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler, balina eğrisi grafiği ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'daki dört varsayımı (finansman maliyeti, sipariş işlem maliyeti, iade kayıp oranı, hedef marj) kendi işinize göre doldurun.",
+      "Örnek 18 satırı temizleyip müşteri bazında yıllık toplamları Veri Girişi'ne yapıştırın; ciro iade hariç net tutar, vade ortalama tahsilat günü.",
+      "Analiz'de kırmızı satırlara (zarar ettiren müşteriler) ve AKSİYON sütununa bakın: vade mi, iskonto mu, küçük sipariş mi, iade mi?",
+      "Özet'teki balina eğrisinde tepe noktası ile toplam kâr arasındaki farkı okuyun; önce şartları düzeltin, müşteriyi bırakmak son çaredir."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 100 müşteri (Veri Girişi 5–104); Sıralama sayfası ve Özet'teki aralıklar da 100 için kuruludur. Sabit maliyetler hesaba girmez; zarar eden müşteri bırakılırsa sabit maliyetin kalanlara dağılması ayrıca hesaplanmalıdır.",
+    "sss": [
+      {
+        "soru": "Balina ne demek?",
+        "cevap": "Kâra göre sıralandığında en üstteki dilim (Ayarlar'da varsayılan %20). Çoğu işletmede bu dilim toplam kârdan fazlasını üretir; alttaki müşteriler o kârın bir kısmını geri yer, kümülatif eğri de balina sırtı gibi tepe yapıp düşer."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "fiyat-esnekligi-zam-senaryolari",
+    "ad": "Fiyat Esnekliği ve Zam Senaryoları",
+    "kisa": "Fiyatı %10 artırırsanız satış ne kadar düşer? Geçmiş fiyat değişimlerinden ürün başına esneklik, yedi zam senaryosunun kâr etkisi ve \"masadaki para\".",
+    "aciklama": "Dönem × ürün bazında fiyat, satılan adet ve birim maliyeti girersiniz; dosya her ürün için log-log regresyonla fiyat esnekliğini ve modelin uyumunu (R²) hesaplar, esnek olan ve olmayan ürünleri ayırır, Ayarlar'daki yedi fiyat senaryosunun (−%10'dan +%20'ye) kâr etkisini çıkarır, en kârlı senaryoyu ve teorik optimum zammı önerir, ters işaret (fiyat arttıkça satışın da arttığı, genelde kampanya ya da stoksuzluk) uyarısı verir. Özet, analiz edilen ürünlerin mevcut kârını, en iyi senaryoyla kârını ve aradaki farkı \"masadaki para\" olarak gösterir. Örnek veride 6 ürünün 3'ü esnek değil; en iyi senaryolarla kâr 1.296.901 TL'den 1.451.439 TL'ye çıkıyor (+%12).",
+    "ozellikler": [
+      "200 gözlem ve 40 ürüne kadar; ürün başına en az 4, ideali 8+ fiyat dönemi",
+      "Log-log regresyonla esneklik, R² ile güvenilirlik; minimum gözlem ve R² eşikleri Ayarlar'da",
+      "Yedi zam senaryosu (oranları siz yazarsınız) ve her birinin kâr etkisi",
+      "Senaryo önerisi, teorik optimum zam, kâr artışı ve KARAR sütunu",
+      "Ters işaret uyarısı: kampanya, mevsim ya da stoksuzluk bozmuş veriyi işaretler",
+      "Özet: güvenilir model sayısı, esnek olmayan ürün sayısı, zam önerilen ürün sayısı, masadaki para"
+    ],
+    "kimin_icin": "Fiyat listesine zam yapmadan önce hangi üründe güvenle zam yapılabileceğini bilmek isteyen üreticiler, toptancılar ve e-ticaret satıcıları.",
+    "etiketler": [
+      "fiyat",
+      "zam",
+      "kârlılık",
+      "satış",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Geçmiş fiyat değişimlerinizi girin; hangi üründe zam satışı az düşürüp kârı artırır, görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/fiyat-esnekligi-zam-senaryolari/1-ozet.png",
+        "alt": "Özet sayfası: esnek olmayan ürün sayısı, zam önerilen ürün sayısı, mevcut kâr, en iyi senaryoyla kâr ve masadaki para"
+      },
+      {
+        "src": "/assets/img/urun/fiyat-esnekligi-zam-senaryolari/2-analiz.png",
+        "alt": "Analiz sayfası: ürün başına gözlem, ortalama fiyat ve adet, esneklik, R², güvenilirlik ve yorum"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Minimum gözlem sayısı, minimum R², yedi fiyat senaryosu"
+      },
+      {
+        "sayfa": "Veri Girişi",
+        "aciklama": "Dönem × ürün: birim fiyat, satılan adet, birim maliyet (200 gözlem); gizli regresyon sütunları"
+      },
+      {
+        "sayfa": "Analiz",
+        "aciklama": "Esneklik, R², güvenilir mi, yorum, yedi senaryonun kârı, en iyi senaryo, teorik optimum zam, KARAR (40 ürün)"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'da minimum gözlem sayısını, R² eşiğini ve test etmek istediğiniz fiyat değişimlerini girin.",
+      "Örnek satırları temizleyip dönem × ürün fiyat ve adet verinizi Veri Girişi'ne yapıştırın; aynı ürün için farklı fiyatlı dönemler olmalı.",
+      "Analiz'in A sütununa analiz edilecek ürün kodlarını yazın; yeşil satırlar zam yapılabilir, kırmızılar yapılamaz.",
+      "Önerilen zammı tek seferde uygulamayın: önce bir üründe deneyin, gerçekleşen satışı ölçün."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 200 gözlem (Veri Girişi 5–204) ve 40 ürün (Analiz A5–A44). Veri Girişi'nin G–K sütunları gizli regresyon girdileridir. Esneklik yalnız fiyatı gerçekten değiştirdiğiniz ürünlerde hesaplanabilir; hep aynı fiyattan satılan üründe veri yoktur.",
+    "sss": [
+      {
+        "soru": "Esneklik ne demek?",
+        "cevap": "Fiyat %1 artınca satış adedinin yüzde kaç düştüğü. −1'den küçükse (örneğin −2) ürün esnektir, zam kârı düşürür; −1 ile 0 arasındaysa esnek değildir, zam satışı az düşürür ve kârı artırır."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "iade-analizi",
+    "ad": "İade Analizi",
+    "kisa": "İadenin gerçek maliyeti: kaybedilen mal, değer kaybı, nakliye ve işleme. Ürün bazında iade oranı, iade sonrası kâr ve ürün × neden çapraz tablosu.",
+    "aciklama": "Satış toplamlarını ve iade kayıtlarını (dönem, ürün, neden kodu, adet, yeniden satılabilir adet) girersiniz; dosya ürün bazında iade oranını, iadenin gerçek maliyetini (kaybedilen mal + değer kaybı + nakliye ve işleme), kaçan katkıyı ve iade sonrası kârı hesaplar; yüksek ve kritik iade oranlı ürünleri işaretler, her ürünün en sık nedenini ve AKSİYON'unu yazar. Neden Analizi sayfası ürün × neden çapraz tablosunu ve neden bazında Pareto'yu kurar: aynı iade oranının sebebi bir üründe paketleme, diğerinde ölçü sorunudur. Örnek veride 77.830 satışın 2.162'si iade (%3); toplam iade maliyeti 105.124 TL, kaçan katkı 91.315 TL, kâr erozyonu %4.",
+    "ozellikler": [
+      "200 iade kaydı ve 40 ürüne kadar; neden kodları açılır listeden (altı neden, değiştirilebilir)",
+      "İade başına işleme ve nakliye maliyeti, yeniden satılabilen üründe değer kaybı oranı Ayarlar'da",
+      "Ürün bazında iade oranı, toplam iade maliyeti, kaçan katkı, iade sonrası kâr, kâr erozyonu, en sık neden, AKSİYON",
+      "Ürün × neden çapraz tablosu (baskın neden koyu) ve neden Pareto'su",
+      "Her neden için kök sebebin nerede aranacağı: paketleme, toplama, ürün açıklaması, ölçü tablosu, termin, sipariş teyidi",
+      "Özet: genel iade oranı, maliyet kalemleri, iade sonrası zarardaki ürün sayısı, kritik ürün sayısı"
+    ],
+    "kimin_icin": "E-ticaret ve toptan satış yapan işletmeler, iade oranını tek sayı olarak değil ürün ve neden kırılımıyla görmek isteyen operasyon ve kalite sorumluları.",
+    "etiketler": [
+      "iade",
+      "e-ticaret",
+      "kalite",
+      "kârlılık",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "İade kayıtlarını girin; hangi ürünün hangi sebeple iade geldiğini ve bunun kâra maliyetini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/iade-analizi/1-ozet.png",
+        "alt": "Özet sayfası: toplam iade maliyeti ve kalemleri, kaçan katkı, iade sonrası kâr, kâr erozyonu, kritik ürün sayısı"
+      },
+      {
+        "src": "/assets/img/urun/iade-analizi/2-urun-analizi.png",
+        "alt": "Ürün Analizi sayfası: ürün başına iade oranı, maliyet kalemleri, iade sonrası kâr, en sık neden ve aksiyon"
+      },
+      {
+        "src": "/assets/img/urun/iade-analizi/3-neden-analizi.png",
+        "alt": "Neden Analizi sayfası: ürün × neden çapraz tablosu ve neden bazında Pareto"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "İade başına işleme ve nakliye maliyeti, değer kaybı oranı, yüksek ve kritik iade eşikleri, neden kodları"
+      },
+      {
+        "sayfa": "Satışlar",
+        "aciklama": "Ürün bazında dönem satış adedi, fiyat ve maliyet (iade oranının paydası, 40 ürün)"
+      },
+      {
+        "sayfa": "Veri Girişi",
+        "aciklama": "İade kayıtları: dönem, ürün, neden (açılır liste), adet, yeniden satılabilir adet (200 kayıt)"
+      },
+      {
+        "sayfa": "Ürün Analizi",
+        "aciklama": "İade oranı, maliyet kalemleri, kaçan katkı, iade sonrası kâr, kâr erozyonu, en sık neden, AKSİYON"
+      },
+      {
+        "sayfa": "Neden Analizi",
+        "aciklama": "Ürün × neden çapraz tablosu ve neden Pareto'su"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'da iade başına işleme ve nakliye maliyetinizi, değer kaybı oranını ve eşikleri girin; neden kodlarını kendi sürecinize göre düzenleyin.",
+      "Satışlar'a ürün bazında dönem toplamlarını, Veri Girişi'ne iade kayıtlarını yapıştırın; neden sütunu açılır listedir.",
+      "Ürün Analizi'nde kırmızı (kritik) ve turuncu (yüksek) satırlara, iade sonrası kârı eksiye düşen ürünlere bakın.",
+      "Çapraz tabloya bakmadan aksiyon almayın: baskın neden paketlemeyse süreç, ölçüyse ürün bilgisi düzeltilir."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 200 iade kaydı (Veri Girişi 5–204) ve 40 ürün (Satışlar 5–44). Nakliye ve işleme maliyeti iade kaydı başınadır: 1 adetlik iade ile 50 adetlik iade aynı sabit yükü taşır. Kaçan katkı nakit çıkışı değildir, ayrı okunur.",
+    "sss": [
+      {
+        "soru": "Neden kodları sabit mi?",
+        "cevap": "Hayır. Ayarlar'daki altı neden (hasar, yanlış ürün, kalite/beklenti, ölçü, geç teslim, vazgeçme) değiştirilebilir; Veri Girişi'ndeki açılır liste bu tablodan beslenir."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "emniyet-stogu-siparis-noktasi",
+    "ad": "Emniyet Stoğu ve Sipariş Noktası",
+    "kisa": "Ne kadar tampon tutmalı, ne zaman ve ne kadar sipariş vermeli? ABC × XYZ sınıfı, kalem bazında servis seviyesi, emniyet stoğu, sipariş noktası ve EOQ.",
+    "aciklama": "Dönem × ürün tüketim geçmişini ve ürün kartlarını (mevcut stok, birim maliyet, ortalama termin, termin sapması, minimum sipariş, koli katı) girersiniz; dosya her kalem için talep ortalamasını ve sapmasını, değişim katsayısını, yıllık tüketim değerini hesaplar, ABC ve XYZ sınıfına koyar, sınıfa göre servis seviyesi ve Z değeri seçer, talep ve termin belirsizliğini tek formülde birleştirerek emniyet stoğunu, sipariş noktasını, EOQ'yu ve koli katına yuvarlanmış önerilen sipariş miktarını verir; mevcut stoğu bunlarla karşılaştırıp KRİTİK / SİPARİŞ AÇ / Fazla stok / Normal durumunu yazar. Örnek veride 8 kalemin 3'ü emniyet stoğunun altında, 3'ü için sipariş açılmalı; emniyet stoğu toplam stokun %41'i — sebebi tek bir kalemin ±12 günlük termin sapması.",
+    "ozellikler": [
+      "600 talep satırı ve 40 ürüne kadar; aylık ya da haftalık dönem",
+      "Emniyet stoğu = Z × √(L̄·σd² + D̄²·σL²): talep ve termin belirsizliği birlikte",
+      "Servis seviyesi tek tip değil, ABC sınıfına göre (varsayılan A %98, B %95, C %90)",
+      "Sipariş noktası, EOQ ve minimum sipariş / koli katına yuvarlanmış önerilen miktar",
+      "XYZ (değişim katsayısı) ile talebin tahmin edilebilirliği; AZ kalemler ayrıca sayılır",
+      "Özet: kritik kalem, sipariş açılacak kalem, fazla stoklu kalem, emniyet stoğu maliyeti ve toplam stoka oranı"
+    ],
+    "kimin_icin": "Satın alma ve planlama sorumluları, tedarikçi termini oynayan üreticiler, \"ne zaman ne kadar sipariş vereyim\" sorusuna kalem bazında cevap isteyen depolar.",
+    "etiketler": [
+      "stok",
+      "satın alma",
+      "emniyet stoğu",
+      "EOQ",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Tüketim geçmişini ve terminleri girin; hangi kalemde ne kadar tampon tutacağınızı ve bugün ne sipariş edeceğinizi görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/emniyet-stogu-siparis-noktasi/1-ozet.png",
+        "alt": "Özet sayfası: kritik kalem sayısı, sipariş açılacak kalem, fazla stoklu kalem, emniyet stoğu maliyeti ve stoka oranı"
+      },
+      {
+        "src": "/assets/img/urun/emniyet-stogu-siparis-noktasi/2-analiz.png",
+        "alt": "Analiz sayfası: kalem başına talep ortalaması ve sapması, ABC, XYZ, servis seviyesi, emniyet stoğu, sipariş noktası, EOQ, önerilen sipariş, durum"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Dönem uzunluğu, yıllık çalışma günü, sipariş maliyeti, taşıma maliyeti oranı, ABC sınırları, sınıfa göre servis seviyeleri; formüller ve uyarılar"
+      },
+      {
+        "sayfa": "Talep Geçmişi",
+        "aciklama": "Dönem × ürün tüketimi (600 satır; ürün başına en az 12 dönem)"
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün kartı: mevcut stok, birim maliyet, ortalama termin, termin sapması, minimum sipariş, koli katı (40 ürün)"
+      },
+      {
+        "sayfa": "Analiz",
+        "aciklama": "Talep istatistikleri, ABC, XYZ, servis seviyesi, Z, emniyet stoğu, sipariş noktası, EOQ, önerilen sipariş, kalan gün, DURUM, emniyet stoğu maliyeti"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'da dönem uzunluğunu, sipariş ve taşıma maliyetini ve sınıf bazında servis seviyelerini kendi işinize göre girin.",
+      "Talep Geçmişi'ne dönem × ürün tüketimini, Ürünler'e ürün kartlarını yapıştırın; termin sapmasını tahmin etmeyin, son 10 siparişin teslim günlerinden hesaplayın.",
+      "Analiz'de kırmızı (kritik) ve turuncu (sipariş aç) satırları haftalık sipariş listesi olarak kullanın.",
+      "Emniyet stoğunun toplam stoka oranı %25'i geçiyorsa belirsizliği azaltmak (tedarikçi termini, tahmin doğruluğu) stok artırmaktan ucuzdur."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 talep satırı (Talep Geçmişi 5–604) ve 40 ürün (Ürünler 5–44). Talep Geçmişi'nin D sütunu gizli yardımcı hesaptır. Formül talebin normal dağıldığını varsayar; Z sınıfı (düzensiz) kalemlerde sonuç elle gözden geçirilmelidir. Mevsimsel üründe 12 aylık ortalama yanıltır; sezon ve sezon dışı ayrı hesaplanmalıdır.",
+    "sss": [
+      {
+        "soru": "EOQ her zaman doğru mu?",
+        "cevap": "Kitabi bir başlangıç noktasıdır. Dosya EOQ'yu minimum sipariş miktarına ve koli katına yuvarlar; miktar iskontosu, nakit kısıtı ve raf ömrü onu yine de geçersiz kılabilir. Ucuz kalemlerde EOQ aylarca stok önerebilir; uyarı Ayarlar'da yazılıdır."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "mevsimsellik-talep-tahmini",
+    "ad": "Mevsimsellik ve Talep Tahmini",
+    "kisa": "Hangi ürün hangi ayda ne kadar satar? Trend ve ay endeksiyle 6 aylık tahmin; MAPE ve Bias ile doğruluğu ölçülmüş, güvenilmeyen tahmini gizleyen model.",
+    "aciklama": "Yıl, ay, ürün ve satış adedinden oluşan en az 18, tercihen 24 aylık satış geçmişini girersiniz; dosya her ürüne doğrusal trend uydurur, gerçek/trend oranından ay endekslerini (1,00 normal, 1,40 normalin %40 üstü) çıkarır, modeli geçmişe geri uygulayıp MAPE ve Bias ile doğruluğunu ölçer ve yalnız \"kullanılabilir\" durumundaki ürünler için 6 aylık tahmin üretir; mevsim gücü eşiği geçen ürünleri MEVSİMSEL olarak işaretler. Hesabın tamamı açık formüldür: regresyon Σt, Σy, Σty, Σt² toplamlarından kurulur, hazır fonksiyon yoktur. Örnek veride 6 ürünün 3'ü mevsimsel; ortalama MAPE %9, Bias sıfıra yakın; önümüzdeki 6 ayın toplam tahmini son 6 ayın %4 altında.",
+    "ozellikler": [
+      "600 satış satırı ve 30 ürüne kadar; 24 ay × 25 ürün rahat sığar",
+      "Çarpımsal ayrıştırma: trend × ay endeksi; endeksler ortalaması 1,00 olacak şekilde düzeltilir",
+      "MAPE ve Bias: doğruluğu ölçülmemiş tahmin gösterilmez (model durumu: veri az / MAPE yüksek / kullanılabilir)",
+      "Mevsimsellik sayfası: ürün × ay endeks tablosu, renk koyulaştıkça yoğun ay",
+      "Tahmin sayfası: önümüzdeki 6 ay (başlangıç ayı Ayarlar'dan), son 6 ayla karşılaştırma",
+      "Özet: kullanılabilir model sayısı, mevsimsel ürün sayısı, ortalama MAPE ve Bias, 6 aylık toplam tahmin"
+    ],
+    "kimin_icin": "Üretim ve satın alma planlamacıları, mevsimsel ürün satan toptancı ve üreticiler, \"gelecek ay ne kadar satarım\" sorusuna doğruluğu ölçülmüş cevap isteyenler.",
+    "etiketler": [
+      "talep tahmini",
+      "mevsimsellik",
+      "planlama",
+      "satış",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "İki yıllık satış geçmişinizi girin; her ürünün ay endeksini, 6 aylık tahminini ve tahminin ne kadar güvenilir olduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/mevsimsellik-talep-tahmini/1-ozet.png",
+        "alt": "Özet sayfası: kullanılabilir model ve mevsimsel ürün sayısı, ortalama MAPE ve Bias, 6 aylık toplam tahmin ve beklenen değişim"
+      },
+      {
+        "src": "/assets/img/urun/mevsimsellik-talep-tahmini/2-mevsimsellik.png",
+        "alt": "Mevsimsellik sayfası: ürün × ay endeks tablosu; yoğun aylar turuncu"
+      },
+      {
+        "src": "/assets/img/urun/mevsimsellik-talep-tahmini/3-tahmin.png",
+        "alt": "Tahmin sayfası: ürün başına model durumu ve önümüzdeki altı ayın tahmini, son altı ayla karşılaştırma"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Tahmin başlangıç yılı ve ayı, minimum gözlem, kabul edilebilir MAPE, mevsimsellik eşiği; modelin nasıl çalıştığı ve uyarılar"
+      },
+      {
+        "sayfa": "Satış Geçmişi",
+        "aciklama": "Yıl, ay, ürün, satış adedi (600 satır); gizli trend ve hata sütunları"
+      },
+      {
+        "sayfa": "Analiz",
+        "aciklama": "Gözlem, regresyon toplamları, trend, ortalama satış, yıllık trend %, MAPE, Bias, mevsim gücü, MODEL DURUMU (30 ürün)"
+      },
+      {
+        "sayfa": "Mevsimsellik",
+        "aciklama": "Ürün × ay düzeltilmiş endeks tablosu (ham endeksler gizli)"
+      },
+      {
+        "sayfa": "Tahmin",
+        "aciklama": "6 aylık tahmin, 6 ay toplamı, son 6 ay gerçekleşen ve değişim"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ayarlar'da tahminin başlayacağı yıl ve ayı (verinin bittiği aydan sonraki ay) ve eşikleri girin.",
+      "Satış Geçmişi'ne veriyi ürün koduna göre gruplu ve her ürün içinde tarih sırasında yapıştırın; sıra karışırsa dönem numarası bozulur.",
+      "Analiz'in A sütununa ürün kodlarını yazın; kırmızı satırlar (veri az, MAPE yüksek) için tahmin üretilmez.",
+      "Tahmin sayfasını plan değil senaryo olarak okuyun; 6 aydan uzun ufukta doğrusal trend yanılır."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 satış satırı (Satış Geçmişi 5–604) ve 30 ürün (Analiz A5–A34). Satış Geçmişi'nin F–L ve Mevsimsellik'in C–N sütunları gizli hesaplardır. Satış verisi talebi değil karşılanabilen talebi gösterir; stoksuz kalınan aylar ve kampanya ayları endeksi bozar.",
+    "sss": [
+      {
+        "soru": "MAPE ve Bias ne anlatır?",
+        "cevap": "MAPE ortalama yüzde hatadır: %20'nin altı planlamada kullanılabilir. Bias sistematik sapmadır: sıfıra yakın olmalı; sürekli pozitifse model hep düşük tahmin ediyordur. Bu iki ölçüm olmadan tahmin dosyası kullanılmaz, dosya bu yüzden güvenilmeyen tahmini gizler."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "sepet-analizi-birliktelik-kurallari",
+    "ad": "Sepet Analizi ve Birliktelik Kuralları",
+    "kisa": "Hangi ürün hangi ürünle satılıyor, hangileri birbirini dışlıyor? Fiş satırlarından destek, güven ve lift; paket, çapraz satış ve raf kararları için kural listesi.",
+    "aciklama": "Ürün listesini ve fiş satırlarını (fiş no, ürün kodu) girersiniz; dosya fiş × ürün matrisini kurar, her ürün çifti için destek (birlikte görünme oranı), güven (A alındığında B'nin alınma oranı, iki yönlü) ve lift'i hesaplar; çiftleri BİRLİKTE SATILIYOR / İlişkisiz / BİRBİRİNİ DIŞLIYOR / örnek yetersiz olarak sınıflar ve AKSİYON yazar (paket yap, yan yana koy, alternatif olarak sun). Lift Matrisi sayfası tüm ilişkiyi tek bakışta renkle gösterir. Örnek veride 250 fiş ve 18 ürün: 190 çiftin 16'sı birlikte satılıyor, 34'ü birbirini dışlıyor; en yüksek lift 4,53.",
+    "ozellikler": [
+      "20 ürün ve 250 fişe kadar (1.200 fiş satırı); fiş numarası şart",
+      "Destek, iki yönlü güven ve lift; eşikler Ayarlar'da (minimum destek, minimum güven, güçlü ve dışlayıcı lift)",
+      "Kurallar sayfası: 190 ürün çifti, DURUM ve AKSİYON; lift'e göre süzülebilir",
+      "Lift Matrisi: koyu turuncu birlikte satılıyor, mavi birbirini dışlıyor",
+      "\"Dışlayıcı\" sonucu istatistiksel olarak korur: beklenen birliktelik eşiğin altındaysa dışlıyor demez",
+      "Özet: fiş ve satır sayısı, ortalama sepet büyüklüğü, birlikte satılan ve dışlayan çift sayısı, en yüksek lift"
+    ],
+    "kimin_icin": "Perakende ve e-ticaret satıcıları, raf ve vitrin düzeni kuran mağazalar, paket ve çapraz satış kampanyası planlayan pazarlama ekipleri.",
+    "etiketler": [
+      "sepet analizi",
+      "perakende",
+      "çapraz satış",
+      "e-ticaret",
+      "veri analizi"
+    ],
+    "sayfa_sayisi": 7,
+    "soz": "Fiş satırlarınızı yapıştırın; hangi ürünlerin birlikte, hangilerinin asla birlikte alınmadığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/sepet-analizi-birliktelik-kurallari/1-ozet.png",
+        "alt": "Özet sayfası: fiş sayısı, ortalama sepet büyüklüğü, incelenen çift, birlikte satılan ve dışlayan çift sayısı, en yüksek lift"
+      },
+      {
+        "src": "/assets/img/urun/sepet-analizi-birliktelik-kurallari/2-kurallar.png",
+        "alt": "Kurallar sayfası: ürün çifti başına destek, iki yönlü güven, lift, durum ve aksiyon"
+      },
+      {
+        "src": "/assets/img/urun/sepet-analizi-birliktelik-kurallari/3-lift-matrisi.png",
+        "alt": "Lift Matrisi: ürün × ürün lift değerleri; turuncu birlikte satılan, mavi birbirini dışlayan çiftler"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Minimum destek ve güven, güçlü ve dışlayıcı lift eşikleri, dışlama için beklenen minimum birliktelik; üç metriğin tanımı ve uyarılar"
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Analiz edilecek ürün listesi (en fazla 20)"
+      },
+      {
+        "sayfa": "Veri Girişi",
+        "aciklama": "Fiş satırları: fiş no, ürün kodu (1.200 satır)"
+      },
+      {
+        "sayfa": "Fiş Matrisi",
+        "aciklama": "Fiş × ürün 1/0 matrisi (otomatik ara hesap, 250 fiş)"
+      },
+      {
+        "sayfa": "Lift Matrisi",
+        "aciklama": "Ürün × ürün lift, renkli"
+      },
+      {
+        "sayfa": "Kurallar",
+        "aciklama": "190 çift: destek, güven A→B ve B→A, lift, DURUM, AKSİYON"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Ana göstergeler ve \"nasıl okunur\" notları"
+      }
+    ],
+    "adimlar": [
+      "Ürünler sayfasına analiz edilecek en fazla 20 ürünü boş satır bırakmadan yazın.",
+      "Veri Girişi'ne fiş satırlarını yapıştırın; benzersiz fiş numaralarını Fiş Matrisi'nin A sütununa da yapıştırın (Veri → Yinelenenleri Kaldır ile çıkarabilirsiniz).",
+      "Kurallar'da önce desteği yeterli çiftlere bakın, sonra lift'e göre sıralayın; yüksek lift + düşük destek tesadüftür.",
+      "Aynı setin parçalarını (gövde-kapak gibi) eleyin; dışlayıcı çiftleri paket değil yan yana seçim olarak sunun."
+    ],
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 20 ürün, 250 fiş ve 1.200 fiş satırı; bu dosya esnetilemez: ürün sayısı artınca çift sayısı karesel büyür (50 üründe 1.225 çift) ve matrislerin baştan kurulması gerekir. Daha büyük ürün listeleri için ürünleri kategoriye göre 20'lik gruplar hâlinde analiz edin.",
+    "sss": [
+      {
+        "soru": "20 ürün sınırı neden var?",
+        "cevap": "Kurallar her ürün çifti için hesaplanır; 20 üründe 190 çift, 50 üründe 1.225 çift olur ve Excel'de matris büyür. Daha fazla ürünü kategori kategori, 20'lik gruplarla analiz edebilirsiniz; fiş numarası olmayan veriyle sepet analizi yapılamaz."
+      },
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+      },
+      {
+        "soru": "Kapasite dolarsa?",
+        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+      }
+    ]
   }
 ]
