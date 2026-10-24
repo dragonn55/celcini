@@ -6,7 +6,7 @@ rehberli dersleri de taşır (`/datakit/<ders>/`: Excel sayfası sitede, notlar�
 (Fabrika rafından ve ürün sayfasından bağlanır);
 tarayıcı araçları `/uzay/` altında (ROTA 3D `/uzay/rota/`, Fabrika İkizi `/uzay/ikiz/`).
 
-celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
+Celcini sitesinin kaynağı (yayın adresi `https://celcini.vercel.app`; alan adı alınınca `scripts/derle.py` → `SITE` değiştirilir): saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
 Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 
