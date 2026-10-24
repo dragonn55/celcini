@@ -30,7 +30,7 @@
 <script src="/assets/js/vendor/three/OrbitControls.js?v=98d0f30d" defer></script>
 <link rel="stylesheet" href="/fabricakit/css/fabricakit.css?v=714464f7">
 <link rel="stylesheet" href="/uzay/rota/css/rota.css?v=e4a65685">
-<script type="module" src="/uzay/rota/js/ui.js?v=c37a68d9"></script>
+<script type="module" src="/uzay/rota/js/ui.js?v=58550f48"></script>
 </head>
 <body>
 <a class="atla" href="#icerik">İçeriğe geç</a>
@@ -101,6 +101,13 @@
                 <button type="button" class="dugme-cizgi" id="btnClear">Temizle</button>
               </div>
               <p class="rota-ipucu">3D sahnede bir göze dokunarak da listeye ekleyip çıkarabilirsiniz.</p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h"><label for="inPaste">Listeyi yapıştır</label></h2>
+              <p class="rota-ipucu">Excel'den raf kodu sütununu kopyalayıp buraya yapıştırın; satır satır ya da virgüllü olabilir. Kodlar tek seferde listenin yerine geçer ve rota hesaplanır.</p>
+              <textarea id="inPaste" rows="2" spellcheck="false" placeholder="Excel'den yapıştırın"></textarea>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnPaste">Listeye al</button></div>
+              <p class="rota-ipucu" id="pasteDurum" aria-live="polite" hidden></p>
             </div>
             <div class="rota-grup">
               <h2 class="rota-h">Toplama sırası</h2>

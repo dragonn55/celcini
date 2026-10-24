@@ -994,6 +994,13 @@ def rota_sayfasi():
               <p class="rota-ipucu">3D sahnede bir göze dokunarak da listeye ekleyip çıkarabilirsiniz.</p>
             </div>
             <div class="rota-grup">
+              <h2 class="rota-h"><label for="inPaste">Listeyi yapıştır</label></h2>
+              <p class="rota-ipucu">Excel'den raf kodu sütununu kopyalayıp buraya yapıştırın; satır satır ya da virgüllü olabilir. Kodlar tek seferde listenin yerine geçer ve rota hesaplanır.</p>
+              <textarea id="inPaste" rows="2" spellcheck="false" placeholder="Excel'den yapıştırın"></textarea>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnPaste">Listeye al</button></div>
+              <p class="rota-ipucu" id="pasteDurum" aria-live="polite" hidden></p>
+            </div>
+            <div class="rota-grup">
               <h2 class="rota-h">Toplama sırası</h2>
               <ol class="rota-sira" id="orderList"></ol>
             </div>

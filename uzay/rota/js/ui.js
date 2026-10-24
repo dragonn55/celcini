@@ -125,6 +125,19 @@ Scene3D.onPick(h => {
   }
 });
 
+// Listeyi yapıştır: Excel'den gelen kodlar listenin yerine geçer, rota hemen hesaplanır
+function pasteAl(){
+  const text = $("inPaste").value; if (!text.trim()) return;
+  readLayout();
+  const { ok, bad } = Layout.parsePaste(text, layout), d = $("pasteDurum");
+  d.hidden = false;
+  const kalan = bad.length ? ` Tanınmayan: ${bad.slice(0,6).join(", ")}${bad.length>6?` ve ${bad.length-6} hücre daha`:""}.` : "";
+  if (!ok.length){ d.textContent = `Raf kodu bulunamadı.${kalan} Depo sekmesindeki raf, göz ve kat sayısını kontrol edin.`; return; }
+  $("inPicks").value = ok.map(p => p.code).join(", "); $("inPaste").value = "";
+  d.textContent = `${ok.length} kod alındı.${kalan}`;
+  run();
+}
+
 // ısı haritası
 function heatShow(){
   readLayout(); const freq = Heat.count($("inHist").value, layout); heatOn = true; Scene3D.setHeat(freq);
@@ -154,6 +167,8 @@ $("btnRun").onclick = run; $("btnReplay").onclick = play; $("btnSample").onclick
 $("btnClear").onclick = () => { $("inPicks").value = ""; run(); };
 $("btnClearBlocks").onclick = () => { layout.blocked.clear(); Scene3D.drawBlocks(); run(); };
 $("btnHeat").onclick = heatShow; $("btnHeatOff").onclick = heatOff;
+$("btnPaste").onclick = pasteAl;
+$("inPaste").addEventListener("paste", () => setTimeout(pasteAl, 0));
 ["inPairs","inBays","inLevels","inDepot"].forEach(id => $(id).addEventListener("change", () => { layout = null; run(); }));
 $("inCell").addEventListener("input", () => { show(); renderSteps(); });
 $("chkSeq").onchange = $("chkLabels").onchange = () => { if (result) Scene3D.setRoute(result, $("chkSeq").checked ? seqResult : null, $("chkLabels").checked); if (result) Scene3D.setProgress(anim ? 0 : 1); };

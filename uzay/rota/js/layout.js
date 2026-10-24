@@ -36,6 +36,17 @@ export const Layout = {
       if (!ok.some(o => o.code === p.code)) ok.push(p);
     });
     return { ok, bad };
+  },
+  /* "Listeyi yapıştır": Excel'den kopyalanan hücreler sekme, satır, virgül ya da noktalı virgülle ayrılır.
+     Hücre içindeki boşluk ve tırnak atılır ("C 07-2" → C07-2); tanınmayan hücre olduğu gibi bildirilir. */
+  parsePaste(text, L){
+    const ok = [], bad = [];
+    text.split(/[\t\r\n,;]+/).map(c => c.trim()).filter(Boolean).forEach(cell => {
+      const p = this.parseCode(cell.replace(/[\s"']+/g, ""), L);
+      if (!p){ bad.push(cell); return; }
+      if (!ok.some(o => o.code === p.code)) ok.push(p);
+    });
+    return { ok, bad };
   }
 };
 
