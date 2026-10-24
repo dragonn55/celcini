@@ -127,7 +127,7 @@ function baslat() {
   /* ---------------- Kilit ---------------- */
   function kilitGoster(dizin, ders, hata = "") {
     const HATA = {
-      gecersiz: "Bu kod geçerli değil. Büyük-küçük harf ve tire fark etmez; kodu Shopier'deki teslimat notundan kopyalayın.",
+      gecersiz: "Bu kod geçerli değil. Büyük-küçük harf ve tire fark etmez; kodu eksiksiz yazdığınızdan emin olun.",
       "satista-degil": "Erişim kodları henüz satışta değil.",
       ag: "Bağlantı kurulamadı. Biraz sonra yeniden deneyin.",
     };

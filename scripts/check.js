@@ -88,8 +88,12 @@ for (const rh of REHBERLER) {
     if (!d.ucretsiz) {
       if (fs.existsSync(acik)) hata(`kilitli ders herkese açık: ${rh.taban}/veri/ders/${d.id}.json`);
       if (uretim && !fs.existsSync(gizli)) hata(`api/_dersler/${rh.urun}/${d.id}.json yok (python3 scripts/derle.py)`);
-      for (const n of d.notlar) if (acikMetin.includes(n.karar)) hata(`kilitli dersin notu herkese açık dosyada: ${d.id} · ${n.baslik}`);
-      if (acikMetin.includes(d.soru.aciklama)) hata(`kilitli dersin soru açıklaması herkese açık dosyada: ${d.id}`);
+      for (const n of d.notlar) for (const alan of ["metin", "karar", "ses"]) {
+        if (n[alan] && acikMetin.includes(n[alan])) hata(`kilitli dersin notu herkese açık dosyada: ${d.id} · ${n.baslik} (${alan})`);
+      }
+      for (const t of [d.soru.metin, d.soru.aciklama, ...d.soru.secenekler]) {
+        if (t && t.length > 24 && acikMetin.includes(t)) hata(`kilitli dersin sorusu herkese açık dosyada: ${d.id}`);
+      }
     }
     const sayfaYolu = path.join(depo, "data", rh.urun, "sayfalar", `${d.id}.json`);
     if (!fs.existsSync(sayfaYolu)) { hata(`data/${rh.urun}/sayfalar/${d.id}.json yok`); continue; }

@@ -11,24 +11,47 @@
     "ajan_gm": "Satış veriniz her gün size bir şey söylüyor. Bu derslerde bir analiz dosyasını sayfa sayfa birlikte okuyacağız: hangi hücre ne anlatır, hangi karar ondan çıkar.",
     "aciklama": "Datakit'in Satış Analizi dosyası 30 sayfalık bir Excel çalışma kitabıdır. Burada ana 12 sayfasını dosyadaki değerleri ve renkleriyle açıyoruz. Notlu hücrelerin üstüne gelin ya da dokunun: her not ne gördüğünüzü, nasıl hesaplandığını ve hangi kararı verdirdiğini anlatır. Her dersin sonunda tek bir soru var.",
     "adimlar": [
-      { "baslik": "Sayfayı açın", "metin": "Excel sayfası tarayıcıda, dosyadaki değerleri ve renkleriyle açılır." },
-      { "baslik": "Notları okuyun", "metin": "Köşesinde turuncu üçgen olan hücrelerde not var. Ajan GM her birinde ne gördüğünüzü ve ne yapacağınızı anlatır." },
-      { "baslik": "Soruyu cevaplayın", "metin": "Her dersin sonunda tek soru: okuduğunuzu karara çevirebiliyor musunuz?" }
+      {
+        "baslik": "Sayfayı açın",
+        "metin": "Excel sayfası tarayıcıda, dosyadaki değerleri ve renkleriyle açılır."
+      },
+      {
+        "baslik": "Notları okuyun",
+        "metin": "Köşesinde turuncu üçgen olan hücrelerde not var. Ajan GM her birinde ne gördüğünüzü ve ne yapacağınızı anlatır."
+      },
+      {
+        "baslik": "Soruyu cevaplayın",
+        "metin": "Her dersin sonunda tek soru: okuduğunuzu karara çevirebiliyor musunuz?"
+      }
     ],
     "paket": [
       "Örnek verili dosya: bu derslerdeki sayfaların aynısı, 2.531 satırlık örnek veriyle",
       "Boş dosya: kendi satış verinizi yapıştırıp kullanmanız için",
       "Erişim kodu: sitedeki 12 dersin tamamını açar",
-      "Excel 2010 ve sonrası; makro gerekmez",
+      "Excel 2010 ve sonrası; analizler formüldür, makrosuz çalışır",
+      "İsteğe bağlı makro modülü (modSatisAnaliz.bas): yalnızca veri kalitesinin satır satır sorun listesini ve temiz satır oranını yeniler",
       "10.000 satır ve 2.000 müşteri kapasitesi"
     ],
     "veri_notu": "Tablolardaki rakamlar dosyanın örnek verisinden gelir: 2.531 satır, 1.356 sipariş, 358 müşteri; 1 Ocak 2024 – 31 Ağustos 2026. Örnek veri kurgusaldır, gerçek bir işletmeye ait değildir. Filtreler ve formüller Excel dosyasında çalışır; bu sayfalar dosyanın örnek verili hâlini gösterir.",
     "sss": [
-      { "soru": "Kendi verimi siteye yükleyebilir miyim?", "cevap": "Hayır. Site veri almaz ve saklamaz. Dosyayı indirip kendi verinizi Excel'de 'Veri' sayfasına yapıştırırsınız; bütün hesaplar bilgisayarınızda yapılır." },
-      { "soru": "Hangi dersler ücretsiz?", "cevap": "İlk dört ders (Dashboard, Otomatik Yorum, Veri Kalitesi, Temel İstatistik) herkese açık. Kalan sekiz ders, dosyalarla birlikte gelen erişim koduyla açılır." },
-      { "soru": "Erişim kodunu nereye girerim?", "cevap": "Kilitli bir derse girdiğinizde kod kutusu çıkar. Kodu bir kez girmeniz yeter; bu tarayıcı onu hatırlar." },
-      { "soru": "Makro gerekiyor mu?", "cevap": "Hayır. Bütün analizler formüldür; dosya makrosuz eksiksiz çalışır." }
-    ]
+      {
+        "soru": "Kendi verimi siteye yükleyebilir miyim?",
+        "cevap": "Hayır. Site veri almaz ve saklamaz. Dosyayı indirip kendi verinizi Excel'de 'Veri' sayfasına yapıştırırsınız; bütün hesaplar bilgisayarınızda yapılır."
+      },
+      {
+        "soru": "Hangi dersler ücretsiz?",
+        "cevap": "İlk dört ders (Dashboard, Otomatik Yorum, Veri Kalitesi, Temel İstatistik) herkese açık. Kalan sekiz ders, dosyalarla birlikte gelen erişim koduyla açılır."
+      },
+      {
+        "soru": "Erişim kodunu nereye girerim?",
+        "cevap": "Kilitli bir derse girdiğinizde kod kutusu çıkar. Kodu bir kez girmeniz yeter; bu tarayıcı onu hatırlar."
+      },
+      {
+        "soru": "Makro gerekiyor mu?",
+        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'ndeki temiz satır oranı ile Kalite Detay'daki satır satır sorun listesidir: örnek verili dosyada hazır gelir, kendi verinizde isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
+      }
+    ],
+    "ders_veri_notu": "Tablodaki rakamlar dosyanın kurgusal örnek verisidir. Filtreler ve formüller Excel dosyasında çalışır."
   },
   "dersler": [
     {
@@ -112,9 +135,9 @@
         {
           "aralik": "E12:E42",
           "baslik": "İşaretler",
-          "metin": "Cümlenin başındaki işaret hükmü özetler: ✓ yolunda, ⚠ dikkat, ✗ kritik, • bilgi. Bu tabloda üç ✗ var: ani satış düşüşü, yüksek kayıp müşteri oranı ve stoku tükenen ürünler.",
+          "metin": "Cümlenin başındaki işaret hükmü özetler: ✓ yolunda, ⚠ dikkat, ✗ kritik, • bilgi. Bu tabloda üç ✗ var: ani satış düşüşü, yüksek kayıp müşteri oranı ve stoku tükenen ürünler. Dashboard'daki uyarı listesi ayrı kurallarla çalışır; stoku eriyen ürünler orada kritik sayıldığı için orada dört kritik var.",
           "karar": "Okumaya ✗ satırlarından başlayın, sonra ⚠ satırlarına geçin.",
-          "ses": "Cümlenin başındaki işaret hükmü özetler: onay işareti yolunda, ünlem dikkat, çarpı kritik, nokta bilgi demektir. Bu tabloda üç çarpı var: ani satış düşüşü, yüksek kayıp müşteri oranı ve stoku tükenen ürünler. Okumaya çarpı satırlarından başlayın, sonra ünlem satırlarına geçin."
+          "ses": "Cümlenin başındaki işaret hükmü özetler: onay işareti yolunda, ünlem dikkat, çarpı kritik, nokta bilgi demektir. Bu tabloda üç çarpı var: ani satış düşüşü, yüksek kayıp müşteri oranı ve stoku tükenen ürünler. Dashboard'daki uyarı listesi ayrı kurallarla çalışır; stoku eriyen ürünler orada kritik sayıldığı için orada dört kritik var. Okumaya çarpı satırlarından başlayın, sonra ünlem satırlarına geçin."
         },
         {
           "aralik": "F12:F42",
@@ -136,7 +159,7 @@
         }
       ],
       "soru": {
-        "metin": "Ayarlar'da brüt kâr marjı eşiğini %25'ten %40'a çıkarırsanız 'Kârlılık' satırındaki cümle ne olur?",
+        "metin": "Ayarlar'da brüt kâr marjı eşiğini %25'ten %40'a çıkarırsanız 'Brüt kâr marjı' satırındaki cümle ne olur?",
         "secenekler": [
           "Değişmez; cümleler yalnızca filtre değişince güncellenir.",
           "'✗ Kâr marjı düşük.' olur; %38,3 yeni eşiğin altında kalır.",
@@ -164,14 +187,14 @@
         {
           "aralik": "A14:C15",
           "baslik": "Temiz satır oranı ve not",
-          "metin": "Hiç sorunu olmayan satırların payı %95,22. Ayarlar'daki sınırlara göre %98 ve üstü İyi, %95 ve üstü Orta, altı Zayıf sayılır; bu yüzden değerlendirme ⚠ Orta.",
-          "karar": "Sorunlu satırları kaynağında düzeltip oranı %98'in üstüne taşıyın; not kendiliğinden İyi'ye döner."
+          "metin": "Hiç sorunu olmayan satırların payı %95,22. Bu oranı isteğe bağlı makro hesaplar; örnek dosyada hazır gelir. Ayarlar'daki sınırlara göre %98 ve üstü İyi, %95 ve üstü Orta, altı Zayıf sayılır; bu yüzden değerlendirme ⚠ Orta.",
+          "karar": "Sorunlu satırları kaynağında düzeltin ve makroyu yeniden çalıştırın; oran %98'in üstüne çıkınca not İyi olur."
         },
         {
           "aralik": "E3:I15",
           "baslik": "Makro ile formül yan yana",
           "metin": "Soldaki sayılar canlı formüldür; sağdaki 'Makro' sütunu isteğe bağlı makronun sonucudur. Kontrol sütunundaki ✓, iki yöntemin aynı sayıyı bulduğunu gösterir. Tekrar eden satırları (22) ve yazım varyantlarını (26) yalnızca makro sayar.",
-          "karar": "Makro şart değildir; satır satır sorun listesi isterseniz bir kez çalıştırın."
+          "karar": "Formüllü sayılar makrosuz çalışır; temiz satır oranı ve satır satır sorun listesi için makroyu kendi verinizde bir kez çalıştırın."
         },
         {
           "aralik": "A19:P36",
@@ -244,7 +267,7 @@
           "karar": "Ücretsiz kargo gibi bir eşik koyarken yüzdeliklere bakın; 90. yüzdeliği seçerseniz satışların yalnızca %10'u eşiği geçer."
         },
         {
-          "aralik": "A28:H29",
+          "aralik": "A28:H28",
           "baslik": "Çarpıklık",
           "metin": "Tutarın çarpıklığı 4,70: dağılım sağa çarpık, yani çok sayıda küçük satışın yanında uzun bir büyük satış kuyruğu var. Alttaki otomatik yorum da aynı şeyi söyler: 'Medyanı esas alın'.",
           "karar": "Çarpık veride medyanı ya da kırpılmış ortalamayı (990,70 TL) kullanın; ikisi de uç değerlere dayanıklıdır."
@@ -266,7 +289,7 @@
       "sira": 5,
       "sayfa_adi": "Satış Özeti",
       "baslik": "Bu ay, geçen ay, geçen yıl",
-      "ozet": "Bu ay, geçen ay, geçen yıl ve yıl başından bugün: aynı ciroyu dört farklı ölçüyle karşılaştırmak.",
+      "ozet": "Bu ayı geçen ayla, geçen yılın aynı ayıyla ve yıl başından bugüne toplamla karşılaştırmak: aynı ciro, üç ayrı ölçü.",
       "ucretsiz": false,
       "ajan_gm": "Bu ay kötü mü geçti? Cevap, neyle karşılaştırdığınıza bağlı. Geçen ay, geçen yıl ve yıl başından bugün: üç ölçü, üç ayrı hikâye.",
       "notlar": [
@@ -281,7 +304,7 @@
           "aralik": "A10:D16",
           "baslik": "Aylık değişim",
           "metin": "Ağustos, Temmuz'a göre %20,6 düşük; sipariş %19,4, adet %22,7 azalmış. Sepet ortalaması ise neredeyse aynı (%1,6 düşüş): düşüş sipariş sayısından geliyor, sepet küçülmemiş.",
-          "karar": "Düşüş sipariş sayısından geliyorsa çözüm trafikte ve kampanyadadır, fiyatta değil."
+          "karar": "Düşüş sipariş sayısından geliyorsa önce trafiğe ve kampanyalara bakın; fiyat ilk şüpheli değildir."
         },
         {
           "aralik": "E10:F16",
@@ -388,9 +411,9 @@
         {
           "aralik": "A3:C5",
           "baslik": "Özet",
-          "metin": "Satışı olan 48 ürünün 24'ü, yani yarısı, cironun %80'ini getiriyor. Klasik 80/20 kuralına göre bu dengeli bir dağılımdır: ciro birkaç ürüne bağımlı değil.",
+          "metin": "Satışı olan 48 ürünün 24'ü, yani yarısı, cironun yaklaşık %80'ini getiriyor (ABC özetindeki tam değer %78,7). Klasik 80/20 kuralına göre bu dengeli bir dağılımdır: ciro birkaç ürüne bağımlı değil.",
           "karar": "Dağılım dengeliyken bile A sınıfı ürünlerde stoksuz kalmak en pahalı hatadır.",
-          "ses": "Satışı olan 48 ürünün 24'ü, yani yarısı, cironun %80'ini getiriyor. Klasik seksene yirmi kuralına göre bu dengeli bir dağılımdır: ciro birkaç ürüne bağımlı değil. Dağılım dengeliyken bile A sınıfı ürünlerde stoksuz kalmak en pahalı hatadır."
+          "ses": "Satışı olan 48 ürünün 24'ü, yani yarısı, cironun yaklaşık %80'ini getiriyor. Klasik seksene yirmi kuralına göre bu dengeli bir dağılımdır: ciro birkaç ürüne bağımlı değil. Dağılım dengeliyken bile A sınıfı ürünlerde stoksuz kalmak en pahalı hatadır."
         },
         {
           "aralik": "P6:U47",
@@ -419,12 +442,12 @@
         {
           "aralik": "L7:N55",
           "baslik": "İade oranı",
-          "metin": "Ürün bazında iade oranı, iade satırlarının tüm satırlara oranıdır. Ayarlar'daki eşik %8: Spor Tayt %11,1 ile bunun üstünde.",
+          "metin": "Ürün bazında iade oranı, iade satırlarının tüm satırlara oranıdır. Ayarlar'daki eşik %8: en yüksek oran Nemlendirici Krem'de (%12,9), Spor Tayt da %11,1 ile eşiğin üstünde.",
           "karar": "Yüksek iadeli üründe sorun çoğu zaman beden, ürün açıklaması ya da kalitedir; önce iade nedenlerine bakın."
         }
       ],
       "soru": {
-        "metin": "Satışı olan ürünlerin %50'si cironun %80'ini getiriyor. Bu tablo için hangisi doğru?",
+        "metin": "Satışı olan ürünlerin %50'si cironun yaklaşık %80'ini getiriyor. Bu tablo için hangisi doğru?",
         "secenekler": [
           "Ciro birkaç ürüne aşırı bağımlı; risk yüksek.",
           "Dağılım dengeli; ciro geniş bir ürün grubuna yayılmış.",
@@ -505,7 +528,7 @@
         {
           "aralik": "A4:C8",
           "baslik": "Aktif, riskte, kayıp",
-          "metin": "Müşteriler son alışlarından bu yana geçen güne göre ayrılır: 90 günden az aktif (109), 90 – 180 gün riskte (53), 180 günden fazla kayıp (196). Kayıp oranı %54,7, eşik %20. Aşağıdaki RFM tablosundaki 'Kayıp' segmenti (53) ise sıklığı ve tutarı da hesaba katar.",
+          "metin": "Müşteriler son alışlarından bu yana geçen güne göre ayrılır: son 90 günde alış yapan aktif (109), 90–180 gündür gelmeyen riskte (53), 180 gün ve daha uzun süredir gelmeyen kayıp (196). Kayıp oranı %54,7, eşik %20. Aşağıdaki RFM tablosundaki 'Kayıp' segmenti (53) ise sıklığı ve tutarı da hesaba katar.",
           "karar": "Riskteki 53 müşteri en kolay kazanılacak gruptur; kayba dönmeden ulaşın."
         },
         {
@@ -524,7 +547,7 @@
         {
           "aralik": "L3:P8",
           "baslik": "RFM eşikleri",
-          "metin": "R son alıştan beri geçen gün, F sipariş sayısı, M net cirodur. Her biri müşterilerin yüzdeliklerine göre 1 ile 5 arasında puan alır: son alışı 54 gün ya da daha yakın olan müşteri, R'de en yakın %20'lik dilimdedir.",
+          "metin": "R son alıştan beri geçen gün, F sipariş sayısı, M net cirodur. Her biri müşterilerin yüzdeliklerine göre 1 ile 5 arasında puan alır: son alışının üzerinden yaklaşık 54 günden az geçen müşteri, R'de en yakın %20'lik dilimdedir.",
           "karar": "Eşikler sabit kural değildir; sizin verinizden hesaplanır ve veri değiştikçe kayar."
         },
         {
@@ -577,9 +600,9 @@
         {
           "aralik": "E7:P30",
           "baslik": "Renk ölçeği",
-          "metin": "Hücre koyulaştıkça o ay geri gelenlerin oranı yükselir. Eyl 24 grubunda +2 ay (Kasım 2024) ve +6 ay %42.",
+          "metin": "Hücre koyulaştıkça o ay geri gelenlerin oranı yükselir. Eyl 24 grubunda hem +2 ay (Kasım 2024) hem +6 ay hücresi %42.",
           "karar": "Koyu hücreler bazen mevsimdir: Eylül müşterisinin iki ay sonrası Kasım'a, yüksek sezona denk gelir.",
-          "ses": "Hücre koyulaştıkça o ay geri gelenlerin oranı yükselir. Eylül 2024 grubunda iki ay sonra, yani Kasım 2024'te ve altı ay sonra oran %42. Koyu hücreler bazen mevsimdir: Eylül müşterisinin iki ay sonrası Kasım'a, yüksek sezona denk gelir."
+          "ses": "Hücre koyulaştıkça o ay geri gelenlerin oranı yükselir. Eylül 2024 grubunda hem iki ay sonrası, yani Kasım 2024, hem altı ay sonrası %42. Koyu hücreler bazen mevsimdir: Eylül müşterisinin iki ay sonrası Kasım'a, yüksek sezona denk gelir."
         },
         {
           "aralik": "A31:P31",
@@ -598,8 +621,8 @@
           "aralik": "A35:P59",
           "baslik": "Ham sayılar",
           "metin": "Alttaki tablo oranların ham sayılarıdır. Eyl 24 grubunda +2 ayda 12 müşterinin 5'i geri gelmiş: %42.",
-          "karar": "Küçük kohortlarda tek bir müşteri oranı 8 ile 17 puan arasında oynatır; tek hücreye değil eğilime bakın.",
-          "ses": "Alttaki tablo oranların ham sayılarıdır. Eylül 2024 grubunda iki ay sonra 12 müşterinin 5'i geri gelmiş: %42. Küçük kohortlarda tek bir müşteri oranı 8 ile 17 puan arasında oynatır; tek hücreye değil eğilime bakın."
+          "karar": "Küçük kohortlarda tek bir müşteri oranı 5 ile 25 puan arasında oynatır; tek hücreye değil eğilime bakın.",
+          "ses": "Alttaki tablo oranların ham sayılarıdır. Eylül 2024 grubunda iki ay sonra 12 müşterinin 5'i geri gelmiş: %42. Küçük kohortlarda tek bir müşteri oranı 5 ile 25 puan arasında oynatır; tek hücreye değil eğilime bakın."
         }
       ],
       "soru": {
@@ -645,13 +668,13 @@
         {
           "aralik": "M7:O55",
           "baslik": "Durum ve önerilen sipariş",
-          "metin": "6 üründe stok tükendi, 2 üründe eriyor: Dekoratif Yastık 13, Güneş Kremi SPF50 30 gün yetecek kadar. Önerilen sipariş, tedarik süresi artı 45 günlük satışı karşılayacak miktardır.",
+          "metin": "6 üründe stok tükendi, 2 üründe eriyor: Dekoratif Yastık 13, Güneş Kremi SPF50 30 gün yetecek kadar. Önerilen sipariş, tedarik süresi artı 45 günlük satıştan mevcut stok düşülerek bulunur.",
           "karar": "Önerileri tedarikçi sütunuyla birlikte okuyun; aynı tedarikçinin ürünlerini tek siparişte toplayın."
         },
         {
           "aralik": "A23:M23",
           "baslik": "Fazla stok",
-          "metin": "Stok 180 günden fazla yetiyorsa 'Fazla stok' yazar. Şampuan 411 gün, Kot Pantolon 390 gün yetecek kadar stokta.",
+          "metin": "Stok 180 günden fazla yetiyorsa 'Fazla stok' yazar. Şampuan 411 gün yetecek kadar stokta; Kot Pantolon (44. satır) 390 gün.",
           "karar": "Fazla stoklu üründe yeni siparişi durdurun; gerekirse kampanyayla eritin."
         },
         {
@@ -684,13 +707,13 @@
         {
           "aralik": "A3:B10",
           "baslik": "Özet",
-          "metin": "Gelecek 3 ay için 430.937 TL bekleniyor; son 3 ay 361.367 TL idi: %19,3 artış. Artışı Kasım taşıyor: tek başına 229.479 TL.",
+          "metin": "Gelecek 3 ay için 430.937 TL bekleniyor; son 3 ay 361.367 TL idi: %19,3 artış. Artışın yaklaşık yarısı yükselen trendden, yarısı mevsimden geliyor: zayıf Eylül ve Ekim'i Kasım fazlasıyla telafi ediyor (Kasım tek başına 229.479 TL).",
           "karar": "Kasım için tedarik siparişlerini Eylül'de, kampanya hazırlığını Ekim'de bitirin."
         },
         {
           "aralik": "G13:I61",
           "baslik": "Yöntem: trend × mevsim",
-          "metin": "Model, trend ile mevsim endeksinin çarpımıdır. Trend, Trend ve Mevsim sayfasındaki doğrusal eğilimdir; endeks ayın tipik gücünü ekler. Kasım 2026'da trend 134.792 TL, endeks 1,70: model trendi yaklaşık 1,7 katına çıkarır.",
+          "metin": "Model, trend ile mevsim endeksinin çarpımıdır. Trend, Trend ve Mevsim sayfasındaki doğrusal eğilimdir; endeks onu ayın tipik gücüyle çarpar. Kasım 2026'da trend 134.792 TL, endeks 1,70: model trendi yaklaşık 1,7 katına çıkarır.",
           "karar": "Yeni ay eklendikçe tahmin kendiliğinden güncellenir; büyük bir sapma görürseniz nedenini arayın."
         },
         {
@@ -719,14 +742,14 @@
         }
       ],
       "soru": {
-        "metin": "Gelecek 3 ay tahmini, son 3 aydan %19,3 yüksek. Bunun ana nedeni ne?",
+        "metin": "Gelecek 3 ay tahmini, son 3 aydan %19,3 yüksek. Model bu artışı nereden buluyor?",
         "secenekler": [
-          "Tahmin dönemi Kasım'ı içeriyor; Kasım'ın mevsim endeksi 1,70.",
-          "Model fiyatlara zam yapılacağını varsayıyor.",
-          "Model yeni müşteri kazanılacağını varsayıyor."
+          "Yükselen trendden ve Kasım'ın yüksek sezonundan (endeks 1,70).",
+          "Fiyatlara zam yapılacağı varsayımından.",
+          "Yeni müşteri kazanılacağı varsayımından."
         ],
         "dogru": 0,
-        "aciklama": "Model yalnızca trendi ve mevsimi bilir. Eylül ve Ekim zayıf aylar (0,73 ve 0,82), ama Kasım tek başına 229.479 TL getiriyor. Zam, kampanya ya da yeni müşteri modelde yoktur."
+        "aciklama": "Model yalnızca trendi ve mevsimi bilir. Yalnız trend, son 3 aya göre yaklaşık %9,5 artış verirdi; kalanı mevsimden gelir: Eylül ve Ekim zayıf aylardır (0,73 ve 0,82), ama Kasım tek başına 229.479 TL getirir. Zam, kampanya ya da yeni müşteri modelde yoktur."
       }
     }
   ]

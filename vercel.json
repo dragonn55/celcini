@@ -15,6 +15,13 @@
       "includeFiles": "api/_dersler/**"
     }
   },
+  "redirects": [
+    {
+      "source": "/api/_dersler/:yol*",
+      "destination": "/datakit/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/erisim-kodu/",

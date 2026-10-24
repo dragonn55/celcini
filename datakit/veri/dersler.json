@@ -77,7 +77,7 @@
    "sira": 5,
    "sayfa_adi": "Satış Özeti",
    "baslik": "Bu ay, geçen ay, geçen yıl",
-   "ozet": "Bu ay, geçen ay, geçen yıl ve yıl başından bugün: aynı ciroyu dört farklı ölçüyle karşılaştırmak.",
+   "ozet": "Bu ayı geçen ayla, geçen yılın aynı ayıyla ve yıl başından bugüne toplamla karşılaştırmak: aynı ciro, üç ayrı ölçü.",
    "ucretsiz": false,
    "ajan_gm": "Bu ay kötü mü geçti? Cevap, neyle karşılaştırdığınıza bağlı. Geçen ay, geçen yıl ve yıl başından bugün: üç ölçü, üç ayrı hikâye.",
    "konular": [

@@ -83,9 +83,9 @@
   padding: 0 calc(3px * var(--rt-k, 1)) calc(1px * var(--rt-k, 1));
   border-right: 1px solid var(--rt-izgara); border-bottom: 1px solid var(--rt-izgara); cursor: cell;
 }
-.rt-ic { overflow: hidden; max-width: 100%; }
+.rt-ic { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rt-sar { white-space: normal; }
-.rt-sar .rt-ic { overflow-wrap: anywhere; }
+.rt-sar .rt-ic { white-space: normal; overflow-wrap: anywhere; }
 .rt-dolu { border-right-color: transparent; border-bottom-color: transparent; }
 .rt-kenar { border-right-color: var(--rt-kenar); border-bottom-color: var(--rt-kenar); }
 .rt-secili { outline: 2px solid var(--koyu); outline-offset: -2px; }
@@ -256,3 +256,4 @@ a.rh-ders-kart:hover { border-color: var(--koyu); }
 .rh-onizleme-yazi .ikon { width: 20px; height: 20px; transition: transform var(--gecis); }
 a.rh-onizleme:hover { border-color: var(--koyu); }
 a.rh-onizleme:hover .rh-onizleme-yazi .ikon { transform: translateX(3px); }
+.rh-veri-satiri { color: var(--metin-2) !important; font-size: var(--fs-1) !important; max-width: 70ch !important; }

@@ -389,14 +389,14 @@
     "slug": "satis-analizi",
     "ad": "Satış Analizi",
     "raf": "datakit",
-    "kisa": "Satış verinizi yapıştırın; 30 sayfada ciro, ürün, müşteri, stok ve tahmin analizi formülle kurulur. Makrosuz, Excel 2010 ve sonrası.",
+    "kisa": "Satış verinizi yapıştırın; 30 sayfada ciro, ürün, müşteri, stok ve tahmin analizi formülle kurulur. Excel 2010 ve sonrası.",
     "aciklama": "Satış Analizi, Datakit rafındaki satış veri analizi dosyasıdır. Satış listenizi 'Veri' sayfasına başlıklarıyla yapıştırır, sütunları bir kez eşleştirirsiniz; veri kalitesi, temel istatistik, dönem karşılaştırması, trend ve mevsimsellik, ABC, fiyat-hacim, müşteri (RFM, CLTV, kohort), stok devir hızı ve satış tahmini sayfaları formülle hesaplanır. Dashboard'daki filtreler bütün sayfaları birlikte günceller. Dosyanın 12 ana sayfası sitede rehberli derslerle anlatılır.",
     "ozellikler": [
       "30 sayfa: Dashboard, Otomatik Yorum, Veri Kalitesi, Satış Özeti, Trend ve Mevsim, Ürün ve ABC, Fiyat-Hacim, Müşteri Analizi, Kohort, Stok ve Devir, Tahmin ve daha fazlası",
       "Esnek veri girişi: sütun sırası serbest, alanlar Sütun Eşleştirme sayfasında bir kez seçilir",
       "Dashboard filtreleri (tarih, kategori, bölge, kanal) bütün sayfaları birlikte günceller",
       "Otomatik Yorum: 30 ölçü Ayarlar'daki eşiklerle karşılaştırılıp hazır cümleye dönüşür",
-      "Makrosuz: bütün analizler formüldür; Excel 2010 ve sonrası",
+      "Analizler formüldür, makrosuz çalışır; Excel 2010 ve sonrası",
       "Örnek verili ve boş dosya; sitedeki 12 dersin tamamını açan erişim kodu"
     ],
     "kimin_icin": "Satışlarını Excel'de izleyen mağaza, e-ticaret ve dağıtım işletmeleri; satış verisini okumayı öğrenmek isteyen herkes.",
@@ -560,7 +560,7 @@
       "Dashboard'dan tarih, kategori, bölge ve kanal seçin; bütün sayfalar kendiliğinden güncellenir.",
       "Önce 'Otomatik Yorum'un ilk 5 cümlesini ve 'Uyarılar' listesini okuyun: nereye bakmanız gerektiğini söyler."
     ],
-    "teknik_not": "Kapasite: 10.000 veri satırı ve 2.000 müşteri; 150 ürün, 30 kategori, 30 bölge, 20 kanal, 30 kampanya, 30 tedarikçi. Bütün analizler formüldür; filtre değişince yeniden hesaplama veri büyüklüğüne göre birkaç saniye sürebilir. Örnek verili dosyadaki veri kurgusaldır.",
+    "teknik_not": "Analizler formüldür ve makrosuz çalışır. İsteğe bağlı makro modülü (modSatisAnaliz.bas) teslimata dahildir; yalnızca Veri Kalitesi'ndeki temiz satır oranını ve Kalite Detay'daki satır satır sorun listesini kendi verinizde yeniler (örnek verili dosyada ikisi de hazır gelir). Kapasite: 10.000 veri satırı ve 2.000 müşteri; 150 ürün, 30 kategori, 30 bölge, 20 kanal, 30 kampanya, 30 tedarikçi. Filtre değişince yeniden hesaplama veri büyüklüğüne göre birkaç saniye sürebilir. Örnek verili dosyadaki veri kurgusaldır.",
     "sss": [
       {
         "soru": "Kendi verimi nasıl kullanırım?",
@@ -572,7 +572,7 @@
       },
       {
         "soru": "Makro gerekiyor mu?",
-        "cevap": "Hayır. Bütün analizler formüldür; dosya makrosuz eksiksiz çalışır."
+        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'ndeki temiz satır oranı ile Kalite Detay'daki satır satır sorun listesidir: kendi verinizde teslimattaki isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
       }
     ]
   },

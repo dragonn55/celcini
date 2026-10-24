@@ -39,10 +39,8 @@ function div(sinif, metin) {
 
 /* sayfa: dışa aktarılmış sayfa JSON'u. notlar: [{ aralik, baslik }]. Geri dönen nesne ızgarayı yönetir. */
 export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () => {}, notSec = () => {} } = {}) {
+  /* Hücreler satır sırasıyla eklenir: ekran okuyucu sayfayı satır satır okur (ARIA grid rolü verilmez; satır öğesi yok) */
   const izgara = div("rt-izgara");
-  izgara.setAttribute("role", "grid");
-  izgara.setAttribute("aria-label", `${sayfa.ad} sayfası`);
-  izgara.setAttribute("aria-readonly", "true");
   kutu.append(izgara);
 
   const sutunlar = sayfa.sutunlar;
@@ -112,7 +110,6 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     const st = stil(h);
     const d = div("rt-h");
     d.dataset.r = r; d.dataset.c = c;
-    d.setAttribute("role", "gridcell");
     yerlestir(d, r, c, rs, cs);
     if (h && h.v !== undefined) {
       const ic = div("rt-ic", h.v);
@@ -149,7 +146,6 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       if (st.hiza === "center" || st.hiza === "right") kopya.textContent = "";
       kopya.classList.remove("rt-donuk-sag");
       kopya.setAttribute("aria-hidden", "true");
-      kopya.removeAttribute("role");
       kopya.style.gridColumn = `${c + 1} / span ${donuk.c - c}`;
       dondur(kopya, r, c, r2, donuk.c - 1, 3);
       if (!st.dolgu) kopya.classList.add("rt-donuk-zemin");

@@ -705,6 +705,10 @@ def urun_sayfasi(u, urunler):
   <ul class="izgara izgara-urun">{"".join(urun_karti(x, raf_goster=False) for x in benzer)}</ul>
 </section>"""
 
+    # Rehberli dersi olan ürün (REHBERLER): dosyanın sayfaları sitede derslerle anlatılır
+    rh = next((x for x in REHBERLER if x["urun_slug"] == u["slug"]), None)
+    rehber_linki = (f'\n        <p class="not">Dosyanın ana sayfaları sitede rehberli derslerle anlatılır; ilk dersler ücretsiz.</p>'
+                    f'\n        <a class="dugme-cizgi" href="{rh["taban"]}">Dersleri aç{ikon("ok")}</a>') if rh else ""
     govde = f"""<div class="kap urun-sayfa">
   <div class="sayfa-bas">{yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (f"/{r['slug']}/", r["ad"]), (None, u["ad"])])}</div>
   <div class="urun-ust">
@@ -715,7 +719,7 @@ def urun_sayfasi(u, urunler):
       <p class="aciklama">{e(u["aciklama"])}</p>
       <div class="kart satin-al">
         {fiyatlar}
-        {al}
+        {al}{rehber_linki}
       </div>
     </div>
     {galeri}
@@ -823,6 +827,11 @@ def gizlilik():
   <li>Sesler: efekt sesleri tarayıcıda üretilir. "Sesli oku" ve "Ajan GM konuşsun" cihazınızdaki erkek Türkçe sesi kullanır; Ajan GM'nin sabit cümleleri, bu sitede ses dosyası olarak bulunduğunda oradan çalınır. Okunan metin hiçbir sunucuya gönderilmez. Ses kapalıyken hiçbir ses çalmaz.</li>
   <li>Erişim kodu: Kilidi açmak için girdiğiniz kod doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod, kilidin açık kalması için yalnızca bu tarayıcıda tutulur.</li>
   <li>Ajan GM: Yorumlar varsayılan olarak tarayıcıda, hazır şablonlardan üretilir ve hiçbir veri gönderilmez. Yapay zeka modu açılırsa günün karnesindeki oyun verileri (puan, teslim, hat duruşu, olaylar gibi) ve Ajan GM'ye yazdığınız soru, yanıt üretmek için ABD merkezli yapay zeka sağlayıcısı Anthropic'e iletilir; bu mod yalnızca kod girenlere açıksa erişim kodunuz da her istekte yeniden doğrulanmak üzere sunucuya gönderilir. Hitabınız gönderilmez ve bu veriler Celcini tarafından saklanmaz. Sorularınıza kişisel bilgi yazmayın.</li>
+</ul>
+<h2>Datakit dersleri</h2>
+<ul>
+  <li>Kilitli bir dersi açmak için girdiğiniz erişim kodu doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod ve ders sorularına verdiğiniz cevaplar yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur.</li>
+  <li>Derslerdeki tablolar dosyanın kurgusal örnek verisidir. Site sizden veri almaz; kendi verinizi yalnızca bilgisayarınızdaki Excel dosyasına girersiniz.</li>
 </ul>
 <h2>Ödeme ve teslim: Shopier</h2>
 <p>Satın alma, ödeme ve teslim Shopier üzerinden yapılır. Bu adımlarda verdiğiniz bilgiler (ad, iletişim, ödeme bilgileri) Shopier tarafından işlenir ve Shopier'in gizlilik politikasına tabidir. Shopier'in siparişi teslim etmek için satıcıya ilettiği sipariş bilgileri yalnızca bu amaçla kullanılır.</p>
@@ -1208,6 +1217,7 @@ def rehber_ders_sayfasi(rh, kaynak, d, urunler):
     <h1>{e(d["sayfa_adi"])}</h1>
     <p>{e(d["baslik"])}</p>
     {rehber_gm_karti(d["ajan_gm"], d.get("ajan_gm_ses", ""))}
+    <p class="rh-veri-satiri">{e(kaynak["acilis"]["ders_veri_notu"])}</p>
   </div>
 </section>
 <section class="rh-govde" aria-label="{e(d["sayfa_adi"])} sayfası ve notları">
