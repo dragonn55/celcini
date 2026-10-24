@@ -573,7 +573,7 @@ def ana_sayfa(urunler):
     <a class="kart uzay-kart" href="/uzay/">
       {ikon("roket", "ikon ikon-buyuk")}
       <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Tarayıcıda çalışan araçlar</h2>
-      <span class="uzay-alt">Yeni: ROTA 3D, depoda en kısa toplama rotası. Yanında Fabricakit; sırada Ölü Stok Dedektörü var.</span></span>
+      <span class="uzay-alt">Yeni: Fabrika İkizi, örnek tesis 3D'de gün gün. Yanında ROTA 3D ve Fabricakit; sırada Ölü Stok Dedektörü var.</span></span>
       <span class="uzay-git">Uzay'a git{ikon("ok")}</span>
     </a>
   </div>
@@ -801,7 +801,7 @@ def hakkinda():
 <ul>{"".join(f'<li><a href="/{r["slug"]}/">{e(r["ad"])}</a>: {e(r["aciklama"][0].lower() + r["aciklama"][1:])}</li>' for r in RAFLAR)}</ul>
 <p>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız. Girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır. {e(FORMUL_TESTI)}</p>
 <h2>Uzay</h2>
-<p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü. İlk araç Fabricakit; sırada Ölü Stok Dedektörü var.</p>
+<p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü: Fabricakit, ROTA 3D ve Fabrika İkizi; sırada Ölü Stok Dedektörü var.</p>
 <p>İstanbul, 2026.</p>"""
     return metin_sayfasi("/hakkinda/", "Hakkında",
                          "Fabricakit, Celcini'nin ana gövdesi: tarayıcıda fabrika simülasyonu. Yanında Excel dosyaları ve yapay zeka araçları; Burak Çakır hazırlıyor.",
@@ -910,6 +910,12 @@ def uzay_sayfasi():
         <a class="dugme" href="/uzay/rota/">Dene{ikon("ok")}</a>
       </article></li>
       <li><article class="kart arac-kart">
+        <div class="ust">{ikon("fabrika", "ikon ikon-buyuk")}<span class="etiket">Yayında</span></div>
+        <h2 class="h3-boy">Fabrika İkizi</h2>
+        <p>Fabrika Motoru'nun örnek tesisi 3D'de gün gün: üç hat, on bir iş merkezi, 20 günlük plan. Talep, kapasite, vardiya, fason ve arıza senaryolarını deneyip darboğazı ve sevk etkisini görün.</p>
+        <a class="dugme" href="/uzay/ikiz/">Dene{ikon("ok")}</a>
+      </article></li>
+      <li><article class="kart arac-kart">
         <div class="ust">{gezegen("samanyolu", "ikon ikon-buyuk")}<span class="etiket">Yayında</span></div>
         <h2 class="h3-boy">Fabricakit</h2>
         <p>{e(FK_ALT)}</p>
@@ -925,7 +931,7 @@ def uzay_sayfasi():
   </div>
 </section>"""
     return sayfa("/uzay/", "Uzay · Tarayıcı araçları",
-                 "Uzay, Celcini'nin tarayıcıda çalışan araçları: ROTA 3D depo toplama rotası ve Fabricakit fabrika simülasyonu; sırada Ölü Stok Dedektörü var.",
+                 "Uzay, Celcini'nin tarayıcıda çalışan araçları: ROTA 3D depo toplama rotası, Fabrika İkizi (örnek tesis 3D'de gün gün) ve Fabricakit fabrika simülasyonu; sırada Ölü Stok Dedektörü var.",
                  govde, etkin="/uzay/")
 
 
@@ -1128,6 +1134,155 @@ def rota_sayfasi():
 </section>"""
     return sayfa(kok, "ROTA 3D · Depo toplama rotası", ROTA_ACIKLAMA, govde, etkin="/uzay/",
                  ek_css=["/fabricakit/css/fabricakit.css", kok + "css/rota.css"], ek_head=vendor, modul=kok + "js/ui.js")
+
+
+IKIZ_NASIL = ("Üretim planlamacısına ve fabrika yöneticisine yarar: planı gün gün akıtınca hangi iş merkezinin ne zaman dolduğunu, "
+              "darboğazın önünde işin nasıl biriktiğini ve sevkin bundan nasıl etkilendiğini görürsünüz. "
+              "Hazır senaryolardan birini seçin ya da talep, kapasite, vardiya, fason ve arıza kollarını kendiniz çevirin; sonuç tablosu Baz ile karşılaştırır.")
+IKIZ_ACIKLAMA = ("Fabrika İkizi, Fabrika Motoru'nun örnek tesisini 3D'de gün gün oynatır; talep, kapasite, vardiya, fason ve arıza "
+                 "senaryolarında darboğazı ve sevk etkisini gösterir. Tarayıcıda çalışır.")
+
+
+def ikiz_sayfasi():
+    """Fabrika İkizi: Fabrika Motoru'nun örnek (kurgusal) tesisi 3D'de, gün gün. Uygulama uzay/ikiz/js/ (ES modülleri: veri, hesap, sahne,
+    arayuz), stil uzay/ikiz/css/ikiz.css. Three.js r128 ve OrbitControls ROTA 3D ile aynı yerden klasik betik olarak yüklenir.
+    Telefonda kontroller Fabricakit görev notunun çekmecesinde (.fk-gorev-kap / .fk-gorev; fabricakit.css)."""
+    kok = "/uzay/ikiz/"
+    vendor = "".join(f'\n<script src="{y}?v={surum(y)}" defer></script>' for y in (
+        "/assets/js/vendor/three/three.min.js", "/assets/js/vendor/three/OrbitControls.js"))
+    sekmeler = [("tabSenaryo", "Senaryo"), ("tabGun", "Gün"), ("tabSonuc", "Sonuç"), ("tabModel", "Model")]
+    sekme_html = "".join(
+        f'<button type="button" class="etiket-dugme" role="tab" id="s-{i}" data-tab="{i}" aria-controls="{i}" '
+        f'aria-selected="{"true" if n == 0 else "false"}">{e(a)}</button>' for n, (i, a) in enumerate(sekmeler))
+    hazir = "".join(f'<button type="button" class="etiket-dugme" data-sira="{n}" data-ad="{e(s)}" aria-pressed="{"true" if n == 0 else "false"}">{e(s)}</button>'
+                    for n, s in enumerate(("Baz", "Büyüme +%10, kur +%10", "Sıçrama +%25, ek vardiya", "Daralma −%15")))
+    govde = f"""<section class="sayfa-bas ikiz-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), ("/uzay/", "Uzay"), (None, "Fabrika İkizi")])}
+    <h1>Fabrika İkizi</h1>
+    <p class="ikiz-giris"><span class="ikiz-giris-tam">Fabrika Motoru'nun örnek tesisi 3D'de, gün gün: üç hat, on bir iş merkezi, 20 iş günlük plan.
+    {IKIZ_NASIL}</span><span class="ikiz-giris-kisa">Örnek tesis 3D'de gün gün oynar; senaryoyu değiştirip darboğazı ve sevk etkisini görün.</span></p>
+    <details class="ikiz-nasil"><summary>Nasıl kullanılır{ikon("asagi")}</summary><p>{IKIZ_NASIL}</p></details>
+  </div>
+</section>
+<section class="ikiz" aria-label="Fabrika İkizi aracı">
+  <div class="kap ikiz-duzen">
+    <div class="ikiz-sahne">
+      <canvas id="sahne" aria-label="Örnek tesisin 3D görünümü: hatlar, iş merkezleri, depo ve sevkiyat"></canvas>
+      <div class="ikiz-hud">
+        <p class="ikiz-cip"><b id="hudGun">Gün 1 / 20</b> <span id="hudTarih">—</span></p>
+        <p class="ikiz-cip ikiz-cip-senaryo">Senaryo: <b id="hudSenaryo">Baz</b></p>
+        <div class="ikiz-kameralar" role="group" aria-label="Kamera">
+          <button type="button" id="camGenel" aria-pressed="true" title="Genel görünüm">Genel</button>
+          <button type="button" id="camUst" aria-pressed="false" title="Üstten">Üst</button>
+          <button type="button" id="camHat" aria-pressed="false" title="Hatlara yakından, sırayla">Hat</button>
+        </div>
+      </div>
+      <div class="ikiz-oynatici" role="group" aria-label="Gün gün oynat">
+        <button type="button" id="btnOnceki" class="ikiz-yuvarlak" aria-label="Önceki gün">‹</button>
+        <button type="button" id="btnOynat" class="ikiz-oynat" aria-pressed="false">Oynat</button>
+        <button type="button" id="btnSonraki" class="ikiz-yuvarlak" aria-label="Sonraki gün">›</button>
+        <label class="ikiz-gun-kaydirici"><span class="gizli">Gün</span><input id="inGun" type="range" min="1" max="20" step="1" value="1"></label>
+        <div class="ikiz-hiz" id="hizSec" role="group" aria-label="Hız">
+          <button type="button" data-hiz="1" aria-pressed="true">1×</button><button type="button" data-hiz="2" aria-pressed="false">2×</button><button type="button" data-hiz="4" aria-pressed="false">4×</button>
+        </div>
+      </div>
+      <p class="ikiz-lejant" aria-hidden="true"><span><i class="l-normal"></i>Normal</span><span><i class="l-dolu"></i>Dolu (&gt;%85)</span><span><i class="l-asim"></i>Aşım (&gt;%100)</span><span><i class="l-ariza"></i>Arıza</span><span><i class="l-palet"></i>Bekleyen iş</span><span><i class="l-parca"></i>Parça akışı</span></p>
+      <p class="ikiz-uyari" id="glUyari" hidden>Tarayıcınız 3D çizimi (WebGL) açamadı. Gün tablosu, senaryo karşılaştırması ve öneriler yine çalışır.</p>
+    </div>
+    <div class="ikiz-yan">
+      <div class="kart ikiz-ozet">
+        <dl class="ikiz-stat">
+          <div><dt>Bugün üretim</dt><dd id="sUretim">0</dd></div>
+          <div><dt>Bugün sevk</dt><dd id="sSevk">0</dd></div>
+          <div><dt>Aşan iş merkezi</dt><dd id="sAsim">0</dd></div>
+          <div><dt>En yüksek yük</dt><dd id="sYuk">%0</dd></div>
+        </dl>
+        <div class="ikiz-cubuklar"><p class="ikiz-cubuk-baslik">20 gün · en yüksek iş merkezi yükü (çizgi: %100)</p><div class="ikiz-gun-cubuk" id="gunCubuk"></div></div>
+      </div>
+      <div class="fk-gorev-kap ikiz-cekmece-kap" id="cekmeceKap">
+        <details class="fk-gorev ikiz-cekmece" id="cekmece">
+          <summary><span class="fk-gorev-baslik">Senaryo ve sonuçlar</span><span class="fk-gorev-sayac" id="cekmeceSayac">Baz</span>{ikon("yukari", "ikon fk-gorev-ok")}</summary>
+          <div class="ikiz-sekmeler" role="tablist" aria-label="Kontroller">{sekme_html}</div>
+
+          <div class="ikiz-panel" id="tabSenaryo" role="tabpanel" aria-labelledby="s-tabSenaryo">
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Hazır senaryolar</h2>
+              <p class="ikiz-ipucu">Fabrika Motoru'nun SİMÜLASYON sayfasındaki dört senaryo: talep ve kapasite değişimi.</p>
+              <div class="ikiz-secim" id="hazirSenaryo" role="group" aria-label="Hazır senaryolar">{hazir}</div>
+            </div>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Kollar</h2>
+              <label for="inTalep"><span>Talep: <b id="lblTalep">+%0</b></span><input id="inTalep" type="range" min="-30" max="30" step="5" value="0"></label>
+              <label for="inKapasite"><span>Kapasite: <b id="lblKapasite">+%0</b></span><input id="inKapasite" type="range" min="-20" max="30" step="5" value="0"></label>
+              <label class="ikiz-kutu"><input type="checkbox" id="chkVardiya"> Üçüncü vardiya (kapasite ×1,5; personel ihtiyacı artar)</label>
+              <label class="ikiz-kutu"><input type="checkbox" id="chkFason"> Fason (fason mümkün iş merkezlerine günlük fason dakikası eklenir)</label>
+              <div class="ikiz-satir ikiz-satir-3">
+                <label for="inAriza">Arıza<select id="inAriza"><option value="">Yok</option></select></label>
+                <label for="inArizaBas">Başlangıç<select id="inArizaBas"></select></label>
+                <label for="inArizaBit">Bitiş<select id="inArizaBit"></select></label>
+              </div>
+              <div class="ikiz-dugmeler"><button type="button" class="dugme-cizgi" id="btnSifirla">Baz'a dön</button><button type="button" class="dugme ikiz-telefon" id="btnSahneyeDon">Sahneye dön</button></div>
+            </div>
+          </div>
+
+          <div class="ikiz-panel" id="tabGun" role="tabpanel" aria-labelledby="s-tabGun" hidden>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Seçili iş merkezi</h2>
+              <div id="imDetay"></div>
+            </div>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Günün iş merkezleri</h2>
+              <table class="ikiz-tablo"><thead><tr><th>İş merkezi</th><th>Yük</th><th>Bekleyen</th><th>Durum</th></tr></thead><tbody id="imTablo"></tbody></table>
+            </div>
+          </div>
+
+          <div class="ikiz-panel" id="tabSonuc" role="tabpanel" aria-labelledby="s-tabSonuc" hidden>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">20 günün sonucu</h2>
+              <table class="ikiz-tablo"><thead><tr><th>Gösterge</th><th>Senaryo</th><th>Baz</th></tr></thead><tbody id="sonucTablo"></tbody></table>
+            </div>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Ne yapmalı?</h2>
+              <ul class="ikiz-oneriler" id="oneriler"></ul>
+              <p class="ikiz-ipucu">Öneriler aynı modelle kolları tek tek deneyerek bulunur; yapay zeka çağrısı yoktur.</p>
+            </div>
+          </div>
+
+          <div class="ikiz-panel" id="tabModel" role="tabpanel" aria-labelledby="s-tabModel" hidden>
+            <div class="ikiz-grup">
+              <h2 class="ikiz-h">Model</h2>
+              <p class="ikiz-ipucu">Veri, Fabrika Motoru'nun örnekli dosyasındaki kurgusal tesistir (HAT, MAMUL, STD_SÜRE, MPS, KAPASİTE, SİMÜLASYON sayfaları); gerçek bir firmaya ait değildir.</p>
+              <ul class="ikiz-liste">
+                <li>İş merkezi yükü = Σ plan × standart süre + hazırlık; günlük kapasite = istasyon × 900 dk × verim (iki vardiya). Dosyanın KAPASİTE sayfası bu yükü planın tamamı için hesaplar; ilk günün plan yükü oranları dosyayla aynıdır.</li>
+                <li>Parça aynı gün rotanın tamamından geçer; kapasite yetmeyince darboğazın önünde bekler ve ertesi güne devreder (palet yığını). Bu yüzden bir iş merkezine gelen iş plan yükünden az (üst iş merkezi aşımda) ya da fazla (önceki günlerden devreden iş) olabilir; ayrıntıda ikisi de görünür. Toplam aşım ve en yüksek yük devreden işi içerdiği için dosyanın KAPASİTE ve SİMÜLASYON sayfalarındaki değerlerden farklıdır.</li>
+                <li>Sevk = 20 iş günlük net talebin eşit dağılımı (birikimli yuvarlama; talep kolu sıfırken toplam dosyadaki net taleple aynı); karşılanmayan sevk ertesi güne kalır, OTD bundan hesaplanır. "Baz", dosyadaki plan ve kapasiteyle hiçbir kol çevrilmeden yapılan hesaptır.</li>
+                <li>Üçüncü vardiya kapasiteyi 1,5 katına çıkarır ve personel ihtiyacını birinci vardiya kadar artırır (dosyada üçüncü vardiya personeli 0); fason, fason mümkün iş merkezlerine dosyadaki günlük fason dakikasını ekler; arıza o günlerde kapasiteyi sıfırlar. Sonuç tablosundaki adam-saat "ihtiyaç / mevcut"tur.</li>
+                <li>Malzeme eksikleri, hurda ve duruşlar modelde yoktur; bunlar Fabrika Motoru'nun MRP, ALARM ve ÜRETİM sayfalarındadır.</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+  <noscript><div class="kap"><p class="ikiz-ipucu">Fabrika İkizi tarayıcıda çalışır; kullanmak için JavaScript'i açın.</p></div></noscript>
+</section>
+<section class="bolum-raf ikiz-alt" aria-labelledby="motor-baslik">
+  <div class="kap">
+    <div class="kart ikiz-motor">
+      {ikon("fabrika", "ikon ikon-buyuk")}
+      <div class="ikiz-motor-metin">
+        <h2 id="motor-baslik" class="h3-boy">Bu tesis Fabrika Motoru'ndan</h2>
+        <p>Hatlar, iş merkezleri, standart süreler ve 20 günlük plan Fabrika Motoru'nun örnek dosyasından geliyor. Dosyanın 12 ana sayfasını Ajan GM'nin notlarıyla sayfa sayfa okumak için Motor derslerine, dosyanın kendisi için ürün sayfasına gidin.</p>
+      </div>
+      <div class="ikiz-motor-dugmeler"><a class="dugme-cizgi" href="/motor/">Motor dersleri{ikon("ok")}</a><a class="dugme-cizgi" href="/urun/fabrika-motoru/">Fabrika Motoru</a></div>
+    </div>
+    <p class="not-satiri"><span>{ikon("kilit")}Sayfa veri almaz; senaryo seçimleriniz yalnızca bu sayfada işlenir, hiçbir yere gönderilmez, saklanmaz.</span></p>
+  </div>
+</section>"""
+    return sayfa(kok, "Fabrika İkizi · Örnek tesis 3D'de gün gün", IKIZ_ACIKLAMA, govde, etkin="/uzay/",
+                 ek_css=["/fabricakit/css/fabricakit.css", kok + "css/ikiz.css"], ek_head=vendor, modul=kok + "js/arayuz.js")
 
 
 def sayfa_404():
@@ -1367,7 +1522,7 @@ def main():
             shutil.rmtree(CIKTI)
         CIKTI.mkdir()
         shutil.copytree(KOK / "assets", CIKTI / "assets")
-        for d in ("fabricakit/css", "fabricakit/js", "fabricakit/img", "uzay/araclar/_sablon", "uzay/rota/css", "uzay/rota/js"):
+        for d in ("fabricakit/css", "fabricakit/js", "fabricakit/img", "uzay/araclar/_sablon", "uzay/rota/css", "uzay/rota/js", "uzay/ikiz/css", "uzay/ikiz/js"):
             shutil.copytree(KOK / d, CIKTI / d, ignore=shutil.ignore_patterns("index.html"))
         for f in ("favicon.ico", "site.webmanifest"):
             shutil.copy2(KOK / f, CIKTI / f)
@@ -1402,6 +1557,7 @@ def main():
         yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler)))
     yollar.append(yaz("/uzay/", uzay_sayfasi()))
     yollar.append(yaz("/uzay/rota/", rota_sayfasi()))
+    yollar.append(yaz("/uzay/ikiz/", ikiz_sayfasi()))
     yollar.append(yaz("/uzay/araclar/_sablon/", uzay_araci(
         "_sablon", "Araç adı", "Aracın ne yaptığını bir cümlede anlatın.", noindex=True)))
     yollar.append(yaz("/hakkinda/", hakkinda()))
@@ -1412,7 +1568,7 @@ def main():
     yollar.append(yaz("/404.html", sayfa_404()))
 
     adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + rehber_adresleri + [f"/urun/{u['slug']}/" for u in urunler] + [
-        "/uzay/", "/uzay/rota/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
+        "/uzay/", "/uzay/rota/", "/uzay/ikiz/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for a in adresler:
