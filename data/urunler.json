@@ -100,7 +100,7 @@
     "excel_surum": "Excel 2016 ve sonrası",
     "makro": false,
     "sayfa_sayisi": 7,
-    "teknik_not": "Makro gerekmez: hesap motoru tamamen formüldür. Sınırlar: 12 hammadde, 8 ürün, ürün başına 6 proses, 20 sipariş.",
+    "teknik_not": "Makro gerekmez: hesap motoru tamamen formüldür. Sınırlar: 12 hammadde, 8 ürün, ürün başına 6 proses, 20 sipariş. İsteğe bağlı makro modülü (FabricakitVARDIYA_Makrolar.bas) teslimata dahildir; dosya makrosuz da eksiksiz çalışır, modül yalnızca kılavuzda yazan düğmeleri ekler: GünüKapat (hazır işlerin tüketimini stoktan düşer, yeni güne hazırlar), PdfRaporOlustur, SiparisleriTemizle ve Yenile.",
     "sss": [
       {
         "soru": "Kaç ürün ve sipariş girebilirim?",
