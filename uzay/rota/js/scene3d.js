@@ -163,7 +163,7 @@ function kur(canvas){
   }
 
   function setCamera(mode, snap){
-    camMode = mode; const span = Math.max(L.W, L.H);
+    camMode = mode; const span = Math.max(L.W, L.H) * Math.max(1, 1/camera.aspect); // dikey sahnede (telefon) geri çekil
     if (mode === "iso"){ camera.position.set(span*0.15, span*0.95, span*1.05); controls.target.set(0,0,0); }
     else if (mode === "top"){ camera.position.set(0, span*1.6, 0.01); controls.target.set(0,0,0); }
     controls.update();
@@ -190,7 +190,9 @@ function kur(canvas){
     const pt = new THREE.Vector3(); if (ray.ray.intersectPlane(floorPlane, pt)){ const c = toCell(pt); if (c.x>=0 && c.z>=0 && c.x<L.W && c.z<L.H) onPick({ kind:"cell", ...c }); }
   });
 
-  function resize(){ const r = canvas.parentElement.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/Math.max(1,r.height); camera.updateProjectionMatrix(); }
+  let fitted = false; // ilk ölçüde kamera sahnenin en-boy oranına göre yeniden konur
+  function resize(){ const r = canvas.parentElement.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/Math.max(1,r.height); camera.updateProjectionMatrix();
+    if (L && !fitted && r.width > 0){ fitted = true; if (camMode !== "follow") setCamera(camMode); } }
   new ResizeObserver(resize).observe(canvas.parentElement);
   const tickers = [];
   (function loop(t){ requestAnimationFrame(loop); tickers.forEach(f => f(t)); followTick(); controls.update(); renderer.render(scene, camera); })(0);
