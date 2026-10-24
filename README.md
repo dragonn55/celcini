@@ -4,7 +4,7 @@ Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatö
 Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`); Datakit'in açılış sayfası
 rehberli dersleri de taşır (`/datakit/<ders>/`: Excel sayfası sitede, notlarıyla); Fabrika Motoru'nun dersleri `/motor/` altında
 (Fabrika rafından ve ürün sayfasından bağlanır);
-tarayıcı araçları `/uzay/` altında (ilk araç ROTA 3D, `/uzay/rota/`).
+tarayıcı araçları `/uzay/` altında (ROTA 3D `/uzay/rota/`, Fabrika İkizi `/uzay/ikiz/`).
 
 celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
@@ -26,6 +26,7 @@ fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.
 api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
 uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
 uzay/rota/               ROTA 3D depo toplama rotası: js/ (layout, router, scene3d, ui; ES modülü), css/rota.css (index.html derle.py üretir)
+uzay/ikiz/               Fabrika İkizi: js/ (veri, hesap, sahne, arayuz; ES modülü), css/ikiz.css (index.html derle.py üretir)
 assets/js/vendor/three/  Three.js r128 (npm three@0.128.0: build/three.min.js, examples/js/controls/OrbitControls.js) ve LICENSE (MIT)
 scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
 scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
@@ -34,6 +35,8 @@ scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, �
 scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum, 1. gün puan dağılımı
 scripts/karne-ornegi.mjs Motorun 1. gün karnesinden ana sayfa örneğini üretir (senaryo dosyanın başında)
 scripts/rota-test.mjs    ROTA 3D yönlendirici testi: engel dolanma, erişilemeyen göz, optimum ≤ sıralı, Held-Karp = kaba kuvvet
+scripts/ikiz-test.mjs    Fabrika İkizi model testi: veri bütünlüğü, 1. gün plan yükü = dosya, akış korunumu, kolların yönü
+scripts/ikiz-veri.py     Fabrika Motoru'nun örnekli dosyasından uzay/ikiz/js/veri.js üretir (openpyxl; derlemenin parçası değildir)
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
 scripts/rehber-disa-aktar.py  Excel sayfalarını rehber JSON'una çevirir (openpyxl gerekir; derlemenin parçası değildir)
@@ -47,7 +50,7 @@ assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-po
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 
-index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html,
+index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html, uzay/ikiz/index.html,
 uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
@@ -58,7 +61,7 @@ uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat
 python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
 npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
-npm run check                         # üretim çıktısı + sim-test + rota-test + api-test + ses-test
+npm run check                         # üretim çıktısı + sim-test + rota-test + ikiz-test + api-test + ses-test
 npm run ses-cumleler                  # Ajan GM cümle listesi değişince data/ses/cumleler.json'ı yenile (sonra sesleri üret)
 node scripts/karne-ornegi.mjs         # oyun kuralı ya da Ajan GM şablonu değişince karne örneğini yenile, sonra derle
 npm run check:onizleme                # önizleme çıktısını kontrol et
@@ -210,6 +213,29 @@ vardır (cevap tarayıcıda hatırlanır: `celcini-rehber`). Site veri almaz. Do
 - **Sesli oku:** yalnızca cihazda erkek Türkçe ses (`ERKEK_SESLER`) varsa görünür; derslerde ses dosyası kullanılmaz.
 - Yeni bir ürün (ör. Motor): `scripts/derle.py`'deki `REHBERLER` listesine kayıt, `api/ders.js`'teki `KOD_LISTESI`'ne ürün,
   `scripts/check.js`'teki `REHBERLER`'e satır ve `data/<urun>/`.
+
+## Fabrika İkizi (`/uzay/ikiz/`)
+
+Fabrika Motoru'nun örnekli dosyasındaki **kurgusal** tesis ("Örnek Isıtma-Soğutma Yan Sanayi Tesisi": 3 hat, 11 iş merkezi,
+20 mamul, 20 iş günlük MPS) 3D'de gün gün oynar; hazır senaryolar (SİMÜLASYON sayfasındaki dört senaryo) ve kollar (talep,
+kapasite, üçüncü vardiya, fason, arıza) sonucu Baz ile karşılaştırır. Gerçek bir firmanın verisi değildir; başka bir tesisin
+verisi eklenmez.
+
+- **Veri:** `uzay/ikiz/js/veri.js` — `python3 scripts/ikiz-veri.py <FABRICAKIT_MOTOR_ORNEKLI.xlsx>` üretir (openpyxl; Excel
+  dosyası repoda durmaz). HAT, MAMUL, STD_SÜRE, MPS (G01–G20 ve 20 iş günlük net talep), KAPASİTE (plan günleri ve dosyadaki
+  yük oranları), SİMÜLASYON (senaryolar) ve RAF (bölge göz sayıları) sayfalarından okur.
+- **Model (`hesap.js`, DOM'suz):** iş merkezi yükü = Σ plan × standart süre + hazırlık; günlük kapasite = istasyon × 900 dk ×
+  verim (iki vardiya; üçüncü vardiya ×1,5; fason, fason mümkün iş merkezine dosyadaki günlük fason dakikasını ekler; arıza
+  kapasiteyi sıfırlar). İş merkezleri proses sırasıyla işlenir; parça aynı gün rotanın tamamından geçer, kapasite yetmeyince
+  darboğazın önünde bekler ve ertesi güne devreder; toplam aşım ve en yüksek yük bu devreden işi içerdiği için dosyadaki
+  statik değerlerden farklıdır. Sevk = 20 iş günlük net talebin eşit dağılımı (birikimli yuvarlama); karşılanmayan sevk ertesi
+  güne kalır (OTD). Üçüncü vardiya personel ihtiyacını birinci vardiya kadar artırır (dosyada üçüncü vardiya personeli 0). İlk günün plan yükü oranları dosyanın KAPASİTE sayfasıyla aynıdır (`scripts/ikiz-test.mjs` denetler).
+- **Sahne (`sahne.js`):** Three.js r128 (ROTA 3D ile aynı vendor dosyaları). İş merkezi rengi günün yük oranına göre (normal /
+  dolu >%85 / aşım >%100 / arıza), darboğazın önünde palet yığını (bekleyen iş), hat boyunca akan parçalar günün üretimiyle
+  hızlanır, gün sonunda kamyon çıkar. WebGL yoksa tablo, karşılaştırma ve öneriler yine çalışır.
+- **Arayüz (`arayuz.js`):** oynatıcı (gün; hız düğmeleri masaüstünde), kamera (genel / üst / hat), sekmeler Senaryo · Gün · Sonuç · Model; telefonda
+  kontroller Fabricakit görev notunun çekmecesinde. "Ne yapmalı?" önerileri aynı modelle kolları tek tek deneyerek bulunur;
+  yapay zeka çağrısı yoktur. Sayfa veri almaz.
 
 ## Tasarım kuralları (özet)
 

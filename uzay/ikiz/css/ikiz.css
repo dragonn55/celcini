@@ -1,0 +1,171 @@
+/* Fabrika İkizi · araç stilleri. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir; düzen ROTA 3D ile aynı:
+   masaüstünde sahne solda (kaydırırken görünür kalır), kontroller sağda; telefonda sahne tam genişlik, kontroller alttan
+   açılan çekmecede (Fabricakit görev notu: fabricakit.css .fk-gorev). Satır içi style yok (CSP). */
+
+.ikiz-bas { padding-bottom: 24px; }
+.sayfa-bas .ikiz-giris { max-width: 72ch; font-size: var(--fs-1); line-height: 1.6; }
+.ikiz { padding-bottom: 48px; }
+.ikiz-duzen { display: grid; gap: 16px; }
+
+/* ---------- Sahne ---------- */
+.ikiz-sahne {
+  position: relative; overflow: hidden; height: 58vh; min-height: 340px; max-height: 600px;
+  margin: 0 calc(-1 * var(--kenar)); background: var(--metin); color: var(--zemin);
+}
+#sahne { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+.ikiz-hud { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; pointer-events: none; }
+.ikiz-cip {
+  pointer-events: auto; padding: 4px 10px; font-size: var(--fs-0); line-height: 1.5; font-variant-numeric: tabular-nums;
+  background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
+}
+.ikiz-cip b { color: #fff; }
+.ikiz-cip-senaryo { border-color: var(--turuncu); }
+.ikiz-kameralar { pointer-events: auto; display: flex; gap: 4px; margin-left: auto; }
+.ikiz-kameralar button, .ikiz-hiz button, .ikiz-yuvarlak, .ikiz-oynat {
+  min-height: 44px; padding: 0 12px; font: inherit; font-size: var(--fs-0); font-weight: 700; cursor: pointer;
+  color: var(--zemin); background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
+}
+.ikiz-kameralar button { min-width: 52px; }
+.ikiz-kameralar button:hover, .ikiz-hiz button:hover, .ikiz-yuvarlak:hover { border-color: var(--cizgi); }
+.ikiz-kameralar button[aria-pressed="true"], .ikiz-hiz button[aria-pressed="true"] { color: var(--metin); background: var(--zemin); border-color: var(--zemin); }
+.ikiz-kameralar button:focus-visible, .ikiz-hiz button:focus-visible, .ikiz-yuvarlak:focus-visible, .ikiz-oynat:focus-visible, .ikiz-bar:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+/* Oynatıcı: sahnenin altında şerit */
+.ikiz-oynatici {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; align-items: center; gap: 6px;
+  padding: 6px 8px; background: rgba(11, 31, 58, 0.92); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
+}
+.ikiz-yuvarlak { width: 44px; padding: 0; font-size: 1.4rem; line-height: 1; }
+.ikiz-oynat { min-width: 92px; color: var(--metin); background: var(--zemin); border-color: var(--zemin); }
+.ikiz-oynat[aria-pressed="true"] { color: var(--zemin); background: var(--metin); border-color: var(--cizgi); }
+.ikiz-gun-kaydirici { flex: 1; min-width: 60px; display: flex; align-items: center; }
+.ikiz-gun-kaydirici input { width: 100%; min-height: 32px; margin: 0; accent-color: var(--turuncu); }
+.ikiz-hiz { display: flex; gap: 2px; }
+.ikiz-hiz button { min-width: 40px; padding: 0 8px; }
+.ikiz-lejant {
+  position: absolute; left: 12px; bottom: 70px; display: none; flex-wrap: wrap; gap: 4px 14px; max-width: calc(100% - 24px);
+  padding: 6px 12px; font-size: var(--fs-0); background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: var(--r);
+}
+.ikiz-lejant span { display: inline-flex; align-items: center; gap: 6px; }
+.ikiz-lejant i { width: 12px; height: 12px; border-radius: 2px; }
+.ikiz-lejant .l-normal { background: var(--cizgi); }
+.ikiz-lejant .l-dolu { background: var(--turuncu); }
+.ikiz-lejant .l-asim { background: var(--acil); }
+.ikiz-lejant .l-ariza { background: var(--metin-2); }
+.ikiz-lejant .l-palet { background: #D9B38C; }
+.ikiz-lejant .l-parca { background: var(--turuncu); width: 8px; height: 8px; }
+.ikiz-uyari {
+  position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); width: min(420px, calc(100% - 32px));
+  padding: 16px; text-align: center; background: var(--metin); border: var(--cizgi-k) solid var(--turuncu); border-radius: var(--r);
+}
+
+/* ---------- Özet ---------- */
+.ikiz-yan { display: grid; gap: 16px; min-width: 0; }
+.ikiz-yan > .fk-gorev-kap { grid-area: auto; }
+.ikiz-ozet { padding: 16px; display: grid; gap: 14px; }
+.ikiz-stat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.ikiz-stat > div { display: grid; gap: 2px; align-content: start; padding: 10px 10px; border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); }
+.ikiz-stat dt { color: var(--metin-2); font-size: var(--fs-0); line-height: 1.3; }
+.ikiz-stat dd { margin: 0; font-size: var(--fs-2); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.ikiz-stat dd.ikiz-kirmizi { color: var(--acil); }
+.ikiz-stat dd.ikiz-turuncu { color: var(--metin); text-decoration: underline var(--turuncu) 3px; text-underline-offset: 4px; }
+.ikiz-cubuk-baslik { color: var(--metin-2); font-size: var(--fs-0); margin-bottom: 6px; }
+.ikiz-gun-cubuk { position: relative; display: flex; align-items: flex-end; gap: 3px; height: 64px; padding-top: 2px; }
+.ikiz-gun-cubuk::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed var(--acil); opacity: 0.6; }
+.ikiz-bar { position: relative; flex: 1; min-width: 0; height: 100%; padding: 0; background: var(--zemin); border: 0; border-radius: 3px 3px 0 0; cursor: pointer; }
+.ikiz-bar i { position: absolute; left: 0; right: 0; bottom: 0; display: block; background: var(--mavi); border-radius: 3px 3px 0 0; }
+.ikiz-bar i.dolu { background: var(--turuncu); }
+.ikiz-bar i.asim { background: var(--acil); }
+.ikiz-bar.secili { outline: 2px solid var(--metin); outline-offset: 1px; }
+
+/* ---------- Kontroller ---------- */
+.ikiz-cekmece summary .ikon { width: 24px; height: 24px; }
+.ikiz-sekmeler { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 12px; border-bottom: var(--cizgi-k) solid var(--cizgi); }
+.ikiz-sekmeler .etiket-dugme[aria-selected="true"], .ikiz-secim .etiket-dugme[aria-pressed="true"] { background: var(--zemin); color: var(--metin); font-weight: 700; border-width: 2px; padding: 0 15px; }
+.ikiz-panel { display: grid; gap: 24px; padding-top: 16px; }
+.ikiz-grup { display: grid; gap: 10px; min-width: 0; }
+.ikiz-h { font-size: var(--fs-1); font-weight: 700; color: var(--koyu); letter-spacing: 0.04em; text-transform: uppercase; }
+.ikiz-ipucu { color: var(--metin-2); }
+.ikiz-panel label { display: grid; gap: 6px; color: var(--metin-2); }
+.ikiz-panel label b { color: var(--metin); font-variant-numeric: tabular-nums; }
+.ikiz-panel select { width: 100%; min-width: 0; min-height: 48px; padding: 8px 12px; font: inherit; color: var(--metin); background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r); }
+.ikiz-panel input[type="range"] { width: 100%; min-height: 32px; margin: 0; accent-color: var(--mavi); }
+.ikiz-panel .ikiz-kutu { display: flex; align-items: center; gap: 10px; min-height: 44px; color: var(--metin); cursor: pointer; }
+.ikiz-kutu input { width: 20px; height: 20px; flex: none; margin: 0; accent-color: var(--koyu); }
+.ikiz-satir { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ikiz-satir-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ikiz-secim { display: flex; flex-wrap: wrap; gap: 8px; }
+.ikiz-dugmeler { display: flex; flex-wrap: wrap; gap: 8px; }
+.ikiz-dugmeler .dugme-cizgi, .ikiz-dugmeler .dugme { flex: 1 1 auto; font: inherit; font-weight: 700; cursor: pointer; }
+.ikiz-telefon { display: none; }
+/* Tablolar */
+.ikiz-tablo { width: 100%; border-collapse: collapse; font-size: var(--fs-0); }
+.ikiz-tablo th, .ikiz-tablo td { padding: 7px 6px; text-align: left; border-top: var(--cizgi-k) solid var(--cizgi); vertical-align: top; }
+.ikiz-tablo th { color: var(--metin-2); font-weight: 600; border-top: 0; }
+.ikiz-sayi { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+#sonucTablo .ikiz-sayi { white-space: normal; overflow-wrap: break-word; }
+.ikiz-baz { color: var(--metin-2); }
+.ikiz-hat-satir td { padding-top: 10px; font-weight: 700; color: var(--koyu); }
+.ikiz-im-satir { cursor: pointer; }
+.ikiz-im-satir:hover, .ikiz-im-satir.secili { background: var(--zemin); }
+.ikiz-im-satir.secili td:first-child { font-weight: 700; }
+.ikiz-durum { font-weight: 700; white-space: nowrap; }
+.ikiz-durum::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 50%; background: var(--cizgi); vertical-align: 0; }
+.ikiz-durum.asim { color: var(--acil); }
+.ikiz-durum.asim::before { background: var(--acil); }
+.ikiz-durum.ariza { color: var(--acil); }
+.ikiz-durum.ariza::before { background: var(--metin-2); }
+.ikiz-durum.dolu::before { background: var(--turuncu); }
+.ikiz-durum.bos { color: var(--metin-2); font-weight: 400; }
+.ikiz-durum.bos::before { background: var(--zemin); }
+#sonucTablo tr.iyi td:nth-child(2) { color: var(--koyu); font-weight: 700; }
+#sonucTablo tr.kotu td:nth-child(2) { color: var(--acil); font-weight: 700; }
+.ikiz-detay-baslik { font-size: var(--fs-1); font-weight: 700; margin-bottom: 6px; }
+.ikiz-detay { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: var(--fs-0); }
+.ikiz-detay dt { color: var(--metin-2); }
+.ikiz-detay dd { margin: 0; font-variant-numeric: tabular-nums; }
+.ikiz-oneriler, .ikiz-liste { display: grid; gap: 8px; padding-left: 20px; }
+.ikiz-oneriler li { color: var(--metin); }
+.ikiz-liste li { color: var(--metin-2); }
+
+/* ---------- Masaüstü ---------- */
+@media (min-width: 600px) and (min-height: 521px) { .ikiz-lejant { display: flex; } }
+@media (min-width: 960px) {
+  .ikiz-duzen { grid-template-columns: minmax(0, 1fr) 400px; align-items: start; gap: 20px; }
+  .ikiz-sahne { position: sticky; top: 16px; margin: 0; height: min(78vh, 720px); max-height: none; border-radius: var(--r); }
+  .ikiz-hud { top: 12px; left: 12px; right: 12px; }
+  .ikiz-cekmece { padding: 16px; border-left: var(--cizgi-k) solid var(--cizgi); }
+  .ikiz-cekmece > summary { display: none; }
+}
+/* ---------- Telefon ---------- */
+.ikiz-giris-kisa, .ikiz-nasil { display: none; }
+@media (max-width: 959px) {
+  .ikiz-giris-tam { display: none; }
+  .ikiz-giris-kisa { display: inline; }
+  .ikiz-nasil { display: block; margin-top: 4px; }
+  .ikiz-nasil summary { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; list-style: none; cursor: pointer; font-weight: 700; color: var(--koyu); }
+  .ikiz-nasil summary::-webkit-details-marker { display: none; }
+  .ikiz-nasil summary .ikon { width: 20px; height: 20px; transition: transform var(--gecis); }
+  .ikiz-nasil[open] summary .ikon { transform: rotate(180deg); }
+  .sayfa-bas .ikiz-nasil p { font-size: var(--fs-1); max-width: 72ch; padding-bottom: 4px; }
+  .ikiz-sahne { height: 52vh; height: 52svh; min-height: 320px; }
+  .ikiz-hud .ikiz-cip-senaryo { order: 3; }
+  .ikiz-oynatici { gap: 4px; padding: 4px 6px; }
+  .ikiz-hiz { display: none; }
+  .ikiz-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ikiz-telefon { display: inline-flex; }
+  .ikiz-cekmece { max-height: 60vh; max-height: 60svh; }
+  .ikiz-cekmece[open] { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .ikiz-cekmece > summary { position: sticky; top: 0; z-index: 2; background: var(--kart); }
+  .ikiz-cekmece > summary .ikon { width: 20px; height: 20px; }
+  .ikiz-cekmece .fk-gorev-sayac::before { content: "· "; color: var(--metin-2); }
+  .ikiz-sekmeler { position: sticky; top: 52px; z-index: 1; background: var(--kart); }
+}
+
+/* ---------- Fabrika Motoru bağlantısı ---------- */
+.ikiz-alt { padding-top: 16px; }
+.ikiz-motor { display: grid; gap: 16px; justify-items: start; padding: 24px; }
+.ikiz-motor > .ikon { color: var(--koyu); }
+.ikiz-motor-metin { display: grid; gap: 8px; max-width: 72ch; }
+.ikiz-motor-metin p { color: var(--metin-2); }
+.ikiz-motor-dugmeler { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (min-width: 760px) { .ikiz-motor { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 28px; } }
