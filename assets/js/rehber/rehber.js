@@ -37,7 +37,10 @@ function ikon(ad, sinif = "ikon") {
   return s;
 }
 
-const TELEFON = window.matchMedia("(max-width: 759px)");
+/* Telefon: dar ekran ya da yatay tutulmuş telefon (alçak ekran). Not alttan (yatayda yandan) açılır, ızgara sayfayla birlikte kayar. */
+const TELEFON = window.matchMedia("(max-width: 759px), (max-height: 500px)");
+/* Yatay telefon: not kartı ekranın bir yanında durur (rehber.css ile aynı sorgu) */
+const YATAY = window.matchMedia("(max-height: 500px) and (orientation: landscape)");
 const ILERLEME = "celcini-rehber";
 
 const oku = (anahtar) => { try { return localStorage.getItem(anahtar); } catch { return null; } };
@@ -133,7 +136,7 @@ function baslat() {
     };
     const girdi = h("input", {
       id: "rh-kod", name: "kod", type: "text", autocomplete: "off", autocapitalize: "characters", spellcheck: "false",
-      inputmode: "text", maxlength: "64", placeholder: "ABCD-EFGH-JKLM", required: true,
+      autocorrect: "off", enterkeyhint: "go", inputmode: "text", maxlength: "64", placeholder: "ABCD-EFGH-JKLM", required: true,
     });
     const mesaj = h("p", { sinif: "rh-kilit-hata", role: "alert" }, HATA[hata] || "");
     mesaj.hidden = !hata;
@@ -231,7 +234,7 @@ function baslat() {
       h("p", { sinif: "rh-karar" }, h("strong", {}, "Ne yapmalı? "), n.karar),
       h("button", { sinif: "rh-hucrede", type: "button", on: { click: () => notAc(i) } }, `Hücrede göster (${n.aralik})`))));
 
-    /* Not balonu: masaüstünde pinin yanında, telefonda alttan açılan kart */
+    /* Not balonu: masaüstünde pinin yanında, telefonda alttan (yatayda yandan) açılan kart */
     const balonBaslik = h("h3", { id: "rh-balon-baslik", sinif: "rh-balon-baslik" });
     const balonNo = h("span", { sinif: "rh-balon-no" });
     const balonMetin = h("p", { sinif: "rh-balon-metin" });
@@ -273,11 +276,49 @@ function baslat() {
       oncekiDugme.disabled = i === 0;
       temizle(sonrakiDugme).append(i < notlar.length - 1 ? "Sonraki not" : "Soruya geç", ikon("sag"));
       balon.hidden = false;
-      const kutuUst = kutu.getBoundingClientRect().top;
-      if (kutuUst < 0 || kutuUst > window.innerHeight * 0.6) kutu.scrollIntoView({ block: "start", behavior: "smooth" });
-      tablo.notGoster(i);
-      requestAnimationFrame(() => { balonYerlestir(); if (!TELEFON.matches) sonrakiDugme.focus({ preventScroll: true }); });
+      balon.scrollTop = 0;
+      if (!TELEFON.matches) {
+        const kutuUst = kutu.getBoundingClientRect().top;
+        if (kutuUst < 0 || kutuUst > window.innerHeight * 0.6) kutu.scrollIntoView({ block: "start", behavior: "smooth" });
+      }
+      alaniGoster(i);
       setTimeout(balonYerlestir, 400);
+    }
+    /* Alanı vurgular, kartı yerleştirir, alanı kartın örtmediği yere getirir. Telefon yan çevrilince de çalışır. */
+    function alaniGoster(i) {
+      if (YATAY.matches) yanKart(i); else tablo.notGoster(i);
+      requestAnimationFrame(() => {
+        balonYerlestir();
+        if (!TELEFON.matches) { sonrakiDugme.focus({ preventScroll: true }); return; }
+        /* Telefonda not alttan (yatayda yandan) açılır. Alanın üstü kartın örtmediği bandın dışındaysa
+           ya da alt kısmı kartın arkasında kalıyorsa alan, üstü 16 px'e gelecek kadar kaydırılır. */
+        const a = tablo.alan(i)?.getBoundingClientRect();
+        const alt = YATAY.matches ? window.innerHeight : balon.getBoundingClientRect().top;
+        if (a && (a.top < 8 || a.top > alt - 48 || (a.bottom > alt - 8 && a.top > 20))) window.scrollBy({ top: a.top - 16, behavior: "smooth" });
+      });
+    }
+    /* Yatay telefon: kart sağa konur, tablo alanı soldaki boş banda gelecek kadar kaydırılır.
+       Kart sağda kalır ki turda "Sonraki not" yer değiştirmesin; alanın görünen kısmı 120 px'ten azsa
+       (sayfanın sonundaki sütunlar) ve solda daha çoğu görünecekse kart sola geçer. */
+    function yanKart(i) {
+      balon.classList.add("rh-balon-alt-kart");
+      balon.classList.remove("rh-balon-solda");
+      const g = balon.offsetWidth + 16, k = kutu.getBoundingClientRect(), W = window.innerWidth;
+      /* Görünen genişlik dondurulmuş bandın sağından sayılır: alanın dondurulmuş sütunlardaki parçası
+         her durumda solda durur; kartın yerini alanın kayan (veri) sütunları belirler */
+      const donukSag = tablo.donukSag();
+      const gorunen = (solda) => {
+        const a = tablo.alan(i)?.getBoundingClientRect();
+        if (!a) return { gen: 0, tam: 0 };
+        const gen = Math.min(a.right, k.right, solda ? W : W - g) - Math.max(a.left, k.left, donukSag, solda ? g : 0);
+        return { gen: Math.max(0, gen), tam: a.width };
+      };
+      tablo.notGoster(i, { ortuSag: Math.max(0, k.right - (W - g)) });
+      const sagda = gorunen(false), sagKaydirma = kutu.scrollLeft;
+      if (sagda.gen >= Math.min(sagda.tam, 120) - 1) return;
+      tablo.notGoster(i, { ortuSol: Math.max(0, g - k.left) });
+      if (gorunen(true).gen > sagda.gen + 1) balon.classList.add("rh-balon-solda");
+      else kutu.scrollLeft = sagKaydirma;
     }
     function notKapat() {
       okumayiDurdur();
@@ -302,6 +343,18 @@ function baslat() {
     window.addEventListener("scroll", yeniden, { passive: true });
     window.addEventListener("resize", yeniden);
     kutu.addEventListener("scroll", yeniden, { passive: true });
+    /* Telefon yan çevrilince (ya da geri) dondurulan sütunlar ve açık not yeni genişliğe göre yerleşir;
+       sesli okuma kesilmez. Öteki genişlik değişikliklerinde (pencere boyutu) aynısı kısa bir gecikmeyle yapılır. */
+    YATAY.addEventListener?.("change", () => { tablo.dondurmaYenile(); if (acikNot !== null && !balon.hidden) alaniGoster(acikNot); });
+    let genislikGecikme = null, sonGenislik = kutu.clientWidth;
+    window.addEventListener("resize", () => {
+      clearTimeout(genislikGecikme);
+      genislikGecikme = setTimeout(() => {
+        if (kutu.clientWidth === sonGenislik) return;
+        sonGenislik = kutu.clientWidth;
+        if (tablo.dondurmaYenile() && acikNot !== null && !balon.hidden) alaniGoster(acikNot);
+      }, 150);
+    });
 
     /* Ders sorusu */
     const soru = icerik.soru;
