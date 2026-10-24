@@ -169,7 +169,8 @@ a.rh-sekme:hover { background: var(--zemin); color: var(--metin); }
   display: grid; gap: 10px; padding: 16px; background: var(--kart); border: 2px solid var(--koyu); border-radius: var(--r);
 }
 .rh-balon[hidden] { display: none !important; }
-/* Telefonda alttan açılan kart. Kartın içi sonuna kadar kaydırılınca arkadaki sayfa kaymaz (vurgulanan alan yerinde kalır). */
+/* Telefonda alttan açılan kart (yatay telefon için aşağıdaki sorgu). Kartın içi sonuna kadar kaydırılınca arkadaki sayfa
+   kaymaz, vurgulanan alan yerinde kalır (overscroll-behavior: iOS 16+, Chrome 63+). */
 .rh-balon-alt-kart {
   position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); top: auto; width: auto;
   max-height: 58vh; max-height: 58svh; overscroll-behavior: contain;

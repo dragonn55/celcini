@@ -37,7 +37,7 @@ function ikon(ad, sinif = "ikon") {
   return s;
 }
 
-/* Telefon: dar ekran ya da yatay tutulmuş telefon (alçak ekran). Not alttan açılır, ızgara sayfayla birlikte kayar. */
+/* Telefon: dar ekran ya da yatay tutulmuş telefon (alçak ekran). Not alttan (yatayda yandan) açılır, ızgara sayfayla birlikte kayar. */
 const TELEFON = window.matchMedia("(max-width: 759px), (max-height: 500px)");
 /* Yatay telefon: not kartı ekranın bir yanında durur (rehber.css ile aynı sorgu) */
 const YATAY = window.matchMedia("(max-height: 500px) and (orientation: landscape)");
@@ -234,7 +234,7 @@ function baslat() {
       h("p", { sinif: "rh-karar" }, h("strong", {}, "Ne yapmalı? "), n.karar),
       h("button", { sinif: "rh-hucrede", type: "button", on: { click: () => notAc(i) } }, `Hücrede göster (${n.aralik})`))));
 
-    /* Not balonu: masaüstünde pinin yanında, telefonda alttan açılan kart */
+    /* Not balonu: masaüstünde pinin yanında, telefonda alttan (yatayda yandan) açılan kart */
     const balonBaslik = h("h3", { id: "rh-balon-baslik", sinif: "rh-balon-baslik" });
     const balonNo = h("span", { sinif: "rh-balon-no" });
     const balonMetin = h("p", { sinif: "rh-balon-metin" });
@@ -343,8 +343,18 @@ function baslat() {
     window.addEventListener("scroll", yeniden, { passive: true });
     window.addEventListener("resize", yeniden);
     kutu.addEventListener("scroll", yeniden, { passive: true });
-    /* Telefon yan çevrilince (ya da geri) açık not yeni düzene göre yerleşir; sesli okuma kesilmez */
-    YATAY.addEventListener?.("change", () => { if (acikNot !== null && !balon.hidden) alaniGoster(acikNot); });
+    /* Telefon yan çevrilince (ya da geri) dondurulan sütunlar ve açık not yeni genişliğe göre yerleşir;
+       sesli okuma kesilmez. Öteki genişlik değişikliklerinde (pencere boyutu) aynısı kısa bir gecikmeyle yapılır. */
+    YATAY.addEventListener?.("change", () => { tablo.dondurmaYenile(); if (acikNot !== null && !balon.hidden) alaniGoster(acikNot); });
+    let genislikGecikme = null, sonGenislik = kutu.clientWidth;
+    window.addEventListener("resize", () => {
+      clearTimeout(genislikGecikme);
+      genislikGecikme = setTimeout(() => {
+        if (kutu.clientWidth === sonGenislik) return;
+        sonGenislik = kutu.clientWidth;
+        if (tablo.dondurmaYenile() && acikNot !== null && !balon.hidden) alaniGoster(acikNot);
+      }, 150);
+    });
 
     /* Ders sorusu */
     const soru = icerik.soru;

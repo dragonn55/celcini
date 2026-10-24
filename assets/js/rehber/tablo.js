@@ -75,10 +75,19 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     return !!stil(h).kenar;
   };
 
-  const donuk = (() => {
+  /* Dosyadaki dondurulmuş bölme. Dondurulmuş sütunlar ızgaranın yarısından genişse (telefon) yalnızca sığan kadarı
+     dondurulur, yoksa veri sütunlarına yer kalmaz. Satırlar dosyadaki gibi kalır. Her çizimde yeniden hesaplanır. */
+  const dosyaDonuk = (() => {
     const m = String(sayfa.dondur || "").match(/^([A-Z]+)(\d+)$/);
     return m ? { c: harfNo(m[1]), r: Number(m[2]) } : { c: 1, r: 1 };
   })();
+  const donuk = { ...dosyaDonuk };
+  function donukSutunAyarla() {
+    const sinir = kutu.clientWidth / 2;
+    let c = dosyaDonuk.c, gen = NUMARA_G + sutunlar.slice(0, c - 1).reduce((t, s) => t + s.genislik, 0);
+    while (c > 1 && sinir > 0 && gen * k > sinir) { c--; gen -= sutunlar[c - 1].genislik; }
+    donuk.c = c;
+  }
 
   const notAlanlari = notlar.map((n) => aralikCoz(n.aralik));
   let k = olcek;
@@ -159,6 +168,7 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
   }
 
   function ciz() {
+    donukSutunAyarla();
     while (izgara.firstChild) izgara.removeChild(izgara.firstChild);
     katmanlar.alan = []; katmanlar.pin = [];
     const gen = sutunlar.map((s) => s.genislik * k);
@@ -323,5 +333,13 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     alan: (i) => katmanlar.alan[i] || null,
     /* Dondurulmuş bandın (satır numaraları ve dondurulmuş sütunlar) ekrandaki sağ kenarı: kaydırmayla yer değiştirmez */
     donukSag: () => kutu.getBoundingClientRect().left + kutu.clientLeft + solKenar[donuk.c],
+    /* Genişlik değişince (ekran dönünce) dondurulan sütun sayısı yeniden hesaplanır; değiştiyse ızgara yeniden çizilir */
+    dondurmaYenile() {
+      const once = donuk.c;
+      donukSutunAyarla();
+      if (donuk.c === once) return false;
+      ciz();
+      return true;
+    },
   };
 }

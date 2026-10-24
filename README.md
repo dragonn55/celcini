@@ -174,8 +174,11 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 
 Excel dosyasının sayfaları sitede dosyadaki değerleri, renkleri, birleşik hücreleri, dondurulmuş bölmeleri ve grafikleriyle açılır.
 Notlu alanın sağ üst köşesinde turuncu üçgen durur; alandaki bir hücreye dokununca Ajan GM'nin notu açılır (masaüstünde yanında,
-telefonda alttan). "Notları sırayla gez" notları sırayla dolaşır, ad kutusu tıklanan hücrenin değerini ve formül sonucu olup
-olmadığını gösterir, her dersin sonunda tek soru vardır (cevap tarayıcıda hatırlanır: `celcini-rehber`). Site veri almaz.
+telefonda alttan, yatay tutulan telefonda ekranın yarısında yanda; alan kartın örtmediği yere kaydırılır). "Notları sırayla gez"
+notları sırayla dolaşır, ad kutusu tıklanan hücrenin değerini ve formül sonucu olup olmadığını gösterir, her dersin sonunda tek soru
+vardır (cevap tarayıcıda hatırlanır: `celcini-rehber`). Site veri almaz. Dondurulmuş sütunlar ızgaranın yarısından genişse
+(dar telefon) yalnızca sığan kadarı dondurulur; uzaklaştırınca ya da ekran genişleyince (telefon yan çevrilince) yer yettiği
+ölçüde dosyadaki dondurma geri gelir (`tablo.js` → `donukSutunAyarla`).
 
 - **İçerik:** `data/datakit/dersler.json`. Her ders: `id`, `sira`, `sayfa_adi`, `baslik`, `ozet`, `ucretsiz`, `ajan_gm`
   (isteğe bağlı `ajan_gm_ses`), `notlar[]` ve `soru`. Not: `aralik` ("B7:M9"), `baslik`, `metin`, `karar` ("Ne yapmalı?"),
