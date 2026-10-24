@@ -87,7 +87,7 @@ def kiler():
         s=w["Kiler"]; assert [s.cell(R0+i,8).value for i in range(6)]==["Tamam","Bu hafta bitiyor","Tamam","Tarihi geçti","Azaldı","Tamam"]
         o=w["Özet"]; assert [o.cell(6,c).value for c in range(2,6)]==[6,1,1,2] and o["B11"].value=="Süt" and o["B12"].value=="Yoğurt" and o["I11"].value=="Yoğurt" and o["I12"].value=="Bulaşık deterjanı"
     p.done([("1. Kiler","Ürünleri, miktarı, en az miktarı ve son kullanma tarihini yaz. Kullandıkça miktarı güncelle."),("2. Özet","Tarihi yaklaşan ürünler ve alışveriş listesi kendiliğinden çıkar.")],
-      [("Azaldı","Miktar, en az miktara eşit ya da altındaysa ürün alışveriş listesine girer."),("Tek tarih","Aynı üründen farklı tarihli paketler varsa en yakın tarihi yaz ya da ayrı satır aç.")],
+      [("Azaldı","Miktar, en az miktara eşit ya da altındaysa ürün alışveriş listesine girer."),("Tek tarih","Aynı üründen farklı tarihli paketler varsa en yakın tarihi yaz; her ürün adı bir kez girilir.")],
       "Paylaşılacak kişisel bilgi yok; yine de adres yazma.",[("Yemek fikri","[Özet sayfasındaki tarihi yaklaşanlar] Bu ürünleri kullanarak yapılabilecek üç yemek öner."),("Alışveriş listesi","[Alışveriş listesi] Bu listeyi market reyonlarına göre grupla."),("İsraf analizi","Tarihi geçen ürünlerime bakarak israfı azaltmak için üç alışkanlık öner."),("Stok önerisi","Dört kişilik bir ev için bu ürünlerin en az miktarlarını gözden geçir.")],"ExcelKlinigi_KILER_Erzak_Takibi.xlsx",check=chk)
 
 def davet():

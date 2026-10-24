@@ -4,6 +4,26 @@ from datetime import date, timedelta
 from openpyxl import load_workbook
 import random
 
+def sutun_gizle(fn,sayfa,ilk,son):
+    """Hesaplanıp kaydedilmiş dosyada sayfanın ilk–son (1 tabanlı) sütunlarını gizler; yalnız XML'e dokunur (grafikler korunur)."""
+    import zipfile, re, os
+    with zipfile.ZipFile(fn) as z:
+        wbx=z.read("xl/workbook.xml").decode(); rel=z.read("xl/_rels/workbook.xml.rels").decode()
+        rid=re.search(r'<sheet name="'+re.escape(sayfa)+r'"[^>]*r:id="([^"]+)"',wbx).group(1)
+        hedef=re.search(r'<Relationship[^>]*Id="'+rid+r'"[^>]*/>',rel).group(0)
+        yol=re.search(r'Target="([^"]+)"',hedef).group(1).lstrip("/"); yol=yol if yol.startswith("xl/") else "xl/"+yol
+        icerik={i.filename:(i,z.read(i.filename)) for i in z.infolist()}
+    def gizle(m):
+        e=m.group(0); a=int(re.search(r' min="(\d+)"',e).group(1)); b=int(re.search(r' max="(\d+)"',e).group(1))
+        if ilk<=a and b<=son: e=re.sub(r'hidden="(false|0)"','hidden="true"',e) if "hidden=" in e else e.replace("<col ",'<col hidden="true" ',1)
+        return e
+    x=icerik[yol][1].decode(); y=re.sub(r"<col [^>]*/>",gizle,x)
+    assert y!=x and 'hidden="true"' in y,"gizlenecek sütun bulunamadı"
+    icerik[yol]=(icerik[yol][0],y.encode())
+    with zipfile.ZipFile(fn+".tmp","w") as z:
+        for i,v in icerik.values(): z.writestr(i,v)
+    os.replace(fn+".tmp",fn)
+
 def tahlil():
     B=Book("TAHLİL","Satış analizi","Satış kayıtlarını yapıştır; en çok kazandıran ürünler, en değerli müşteriler, aylık gidiş ve haftanın günleri kendiliğinden çıksın.")
     NV,NK=2000,200; V="Veri"
@@ -19,7 +39,8 @@ def tahlil():
         r=R0+i
         wv.cell(r,6,f'=IF(C{r}="",0,IF(COUNTIF(C${R0}:C{r},C{r})=1,1,0))'); wv.cell(r,7,f"=SUM(F${R0}:F{r})")
         wv.cell(r,8,f'=IF(B{r}="",0,IF(COUNTIF(B${R0}:B{r},B{r})=1,1,0))'); wv.cell(r,9,f"=SUM(H${R0}:H{r})")
-    for c in "FGHI": wv.column_dimensions[c].hidden=True
+    # F–I ara hesap sütunları kayıttan SONRA gizlenir (sutun_gizle): LibreOffice, yalnız gizli sütunda içeriği olan satırları
+    # kaydederken atıyor (son görünür veriden ~1000 satır sonrası); gizli kalsalardı 1085–2004. satırların formülleri kaybolurdu
     wv.freeze_panes="A5"; B.dv(wv,"date",f"A{R0}:A{R0+NV-1}"); B.dv(wv,"nonneg",f"D{R0}:E{R0+NV-1}")
     VA,VB,VC,VD,VE,VG,VI=[rg(V,c,NV) for c in "ABCDEGI"]
     def analiz(name,title,sub,keycol,cumcol,heads,extra):
@@ -64,6 +85,7 @@ def tahlil():
       (None,None),("BİLMEN GEREKENLER",None),("A, B, C sınıfı","Ürünler cirosuna göre dizilir. Cironun ilk yüzde 80'ini getirenler A, sonraki yüzde 15'i getirenler B, kalanlar C sınıfıdır. A sınıfı az sayıda üründür ama kazancın çoğunu onlar getirir."),("Yazım farkı","Aynı ürünü ya da müşteriyi iki farklı yazarsan iki ayrı satır olarak sayılır. Adları tek biçimde yaz."),("Kâr değil ciro","Dosya maliyet bilgisi istemez; bu yüzden kâr değil ciro analizi yapar."),("Kapasite",f"{NV} satış satırı; analizde {NK} ürün ve {NK} müşteri. Dosya dolu veriyle birkaç saniye geç hesaplayabilir.")])
     B.ai("Müşteri adlarını Müşteri Alfa, Müşteri Beta gibi takma adlarla değiştir.",[("Genel yorum","[Özet sayfası] Satışlarımı beş cümleyle yorumla: gidiş nasıl, hangi ay öne çıkıyor, dikkat etmem gereken ne?"),("A sınıfı strateji","[Ürünler sayfası] A sınıfı ürünlerim için stokta kalmama, fiyat ve tanıtım açısından birer öneri ver."),("C sınıfı karar","[Ürünler sayfası] C sınıfı ürünlerden hangilerini bırakmayı düşünmeliyim? Son satış tarihine ve ciroya göre gerekçelendir."),("Müşteri bağımlılığı","[Müşteriler sayfası] Cironun ne kadarı ilk üç müşteriden geliyor? Bu bir risk mi, nasıl azaltırım?"),("Geri kazanma","[Müşteriler sayfası] Son alışverişi 45 günden eski olan müşterileri listele ve onlara gönderilecek kısa bir mesaj yaz."),("Birlikte satılanlar","[Veri sayfası] Aynı müşterinin aynı gün aldığı ürünlere bakarak sık birlikte satılan ürün çiftlerini bul."),("Zayıf gün","[Özet sayfasındaki gün tablosu] En zayıf günüm hangisi? O gün için bir kampanya fikri öner.")])
     fn=OUT+"ExcelKlinigi_TAHLIL_Satis_Analizi.xlsx"; B.save(["Başla",V,"Özet","Ürünler","Müşteriler","AI Komutları"],fn)
+    sutun_gizle(fn,V,6,9)
     w=load_workbook(fn,data_only=True); u=w["Ürünler"]; m=w["Müşteriler"]; o=w["Özet"]
     from collections import defaultdict
     cu=defaultdict(float); au=defaultdict(float); cm=defaultdict(float); mon=defaultdict(float); wd=defaultdict(float)

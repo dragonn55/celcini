@@ -83,7 +83,7 @@ def karne():
       "Öğrenci numaranı paylaşma.",[("Çalışma planı","[Dersler sayfası] Finalden gereken notu en yüksek olan derslere öncelik vererek iki haftalık bir çalışma planı hazırla."),("Ortalama yükseltme","Genel ortalamamı [hedef] yapmak için kalan derslerden ortalama kaç almalıyım?"),("Ders tekrarı","Hangi dersi tekrar alırsam ortalamama en çok katkı sağlar? Kredi ve mevcut harfe göre sırala."),("Konu özeti","[ders adı] dersinin final konularını çalışmak için bir kontrol listesi oluştur; konuları ben yazacağım.")],"ExcelKlinigi_KARNE_Not_Ortalama.xlsx",order=["Başla","Dersler","Özet","Not Tablosu","Listeler","AI Komutları"],check=chk)
 
 def antrenman():
-    p=P("ANTRENMAN","Antrenman günlüğü","Hangi harekette ne kaldırdın, rekorun ne, haftalık ve aylık yükün nasıl gidiyor."); n=2000
+    p=P("ANTRENMAN","Antrenman günlüğü","Hangi harekette ne kaldırdın, rekorun ne, aylık yükün nasıl gidiyor."); n=2000
     L=p.lists({"Hareket":["Squat","Bench press","Deadlift","Barfiks","Omuz press","Koşu (km)"]}); rB,rH=[f"${c}${R0}:${c}${R0+n-1}" for c in "BH"]
     a=p.table("Günlük","Antrenman Günlüğü","Her set grubunu bir satır yaz: hareket, set, tekrar ve ağırlık.",[("Tarih","d"),("Hareket","l",L["Hareket"],18),("Set","n"),("Tekrar","n"),("Ağırlık (kg)","n",'0.0'),("Hacim (kg)","c",('=IF(OR(C{r}="",D{r}="",E{r}=""),"",C{r}*D{r}*E{r})',NUM)),
        ("Tahmini 1 tekrar (kg)","c",('=IF(OR(D{r}="",E{r}=""),"",E{r}*(1+D{r}/30))','0.0'),15),("y1","h",('=IF(G{r}="",0,G{r})',None)),("Rekor","c",(f'=IF(H{{r}}>0,IF(H{{r}}>=SUMPRODUCT(MAX(({rB}=B{{r}})*{rH})),"Rekor",""),"")',None)),("y2","h",(f'=IF(A{{r}}="",0,IF(COUNTIF(A${R0}:A{{r}},A{{r}})=1,1,0))',None))],n,

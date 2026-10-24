@@ -1490,7 +1490,7 @@
     "ozellikler": [
       "Satışta ürünü seçip adedi yazarsınız; tutar, maliyet ve kâr her satırda hesaplanır",
       "Stok kendiliğinden güncellenir; kritik seviyeye inen ürün Kritik, sıfıra inen Tükendi yazar",
-      "Cariler'de her kişi için alacak bakiyesi, borç bakiyesi ve net durum hesaplanır",
+      "Cariler'de her kişi için alacak bakiyesi, borç bakiyesi ve net (alacak − borç) hesaplanır",
       "Panel: seçilen yılın ciro, satış maliyeti, brüt kâr, giderler, net kâr ve net kâr / ciro oranı",
       "Panel: kasa + banka, toplam alacak ve borç, stok değeri, kritik ve tükenen ürünler, net durum",
       "Panel: aylık kâr zarar tablosu, en çok satan ürünler, stok uyarıları, en çok alacağınız olan kişiler, grafik"
@@ -1539,7 +1539,7 @@
       },
       {
         "sayfa": "Cariler",
-        "aciklama": "Müşteri ve tedarikçiler, telefon, açılış alacağı ve borcu; alacak, borç ve net bakiye hesaplanır."
+        "aciklama": "Müşteri ve tedarikçiler, telefon, açılış alacağı ve borcu; alacak bakiyesi, borç bakiyesi ve net hesaplanır."
       },
       {
         "sayfa": "Ayarlar",
@@ -2050,7 +2050,7 @@
     "slug": "maliyet-urun-maliyeti",
     "ad": "MALİYET: Ürün Maliyeti ve Fiyat Hesaplama",
     "kisa": "Malzeme fiyatlarından ve reçetelerden ürün maliyetini hesaplar; hedef marja ulaşmak için satış fiyatının ne olması gerektiğini gösterir.",
-    "aciklama": "Malzemeler sayfasına malzemeleri, paket fiyatını ve paket miktarını; Ürünler sayfasına ürünü, reçetenin kaç adet verdiğini, adet başına ek maliyeti ve satış fiyatını; Reçeteler sayfasına her ürünün malzemelerini ve miktarını yazarsınız. Dosya malzemenin birim fiyatını, reçete maliyetini, birim maliyeti, kârı ve marjı hesaplar; hedef marja ulaşmak için olması gereken fiyatı da gösterir. Özet sayfasında hedef marjı yazarsınız, hedefin altındaki ürünler görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Malzemeler sayfasına malzemeleri, paket fiyatını ve paket miktarını; Ürünler sayfasına ürünü, reçetenin kaç adet verdiğini, adet başına ek maliyeti ve satış fiyatını; Reçeteler sayfasına her ürünün malzemelerini ve miktarını yazarsınız. Dosya malzemenin birim fiyatını, reçete maliyetini, birim maliyeti, kârı ve marjı hesaplar; hedef marja ulaşmak için olması gereken fiyatı da gösterir. Özet sayfasında hedef marjı yazarsınız; hedefin altındaki ürün sayısı ve marjı en düşük ürünler görünür. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Malzemeler: paket fiyatı ve paket miktarından birim fiyat hesaplanır",
       "Reçeteler: ürün ve malzeme açılır listeden seçilir, miktar yazılır; satır maliyeti hesaplanır",
@@ -2091,7 +2091,7 @@
       },
       {
         "sayfa": "Özet",
-        "aciklama": "Hedef marj, ürün sayısı, ortalama marj, hedefin altındaki ürünler, marjı en düşük ürünler."
+        "aciklama": "Hedef marj, ürün sayısı, ortalama marj, hedefin altındaki ürün sayısı, marjı en düşük ürünler."
       },
       {
         "sayfa": "AI Komutları",
@@ -2103,7 +2103,7 @@
       "Malzemeler'e aldığınız paketin fiyatını ve içindeki miktarı yazın; birim fiyat hesaplanır.",
       "Ürünler'e ürünü, reçetenin kaç adet verdiğini, adet başına ek maliyeti ve satış fiyatını yazın.",
       "Reçeteler'e her ürünün malzemelerini ve miktarını malzemenin birimiyle girin.",
-      "Özet'e hedef marjınızı yazın; hedefin altındaki ürünleri görün."
+      "Özet'e hedef marjınızı yazın; hedefin altındaki ürünleri Ürünler sayfasındaki Durum sütunundan, gereken fiyatı Hedef marja göre fiyat sütunundan görün."
     ],
     "teknik_not": "Malzemeler sayfası 150, Ürünler sayfası 80, Reçeteler sayfası 1000 satıra kadar hesaplanır. Marj, kârın satış fiyatına oranıdır; kira, elektrik gibi genel giderler birim maliyete dahil değildir, onları adet başına ek maliyete kendiniz katabilirsiniz. Fiyat ve maliyetleri hep aynı şekilde (KDV dahil ya da hariç) yazın.",
     "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_MALIYET_Urun_Maliyeti.xlsx"
@@ -2399,7 +2399,7 @@
       "satış"
     ],
     "sayfa_sayisi": 4,
-    "soz": "Hangi cihazın kimde olduğunu, ne zamandır beklediğini, hazır olanı kimin almadığını, kimden tahsilat kaldığını görün.",
+    "soz": "Hangi cihaz kimde, ne zamandır bekliyor, hazır olanı kim almadı, kimden tahsilat kaldı.",
     "gorseller": [
       {
         "src": "/assets/img/urun/servis-is-emri-takibi/1-ozet.png",
@@ -2461,7 +2461,7 @@
       "planlama"
     ],
     "sayfa_sayisi": 5,
-    "soz": "Hangi ürünün hangi tarihte kimde olduğunu, aynı güne iki rezervasyon olup olmadığını, hangi ürünün ne kadar kazandırdığını görün.",
+    "soz": "Hangi ürün hangi tarihte kimde, aynı güne iki rezervasyon var mı, hangi ürün ne kadar kazandırdı.",
     "gorseller": [
       {
         "src": "/assets/img/urun/kiralama-rezervasyon-takibi/1-ozet.png",
@@ -2519,7 +2519,7 @@
       "Paketler sayfasında her paketin süren üyelik sayısı görünür",
       "Özet sayfasında süren üyelik, bitmek üzere olanlar, toplam borç ve yıl tahsilatı yer alır",
       "Aylık tablo: her ayın yeni üyelik sayısı ve tahsilatı; yılı Özet sayfasından seçersiniz",
-      "Üyeliği en yakın bitecek üyeler üye, bitiş ve paket bilgisiyle listelenir"
+      "Üyeliği en yakın bitecek kişiler Üye, Bitiş ve Paket sütunlarıyla Özet sayfasında listelenir"
     ],
     "kimin_icin": "Spor salonu, kurs ya da stüdyo işletip üyeliklerin süresini, ödemesini ve yenilemesini takip etmek isteyenler.",
     "etiketler": [
@@ -2527,7 +2527,7 @@
       "satış"
     ],
     "sayfa_sayisi": 5,
-    "soz": "Spor salonunuzda, kursunuzda ya da stüdyonuzda kimin üyeliğinin sürdüğünü, kiminkinin bitmek üzere olduğunu ve kimin borcu olduğunu görün.",
+    "soz": "Spor salonunuzda, kursunuzda ya da stüdyonuzda kimin üyeliğinin sürdüğünü, kimin üyeliğinin bitmek üzere olduğunu ve kimin borcu olduğunu görün.",
     "gorseller": [
       {
         "src": "/assets/img/urun/uyelik-paket-takibi/1-ozet.png",
@@ -2578,7 +2578,7 @@
     "slug": "randevu-randevu-defteri",
     "ad": "RANDEVU: Randevu Defteri",
     "kisa": "Randevuları tarih ve saatle tutar, çakışmayı uyarır; gelen, gelmeyen ve ciroyu aylık özetler.",
-    "aciklama": "Önce hizmetlerinizi süresi ve ücretiyle, müşterilerinizi de adlarıyla yazarsınız; sonra her randevuyu tarih, saat, müşteri ve hizmetle girersiniz. Bitiş saati hizmet süresinden hesaplanır, saatleri çakışan randevularda Çakışıyor uyarısı çıkar ve yalnızca durumu Geldi olan randevular ciroya girer. Özet sayfası aylık randevu, gelen, gelmeyen ve ciroyu, en çok yapılan hizmetleri ve en çok harcayan müşterileri gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "aciklama": "Önce hizmetlerinizi süresi ve ücretiyle, müşterilerinizi de adlarıyla yazarsınız; sonra her randevuyu tarih, saat, müşteri ve hizmetle girersiniz. Bitiş saati hizmet süresinden hesaplanır ve saatleri çakışan randevularda Çakışıyor uyarısı çıkar. Özet sayfası aylık randevu, gelen, gelmeyen ve ciroyu, en çok yapılan hizmetleri ve en çok harcayan müşterileri gösterir. AI Komutları sayfasında 6 hazır komut var.",
     "ozellikler": [
       "Müşteri, hizmet ve Durum (Bekliyor, Geldi, Gelmedi, İptal) açılır listeden seçilir",
       "Bitiş saati hizmet süresinden hesaplanır; özel ücret yazmazsanız hizmetin liste ücreti kullanılır",
@@ -2794,7 +2794,7 @@
     "slug": "yevmiye-puantaj-hakedis",
     "ad": "YEVMİYE: Gündelik İşçi Puantaj ve Hakediş",
     "kisa": "Gündelik işçilerin çalıştığı gün ve mesaiyi kaydeder; dönem hakedişini, avansı, kalan borcu ve iş bazında işçilik maliyetini hesaplar.",
-    "aciklama": "Kişiler sayfasına çalışanları, günlük ücreti ve mesai saat ücretini, Puantaj sayfasına çalışılan her günü kişi ve işle, Ödemeler sayfasına verdiğiniz avans ve ödemeleri yazarsınız. Özet sayfasında dönemin başlangıç ve bitiş tarihini seçince hakediş, ödenen ve kalan borç ile iş bazında işçilik maliyeti hesaplanır; önceki dönemden devreden borç eklenmez. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Kişiler sayfasına çalışanları, günlük ücreti ve mesai saat ücretini, Puantaj sayfasına çalışılan her günü kişi ve işle, Ödemeler sayfasına verdiğiniz avans ve ödemeleri yazarsınız. Özet sayfasında dönemin başlangıç ve bitiş tarihini seçince hakediş, ödenen ve kalan borç ile iş bazında işçilik maliyeti hesaplanır. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Puantaj sayfasında Gün ve Mesai (saat) girilir; Maliyet günlük ücret ile mesai saat ücretinden hesaplanır",
       "Kişi, İş ve ödeme türü (Avans, Ödeme) açılır listelerden seçilir",
@@ -2918,7 +2918,7 @@
       "Demirbaşlar sayfasına her demirbaşı alış tarihi, bedeli, faydalı ömrü (yıl olarak) ve zimmetlisiyle girin.",
       "Özet sayfasında toplam bedeli, net değeri, kategori ve kişi bazında dağılımı izleyin."
     ],
-    "teknik_not": "Demirbaşlar sayfası 500 satıra kadar hesaplar. Amortisman basit bir yöntemdir: bedel faydalı ömre eşit bölünür ve alış tarihinden bugüne geçen süreyle çarpılır. Vergi hesabı değildir; vergi mevzuatındaki oran ve yöntemler farklı olabilir, resmî amortisman için mali müşavire danışılmalıdır.",
+    "teknik_not": "Demirbaşlar sayfası 500 satıra kadar hesaplar. Amortisman basit bir yöntemle hesaplanır ve vergi hesabı değildir; vergi mevzuatındaki oran ve yöntemler farklı olabilir, resmî amortisman için mali müşavire danışılmalıdır.",
     "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DEMIRBAS_Zimmet_Takibi.xlsx"
   },
   {
@@ -3005,7 +3005,7 @@
     "slug": "saat-serbest-calisan-takibi",
     "ad": "SAAT: Serbest Çalışan Saat Takibi",
     "kisa": "Müşteri başına çalışılan saati ve tutarı kaydeder; faturalanan ve faturalanmayı bekleyen tutarı gösterir.",
-    "aciklama": "Önce müşterilerinizi ve saat ücretini yazarsınız; sonra her çalışmayı tarih, müşteri, iş ve saat olarak girersiniz (dakikayı ondalık yazın: 30 dakika 0,5 saattir). Tutar, saatin müşterinin saat ücretiyle çarpımıdır; faturasını kestiğiniz kaydın Faturalandı sütununu Evet yaparsınız. Özet sayfası aylık saat ve tutarı, faturalanmayı bekleyen tutarı gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Önce müşterilerinizi ve saat ücretini yazarsınız; sonra her çalışmayı tarih, müşteri, iş ve saat olarak girersiniz. Tutar, saatin müşterinin saat ücretiyle çarpımıdır; faturasını kestiğiniz kaydın Faturalandı sütununu Evet yaparsınız. Özet sayfası aylık saat ve tutarı, faturalanmayı bekleyen tutarı gösterir. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Kayıtlar sayfasında Tutar, saat ile müşterinin saat ücretinden hesaplanır",
       "Faturalandı sütunu Evet ya da Hayır seçilir; Hayır olanlar faturalanmamış tutarı oluşturur",
@@ -3137,7 +3137,7 @@
     "slug": "karar-matrisi",
     "ad": "KARAR: Karar Matrisi",
     "kisa": "Seçenekleri sizin koyduğunuz ölçütlerle ağırlıklı puanlayıp sıralar; öndeki seçeneği ve puan farkını gösterir.",
-    "aciklama": "Ölçütleri ve her birinin önemini 1 ile 10 arasında yazarsınız, seçenekleri üst satıra girersiniz, her seçeneği her ölçütte 1 ile 10 arasında puanlarsınız. Yüksek puan her zaman daha iyi demek olmalıdır: fiyatta ucuz olan yüksek puan alır. Dosya her ölçütün puanını o ölçütün toplam önem içindeki payıyla çarpıp toplar; ağırlıklı puanı, sırayı ve öndeki seçeneği verir. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Ölçütleri ve her birinin önemini 1 ile 10 arasında yazarsınız, seçenekleri üst satıra girersiniz, her seçeneği her ölçütte 1 ile 10 arasında puanlarsınız. Dosya her ölçütün puanını o ölçütün toplam önem içindeki payıyla çarpıp toplar; ağırlıklı puanı, sırayı ve öndeki seçeneği verir. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Her ölçütün Pay değeri, önem puanının toplam önem içindeki oranından hesaplanır",
       "Her seçenek için Ağırlıklı puan ve Sıra hesaplanır; birinci sıradaki seçenek vurgulanır",
@@ -3196,7 +3196,7 @@
     "slug": "kiraci-kira-geliri-takibi",
     "ad": "KİRACI: Kira Geliri Takibi",
     "kisa": "Dairelerin kirasını, tahsilatını ve giderini izler; eksik kirayı ve yıllık net geliri hesaplar.",
-    "aciklama": "Daireler sayfasına dairenizi, kiracıyı, aylık kirayı, kira gününü ve sözleşme başlangıcını, Tahsilatlar sayfasına gelen her kira ödemesini tarihiyle, Giderler sayfasına aidat, tamir ve vergi gibi masrafları yazarsınız. Dosya, seçtiğiniz yılda sözleşme başlangıcından bugüne kira günü geçmiş her ay için bir kira sayar; Özet sayfası beklenen, tahsil edilen ve eksik kirayı, gideri ve net geliri verir. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Her daireyi kiracısı, aylık kirası, kira günü ve sözleşme başlangıcıyla Daireler sayfasına, gelen her kira ödemesini tarihiyle Tahsilatlar sayfasına, aidat, tamir ve vergi gibi masrafları Giderler sayfasına yazarsınız. Özet sayfası seçtiğiniz yıl için beklenen, tahsil edilen ve eksik kirayı, gideri ve net geliri verir. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Daireler sayfasında Beklenen kira, Ödenen, Eksik, Gider ve Net gelir her daire için hesaplanır",
       "Durum sütunu Gecikmiş ya da Güncel yazar; gecikmiş daireler renkle ayrılır",
@@ -3210,7 +3210,7 @@
       "bütçe"
     ],
     "sayfa_sayisi": 7,
-    "soz": "Hangi kiracının ödediğini, hangisinin geride kaldığını ve dairenin size yılda net ne bıraktığını görün.",
+    "soz": "Hangi kiracının ödediğini, hangisinin geride kaldığını ve dairelerin size yılda net ne bıraktığını görün.",
     "gorseller": [
       {
         "src": "/assets/img/urun/kiraci-kira-geliri-takibi/1-ozet.png",
@@ -3249,7 +3249,7 @@
     ],
     "adimlar": [
       "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
-      "Daireler sayfasına dairenizi, kiracıyı, aylık kirayı, kira gününü ve sözleşme başlangıcını yazın.",
+      "Daireler sayfasına her daireyi kiracısı, aylık kirası, kira günü ve sözleşme başlangıcıyla yazın.",
       "Tahsilatlar sayfasına gelen her kira ödemesini tarihiyle girin.",
       "Giderler sayfasına aidat, tamir, vergi gibi masrafları yazın.",
       "Özet sayfasında yılı seçin; beklenen, tahsil edilen ve eksik kirayı ile net geliri izleyin."
@@ -3368,7 +3368,7 @@
       },
       {
         "sayfa": "Plan",
-        "aciklama": "Ek ödemeli planın ay ay dökümü: toplam ödeme, o ayın faizi, kalan borç ve borç bazında dağılım."
+        "aciklama": "Ek ödemeli planın ay ay dökümü: toplam ödeme, o ayın faizi, kalan borç; üstte borç başına kapanış ayı ve toplam faiz."
       },
       {
         "sayfa": "Yalnız Asgari",
@@ -3409,7 +3409,7 @@
       "Bitiş tarihi yalnızca taksit gibi sonu belli ödemelerde doldurulur; bitmiş ödemeler toplama girmez",
       "Özet sayfasında aylık ortalama yük, yıllık karşılığı, 7 ve 30 günde ödenecekler ve süren ödeme sayısı",
       "Özet sayfasında kategoriye göre aylık yük, pay ve sıradaki 10 ödemenin listesi yer alır",
-      "Takvim sayfası her ödemenin düştüğü ayı verir; Özet'teki Aylara göre ödeme yükü grafiği ağır ayları gösterir"
+      "Takvim sayfası ödemeleri aylara yerleştirir; Özet'teki Aylara göre ödeme yükü grafiği ağır ayları gösterir"
     ],
     "kimin_icin": "Kira, fatura, abonelik ve taksit gibi düzenli ödemelerini tek yerde görmek isteyen bireyler ve aileler.",
     "etiketler": [
@@ -3579,7 +3579,7 @@
       },
       {
         "sayfa": "Özet",
-        "aciklama": "Toplam hedef, biriken, genel ilerleme, aylık gereken toplam; yıl seçilir, ay ay net yatırılan tutar görünür"
+        "aciklama": "Toplam hedef, biriken, genel ilerleme, aylık gereken toplam; yıl girilir, ay ay net yatırılan tutar görünür"
       },
       {
         "sayfa": "AI Komutları",
@@ -3641,7 +3641,7 @@
       },
       {
         "sayfa": "Özet",
-        "aciklama": "Yıl seçimi; yıl toplamı, aylık ortalama, aylık tutar tablosu; aboneliğe göre tutar, tüketim, fatura sayısı"
+        "aciklama": "Yıl girişi; yıl toplamı, aylık ortalama, aylık tutar tablosu; aboneliğe göre tutar, tüketim, fatura sayısı"
       },
       {
         "sayfa": "Listeler",
@@ -3674,14 +3674,14 @@
     "slug": "kontak-arac-gider-takibi",
     "ad": "KONTAK: Araç Gider ve Yakıt Takibi",
     "kisa": "Yakıt alımlarını ve araç masraflarını girin; 100 kilometredeki tüketimi, kilometre başına maliyeti ve zamanı gelen bakımları görün.",
-    "aciklama": "Listeler sayfasına aracınızın plakasını yazarsınız; Giderler sayfasına her yakıt alımında tarihi, kilometreyi, litreyi ve tutarı, diğer masraflarda tarih ve tutarı girersiniz. Dosya iki yakıt alımı arasındaki kilometreden 100 kilometredeki yakıt tüketimini, Özet sayfasında kilometre başına maliyeti hesaplar. Bakımlar sayfasına düzenli bakımlarınızı ve aralıklarını yazarsınız, zamanı gelen kırmızı olur. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Listeler sayfasına aracınızın plakasını yazarsınız; Giderler sayfasına her yakıt alımında tarihi, kilometreyi, litreyi ve tutarı, diğer masraflarda tarih ve tutarı girersiniz. Dosya iki yakıt alımı arasındaki kilometreden 100 kilometredeki yakıt tüketimini hesaplar; Özet sayfasında kilometre başına maliyet de çıkar. Bakımlar sayfasına düzenli bakımlarınızı ve aralıklarını yazarsınız, zamanı gelen kırmızı olur. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Yakıt alımından Litre / 100 km, gidilen kilometre ve kilometre başına yakıt maliyeti hesaplanır",
       "Özet sayfasında ortalama litre / 100 km ve kilometre başına toplam maliyet",
       "Bakımlar sayfasında tarih ve kilometre aralığına göre sonraki bakım tarihi ve kilometresi",
       "Bakım durumu Zamanı geldi, Yaklaşıyor ya da Var yazar; zamanı gelen kırmızı görünür",
       "Aylık yakıt, diğer giderler ve litre tablosu; gider türüne göre tutar",
-      "Araç ve gider türü adları Listeler sayfasından düzenlenir"
+      "Araç ve gider türleri Listeler sayfasından düzenlenir; yakıt hesapları için Yakıt adı aynı kalmalıdır"
     ],
     "kimin_icin": "Aracının yakıt tüketimini, masraflarını ve bakım zamanlarını tek yerden izlemek isteyen sürücüler.",
     "etiketler": [
@@ -3711,7 +3711,7 @@
       },
       {
         "sayfa": "Özet",
-        "aciklama": "Yıl seçimi; yıl gideri, yakıt, litre, ortalama tüketim, km başına maliyet; aylık tablo, gider türüne göre tutar"
+        "aciklama": "Yıl girişi; yıl gideri, yakıt, litre, ortalama tüketim, km başına maliyet; aylık tablo, gider türüne göre tutar"
       },
       {
         "sayfa": "Listeler",
@@ -3728,7 +3728,7 @@
       "Bakımlar sayfasına düzenli bakımlarınızı, en son ne zaman ve kaç kilometrede yapıldığını ve aralıklarını yazın.",
       "Özet sayfasında yalnızca yılı değiştirin; aylık yakıt ve masrafa, ortalama tüketime ve kilometre başına maliyete bakın."
     ],
-    "teknik_not": "Giderler sayfası 1000 satıra, Bakımlar sayfası 40 satıra kadar hesaplar; kilometreye bağlı bakım uyarısı Giderler sayfasındaki en yüksek kilometre kaydına göre çalışır. Tüketim, iki yakıt alımı arasındaki kilometreye bölünerek bulunur; doğru sonuç için depoyu her seferinde aynı seviyeye kadar doldurun ve hiçbir alımı atlamayın. Kilometre başına maliyet, bütün giderlerin kayıtlardaki en düşük ve en yüksek kilometre arasındaki farka bölümüdür.",
+    "teknik_not": "Giderler sayfası 1000 satıra, Bakımlar sayfası 40 satıra kadar hesaplar; kilometreye bağlı bakım uyarısı Giderler sayfasındaki en yüksek kilometre kaydına göre çalışır. Tüketim, iki yakıt alımı arasındaki kilometreye bölünerek bulunur; doğru sonuç için depoyu her seferinde aynı seviyeye kadar doldurun ve hiçbir alımı atlamayın. Kilometre başına maliyet, bütün araçların bütün giderlerinin kayıtlardaki en düşük ve en yüksek kilometre arasındaki farka bölümüdür.",
     "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KONTAK_Arac_Gider_Takibi.xlsx"
   },
   {
@@ -3744,7 +3744,7 @@
     "slug": "esya-ev-envanteri",
     "ad": "EŞYA: Ev Eşyası ve Garanti Takibi",
     "kisa": "Evdeki eşyaları oda, değer ve garanti bitişiyle listeleyin; toplam değeri ve garantisi bitmek üzere olanları görün.",
-    "aciklama": "Listeler sayfasında odalarınızı ve kategorilerinizi kendi evinize göre düzenler, Eşyalar sayfasına her eşyayı odası, alış tarihi, değeri ve garanti bitişiyle yazarsınız; garanti bitiş tarihini faturadan ya da garanti belgesinden alın. Dosya her eşyanın garanti durumunu ve yaşını hesaplar. Özet sayfası toplam değeri, oda ve kategori dağılımını ve garantisi bitmek üzere olanları gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "aciklama": "Listeler sayfasında odalarınızı ve kategorilerinizi kendi evinize göre düzenler, Eşyalar sayfasına her eşyayı odası, alış tarihi, değeri ve garanti bitişiyle yazarsınız; garanti bitişi için fatura ya da garanti belgesine bakarsınız. Dosya her eşyanın garanti durumunu ve yaşını hesaplar. Özet sayfası toplam değeri, oda ve kategori dağılımını ve garantisi bitmek üzere olanları gösterir. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Eşya başına oda, kategori, alış tarihi, değer, garanti bitişi, marka ve seri no",
       "Garanti sütunu garantinin sürdüğünü, bitmek üzere olduğunu ya da bittiğini yazar; bitiş tarihi boşsa Belirsiz",
@@ -3859,7 +3859,7 @@
       "Ürünü kullandıkça Kiler sayfasında miktarı güncelleyin.",
       "Özet sayfasında tarihi yaklaşan ürünlere ve alışveriş listesine bakın."
     ],
-    "teknik_not": "Kiler sayfası 300 satıra kadar hesaplar. Miktar, en az miktara eşit ya da altındaysa ürün alışveriş listesine girer. Aynı üründen farklı tarihli paketler varsa en yakın tarihi yazın; aynı ürün adı iki satırda tekrarlanamaz.",
+    "teknik_not": "Kiler sayfası 300 satıra kadar hesaplar. Miktar, en az miktara eşit ya da altındaysa ürün alışveriş listesine girer. Aynı üründen farklı tarihli paketler varsa en yakın tarihi yazın; her ürün adı yalnızca bir kez girilebilir.",
     "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KILER_Erzak_Takibi.xlsx"
   },
   {
@@ -4067,7 +4067,7 @@
       }
     ],
     "adimlar": [
-      "Özet sayfasındaki sarı hücrelere toplam bütçenizi, bir birim dövizin kaç lira olduğunu (ödediğiniz günkü kuru) ve kişi sayısını yazın.",
+      "Özet sayfasındaki sarı hücrelerde örnek değerlerin yerine toplam bütçenizi, bir birim dövizin kaç lira olduğunu (ödediğiniz günkü kuru) ve kişi sayısını yazın.",
       "Plan sayfasındaki örnekleri silip gün gün nerede olacağınızı, ne yapacağınızı ve tahmini maliyeti yazın.",
       "Harcamalar sayfasındaki örnekleri silip yolculukta her harcamayı bir satır olarak girin; yabancı parayla ödediyseniz para birimini Döviz seçin.",
       "Özet sayfasında harcananı, bütçeden kalanı ve kişi başı maliyeti izleyin."
@@ -4190,7 +4190,7 @@
       },
       {
         "sayfa": "Özet",
-        "aciklama": "Yıl seçimi; antrenman günü, toplam hacim, rekor sayısı, aylık tablo ve harekete göre ağırlık ile tahmini 1 tekrar"
+        "aciklama": "Yıl girişi; antrenman günü, toplam hacim, rekor sayısı, aylık tablo ve harekete göre ağırlık ile tahmini 1 tekrar"
       },
       {
         "sayfa": "Listeler",
@@ -4225,7 +4225,7 @@
     "aciklama": "Kitaplar sayfasına kitabı, yazarı, türü, sayfa sayısını, başlama ve bitiş tarihini, bitince puanını yazarsınız. Dosya her kitabın durumunu (Bitti, Okunuyor, Sırada), kaç günde okunduğunu ve günde kaç sayfa okunduğunu hesaplar. Özet sayfasına yıllık hedefinizi girer; aylık biten kitap ve sayfayı, tür dağılımını ve en yüksek puanlı kitapları görürsünüz. AI Komutları sayfasında 4 hazır komut var.",
     "ozellikler": [
       "Kitap başına yazar, tür, sayfa, başlama ve bitiş tarihi, puan",
-      "Durum kendiliğinden yazılır: Bitti, Okunuyor ya da Sırada; durumlar renkle ayrılır",
+      "Durum kendiliğinden yazılır: Bitti, Okunuyor ya da Sırada; Bitti ve Okunuyor renkle ayrılır",
       "Her kitap için okuma süresi (gün) ve günde okunan sayfa",
       "Yıllık kitap hedefine göre ilerleme, okunan sayfa ve ortalama puan",
       "Aylık biten kitap ve sayfa tablosu; türe göre kitap sayısı",
@@ -4373,7 +4373,7 @@
       "personel"
     ],
     "sayfa_sayisi": 4,
-    "soz": "Her derste kimin geldiğini ve kimin gelmediğini görün; devamsızlık sınırına yaklaşan öğrenciyi geç olmadan fark edin.",
+    "soz": "Her derste kim geldi, kim gelmedi; devamsızlık sınırına yaklaşan öğrenciyi geç olmadan görün.",
     "gorseller": [
       {
         "src": "/assets/img/urun/yoklama-devam-takibi/1-ozet.png",
