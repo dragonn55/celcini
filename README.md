@@ -2,7 +2,7 @@
 
 Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatörü (`/fabricakit/`).
 Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`);
-yapay zeka araçları `/uzay/` altında.
+tarayıcı araçları `/uzay/` altında (ilk araç ROTA 3D, `/uzay/rota/`).
 
 celcini.com'un kaynağı: saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
@@ -17,12 +17,15 @@ fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki od
 fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
 api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
 uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
+uzay/rota/               ROTA 3D depo toplama rotası: js/ (layout, router, scene3d, ui; ES modülü), css/rota.css (index.html derle.py üretir)
+assets/js/vendor/three/  Three.js r128 (npm three@0.128.0: build/three.min.js, examples/js/controls/OrbitControls.js) ve LICENSE (MIT)
 scripts/derle.py         JSON → HTML sayfaları + sitemap.xml (yalnızca Python standart kütüphanesi)
 scripts/ikonlar.py       Lucide çizgi ikonları (inline SVG)
 scripts/gorsel-uret.py   favicon ve og-cover.png üretimi (Pillow gerekir, yalnızca logo değişince)
 scripts/check.js         Yayın öncesi kontrol (SEO etiketleri, kırık link, örnek kayıt sızıntısı, dil kuralları)
 scripts/sim-test.mjs     Fabricakit motor testi: 3 oyuncu tipi × 5 gün, kayıt-yükleme, tohum, 1. gün puan dağılımı
 scripts/karne-ornegi.mjs Motorun 1. gün karnesinden ana sayfa örneğini üretir (senaryo dosyanın başında)
+scripts/rota-test.mjs    ROTA 3D yönlendirici testi: engel dolanma, erişilemeyen göz, optimum ≤ sıralı, Held-Karp = kaba kuvvet
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
 scripts/ses-*.mjs        Ajan GM sesi: ses-cumleler (→ data/ses/cumleler.json), ses-test (liste, JSON, dosyalar)
@@ -35,7 +38,7 @@ assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-po
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 
-index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/, urun/<slug>/, uzay/,
+index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/, urun/<slug>/, uzay/, uzay/rota/index.html,
 uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
@@ -46,7 +49,7 @@ uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat
 python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
 npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
-npm run check                         # üretim çıktısı + sim-test + api-test + ses-test
+npm run check                         # üretim çıktısı + sim-test + rota-test + api-test + ses-test
 npm run ses-cumleler                  # Ajan GM cümle listesi değişince data/ses/cumleler.json'ı yenile (sonra sesleri üret)
 node scripts/karne-ornegi.mjs         # oyun kuralı ya da Ajan GM şablonu değişince karne örneğini yenile, sonra derle
 npm run check:onizleme                # önizleme çıktısını kontrol et
