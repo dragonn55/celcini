@@ -16,6 +16,9 @@ export const AYARLAR = {
   AJAN_GM_SORU_UZUNLUGU: 200,         // serbest sorunun en fazla karakter sayısı
   AJAN_GM_SORU_HAKKI: 3,              // yapay zeka modunda bir karnede sorulabilecek serbest soru sayısı
   AJAN_GM_AVATAR: { webp: "/assets/img/ajan-gm-avatar.webp", png: "/assets/img/ajan-gm-avatar.png" }, // daire avatar
+  /* Ajan GM yalnızca erkek sesle konuşur. Cihaz sesi, adı bu listedekilerden birini içeren yerel Türkçe sestir
+     (ör. Windows'ta "Microsoft Tolga"). Böyle bir ses yoksa ve ses dosyaları da yoksa "Sesli oku" düğmeleri görünmez. */
+  ERKEK_SESLER: ["Tolga"],
 
   /* ---- Oyun saati ---- */
   GUN_BASI_SAAT: 8,                   // 08:00

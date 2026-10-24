@@ -180,13 +180,14 @@ export function seseHazirla(metin) {
    çalar (assets/ses/ajan-gm/<id>.mp3; tek HTMLAudioElement, aynı köken), değişken parça (hitap, sayı, ürün adı) cihaz
    sesiyle okunur: SpeechSynthesis, tr-TR, hız 0,95, perde 0,85. Ses dosyaları henüz üretilmediyse (ajan-gm/ses-dosyalari.js)
    ya da bir dosya açılamazsa o parça da cihaz sesiyle okunur.
-   Yalnızca cihazdaki (yerel) Türkçe ses kullanılır: okunan metin hitabı içerir, bulut sesine gönderilmez. Yerel Türkçe ses
-   yoksa değişken parça atlanır (yazı ekranda); ne ses dosyası ne yerel ses varsa düğme görünmez. Ses kapalıyken düğme
+   Yalnızca cihazdaki (yerel) erkek Türkçe ses kullanılır (AYARLAR.ERKEK_SESLER; iPhone'daki Yelda gibi kadın sesleri
+   kullanılmaz): okunan metin hitabı içerir, bulut sesine gönderilmez. Böyle bir ses yoksa değişken parça atlanır (yazı
+   ekranda); ne ses dosyası ne yerel erkek ses varsa düğme görünmez. Ses kapalıyken düğme
    pasiftir, yanında "Sesi aç" çıkar. Ekran ya da panel değişince okuma kesilir (okumayiDurdur).
    iPhone'da ses dosyası da konuşma da ancak dokunuşla başlar: ilk parça dokunuşun içinde çalar, öteki türün kilidi aynı
    dokunuşta açılır (kilitleriAc). */
 const sentez = typeof window !== "undefined" && window.speechSynthesis ? window.speechSynthesis : null;
-let turkce = null;
+let turkce = null;           // yerel erkek Türkçe ses (yoksa null)
 let calar = null;            // ortak HTMLAudioElement, ilk dokunuşta kurulur
 let okuyan = null;           // okuyan düğmenin kaydı
 let oturum = 0;              // her okuma ve durdurma yeni oturumdur; eski oturumun geri çağrıları yok sayılır
@@ -201,7 +202,9 @@ function dugmeleriGuncelle() {
 }
 
 function sesleriBul() {
-  const yerel = (sentez ? sentez.getVoices() : []).filter((v) => v.localService);
+  const kucuk = (m) => String(m || "").toLocaleLowerCase("tr");
+  const erkek = (v) => AYARLAR.ERKEK_SESLER.some((ad) => kucuk(v.name).includes(kucuk(ad)));
+  const yerel = (sentez ? sentez.getVoices() : []).filter((v) => v.localService && erkek(v));
   turkce = yerel.find((v) => v.lang === "tr-TR") || yerel.find((v) => /^tr([-_]|$)/i.test(v.lang)) || null;
   dugmeleriGuncelle();
 }
