@@ -53,7 +53,13 @@ RAF = {r["slug"]: r for r in RAFLAR}
 # Raf sayfası yerine açılış sayfası çıkar; "urun_slug" dosyaların Shopier ürünü (data/urunler.json).
 REHBERLER = [
     {"urun": "datakit", "raf": "datakit", "taban": "/datakit/", "urun_slug": "satis-analizi"},
+    {"urun": "motor", "raf": "fabrika", "taban": "/motor/", "urun_slug": "fabrika-motoru"},
 ]
+
+
+def rehber_raf_yerine(rh):
+    """Rehberin açılış sayfası rafın kendi adresindeyse raf sayfası yerine geçer (Datakit); yoksa raf sayfası kalır (Motor)."""
+    return rh["taban"] == f"/{rh['raf']}/"
 # Menü: ("/yol/", "Ad") ya da ("Ad", [alt öğeler]) — alt menü
 MENU = [("/fabricakit/", "Fabricakit"),
         ("Dosyalar", [(f"/{r['slug']}/", r["ad"]) for r in RAFLAR]),
@@ -606,12 +612,18 @@ def raf_sayfasi(r, urunler):
         <a class="dugme-cizgi" href="/{RAFLAR[0]["slug"]}/">{e(RAFLAR[0]["ad"])} rafına bak</a>
       </div>
     </div>"""
+    rehber_kutusu = ""
+    for rh in REHBERLER:
+        if rh["raf"] == r["slug"] and not rehber_raf_yerine(rh):
+            k = rehber_kaynagi(rh)
+            rehber_kutusu = f"""
+    <a class="kart rh-raf-kutu" href="{rh["taban"]}">{ikon("tablo")}<span><strong>{e(k["acilis"]["baslik"])}:</strong> {e(k["acilis"]["alt_baslik"])}. {len(k["dersler"])} rehberli ders, ilk {k["ucretsiz_ders"]} ders ücretsiz.</span>{ikon("ok")}</a>"""
     govde = f"""<section class="sayfa-bas">
   <div class="kap">
     {yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (None, r["ad"])])}
     {ikon(r["ikon"], "ikon ikon-buyuk")}
     <h1>{e(r["ad"])}</h1>
-    <p>{e(r["aciklama"])}</p>
+    <p>{e(r["aciklama"])}</p>{rehber_kutusu}
   </div>
 </section>
 <section class="bolum-raf" aria-label="{e(r["ad"])} ürünleri">
@@ -1212,12 +1224,12 @@ def rehber_ders_sayfasi(rh, kaynak, d, urunler):
     konular = "".join(f"<li>{e(x['baslik'])}</li>" for x in d["notlar"])
     govde = f"""<section class="sayfa-bas rh-bas">
   <div class="kap">
-    {yol_izi([("/", "Ana sayfa"), (taban, kaynak["ad"]), (None, d["sayfa_adi"])])}
+    {yol_izi([("/", "Ana sayfa")] + ([] if rehber_raf_yerine(rh) else [(f"/{rh['raf']}/", RAF[rh["raf"]]["ad"])]) + [(taban, kaynak["ad"]), (None, d["sayfa_adi"])])}
     <p class="rh-ders-no">Ders {d["sira"]} / {n} · {durum}</p>
     <h1>{e(d["sayfa_adi"])}</h1>
     <p>{e(d["baslik"])}</p>
     {rehber_gm_karti(d["ajan_gm"], d.get("ajan_gm_ses", ""))}
-    <p class="rh-veri-satiri">{e(kaynak["acilis"]["ders_veri_notu"])}</p>
+    <p class="rh-veri-satiri">{e(d.get("veri_notu") or kaynak["acilis"]["ders_veri_notu"])}</p>
   </div>
 </section>
 <section class="rh-govde" aria-label="{e(d["sayfa_adi"])} sayfası ve notları">
@@ -1233,7 +1245,7 @@ def rehber_ders_sayfasi(rh, kaynak, d, urunler):
   </div>
 </section>"""
     return sayfa(f"{taban}{d['id']}/", f"{d['sayfa_adi']} · {kaynak['ad']}", d["ozet"], govde,
-                 etkin=taban, ek_css=("/assets/css/rehber.css",), modul="/assets/js/rehber/rehber.js")
+                 etkin=f"/{rh['raf']}/", ek_css=("/assets/css/rehber.css",), modul="/assets/js/rehber/rehber.js")
 
 
 def rehber_acilis_sayfasi(rh, kaynak, urunler):
@@ -1263,7 +1275,7 @@ def rehber_acilis_sayfasi(rh, kaynak, urunler):
         gorsel_ek = ' alt="' + e(g["alt"]) + '" decoding="async"'
         onizleme = (f'<a class="kart rh-onizleme" href="{taban}{dersler[0]["id"]}/">{resim(g, gorsel_ek)}'
                     f'<span class="rh-onizleme-yazi">{e(dersler[0]["sayfa_adi"])} dersi: dosyadaki değerler, renkler ve grafikler{ikon("ok")}</span></a>')
-    raf_urunleri = [x for x in urunler if x["raf"] == r["slug"]]
+    raf_urunleri = [x for x in urunler if x["raf"] == r["slug"]] if rehber_raf_yerine(rh) else []
     raf_bolumu = ""
     if raf_urunleri:
         raf_bolumu = f"""<section class="bolum" aria-labelledby="raf-baslik">
@@ -1274,7 +1286,7 @@ def rehber_acilis_sayfasi(rh, kaynak, urunler):
 </section>"""
     govde = f"""<section class="sayfa-bas rh-bas">
   <div class="kap">
-    {yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (None, a["baslik"])])}
+    {yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar") if rehber_raf_yerine(rh) else (f"/{r['slug']}/", r["ad"]), (None, a["baslik"])])}
     {ikon(r["ikon"], "ikon ikon-buyuk")}
     <h1>{e(a["baslik"])}</h1>
     <p>{e(a["alt_baslik"])}</p>
@@ -1313,7 +1325,7 @@ def rehber_acilis_sayfasi(rh, kaynak, urunler):
   <div class="kap"><p class="rh-veri-notu">{e(a["veri_notu"])}</p></div>
 </section>"""
     aciklama = f"{a['baslik']}: {a['alt_baslik'].lower()}. {len(dersler)} rehberli ders, ilk {kaynak['ucretsiz_ders']} ders ücretsiz. {SITE_CUMLESI}"
-    return sayfa(taban, f"{a['baslik']}: {a['alt_baslik']}", aciklama, govde, etkin=taban,
+    return sayfa(taban, f"{a['baslik']}: {a['alt_baslik']}", aciklama, govde, etkin=f"/{r['slug']}/",
                  ek_css=("/assets/css/rehber.css",), modul="/assets/js/rehber/rehber.js")
 
 
@@ -1372,7 +1384,7 @@ def main():
     yollar = []
     yollar.append(yaz("/", ana_sayfa(urunler)))
     yollar.append(yaz("/fabricakit/", fabricakit_sayfasi()))
-    rehber_raflari = {rh["raf"] for rh in REHBERLER}
+    rehber_raflari = {rh["raf"] for rh in REHBERLER if rehber_raf_yerine(rh)}
     rehber_adresleri = []
     for rh in REHBERLER:
         kaynak = rehber_kaynagi(rh)
@@ -1381,6 +1393,8 @@ def main():
         for d in kaynak["dersler"]:
             yollar.append(yaz(f"{rh['taban']}{d['id']}/", rehber_ders_sayfasi(rh, kaynak, d, urunler)))
             rehber_adresleri.append(f"{rh['taban']}{d['id']}/")
+        if not rehber_raf_yerine(rh):
+            rehber_adresleri.insert(len(rehber_adresleri) - len(kaynak["dersler"]), rh["taban"])
     for r in RAFLAR:
         if r["slug"] not in rehber_raflari:
             yollar.append(yaz(f"/{r['slug']}/", raf_sayfasi(r, urunler)))

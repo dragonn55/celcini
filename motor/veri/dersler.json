@@ -1,0 +1,212 @@
+{
+ "surum": 1,
+ "urun": "motor",
+ "ad": "Motor",
+ "ucretsiz_ders": 4,
+ "dersler": [
+  {
+   "id": "panel",
+   "sira": 1,
+   "sayfa_adi": "PANEL",
+   "baslik": "Kontrol paneli: fabrikanın sabah toplantısı tek ekranda",
+   "ozet": "Yirmi iki gösterge, üç renk ve iki grafik: hangi kart bugün sizi ayağa kaldırmalı, hangisi bekleyebilir?",
+   "ucretsiz": true,
+   "ajan_gm": "Sabah ilk bu ekrana bakarım. Her kartta bir sayı, bir renk ve bir sayfa bağlantısı var: kırmızıdan başlarım, sarıyı öğleden önce bitiririm, yeşile dokunmam.",
+   "konular": [
+    "Plan uyumu ve plansız üretim",
+    "Kapasite aşımı ve en yüksek yük",
+    "Malzeme alarmları",
+    "Zamanında teslim ve stok doğruluğu",
+    "Stok sağlığı, marj ve tahmin",
+    "İki grafik"
+   ]
+  },
+  {
+   "id": "bom",
+   "sira": 2,
+   "sayfa_adi": "BOM",
+   "baslik": "Ürün ağacı: bir mamulün içinde ne var, kaç para eder",
+   "ozet": "ERP'den yapıştırılan çok seviyeli reçete; seviye, fire, kümülatif miktar, kilogram ve maliyet nasıl hesaplanır?",
+   "ucretsiz": true,
+   "ajan_gm": "Ürün ağacı fabrikanın anayasasıdır: MRP, kesim, maliyet ve emanet hesabı buradan beslenir. İlk iki mamulün ağacını satır satır okuyacağız.",
+   "konular": [
+    "Ağacın özeti",
+    "Seviye ve miktar",
+    "Ağaç görünümü ve üst kod",
+    "Fire ve net miktar",
+    "Yaprak ve kesim fire payı",
+    "Kilogram ve maliyet"
+   ]
+  },
+  {
+   "id": "bom-patlatma",
+   "sira": 3,
+   "sayfa_adi": "BOM_PATLATMA",
+   "baslik": "Patlatma: bir mamul seçin, ağacı ve hammadde listesi gelsin",
+   "ozet": "Seçili mamulün girintili ağacı, hammadde özeti, toplam maliyet ve iki kontrol listesi: ağacı olmayan mamuller, hiçbir ağaçta geçmeyen bileşenler.",
+   "ucretsiz": true,
+   "ajan_gm": "BOM sayfası 369 satırdır, kimse onu satır satır okumaz. Bu sayfa tek bir mamulü seçtirir ve ona ait her şeyi iki tabloya indirir.",
+   "konular": [
+    "Mamul seçimi",
+    "Seçili mamulün özeti",
+    "Girintili ağaç",
+    "Hammadde ve bileşen özeti",
+    "Kontrol: ağacı olmayan mamul",
+    "Kontrol: yetim bileşenler"
+   ]
+  },
+  {
+   "id": "tahmin-analiz",
+   "sira": 4,
+   "sayfa_adi": "TAHMİN_ANALİZ",
+   "baslik": "Tahmin oynaklığı: müşteri dosyayı her gönderdiğinde ne değişti",
+   "ozet": "Eski ve yeni tahmin satır satır karşılaştırılır: değişen satır, yer değiştiren miktar, öne çekme ve erteleme, güvenilirlik puanı, rolling sapması.",
+   "ucretsiz": true,
+   "ajan_gm": "Müşteri tahmini iki dosya arasında ne kadar oynarsa planınız o kadar oynar. Bu sayfa oynamayı sayıya çevirir; 'müşteri yine değiştirdi' demek yerine kaç adet, kaç gün dersiniz.",
+   "konular": [
+    "Değişim özeti",
+    "Oynaklık ve güvenilirlik",
+    "Rolling ve kısa vade",
+    "Satır bazında fark",
+    "Kayma: öne çekme ve erteleme",
+    "Güvenilirlik puanı"
+   ]
+  },
+  {
+   "id": "mps",
+   "sira": 5,
+   "sayfa_adi": "MPS",
+   "baslik": "Ana üretim planı: 20 iş günü ve 13 hafta",
+   "ozet": "Tahmin eksi yoldaki miktar, emniyet stoğu ve fiili stoktan günlük plana; geçmişte plan uyumu ve plansız üretim.",
+   "ucretsiz": false,
+   "ajan_gm": "MPS, tahmini üretim emrine çeviren sayfadır. Bir mamulün satırını soldan sağa okuduğunuzda stok, talep ve planın nasıl bağlandığını görürsünüz.",
+   "konular": [
+    "Planın özeti",
+    "Aylık trend",
+    "Stok zinciri",
+    "Net talep ve emniyet stoğu",
+    "Günlük plan",
+    "Plan uyumu mamul bazında"
+   ]
+  },
+  {
+   "id": "kapasite",
+   "sira": 6,
+   "sayfa_adi": "KAPASİTE",
+   "baslik": "Kapasite yükü: hangi iş merkezi hangi gün dolar",
+   "ozet": "Plan × standart süre = yük; iş merkezi ve hat bazında günlük yük yüzdesi, darboğaz ve yük dengeleme önerisi (öne çekme, fason, mesai).",
+   "ucretsiz": false,
+   "ajan_gm": "Plan kâğıt üstünde her zaman sığar; kapasite sayfası sığmadığı günü kırmızıya boyar. Darboğaz tek bir iş merkezidir ve adı bu sayfada yazar.",
+   "konular": [
+    "Darboğaz ve aşım",
+    "Takvim",
+    "İş merkezi kartı",
+    "Günlük yük yüzdesi",
+    "Hat bazında makine ve işgücü",
+    "Yük dengeleme önerisi"
+   ]
+  },
+  {
+   "id": "mrp",
+   "sira": 7,
+   "sayfa_adi": "MRP",
+   "baslik": "Malzeme ihtiyaç planlama: hangi malzeme hangi gün biter",
+   "ozet": "Planlama stoğu + açık siparişler − kümülatif brüt ihtiyaç = gün gün öngörülen stok; ilk eksik tarihi, son sipariş tarihi, sınıf, önerilen sipariş.",
+   "ucretsiz": false,
+   "ajan_gm": "MRP'nin bütün sırrı tek bir satırdır: bugünkü stok, gelecek siparişler ve her günün tüketimi. Satır eksiye düştüğü gün, sipariş vermek için geç kalınmış gündür.",
+   "konular": [
+    "Sınıf dağılımı",
+    "Stok, sipariş ve ihtiyaç",
+    "Gün gün öngörülen stok",
+    "İlk eksik, son sipariş tarihi, sınıf",
+    "Önerilen sipariş",
+    "Çok Acil: tarih geçmiş"
+   ]
+  },
+  {
+   "id": "satinalma",
+   "sira": 8,
+   "sayfa_adi": "SATINALMA",
+   "baslik": "Satın alma: sipariş takibi ve tedarikçi puanı",
+   "ozet": "Sipariş satırları, gecikme ve miktar doğruluğu, döviz ve kur, açık ve yoldaki siparişler; sağda tedarikçi performans puanı ve sınıfı.",
+   "ucretsiz": false,
+   "ajan_gm": "Satın alma sayfası iki şeyi ölçer: siparişin zamanında gelip gelmediğini ve tedarikçinin bunu kaç kez yaptığını. Puan tablosu, kimle pazarlık yapacağınızı söyler.",
+   "konular": [
+    "Satın almanın özeti",
+    "Geç gelen sipariş",
+    "Döviz, kur ve fiyat çarpanı",
+    "Tedarikçi performans puanı",
+    "Geciken açık sipariş",
+    "Yoldaki ithal siparişler"
+   ]
+  },
+  {
+   "id": "sayim",
+   "sira": 9,
+   "sayfa_adi": "SAYIM",
+   "baslik": "Sayım: metin toplamından stok doğruluğuna",
+   "ozet": "Sabah sayımı kutu × adet + metin toplamıyla girilir; kayıtla fark, tolerans, eksi bakiye uyarısı, en büyük farklar ve etiket listesi.",
+   "ucretsiz": false,
+   "ajan_gm": "Depoda sayım yaparken hesap makinesi aramazsınız; '600+490+264' yazarsınız, dosya toplar. Asıl iş sayımdan sonra başlar: kayıtla fark neden var?",
+   "konular": [
+    "Sayımın özeti",
+    "Kutu, kutu içi ve metin toplamı",
+    "Raf kontrolü ve kalem toplamı",
+    "Tolerans dışı farklar",
+    "En büyük sayım farkları",
+    "Sayım etiketi listesi"
+   ]
+  },
+  {
+   "id": "stok-saglik",
+   "sira": 10,
+   "sayfa_adi": "STOK_SAĞLIK",
+   "baslik": "Stok sağlığı: ABC, ölü stok, devir hızı",
+   "ozet": "Yıllık tüketim tutarına göre ABC, hareketsiz gün ve 13 haftalık ihtiyaca göre ölü ve yavaş dönen stok, stok günü ve devir hızı, muhasebe farkı.",
+   "ucretsiz": false,
+   "ajan_gm": "Stok tutarı tek başına bir şey söylemez; tutarı tüketimle oranladığınızda hangi rafın para yaktığını görürsünüz. Bu sayfa her kaleme bir harf ve bir sağlık durumu verir.",
+   "konular": [
+    "Stoğun özeti",
+    "ABC dağılımı",
+    "Sağlık durumu",
+    "Satır: tutar, tüketim, pay",
+    "Hareketsiz gün, stok günü, devir",
+    "Ölü stok listesi"
+   ]
+  },
+  {
+   "id": "alarm",
+   "sira": 11,
+   "sayfa_adi": "ALARM",
+   "baslik": "Stok bitiş alarmı: kaç gün sonra biter, sipariş yetişir mi",
+   "ozet": "Stok bölü günlük hız = bitiş tarihi; ilk siparişin gelişiyle karşılaştırma, son sipariş tarihi, aksiyon listesi: bugün sipariş ver, siparişi öne çek.",
+   "ucretsiz": false,
+   "ajan_gm": "MRP 'ne kadar' sorusuna cevap verir, ALARM 'ne zaman'a. Bu sayfa her kalem için bir takvim tarihi söyler: stok o gün biter, sipariş o gün gelir, arada kaç gün boşta kalırsınız.",
+   "konular": [
+    "Alarmların özeti",
+    "Öne çek ve sipariş ver",
+    "Bugün sipariş ver",
+    "Siparişi öne çek",
+    "Hız yöntemi ve bitiş",
+    "Son sipariş tarihi ve alarm"
+   ]
+  },
+  {
+   "id": "simulasyon",
+   "sira": 12,
+   "sayfa_adi": "SİMÜLASYON",
+   "baslik": "Simülasyon: üç senaryo yan yana",
+   "ozet": "Talep, kapasite, tedarik süresi, emniyet stoğu, kur, metal ve işçilik değişkenleriyle kapasite aşımı, acil malzeme, stok ihtiyacı ve brüt marj nasıl değişir?",
+   "ucretsiz": false,
+   "ajan_gm": "Patron 'talep yüzde yirmi beş artarsa ne olur' diye sorduğunda bu sayfayı açarsınız. Cevap tek sayı değildir: hat dolar, malzeme acilleşir, marj düşer; hepsi aynı tabloda.",
+   "konular": [
+    "Senaryo değişkenleri",
+    "Kapasite sonuçları",
+    "Malzeme sonuçları",
+    "Maliyet ve marj",
+    "Grafikler",
+    "Hesap alanı: malzeme bazında sınıf"
+   ]
+  }
+ ]
+}

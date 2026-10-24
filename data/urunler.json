@@ -577,6 +577,146 @@
     ]
   },
   {
+    "slug": "fabrika-motoru",
+    "ad": "Fabrika Motoru",
+    "raf": "fabrika",
+    "kisa": "Müşteri tahmininden sevkiyata kapalı döngü: BOM, MPS, kapasite, MRP, satın alma, sayım, stok sağlığı, alarm ve simülasyon tek dosyada, makrosuz. Excel 2019 ve Microsoft 365.",
+    "aciklama": "Fabrika Yönetim ve Simülasyon Motoru, Fabrika Dosyaları rafındaki en kapsamlı dosyadır: 35 sayfa, 21 modül. Ana veri kartlarını (mamul, malzeme, tedarikçi, müşteri, hat, raf, standart süre, fiyat) ve ERP'nizin çok seviyeli ürün ağacını yapıştırırsınız; müşteri tahmininden ana üretim planı (MPS), kapasite yükü, malzeme ihtiyacı (MRP), satın alma, sayım, stok sağlığı, stok bitiş alarmı, maliyet ve üç senaryolu simülasyon formülle hesaplanır. Sabah sayımı, günlük kayıtlar ve haftalık tahmin güncellemesi için adım adım kılavuz dosyanın içindedir. Dosyanın 12 ana sayfası sitede rehberli derslerle anlatılır.",
+    "ozellikler": [
+      "35 sayfa, 21 modül: PANEL, AYARLAR, 8 ana veri kartı, BOM ve BOM Patlatma, Tahmin ve Tahmin Analizi, MPS, Üretim, Kapasite, Vardiya, MRP, İthal 90 Gün, Satın Alma, İthalat, Kesim, Stok, Sayım, Emanet, Rota, Sevkiyat, Stok Sağlık, Maliyet, Alarm, Simülasyon, Veri Kalitesi, Kılavuz",
+      "Kapalı döngü: tahmin − yoldaki sevk → MPS → kapasite ve vardiya → BOM ile MRP → satın alma → sayım ve stok → alarm, stok sağlığı ve simülasyon",
+      "Günlük plan ufku 20 iş günü, haftalık ufuk 13 hafta; BOM en çok 8 seviye; giriş tabloları 10.000 satıra kadar büyür",
+      "Her giriş tablosunda 'Kontrol' sütunu: kod eşleşmesi, tarih ve boşluk hataları satır satır kırmızıyla görünür",
+      "Makro yok: formül, tanımlı ad, Excel Tablosu, veri doğrulama ve koşullu biçimlendirme; Excel 2019 ve Microsoft 365 ile uyumlu",
+      "Örnek verili ve boş dosya; sitedeki 12 dersin tamamını açan erişim kodu"
+    ],
+    "kimin_icin": "Üretim planlama, satın alma ve depo işini Excel'de yürüten yan sanayi ve montaj fabrikaları; MRP, kapasite ve stok mantığını tek dosyada görmek isteyen planlamacılar.",
+    "etiketler": [
+      "MRP",
+      "üretim planlama",
+      "kapasite",
+      "stok",
+      "simülasyon"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/fabrika-motoru/1-panel.png",
+        "alt": "Fabrika Motoru PANEL sayfası: trafik ışıklı göstergeler, günlük kapasite yükü grafiği ve MRP sınıfı halka grafiği"
+      },
+      {
+        "src": "/assets/img/urun/fabrika-motoru/2-mrp.png",
+        "alt": "MRP sayfası: malzeme başına gün gün öngörülen stok, ilk eksik tarihi ve sınıf (Çok Acil, Acil, Dikkat, Normal, Yeterli)"
+      },
+      {
+        "src": "/assets/img/urun/fabrika-motoru/3-simulasyon.png",
+        "alt": "Simülasyon sayfası: baz ve üç senaryonun kapasite aşımı, acil malzeme ve brüt marj karşılaştırması"
+      }
+    ],
+    "excel_surum": "Excel 2019 ve Microsoft 365",
+    "makro": false,
+    "sayfa_sayisi": 35,
+    "one_cikan": false,
+    "ornek": false,
+    "soz": "Tahmini yapıştırın; dosya kaç gün sonra hangi malzemenin biteceğini ve hangi hattın dolacağını söylesin.",
+    "icindekiler": [
+      {
+        "sayfa": "PANEL",
+        "aciklama": "Tüm modüllerin ana göstergeleri, trafik ışıkları, sayfalara bağlantılar"
+      },
+      {
+        "sayfa": "KILAVUZ",
+        "aciklama": "Adım adım kullanım, veri akışı, hesap mantığı, sık hatalar"
+      },
+      {
+        "sayfa": "AYARLAR",
+        "aciklama": "Tarih, para birimi, kur senaryoları, takvim, vardiya, eşikler, terimler"
+      },
+      {
+        "sayfa": "MAMUL · MALZEME · TEDARİKÇİ · MÜŞTERİ · HAT · RAF · STD_SÜRE · FİYAT",
+        "aciklama": "Ana veri kartları (giriş)"
+      },
+      {
+        "sayfa": "BOM",
+        "aciklama": "Çok seviyeli girintili ürün ağacı; kümülatif miktar, kg, maliyet"
+      },
+      {
+        "sayfa": "BOM_PATLATMA",
+        "aciklama": "Seçili mamulün patlatması, hammadde özeti, kontroller"
+      },
+      {
+        "sayfa": "TAHMİN · TAHMİN_ANALİZ",
+        "aciklama": "Eski ve yeni müşteri tahmini; değişen satır, oynaklık, güvenilirlik"
+      },
+      {
+        "sayfa": "MPS · ÜRETİM",
+        "aciklama": "20 iş günü ve 13 hafta üretim planı, plan uyumu; vardiya dilimli kayıt"
+      },
+      {
+        "sayfa": "KAPASİTE · VARDİYA",
+        "aciklama": "İş merkezi ve hat yükü, darboğaz, yük dengeleme; öncelik sıralı iş emirleri"
+      },
+      {
+        "sayfa": "MRP · İTHAL_90",
+        "aciklama": "Gün gün öngörülen stok, ilk eksik ve son sipariş tarihi, sınıf; ithal 90 gün listesi"
+      },
+      {
+        "sayfa": "SATINALMA · İTHALAT",
+        "aciklama": "Sipariş takibi, tedarikçi puanı, aylık alım; gümrüklenmiş birim maliyet"
+      },
+      {
+        "sayfa": "KESİM",
+        "aciklama": "Boy halindeki hammadde için kesim desenleri ve fire"
+      },
+      {
+        "sayfa": "STOK · SAYIM · EMANET",
+        "aciklama": "Stok defteri, sayım girişi ve doğruluk, müşteri malı takibi"
+      },
+      {
+        "sayfa": "ROTA · SEVKİYAT",
+        "aciklama": "Depo toplama rotası; irsaliye ve yoldaki miktar"
+      },
+      {
+        "sayfa": "STOK_SAĞLIK · MALİYET",
+        "aciklama": "ABC, ölü ve yavaş stok, devir hızı; mamul maliyeti ve marj"
+      },
+      {
+        "sayfa": "ALARM · SİMÜLASYON · VERİ_KALİTESİ",
+        "aciklama": "Stok bitiş alarmı ve aksiyon listesi; üç senaryo; hata sayıları"
+      }
+    ],
+    "adimlar": [
+      "AYARLAR'da planlama tarihini, para birimini, kurları, çalışma günlerini ve vardiyaları girin.",
+      "Ana veri kartlarını doldurun: önce HAT, RAF, TEDARİKÇİ ve MÜŞTERİ; sonra MALZEME ve MAMUL. Kodları metin olarak girin.",
+      "ERP'nizin çok seviyeli reçete raporunu sırası bozulmadan BOM'a yapıştırın; STD_SÜRE ve FİYAT tablolarını doldurun.",
+      "Açılış stoklarını MALZEME ve MAMUL kartlarına girin; müşterinin tahmin dosyasını TAHMİN'deki yeni tahmin (B) tablosuna yapıştırın.",
+      "Her sabah: sayımı SAYIM'a, dünün üretimini ÜRETİM'e, sevkleri SEVKİYAT'a, gelen malzemeyi SATINALMA'ya girin; PANEL'deki kırmızı kartlardan başlayın.",
+      "Her hafta yeni tahminle B tablosunu A'ya taşıyın; KAPASİTE'deki öneriyi (öne çekme, fason, mesai) uygulayın; SİMÜLASYON'da senaryoları karşılaştırın."
+    ],
+    "teknik_not": "Dosya makrosuzdur: formül, tanımlı ad, Excel Tablosu, veri doğrulama ve koşullu biçimlendirme kullanır; Excel 2019 ve Microsoft 365 ile uyumludur. Giriş tabloları 10.000 satır ve üstüne büyür; rapor tabloları ön boyutludur (malzeme bazlı 1.000, mamul bazlı 300, iş merkezi 40, hat 10, tedarikçi 50, müşteri 40 satır). Günlük plan ufku 20 iş günü, haftalık ufuk 13 hafta; BOM en çok 8 seviye. Sayfa korumaları şifresizdir. Büyük veride Formüller > Hesaplama Seçenekleri > El ile seçip F9 ile hesaplatmak hızlandırır. Örnek verili dosyadaki müşteri, tedarikçi, ürün ve fiyatlar kurgusaldır.",
+    "sss": [
+      {
+        "soru": "Kendi verimi nasıl kullanırım?",
+        "cevap": "Boş dosyayla başlarsınız: aynı yapı, aynı formüller, örnek veri yok. Ana veri kartlarını, BOM'u ve tahmini kendi ERP ve müşteri dosyalarınızdan yapıştırırsınız. Veriniz bilgisayarınızda kalır; siteye gönderilmez."
+      },
+      {
+        "soru": "Erişim kodu ne işe yarar?",
+        "cevap": "Sitedeki Motor derslerinin tamamını açar. İlk dört ders herkese açıktır; kalan sekiz ders bu kodla açılır."
+      },
+      {
+        "soru": "ERP'miz varken buna neden ihtiyaç duyayım?",
+        "cevap": "ERP'den aldığınız reçete raporunu, tahmini ve stok kayıtlarını bu dosyaya yapıştırıp kapasite, MRP, alarm ve senaryo hesaplarını tek yerde ve değiştirilebilir eşiklerle görürsünüz. Hesap mantığı KILAVUZ sayfasında yazılıdır."
+      },
+      {
+        "soru": "Makro gerekiyor mu?",
+        "cevap": "Hayır. Dosya makrosuzdur; bütün hesaplar formüldür."
+      }
+    ]
+  },
+  {
     "slug": "ornek-vardiya",
     "ad": "VARDİYA (örnek)",
     "raf": "fabrika",

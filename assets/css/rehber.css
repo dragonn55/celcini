@@ -128,6 +128,8 @@
 .rt-donuk-zemin { background: #FFFFFF; }
 .rt-donuk-alt { border-bottom: 1px solid var(--rt-donuk); }
 .rt-donuk-sag { border-right: 1px solid var(--rt-donuk); }
+/* Dosyada gizli sütun: 0 genişlik; çizgisi, dolgusu ve harfi çizilmez (en sonda, öteki kenarlık kurallarını ezsin) */
+.rt-gizli { border: 0 !important; padding: 0 !important; overflow: hidden; box-shadow: none !important; }
 
 /* ---------- Sayfa sekmeleri (Excel'in alt şeridi) ---------- */
 .rh-sekmeler {

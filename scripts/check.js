@@ -68,7 +68,7 @@ if (uretim) for (const s of gizli) if (fs.existsSync(path.join(root, "urun", s))
 /* Rehberli dersler (data/<urun>/dersler.json → derle.py): kilitli dersin notu ve sorusu herkese açık dosyalara sızmasın,
    ücretsiz dersin dosyası olsun, not aralıkları sayfanın içinde ve soru geçerli olsun. */
 const harfNo = (h) => [...h].reduce((n, c) => n * 26 + c.charCodeAt(0) - 64, 0);
-const REHBERLER = [{ urun: "datakit", taban: "datakit" }];
+const REHBERLER = [{ urun: "datakit", taban: "datakit" }, { urun: "motor", taban: "motor" }];
 for (const rh of REHBERLER) {
   const kaynakYolu = path.join(depo, "data", rh.urun, "dersler.json");
   if (!fs.existsSync(kaynakYolu)) continue;

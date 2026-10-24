@@ -1,0 +1,751 @@
+{
+ "surum": 1,
+ "urun": "motor",
+ "ad": "Motor",
+ "dosya_adi": "Fabrika Yönetim ve Simülasyon Motoru",
+ "kaynak": "FABRICAKIT_MOTOR_ORNEKLI.xlsx",
+ "ucretsiz_ders": 4,
+ "acilis": {
+  "baslik": "Motor",
+  "alt_baslik": "Fabrika Yönetim ve Simülasyon Motoru, sayfa sayfa",
+  "ajan_gm": "Bir fabrikada her sabah aynı dört soru sorulur: ne üreteceğiz, hangi malzeme bitiyor, hangi hat doluyor, stok doğru mu? Bu derslerde bu soruların tek bir Excel dosyasında nasıl cevaplandığını birlikte okuyacağız.",
+  "aciklama": "Fabrika Motoru 35 sayfalık, 21 modüllü bir Excel çalışma kitabıdır: müşteri tahmininden sevkiyata kadar kapalı döngüyü makrosuz hesaplar. Burada ana 12 sayfasını dosyadaki değerleri, renkleri ve grafikleriyle açıyoruz. Notlu hücrelerin üstüne gelin ya da dokunun: her not ne gördüğünüzü, nasıl hesaplandığını ve hangi kararı verdirdiğini anlatır. Her dersin sonunda tek bir soru var.",
+  "adimlar": [
+   {
+    "baslik": "Sayfayı açın",
+    "metin": "Excel sayfası tarayıcıda, dosyadaki değerleri ve renkleriyle açılır. Büyük sayfaların dolu bölümü gösterilir."
+   },
+   {
+    "baslik": "Notları okuyun",
+    "metin": "Köşesinde turuncu üçgen olan hücrelerde not var. Ajan GM her birinde ne gördüğünüzü ve ne yapacağınızı anlatır."
+   },
+   {
+    "baslik": "Soruyu cevaplayın",
+    "metin": "Her dersin sonunda tek soru: okuduğunuzu karara çevirebiliyor musunuz?"
+   }
+  ],
+  "paket": [
+   "Örnek verili dosya: bu derslerdeki sayfaların aynısı, kurgusal bir ısıtma-soğutma yan sanayi tesisinin verisiyle (20 mamul, 75 malzeme, 8 tedarikçi, 5 müşteri)",
+   "Boş dosya: aynı yapı ve formüller, örnek veri yok; kendi kartlarınızı ve ürün ağacınızı yapıştırmanız için",
+   "Erişim kodu: sitedeki 12 dersin tamamını açar",
+   "Excel 2019 ve Microsoft 365 ile uyumlu; makro yok, bütün hesaplar formül",
+   "Kılavuz dosyanın içinde: ilk kurulum, günlük, haftalık ve aylık döngü, hesap mantığı, sık hatalar"
+  ],
+  "veri_notu": "Tablolardaki rakamlar dosyanın örnek verisinden gelir: kurgusal bir ısıtma-soğutma yan sanayi tesisi; 20 mamul, 75 malzeme, 11 iş merkezi, 3 hat, 8 tedarikçi, 5 müşteri; planlama tarihi 5 Ekim 2026. Örnek veri gerçek bir işletmeye ait değildir. Büyük sayfaların yalnızca dolu bölümü gösterilir; formüller ve seçimler Excel dosyasında çalışır.",
+  "ders_veri_notu": "Tablodaki rakamlar dosyanın kurgusal örnek verisidir; planlama tarihi 5 Ekim 2026. Formüller ve seçimler Excel dosyasında çalışır.",
+  "sss": [
+   {
+    "soru": "Kendi verimi siteye yükleyebilir miyim?",
+    "cevap": "Hayır. Site veri almaz ve saklamaz. Boş dosyayı indirip kartlarınızı, ürün ağacınızı ve tahmini Excel'de yapıştırırsınız; bütün hesaplar bilgisayarınızda yapılır."
+   },
+   {
+    "soru": "Hangi dersler ücretsiz?",
+    "cevap": "İlk dört ders (Panel, BOM, BOM Patlatma, Tahmin Analizi) herkese açık. Kalan sekiz ders, dosyalarla birlikte gelen erişim koduyla açılır."
+   },
+   {
+    "soru": "Neden bazı sayfaların yalnızca bir bölümü görünüyor?",
+    "cevap": "MRP, Stok Sağlık, Alarm ve Simülasyon gibi sayfalar dosyada 1.000 satıra kadar yer ayırır; örnek veride 75 malzeme vardır. Sitede dolu satırlar ve özet satırlar gösterilir, boş rapor satırları gösterilmez. Dosyada gizli olan teknik hesap sütunları da burada görünmez."
+   },
+   {
+    "soru": "Datakit'in erişim kodu Motor derslerini açar mı?",
+    "cevap": "Hayır. Her ürünün kendi kod listesi vardır; Motor kodu yalnızca Motor derslerini açar."
+   }
+  ]
+ },
+ "dersler": [
+  {
+   "id": "panel",
+   "sira": 1,
+   "sayfa_adi": "PANEL",
+   "baslik": "Kontrol paneli: fabrikanın sabah toplantısı tek ekranda",
+   "ozet": "Yirmi iki gösterge, üç renk ve iki grafik: hangi kart bugün sizi ayağa kaldırmalı, hangisi bekleyebilir?",
+   "ucretsiz": true,
+   "ajan_gm": "Sabah ilk bu ekrana bakarım. Her kartta bir sayı, bir renk ve bir sayfa bağlantısı var: kırmızıdan başlarım, sarıyı öğleden önce bitiririm, yeşile dokunmam.",
+   "notlar": [
+    {
+     "aralik": "B5:I8",
+     "baslik": "Plan uyumu ve plansız üretim",
+     "metin": "Plan uyumu %93,1: planlanan miktarın %93,1'i üretilmiş. Eşikler Ayarlar'da: %95 ve üstü yeşil, %85 ve üstü sarı; %93,1 sarı yani 'Dikkat'. Yanındaki plansız üretim %0,6 yeşil: üretilen her şey planda vardı, hedef en çok %3.",
+     "karar": "Sarı kartı sayfasına tıklayıp (MPS) hangi mamulde uyumun düştüğüne bakın; plansız üretim düşükken uyum sarıysa sorun eksik üretimdir, fazla üretim değil."
+    },
+    {
+     "aralik": "J5:P8",
+     "baslik": "Kapasite aşımı ve en yüksek yük",
+     "metin": "44, önümüzdeki 20 iş gününde iş merkezi × gün olarak kapasitesini aşan hücre sayısı; en yüksek günlük yük %177. İkisi de kırmızı. Alt satır darboğazı söylüyor: IM-32 Lehim ve Montaj; aşımlı takvim günü 14.",
+     "karar": "Kapasite dersinde yük dengeleme tablosuna gidin: öne çekme, fason ve fazla mesai önerisi hazır. Kırmızı yük planı değiştirmeden geçmez."
+    },
+    {
+     "aralik": "B10:I13",
+     "baslik": "Malzeme alarmları",
+     "metin": "Çok Acil malzeme 3 (altta Acil 4, Dikkat 4): MRP'nin sınıf dağılımı. 'Bugün sipariş ver' 2, 'Öne çekilecek' 3: ALARM sayfasının aksiyon listesi. İki kart da sarı.",
+     "karar": "Satın alma listesini bu iki karttan çıkarın: MRP'deki Çok Acil ve Acil kalemler ile ALARM'daki 'bugün sipariş ver' satırları aynı toplantıda kapanmalı."
+    },
+    {
+     "aralik": "J10:P13",
+     "baslik": "Zamanında teslim ve stok doğruluğu",
+     "metin": "Tedarikçilerin zamanında teslim oranı %85,3 sarı (yeşil %95). Stok doğruluğu %91,2 kırmızı: sayımla kayıt arasındaki fark tolerans dışında (yeşil %98, sarı %95). Eksi bakiye 1 kalem: kayıt stoğu sıfırın altına düşmüş.",
+     "karar": "Kırmızı kart sayım sorunudur, satın alma sorunu değil: önce SAYIM sayfasındaki en büyük farkları kapatın, sonra MRP'ye güvenin."
+    },
+    {
+     "aralik": "B15:P18",
+     "baslik": "Stok sağlığı, marj ve tahmin",
+     "metin": "Ölü stok oranı %0,1 yeşil. Ortalama brüt marj %14,2 sarı: hedef %15, altında bir mamul zarar ediyor. Tahmin güvenilirliği 81 yeşil (eşik 80). Tahminde değişen satır %66,4 sarı: müşteri son dosyada satırların üçte ikisini değiştirmiş.",
+     "karar": "Marj kartı için MALİYET'teki zarar eden mamule, tahmin kartı için Tahmin Analizi'ndeki değişen satırlara bakın; güvenilirlik 81 olsa da üçte iki değişim planı oynatır."
+    },
+    {
+     "aralik": "B35:P48",
+     "baslik": "İki grafik",
+     "metin": "Soldaki çubuklar 20 iş gününün her biri için tesisin en yüklü iş merkezinin yükü: ilk gün %177, çoğu gün %100'ün üstünde. Sağdaki halka MRP sınıflarının dağılımı: Çok Acil 3, Acil 4, Dikkat 4, Normal 20 kalem.",
+     "karar": "Çubuklarda %100 çizgisini aşan gün sayısı kapasite kartındaki 14 ile aynıdır; halkada kırmızı dilim büyüyorsa satın alma geride kalıyor demektir."
+    }
+   ],
+   "soru": {
+    "metin": "Plan uyumu %93,1 ile 'Dikkat', plansız üretim %0,6 ile 'İyi'. Bu ikili ne anlatır?",
+    "secenekler": [
+     "Fabrika plana sadık kalmış; planlanan miktarın yaklaşık %7'si üretilememiş.",
+     "Planda olmayan işler yapılmış, bu yüzden uyum düşmüş.",
+     "İki gösterge çelişiyor; dosya yanlış hesaplıyor."
+    ],
+    "dogru": 0,
+    "aciklama": "Plansız üretim düşükse üretilen her şey planda vardır; uyumu düşüren şey plandaki miktarın bir kısmının yapılamamasıdır. MPS dersinde mamul bazında plan uyumu sütununda hangi ürünlerin %85-95 bandına düştüğünü göreceğiz."
+   }
+  },
+  {
+   "id": "bom",
+   "sira": 2,
+   "sayfa_adi": "BOM",
+   "baslik": "Ürün ağacı: bir mamulün içinde ne var, kaç para eder",
+   "ozet": "ERP'den yapıştırılan çok seviyeli reçete; seviye, fire, kümülatif miktar, kilogram ve maliyet nasıl hesaplanır?",
+   "ucretsiz": true,
+   "ajan_gm": "Ürün ağacı fabrikanın anayasasıdır: MRP, kesim, maliyet ve emanet hesabı buradan beslenir. İlk iki mamulün ağacını satır satır okuyacağız.",
+   "veri_notu": "Sayfanın ilk 47 satırı gösteriliyor: 369 satırlık ağacın ilk iki mamulü (MML-001 ve MML-002). Dosyada gizli olan teknik sütunlar (W–CG) burada görünmez.",
+   "notlar": [
+    {
+     "aralik": "H4:O4",
+     "baslik": "Ağacın özeti",
+     "metin": "369 satır, ağacı olan 19 mamul, en derin seviye 5, hatalı satır 0. Hatalı satır sayısı Kontrol sütunundan (V) gelir: kartta olmayan kod, bölünmüş mamul bloğu gibi sorunlar orada kırmızı görünür.",
+     "karar": "Yeni bir reçete yapıştırdıktan sonra önce bu dört sayıya bakın: hatalı satır sıfır değilse MRP'ye geçmeyin."
+    },
+    {
+     "aralik": "A7:D11",
+     "baslik": "Seviye ve miktar",
+     "metin": "MML-001'in ilk dalı: seviye 1'de YM-L02 servis vanası alt grubu, altında seviye 2 havşalı boru, seviye 3 bükülmüş boru, seviye 4 kesilmiş boru, seviye 5'te hammadde HM-003 bakır boru 0,45 m. Miktar (D) her zaman bir üst birim başınadır: 0,45 m boru, bir kesilmiş boru için.",
+     "karar": "ERP raporunu sırası bozulmadan yapıştırın: dosya bir satırın atasını, aynı mamul bloğunda kendisinden önceki son 'seviye − 1' satırından bulur. Mamul koduna göre sıralarsanız ağaç bozulur."
+    },
+    {
+     "aralik": "J7:K11",
+     "baslik": "Ağaç görünümü ve üst kod",
+     "metin": "J sütunu seviyeyi noktalarla girintiler; K sütunu üst kodu yazar: YM-K05'in üstü YM-B04, onun üstü YM-H02. Bu iki sütun formüldür, yapıştırdığınız veriden türetilir.",
+     "karar": "Bir satırın üst kodu beklediğiniz parça değilse seviye numarası yanlış girilmiştir; üst kod sütunu bunu yakalamanın en hızlı yoludur."
+    },
+    {
+     "aralik": "L12:N16",
+     "baslik": "Fire ve net miktar",
+     "metin": "Satır firesi net miktarı büyütür: rakor somunu %0,5 fire ile 1,0000 → 1,0050; fosforlu lehim %3,0 ile 0,0080 → 0,0082; azot %8,0 ile 0,0120 → 0,0130. N sütunu kümülatif miktar: net miktar × ataların net miktarları, yani bir mamul için gereken toplam.",
+     "karar": "Fire oranını kartta bir kez girin; her satırda elle büyütmeyin. Gerçek fire bilinmiyorsa sıfır bırakın, KESİM sayfası boy halindeki hammadde için fireyi kendisi hesaplar."
+    },
+    {
+     "aralik": "O11:Q20",
+     "baslik": "Yaprak ve kesim fire payı",
+     "metin": "O sütunu 1 ise satır yapraktır: satın alınan ya da hammadde, altı yoktur. HM-003 için kesim fire payı %0,9 KESİM sayfasından gelir; nihai kümülatif 0,4500 → 0,4540 m olur. Aynı hammaddenin ikinci dalı (satır 20) 0,62 → 0,6255 m.",
+     "karar": "MRP yalnızca yaprakların nihai kümülatif miktarını kullanır; yarı mamuller 'üretilir' sayılır. Bir yarı mamulü dışarıdan alıyorsanız kartta kaynağını değiştirin, ağacı değil."
+    },
+    {
+     "aralik": "R11:U11",
+     "baslik": "Kilogram ve maliyet",
+     "metin": "kg/birim 0,1959 (bir metre borunun ağırlığı) × nihai kümülatif 0,4540 m = kümülatif 0,0890 kg. Birim maliyet 169,6843 PB/m × 0,4540 = satır maliyeti 77,0405 PB. İkinci mamulün bakır borusu (satır 32) %4,1 kesim payıyla 29,39 PB.",
+     "karar": "Metal fiyatı değişince FİYAT sayfasına yeni satır ekleyin; bu sütunlar ve MALİYET sayfası kendiliğinden güncellenir. Eski fiyat satırını silmeyin, tarihli geçmiş olarak kalır."
+    }
+   ],
+   "soru": {
+    "metin": "HM-003 bakır borunun MML-001 için satır miktarı 0,4500 m, nihai kümülatif miktarı 0,4540 m. Aradaki fark nereden gelir?",
+    "secenekler": [
+     "KESİM sayfasının hesapladığı %0,9 desen firesi payından: 0,45 × 1,009 = 0,454.",
+     "L sütunundaki satır firesinden.",
+     "kg/birim çarpanından."
+    ],
+    "dogru": 0,
+    "aciklama": "Bu satırda satır firesi %0,0; fire payı P sütununda %0,9 olarak KESİM'den geliyor. Boy halindeki hammadde desene göre kesildiği için artan parça fire olur ve dosya bunu hammadde satırına pay olarak geri yazar."
+   }
+  },
+  {
+   "id": "bom-patlatma",
+   "sira": 3,
+   "sayfa_adi": "BOM_PATLATMA",
+   "baslik": "Patlatma: bir mamul seçin, ağacı ve hammadde listesi gelsin",
+   "ozet": "Seçili mamulün girintili ağacı, hammadde özeti, toplam maliyet ve iki kontrol listesi: ağacı olmayan mamuller, hiçbir ağaçta geçmeyen bileşenler.",
+   "ucretsiz": true,
+   "ajan_gm": "BOM sayfası 369 satırdır, kimse onu satır satır okumaz. Bu sayfa tek bir mamulü seçtirir ve ona ait her şeyi iki tabloya indirir.",
+   "veri_notu": "Sayfanın 1–30 ve 52–56. satırları gösteriliyor: seçili mamulün 21 satırlık ağacı, hammadde özeti ve kontrol listeleri. Aradaki boş rapor satırları gösterilmez.",
+   "notlar": [
+    {
+     "aralik": "B5:E5",
+     "baslik": "Mamul seçimi",
+     "metin": "Gri hücre C5 giriş alanıdır: listeden MML-001 seçili, yanında adı Kondenser Giriş Boru Grubu. Sayfadaki her şey bu tek hücreden türer.",
+     "karar": "Excel dosyasında başka bir mamul seçin; ağaç, özet ve maliyet anında değişir. Burada seçim dosyadaki hâliyle sabittir."
+    },
+    {
+     "aralik": "B6:I7",
+     "baslik": "Seçili mamulün özeti",
+     "metin": "Ağaç 21 satır, en derin seviye 5. Malzeme maliyeti 378,99 PB; toplam ağırlık 0,424 kg; standart süre 5,30 adam-dakika/adet (STD_SÜRE sayfasından).",
+     "karar": "Teklif verirken bu dört sayı yeter: malzeme 378,99 PB + işçilik (5,30 dk × saat ücreti / 60) + genel gider. MALİYET sayfası aynı hesabı bütün mamuller için yapar."
+    },
+    {
+     "aralik": "A11:M15",
+     "baslik": "Girintili ağaç",
+     "metin": "Satır 11'den aşağı MML-001'in ilk dalı: YM-L02 (seviye 1) → YM-H02 (2) → YM-B04 (3) → YM-K05 (4) → HM-003 bakır boru (5): miktar 0,4500 m, kümülatif 0,4540 m, 0,089 kg, 77,04 PB. Sütunlar BOM sayfasıyla aynı mantıkta, yalnızca bu mamule süzülmüş.",
+     "karar": "Ağacı müşteriyle ya da kaliteyle konuşurken BOM'u değil bu tabloyu açın: tek mamul, girintili, maliyetli."
+    },
+    {
+     "aralik": "O9:U20",
+     "baslik": "Hammadde ve bileşen özeti",
+     "metin": "Sağdaki tablo ağaçtaki yaprakları toplar: 11 kalem. HM-003 bakır boru iki dalda geçtiği için toplam 1,0796 m (0,4540 + 0,6255), 0,212 kg, 183,19 PB; en pahalı ikinci kalem servis vanası BL-006 158,79 PB. Sütun toplamı özetteki 378,99 PB'dir.",
+     "karar": "Satın alma bu listeyle konuşur: bir mamulden 1.000 adet sipariş geldiğinde her satırı 1.000 ile çarpın, MRP'nin yapacağı da aşağı yukarı budur."
+    },
+    {
+     "aralik": "O52:Q55",
+     "baslik": "Kontrol: ağacı olmayan mamul",
+     "metin": "MAMUL kartında olup BOM'da hiç satırı olmayan mamuller: MML-014 Derin Dondurucu Kapiler Grubu. MPS bu mamulü planlar ama MRP'de malzeme ihtiyacı çıkmaz.",
+     "karar": "Bu liste boş olana kadar MRP sonucuna güvenmeyin; ağacı eksik mamulün malzemesi hiçbir sayfada görünmez."
+    },
+    {
+     "aralik": "S52:U55",
+     "baslik": "Kontrol: yetim bileşenler",
+     "metin": "MALZEME kartında olup hiçbir ağaçta geçmeyen kalemler: BL-014 Bakır Manşon ve BL-016 Basınç Şalteri Bağlantı Nipeli. Stok Sağlık dersinde aynı iki kodu 'ölü stok' olarak göreceğiz: tüketim yok, hareketsiz gün 325 ve 244.",
+     "karar": "Yetim bileşenin iki açıklaması olur: ya ağaçta unutulmuş bir satır ya da artık kullanılmayan bir parça. İlkiyse BOM'u düzeltin, ikincisiyse kartı kapatıp stoğu eritin."
+    }
+   ],
+   "soru": {
+    "metin": "Hammadde özetinde HM-003 için 1,0796 m yazıyor; ağaçta HM-003 iki kez geçiyor, satır miktarları 0,45 ve 0,62 m. Özet neyi toplar?",
+    "secenekler": [
+     "Nihai kümülatif miktarları, kesim fire payı dahil: 0,4540 + 0,6255.",
+     "Satır miktarlarını: 0,45 + 0,62 = 1,07.",
+     "Yalnızca ilk geçtiği satırı."
+    ],
+    "dogru": 0,
+    "aciklama": "Özet, yaprak satırların nihai kümülatif miktarını toplar; ikisi de %0,9 kesim payıyla büyütülmüş olduğundan 1,07 değil 1,0796 çıkar. MRP de aynı sayıyı kullanır."
+   }
+  },
+  {
+   "id": "tahmin-analiz",
+   "sira": 4,
+   "sayfa_adi": "TAHMİN_ANALİZ",
+   "baslik": "Tahmin oynaklığı: müşteri dosyayı her gönderdiğinde ne değişti",
+   "ozet": "Eski ve yeni tahmin satır satır karşılaştırılır: değişen satır, yer değiştiren miktar, öne çekme ve erteleme, güvenilirlik puanı, rolling sapması.",
+   "ucretsiz": true,
+   "ajan_gm": "Müşteri tahmini iki dosya arasında ne kadar oynarsa planınız o kadar oynar. Bu sayfa oynamayı sayıya çevirir; 'müşteri yine değiştirdi' demek yerine kaç adet, kaç gün dersiniz.",
+   "notlar": [
+    {
+     "aralik": "B5:P6",
+     "baslik": "Değişim özeti",
+     "metin": "Yeni tahmin (5 Ekim) eski tahminle (31 Ağustos) karşılaştırılmış: satırların %66,4'ü değişmiş; 16.110 adet yer değiştirmiş, bu toplam hacmin %11,1'i; net fark yalnızca +830 adet (+%0,6). Toplam neredeyse aynı, dağılım çok farklı.",
+     "karar": "Net farka bakıp 'tahmin sabit' demeyin; yer değiştiren miktar planı bozan sayıdır. %11,1 oynama 20 günlük planın her gününü etkiler."
+    },
+    {
+     "aralik": "B8:P9",
+     "baslik": "Oynaklık ve güvenilirlik",
+     "metin": "Öne çekilen 3, ertelenen 4 mamul. İlk 7 gün oynaklığı %27,9, ilk 30 gün %29,2: yakın günler bile oynuyor. Ortalama güvenilirlik 81 (eşik 80, yeşil). Kısa vadeli tahmin, 12 aylık rolling tahminin %13,3 üstünde (3 aylık sapma).",
+     "karar": "Yakın günlerdeki oynaklık %28 ise plan dondurma ufkunu (Ayarlar: 3 iş günü) kısaltmayın; müşteriyle ilk haftanın dondurulmasını konuşun."
+    },
+    {
+     "aralik": "B13:E25",
+     "baslik": "Rolling ve kısa vade",
+     "metin": "Müşterinin 12 aylık rolling tahmini (C) ile kısa vadeli tahmini (D) yan yana: Ekim 68.850'ye karşı 82.490 (+%20), Kasım +%15, Aralık +%5. Kısa vade hep rolling'in üstünde: müşteri yıllık dosyada az, yakın dosyada çok istiyor.",
+     "karar": "Hammadde ve kapasite bütçesini rolling'e göre yaptıysanız %15-20 açık var demektir; Ocak'tan sonrası için rolling'i bu sapma kadar büyütüp konuşun."
+    },
+    {
+     "aralik": "E28:N30",
+     "baslik": "Satır bazında fark",
+     "metin": "MML-002: eski 11.090 → yeni 11.950, +860 adet (+%7,8); 24 satırın 24'ü değişmiş (%100, K sütunundaki çubuk tam dolu) ama yer değiştiren miktar 0: müşteri her güne eklemiş, günler arasında kaydırmamış. MML-003 ise +630 adet artarken 260 adet de yer değiştirmiş (%4,4).",
+     "karar": "Saf artış kapasite sorusudur, yer değiştirme malzeme sorusudur: MML-002 için hat yüküne, MML-003 için MRP'deki ilk eksik tarihine bakın."
+    },
+    {
+     "aralik": "O28:R30",
+     "baslik": "Kayma: öne çekme ve erteleme",
+     "metin": "Talebin ağırlıklı ortalama tarihi eski ve yeni tahminde karşılaştırılır. MML-003: 30.10 → 01.11, kayma +1,8 gün, etiketi 'Ertelendi'; MML-001 ve MML-002 'Sabit' (kayma toleransı Ayarlar'da 1 gün).",
+     "karar": "Ertelenen mamulün hazır stoğu varsa nakit o stokta bekler; öne çekilen mamulde ise malzeme ve kapasite erkene gelir. Her hafta bu sütunu okuyup üretim sırasını buna göre kaydırın."
+    },
+    {
+     "aralik": "W28:AA31",
+     "baslik": "Güvenilirlik puanı",
+     "metin": "Puan üç parçadan kurulur: ilk 7 günün oynaklığı (W), 30 günün oynaklığı (X) ve ilk pencerenin net farkı (Y); ağırlıklar Ayarlar'da. MML-004 oynaklık %0 ile 100 puan; MML-001 99; MML-002 87; MML-003 84. 80 ve üstü 'Yüksek', 60-80 'Orta', altı 'Düşük'.",
+     "karar": "Düşük puanlı mamulde emniyet stoğunu gün olarak artırın, yüksek puanlıda düşürün; emniyet stoğu her mamul için kartta ayrı girilir."
+    }
+   ],
+   "soru": {
+    "metin": "MML-002'nin tahmini +860 adet arttı, 24 satırın 24'ü değişti, yer değiştiren miktar 0. Bu ne demek?",
+    "secenekler": [
+     "Müşteri miktarı günler arasında kaydırmadı, her güne ekledi: saf talep artışı.",
+     "Tahmin güvenilmez; satırlar yer değiştirdiği için plan baştan kurulmalı.",
+     "Veri hatası: her satır değiştiyse yer değiştiren miktar sıfır olamaz."
+    ],
+    "dogru": 0,
+    "aciklama": "Yer değiştiren miktar, artışla azalışın örtüşen kısmıdır: (Σ|fark| − |net fark|) / 2. Bütün satırlar aynı yönde arttıysa örtüşme yoktur, sonuç sıfırdır. Bu mamul için soru malzeme değil kapasitedir."
+   }
+  },
+  {
+   "id": "mps",
+   "sira": 5,
+   "sayfa_adi": "MPS",
+   "baslik": "Ana üretim planı: 20 iş günü ve 13 hafta",
+   "ozet": "Tahmin eksi yoldaki miktar, emniyet stoğu ve fiili stoktan günlük plana; geçmişte plan uyumu ve plansız üretim.",
+   "ucretsiz": false,
+   "ajan_gm": "MPS, tahmini üretim emrine çeviren sayfadır. Bir mamulün satırını soldan sağa okuduğunuzda stok, talep ve planın nasıl bağlandığını görürsünüz.",
+   "veri_notu": "Sayfanın ilk 45 satırı ve TOPLAM satırı (328) gösteriliyor; dosyada 300 mamul için yer var. Dosyada gizli olan kümülatif plan ve teknik VG sütunları burada görünmez.",
+   "notlar": [
+    {
+     "aralik": "B5:I9",
+     "baslik": "Planın özeti",
+     "metin": "Plan uyumu %93,1; plansız üretim %0,6; 20 iş günlük plan 83.885 adet, 13 haftalık plan 226.715 adet; planlı mamul 20; müşteriye yoldaki 4.000 adet. Yoldaki miktar tahminden düşülür: müşteri sevk edilmiş ürünü yeniden istemez.",
+     "karar": "Sevkiyat sayfasında 'son alınan irsaliye'yi her tahmin dosyasında güncelleyin; güncellemezseniz yoldaki 4.000 adet ikinci kez planlanır."
+    },
+    {
+     "aralik": "B12:F24",
+     "baslik": "Aylık trend",
+     "metin": "Son 12 ayın plan ve gerçekleşeni: Ağustos 2026 plan 5.755 / gerçekleşen 5.495, uyum %95; Eylül 87.015 / 81.445, %93; Ekim'in ilk günleri 3.210 / 2.980, %92. Kasım 2025'ten Temmuz 2026'ya sıfır: örnek verinin kayıtları 31 Ağustos açılışıyla başlıyor.",
+     "karar": "Kendi verinizde geçmiş ayları ÜRETİM sayfasına girdikçe bu tablo dolar; uyumun aydan aya düşmesi kapasite ya da malzeme sorununun habercisidir."
+    },
+    {
+     "aralik": "H26:Q27",
+     "baslik": "Stok zinciri",
+     "metin": "MML-001: açılış stoğu 620 + dönem üretimi 7.060 − sevk 6.860 = kayıt stoğu 820. Son sayım 05.10'da 778; sayım sonrası hareket 0; fiili stok 778, planlama stoğu da 778 (Ayarlar: planlama stoğu kaynağı 'Fiili'). 820 ile 778 arasındaki 42 adet SAYIM sayfasındaki farktır.",
+     "karar": "Plan her zaman sayılan stoktan başlar; kayıt stoğuna güvenmek, olmayan 42 adedi planlamak demektir."
+    },
+    {
+     "aralik": "R26:V27",
+     "baslik": "Net talep ve emniyet stoğu",
+     "metin": "MML-001: müşteriye yoldaki 540 adet; 20 iş günlük net talep 5.790; emniyet stoğu 579 adet (kartta 2 gün: 5.790 / 20 × 2); 13 haftalık net talep 16.800; seviyeleme hızı günde 266,7 adet. Plan yöntemi 'Seviyeli': ihtiyaç 5 iş günü ileri bakılarak düzleştirilir.",
+     "karar": "Emniyet stoğunu gün olarak girin, adet olarak değil; talep değişince adet kendiliğinden ölçeklenir."
+    },
+    {
+     "aralik": "AQ26:BJ27",
+     "baslik": "Günlük plan",
+     "metin": "G01–G20 sütunları günlük üretim emridir: MML-001 2. gün 200, 3. gün 300, 4. gün 400, 5. gün 500 … 20. gün 200; hepsi lot büyüklüğü 100'ün katı. MML-002 ilk gün 100 ile başlar. En alttaki TOPLAM satırı (328) günün yükünü verir: 1. gün 4.930, 2. gün 3.730 adet; haftalık sütunlarda 1. hafta 24.905.",
+     "karar": "Bu satırı ÜRETİM sayfasındaki vardiya planına değer olarak kopyalarsınız; VARDİYA sayfası işleri öncelik sırasına dizer."
+    },
+    {
+     "aralik": "CK26:CQ28",
+     "baslik": "Plan uyumu mamul bazında",
+     "metin": "MML-001: geçmiş plan 7.800, gerçekleşen 7.060, uyumlu miktar 7.015, uyum %89,9 sarı (eşik %95 yeşil, %85 sarı), plansız üretim %0,6. MML-002 %94,3 ve MML-003 %90,5 da sarı. Uyumlu miktar, aynı günde plan ve gerçekleşenin küçüğüdür; başka gün yapılan üretim uyuma sayılmaz.",
+     "karar": "Uyumu düşük mamulde önce o mamulün hattına bakın (Kapasite dersi, HT-01); hat doluysa plan iyimserdir, dolu değilse malzeme eksiktir."
+    }
+   ],
+   "soru": {
+    "metin": "MML-001 %89,9, MML-002 %94,3 ve MML-003 %90,5: üçünün de plan uyumu sarı. Sarı bant nerede biter, kırmızı nerede başlar?",
+    "secenekler": [
+     "%95'te biter: %95 ve üstü boyanmaz; %85'in altı kırmızıdır.",
+     "%90'da biter; %90 üstü boyanmaz.",
+     "Sarı yalnızca plansız üretimi %0,5'i aşan satırlara verilir."
+    ],
+    "dogru": 0,
+    "aciklama": "Ayarlar'daki eşikler %95 (iyi) ve %85 (dikkat): plan uyumu sütununda %85'in altı kırmızı, %85–95 arası sarı, %95 ve üstü boyanmaz. Panel'deki toplam uyum %93,1 de aynı sarı banttadır; %94,3 sınıra yakın olsa da hâlâ sarıdır."
+   }
+  },
+  {
+   "id": "kapasite",
+   "sira": 6,
+   "sayfa_adi": "KAPASİTE",
+   "baslik": "Kapasite yükü: hangi iş merkezi hangi gün dolar",
+   "ozet": "Plan × standart süre = yük; iş merkezi ve hat bazında günlük yük yüzdesi, darboğaz ve yük dengeleme önerisi (öne çekme, fason, mesai).",
+   "ucretsiz": false,
+   "ajan_gm": "Plan kâğıt üstünde her zaman sığar; kapasite sayfası sığmadığı günü kırmızıya boyar. Darboğaz tek bir iş merkezidir ve adı bu sayfada yazar.",
+   "veri_notu": "Sayfanın 1–36, 68–75 ve 90–116. satırları gösteriliyor: 11 iş merkezi, 3 hat ve yük dengeleme tablosu. Boş rapor satırları ve gizli teknik sütunlar (BC–CJ) gösterilmez.",
+   "notlar": [
+    {
+     "aralik": "B5:M9",
+     "baslik": "Darboğaz ve aşım",
+     "metin": "Darboğaz iş merkezi IM-32 Lehim ve Montaj, hattı HT-03. Aşım 44 iş merkezi × gün; en yüksek günlük yük %177; toplam aşım 9.492 dakika. Bunun 3.571 dakikası fasonla karşılanabilir, 325 dakikası fazla mesaiye kalır; aşımlı takvim günü 14.",
+     "karar": "Darboğazın aşımını kendi kapasitesine bölün: IM-32 için 2.739 / 855 ≈ 3,2 gün (Not 6'daki toplam satırı). Darboğaza yaklaşık üç günlük iş fazlası binmiş; ya plan yayılır ya kapasite artar."
+    },
+    {
+     "aralik": "J23:AC24",
+     "baslik": "Takvim",
+     "metin": "Günlük sütunlar G01–G20: 5 Ekim Pazartesi'den 2 Kasım Pazartesi'ye 20 iş günü; hafta sonları ve 29 Ekim atlanmış (Ayarlar'daki tatil listesi). Sağda H01–H13 haftalık sütunlar.",
+     "karar": "Tatil listesini yılda bir güncelleyin; eksik tatil, o güne plan yazdırır ve yük yüzdesini düşük gösterir."
+    },
+    {
+     "aralik": "A26:I36",
+     "baslik": "İş merkezi kartı",
+     "metin": "11 iş merkezi: istasyon sayısı, istasyon başına operatör, günlük kapasite dakikası (IM-11 Boru Kesim 765 dk; IM-12 Büküm 3 istasyonla 2.295 dk), fason yapılıp yapılamadığı ve fason kapasitesi (IM-32: 600 dk/gün). Kapasite = istasyon × 900 dk × verim (çoğu iş merkezinde %85, IM-32'de %95: 855 dk).",
+     "karar": "Bir iş merkezine istasyon eklemek bu tablodaki tek sayıyı değiştirir; HAT kartında istasyonu artırıp yükün nasıl değiştiğine bakın."
+    },
+    {
+     "aralik": "J35:AC36",
+     "baslik": "Günlük yük yüzdesi",
+     "metin": "IM-32'nin günleri: G01 %177, G04 %147, G05 %125, G09 %125, G12 %128, G13 %131 kırmızı (%100 üstü); G06 %99, G07 %90, G08 %88 sarı (%85 ve üstü). IM-33 helyum testi G01'de %132. Kırmızı eşik ve sarı eşik Ayarlar'da.",
+     "karar": "İlk günün %177'si bugünün sorunudur: fason ve mesai dışında çare yok. Sonraki kırmızılar için önceki günlerin boşluğuna öne çekme yapın; tablo bunu aşağıda hesaplıyor."
+    },
+    {
+     "aralik": "J70:AC75",
+     "baslik": "Hat bazında makine ve işgücü",
+     "metin": "Her hat için iki satır: makine yükü ve işgücü yükü. HT-01 ilk gün makine %103, işgücü %79; HT-03 makine %177, işgücü %92. İkisinin farkı, darboğazın makine mi insan mı olduğunu söyler.",
+     "karar": "HT-03'te sorun makinedir: operatör eklemek yükü düşürmez. Vardiya ya da istasyon ekleyin, ya da lehim işini fasona verin."
+    },
+    {
+     "aralik": "A95:L107",
+     "baslik": "Yük dengeleme önerisi",
+     "metin": "Seçili iş merkezi IM-32 için gün gün: G01 yük 1.511 dk, kapasite 855, aşım 656 → 600 dk fason + 56 dk mesai. G02 ve G03'te 309 ve 362 dk boşluk birikir; G04'teki 406 dk aşımın tamamı bu boşluğa öne çekilir, kalan boşluk bankası 265. Toplam satırda (116): aşım 2.739 dk, öne çekilen 1.020, fason 1.663, mesai 56, çözülemeyen 0.",
+     "karar": "Çözülemeyen sütunu sıfırsa plan uygulanabilir; sıfır değilse MPS'de o günlerin miktarını azaltıp sonraki haftaya taşıyın."
+    }
+   ],
+   "soru": {
+    "metin": "IM-32'de 1. günün 656 dakikalık aşımı fason ve mesaiyle kapatılıyor; 4. günün 406 dakikalık aşımı ise tamamen öne çekmeyle çözülüyor. Neden 1. günde öne çekme yok?",
+    "secenekler": [
+     "Öne çekme işi önceki günlerin boşluğuna taşır; 1. günün öncesinde gün yok.",
+     "Fason öne çekmeden ucuzdur, dosya önce fasonu seçer.",
+     "1. günde kapasite daha düşüktür."
+    ],
+    "dogru": 0,
+    "aciklama": "Dosya boşluğu bir banka gibi biriktirir: 2. ve 3. günde 309 + 362 dakika boş kalır, 4. günün aşımı oraya çekilir. İlk günün önünde biriken boşluk olmadığından aşım fason (600 dk sınırı) ve fazla mesaiyle kapanır."
+   }
+  },
+  {
+   "id": "mrp",
+   "sira": 7,
+   "sayfa_adi": "MRP",
+   "baslik": "Malzeme ihtiyaç planlama: hangi malzeme hangi gün biter",
+   "ozet": "Planlama stoğu + açık siparişler − kümülatif brüt ihtiyaç = gün gün öngörülen stok; ilk eksik tarihi, son sipariş tarihi, sınıf, önerilen sipariş.",
+   "ucretsiz": false,
+   "ajan_gm": "MRP'nin bütün sırrı tek bir satırdır: bugünkü stok, gelecek siparişler ve her günün tüketimi. Satır eksiye düştüğü gün, sipariş vermek için geç kalınmış gündür.",
+   "veri_notu": "Sayfanın ilk 88 satırı gösteriliyor: 75 malzemenin tamamı. Dosyada 1.000 malzeme için yer var; gizli teknik sütunlar burada görünmez.",
+   "notlar": [
+    {
+     "aralik": "B5:T6",
+     "baslik": "Sınıf dağılımı",
+     "metin": "Çok Acil 3, Acil 4, Dikkat 4, Normal 20, Yeterli 2 kalem; önerilen sipariş tutarı 18.023.315 PB; 20 iş günü içinde emniyet stoğunun altına inen kalem 15 (sayfa buna 'eksi öngörü' der); bunların 8'i sıfırın da altına iniyor. Sınıf, son sipariş tarihine kalan güne göredir: 0 ve altı Çok Acil, 3'e kadar Acil, 7'ye kadar Dikkat (Ayarlar).",
+     "karar": "Sabah toplantısında önce Çok Acil üçlüyü, sonra Acil dörtlüyü kapatın; Dikkat sınıfı bu haftanın işidir."
+    },
+    {
+     "aralik": "I16:O16",
+     "baslik": "Stok, sipariş ve ihtiyaç",
+     "metin": "HM-003 bakır boru Ø9,52: planlama stoğu 17.738,4 m, açık sipariş 0, yoldaki 0, tedarik süresi 10 gün; brüt ihtiyaç 20 iş günü 26.688,7 m, 13 hafta 75.340,6 m; emniyet stoğu 6.672,2 m (5 günlük ortalama ihtiyaç).",
+     "karar": "Açık siparişi sıfır olan A sınıfı bir hammadde, tüketimi 20 günde stoğunun 1,5 katıysa bugün sipariş konusudur; sağdaki sınıf sütunu da öyle diyecek."
+    },
+    {
+     "aralik": "P16:AI16",
+     "baslik": "Gün gün öngörülen stok",
+     "metin": "HM-003: 1. gün 17.048 m, 2. gün 16.254 … stok her gün o günün ihtiyacı kadar azalır; 10. günde (16.10) 5.143 m ile emniyet stoğunun (6.672 m) altına düşer (sarı), 14. günde −1.443 m ile eksiye geçer (kırmızı), 20. günde −8.950 m. Açık sipariş olsaydı geleceği gün satıra eklenirdi.",
+     "karar": "Sarı hücre emniyet stoğunun altı, kırmızı hücre duruş demektir. Dosya ilk sarı günü 'ilk eksik' sayar ve sipariş tarihini ondan geri sayar; kırmızıyı beklemeyin."
+    },
+    {
+     "aralik": "AY14:BD17",
+     "baslik": "İlk eksik, son sipariş tarihi, sınıf",
+     "metin": "HM-003: ilk eksik tarihi 16.10.2026 (emniyet stoğunun altına düştüğü ilk gün); tedarik süresi 10 gün geri sayılınca son sipariş tarihi 06.10.2026; bugün 05.10 olduğuna göre kalan 1 gün → Acil, aksiyon 'Satın alma siparişi aç'. HM-001 için ilk eksik 09.11, son sipariş 30.10, kalan 25 gün → Normal.",
+     "karar": "Son sipariş tarihi geçmeden sipariş açın; geçtiyse Çok Acil olur ve tek çare tedarikçiyi hızlandırmaktır."
+    },
+    {
+     "aralik": "BE14:BH16",
+     "baslik": "Önerilen sipariş",
+     "metin": "Net ihtiyaç ilk eksik tarihinden sipariş periyodu (14 gün) sonrasına kadar hesaplanır: HM-003 için 14.571,7 m, öneri 14.600 m (yuvarlanmış), tutar 2.477.391 PB. HM-001 için 16.250 m, 1.609.435 PB. Önerilerin toplamı özetteki 18.023.315 PB.",
+     "karar": "Öneriyi tedarikçinin asgari sipariş miktarı ve bobin/koli katıyla karşılaştırıp SATINALMA'ya girin; girilen sipariş bu satırda açık sipariş olarak görünür ve sınıf düşer."
+    },
+    {
+     "aralik": "AY35:BD43",
+     "baslik": "Çok Acil: tarih geçmiş",
+     "metin": "BL-007 servis vanası: son sipariş tarihi 06.08.2026, kalan gün −60, çünkü ithal kalemin tedarik süresi 60 gün. BL-008 4 yollu vana gövdesi −4 gün. İkisinde aksiyon 'Açık siparişi öne çek (hızlandır)': yeni sipariş yetişmez, yoldakini hızlandırmak gerekir. BL-015 akümülatör gövdesi −14 gün, aksiyon 'Müşteriden emanet talep et': kalem emanet malzeme.",
+     "karar": "Çok Acil satırda yeni sipariş açmak nadiren çözümdür; aksiyon sütununu okuyun, kalemin kaynağına göre (ithal, emanet, yerli) farklı şey söyler."
+    }
+   ],
+   "soru": {
+    "metin": "BL-007 Servis Vanası 5/8\": kalan gün −60, tedarik süresi 60 gün, aksiyon 'Açık siparişi öne çek'. Neden 'satın alma siparişi aç' değil?",
+    "secenekler": [
+     "Yeni sipariş 60 gün sonra gelir, ihtiyaç bugün; tek çare yoldaki siparişi hızlandırmak.",
+     "Kalem emanet malzemedir, sipariş verilemez.",
+     "Stok yeterlidir, yalnızca uyarıdır."
+    ],
+    "dogru": 0,
+    "aciklama": "Son sipariş tarihi iki ay önce geçmiş: bugün verilen sipariş ancak Aralık'ta gelir. ALARM sayfasında aynı kalem için 4.500 adet açık+yoldaki sipariş görünür; işin çözümü o siparişin tarihini öne çekmektir."
+   }
+  },
+  {
+   "id": "satinalma",
+   "sira": 8,
+   "sayfa_adi": "SATINALMA",
+   "baslik": "Satın alma: sipariş takibi ve tedarikçi puanı",
+   "ozet": "Sipariş satırları, gecikme ve miktar doğruluğu, döviz ve kur, açık ve yoldaki siparişler; sağda tedarikçi performans puanı ve sınıfı.",
+   "ucretsiz": false,
+   "ajan_gm": "Satın alma sayfası iki şeyi ölçer: siparişin zamanında gelip gelmediğini ve tedarikçinin bunu kaç kez yaptığını. Puan tablosu, kimle pazarlık yapacağınızı söyler.",
+   "veri_notu": "143 sipariş satırından ilk 8'i, bir yoldaki ve bir iptal örneği (72 ve 99) ve son 31 satır gösteriliyor; tedarikçi puanı tablosu sağda (AG–AS). Aylık alım grafikleri tablonun üstünde.",
+   "notlar": [
+    {
+     "aralik": "B4:R5",
+     "baslik": "Satın almanın özeti",
+     "metin": "Zamanında teslim %85,3 (tolerans 0 gün); ortalama gecikme 0,8 gün; açık sipariş tutarı 20.522.574 PB; geciken açık satır 2; yıllık fiyat artışı medyanı %22,3; son 12 ay alım 153.319.798 PB.",
+     "karar": "Fiyat artışı medyanı %22,3'ü kurla karşılaştırın: kur sabitken bu artış tedarikçi marjıdır ve pazarlık konusudur."
+    },
+    {
+     "aralik": "A12:N12",
+     "baslik": "Geç gelen sipariş",
+     "metin": "SAS-260505: TED-04'ten 3.750 adet 4 yollu vana gövdesi, 10,25 USD, istenen termin 16.03.2026, teslim 27.03.2026: 11 gün gecikme (Y sütunu +11), 'Zamanında' sütunu 0. Kapanmış ama tedarikçinin puanına işlenmiş.",
+     "karar": "Teslim tarihini her irsaliyede girin; girmezseniz gecikme hesaplanmaz ve tedarikçi hak etmediği puanı alır."
+    },
+    {
+     "aralik": "Q11:T13",
+     "baslik": "Döviz, kur ve fiyat çarpanı",
+     "metin": "SAS-260503: 23.400 m bakır boru 13,29 USD/kg; kur 49,18; fiyat çarpanı 0,1959 (kartta fiyat kilogram başına, sipariş metre başına: 1 m = 0,1959 kg). Tutar 60.930,49 USD = 2.996.562 PB. Kur Ayarlar'daki etkin kurdur; kur senaryosu değişince bu sütun değişir.",
+     "karar": "Döviz kodunu ve birimi kartta bir kez doğru girin; çarpan ve kur sonrasını dosya yapar. Kg ile metreyi karıştıran sipariş 5 kat yanlış tutar üretir."
+    },
+    {
+     "aralik": "AG7:AS11",
+     "baslik": "Tedarikçi performans puanı",
+     "metin": "Puan dört ölçünün ağırlıklı ortalamasıdır: zamanında teslim, gecikme, miktar doğruluğu, fiyat artışı (ağırlıklar Ayarlar'da). TED-01 bakır boru: 35 sipariş, %90 zamanında, 0,2 gün gecikme, fiyat artışı %34,1, alımın %59,5'i; puan 84,5, sınıf B. TED-02 89,7 A. TED-04 vana: %36 zamanında, 3,8 gün gecikme, puan 61,8, sınıf C.",
+     "karar": "C sınıfı tedarikçinin kalemlerinde tedarik süresini gerçekleşen gecikmeyle uzatın ve emniyet stoğunu artırın; puanı düzelene kadar MRP bu kalemleri daha erken istesin."
+    },
+    {
+     "aralik": "A126:Y127",
+     "baslik": "Geciken açık sipariş",
+     "metin": "SAS-260501: BL-011 susturucu, 8 Eylül'de TED-03'e verilmiş, durumu 'Açık', beklenen tarih 25.09.2026 geçmiş: gecikme 10 gün. Özetteki 'geciken açık satır 2'den biri bu; Kontrol sütunu (AE) teslim girilmemiş satırı işaretlemez, gecikme sütunu işaretler.",
+     "karar": "Açık siparişleri haftada bir beklenen tarihe göre sıralayın; geçmiş tarihli açık satır ya teslim girilmemiş kayıttır ya gerçekten gecikmiş sipariştir, ikisi de aynı gün kapanmalı."
+    },
+    {
+     "aralik": "A139:X140",
+     "baslik": "Yoldaki ithal siparişler",
+     "metin": "SAS-260564: BL-008 4 yollu vana gövdesi, 3 Ekim'de verilmiş, durumu 'Yolda', tahmini varış 14.12.2026; SAS-260565: BL-010 filtre kurutucu, varış 03.12.2026. MRP bu iki kalemi 'Çok Acil' ve 'Dikkat' saymıştı; ALARM 'Siparişi öne çek' diyor: sipariş var ama ihtiyaçtan sonra geliyor.",
+     "karar": "'Yolda' durumundaki siparişin tahmini varış tarihini (M) her konşimentoda güncelleyin; MRP ve ALARM o tarihe göre hesaplar."
+    }
+   ],
+   "soru": {
+    "metin": "TED-04 vana tedarikçisinin zamanında teslim oranı %36, puanı 61,8 ve sınıfı C; ama alım payı %14,9 ile ikinci büyük tedarikçi. İlk adım ne olmalı?",
+    "secenekler": [
+     "Kartındaki tedarik süresini gerçekleşen gecikmeyle uzatıp kritik kalemlerinde emniyet stoğunu artırmak; dosya siparişleri daha erken istesin.",
+     "Tedarikçiyi hemen değiştirmek.",
+     "Puanı yok saymak; ithal kalemde gecikme normaldir."
+    ],
+    "dogru": 0,
+    "aciklama": "Tedarikçi değiştirmek aylar sürer; MRP'nin kullandığı tedarik süresi ve emniyet stoğu ise bugün değiştirilebilir. Gecikme payı kartına yazılınca son sipariş tarihleri öne gelir ve Çok Acil satırlar azalır."
+   }
+  },
+  {
+   "id": "sayim",
+   "sira": 9,
+   "sayfa_adi": "SAYIM",
+   "baslik": "Sayım: metin toplamından stok doğruluğuna",
+   "ozet": "Sabah sayımı kutu × adet + metin toplamıyla girilir; kayıtla fark, tolerans, eksi bakiye uyarısı, en büyük farklar ve etiket listesi.",
+   "ucretsiz": false,
+   "ajan_gm": "Depoda sayım yaparken hesap makinesi aramazsınız; '600+490+264' yazarsınız, dosya toplar. Asıl iş sayımdan sonra başlar: kayıtla fark neden var?",
+   "veri_notu": "Sayfanın ilk 75 satırı gösteriliyor: 5 Ekim sayımının 56 satırı, en büyük farklar, eksi bakiye uyarısı ve etiket listesinin başı. Dosyada 10.000 sayım satırına kadar yer var.",
+   "notlar": [
+    {
+     "aralik": "B4:P5",
+     "baslik": "Sayımın özeti",
+     "metin": "Stok doğruluk oranı %91,2: sayılan 34 kalemin 31'i tolerans içinde (tolerans %2, Ayarlar), 3'ü dışında. Net sayım farkı +469.525 PB: sayılan, kayıttan bu kadar fazla. Eksi bakiye uyarısı 1 kalem.",
+     "karar": "Doğruluk %98'in altındaysa kayıt stoğuna değil fiili stoğa göre planlayın; Ayarlar'da planlama stoğu kaynağı 'Fiili' seçili, iyi."
+    },
+    {
+     "aralik": "A25:K27",
+     "baslik": "Kutu, kutu içi ve metin toplamı",
+     "metin": "BL-001 rakor somunu: 43 kutu × 500 adet + ek sayım 463 = 21.963. BL-002: 25 × 500 + '6+7' = 12.513; BL-003: 28 × 500 + '230+231' = 14.461. F sütunundaki metin ifadesini J sütunu toplar, K sayılan miktarı verir. Sayan rolü G'de: Sayım Ekibi 1.",
+     "karar": "Kutu sayısını ve kutu içi miktarı ayrı girin, artanı '230+231' gibi artı ile yazın. Sayan rolünü boş bırakmayın: fark çıkınca kime sorulacağı belli olur."
+    },
+    {
+     "aralik": "L8:R11",
+     "baslik": "Raf kontrolü ve kalem toplamı",
+     "metin": "HM-003 bakır boru iki satırda sayılmış: A-01-03-1 rafında 12.416,9 m ve başka bir rafta 5.321,5 m; ikinci satır 'Kart rafından farklı' uyarısı alır. Kalem toplamı 17.738,4 m, kayıt 17.738,45: fark yok. Aynı günkü satırlar kalem bazında toplanır, raf bazında değil.",
+     "karar": "Kart rafından farklı yerde sayılan malzeme kayıp sayılmaz ama rota ve etiket listesi karta göre basılır; kart rafını güncelleyin ya da malzemeyi yerine taşıyın."
+    },
+    {
+     "aralik": "C38:Q39",
+     "baslik": "Tolerans dışı farklar",
+     "metin": "BL-014 bakır manşon: kayıt 3.800, sayılan 3.490, fark −310 (−%8,2). BL-015 akümülatör gövdesi: kayıt −309,54, sayılan 600, fark +909,54 (+%293,8). İkisi de %2 toleransın dışında; BL-015'in kaydı eksiye düşmüş.",
+     "karar": "Eksi kayıt, giriş yapılmadan tüketim düşülmüş demektir: SATINALMA'da teslim kaydını ya da EMANET'te girişi arayın, sayımı suçlamayın."
+    },
+    {
+     "aralik": "T6:AA10",
+     "baslik": "En büyük sayım farkları",
+     "metin": "Tutar bazında ilk üç fark: BL-015 +909,5 adet = +545.721 PB; BL-009 elektronik genleşme valfi gövdesi −80,5 adet (−%5,0) = −72.839 PB; BL-014 −310 adet = −2.232 PB. Net fark +469.525 PB'nin tamamına yakını tek kalemden geliyor.",
+     "karar": "Sayım toplantısında bu üç satırı kapatın; geri kalan 31 kalem tolerans içindedir ve zaman harcamaya değmez."
+    },
+    {
+     "aralik": "T39:AA43",
+     "baslik": "Sayım etiketi listesi",
+     "metin": "Her malzeme kartındaki raf için bir etiket: ET-0001 A-01-01-1 HM-001 bakır boru (m), kayıt 22.618,2; ET-0002 HM-002; ET-0003 HM-003 … Liste yazdırılıp depoya dağıtılır, sayılan miktar elle yazılır ve sabah tabloya girilir.",
+     "karar": "Etiketteki kayıt sütununu sayım kâğıdına basmayın; sayanı yönlendirir. Etiketi kayıtsız basıp farkı tabloda görün."
+    }
+   ],
+   "soru": {
+    "metin": "BL-015 Akümülatör Gövdesi: kayıt stoğu −309,5, sayılan 600, fark +909,5. En olası neden hangisi?",
+    "secenekler": [
+     "Malzemenin girişi (teslim ya da emanet) kaydedilmeden üretim tüketimi düşülmüş; kayıt eksiye inmiş.",
+     "Sayım ekibi yanlış saymış.",
+     "Formül hatası; kayıt stoğu eksi olamaz."
+    ],
+    "dogru": 0,
+    "aciklama": "Kayıt stoğu açılış + girişler − tüketim olarak hesaplanır; eksi değer, tüketimin girişten önce kaydedildiğini gösterir. MRP dersinde aynı kalemin aksiyonu 'Müşteriden emanet talep et' idi: giriş emanet olarak gelmeli, EMANET sayfasına girilmemiş."
+   }
+  },
+  {
+   "id": "stok-saglik",
+   "sira": 10,
+   "sayfa_adi": "STOK_SAĞLIK",
+   "baslik": "Stok sağlığı: ABC, ölü stok, devir hızı",
+   "ozet": "Yıllık tüketim tutarına göre ABC, hareketsiz gün ve 13 haftalık ihtiyaca göre ölü ve yavaş dönen stok, stok günü ve devir hızı, muhasebe farkı.",
+   "ucretsiz": false,
+   "ajan_gm": "Stok tutarı tek başına bir şey söylemez; tutarı tüketimle oranladığınızda hangi rafın para yaktığını görürsünüz. Bu sayfa her kaleme bir harf ve bir sağlık durumu verir.",
+   "veri_notu": "Sayfanın ilk 98 satırı gösteriliyor: 75 malzemenin tamamı. Dosyada 1.000 malzeme için yer var; gizli teknik sütunlar görünmez.",
+   "notlar": [
+    {
+     "aralik": "B5:M9",
+     "baslik": "Stoğun özeti",
+     "metin": "Malzeme stok tutarı 33.594.016 PB, mamul stoğu 5.088.218 PB. Ölü stok 25.128 PB (%0,1), yavaş dönen 340.382 PB. Stok devir hızı yılda 12,9; ortalama stok günü 28. Fiili stok ile muhasebe stoğu arasındaki fark 808.701 PB.",
+     "karar": "Devir 12,9 demek stok yaklaşık 28 günde bir yenileniyor demektir; 10 günde gelen yerli kalem için bol, 60 günlük ithal kalem için azdır. Ortalamaya değil kalem kalem stok gününe bakın."
+    },
+    {
+     "aralik": "B12:F15",
+     "baslik": "ABC dağılımı",
+     "metin": "Yıllık tüketim tutarına göre kümülatif pay: A sınıfı 11 kalem tüketimin %81,9'u, stok tutarının %84,1'i; B 7 kalem %13,5 / %10,3; C 17 kalem %4,6 / %5,6. Eşikler Ayarlar'da: A %80'e kadar, B %95'e kadar.",
+     "karar": "Sayım sıklığını buna göre kurun: A kalemleri her hafta, B ayda bir, C üç ayda bir. 11 kalemi doğru sayarsanız tutarın %84'ü doğrudur."
+    },
+    {
+     "aralik": "B18:D22",
+     "baslik": "Sağlık durumu",
+     "metin": "Sağlıklı 31 kalem (33.228.506 PB), yavaş dönen 2 (340.382 PB), ölü stok 2 (25.128 PB), stok yok 0. Ölü: 180 günden uzun hareketsiz ve 13 haftada ihtiyaç yok; yavaş: stok günü 90'ın üstünde (eşikler Ayarlar'da).",
+     "karar": "Ölü ve yavaş listesi kısa olsa da her ay bakın; yavaş dönen kalem, tedarik süresi uzun diye fazla alınmış malzemedir, siparişi küçültün."
+    },
+    {
+     "aralik": "F24:N25",
+     "baslik": "Satır: tutar, tüketim, pay",
+     "metin": "HM-001 bakır boru: fiili stok 22.618,2 m × birim maliyet 99,0422 = 2.240.156 PB. Dönem tüketimi 28.757,7 m, yıllığa çevrilince 299.902 m ve 29.702.937 PB: toplam tüketimin %6,8'i, kümülatif %36,8 → A sınıfı. HM-002 yıllık tüketim tutarıyla %9,8 pay.",
+     "karar": "Dönem tüketimi 31 Ağustos açılışından bugüne 35 gündür; yıllık tahmin bunun 365/35 katıdır. Mevsimlik malzemede bu tahmin şişer, ABC'yi yılda bir tam veriyle yenileyin."
+    },
+    {
+     "aralik": "O24:T25",
+     "baslik": "Hareketsiz gün, stok günü, devir",
+     "metin": "HM-001: son hareket 01.10.2026, hareketsiz 4 gün; gelecek 13 haftanın ihtiyacı 73.521 m; stok günü 28; devir hızı 13,3 → Sağlıklı. HM-002 stok günü 16, devir 22,7: daha hızlı dönüyor, stoğu daha küçük.",
+     "karar": "Stok gününü tedarik süresiyle karşılaştırın: HM-001 için 28 gün stok, 10 gün tedarik; 5 gün emniyetle birlikte makul. 60 günlük ithal kalemde 28 gün stok azdır."
+    },
+    {
+     "aralik": "B52:V54",
+     "baslik": "Ölü stok listesi",
+     "metin": "BL-014 bakır manşon: 3.490 adet, 25.128 PB, 325 gün hareketsiz, tüketim yok, C sınıfı → Ölü stok. BL-016 basınç şalteri bağlantı nipeli: 1.200 adet, 244 gün hareketsiz; birim maliyeti kartta 0 olduğundan tutarı 0 görünüyor. İkisi de BOM Patlatma dersindeki yetim bileşenler.",
+     "karar": "Ölü stokta önce birim maliyeti doldurun (0 PB'lik ölü stok yoktur), sonra karar verin: ağaca eklenecek mi, hurdaya mı, müşteriye iade mi."
+    }
+   ],
+   "soru": {
+    "metin": "Ölü stok oranı %0,1 ile 'İyi' görünüyor; listede yine de iki kalem var ve biri 0 PB. İlk yapılacak iş hangisi?",
+    "secenekler": [
+     "BL-016'nın birim maliyetini karta girip iki kalemin ağaçta geçip geçmediğine bakmak; yetimse kartı kapatıp stoğu eritmek.",
+     "Oran iyi olduğu için listeyi kapatmak.",
+     "İki kalemi hemen hurdaya ayırmak."
+    ],
+    "dogru": 0,
+    "aciklama": "Birim maliyeti boş kalem ölü stok tutarını küçük gösterir; önce maliyet, sonra karar. BOM Patlatma'nın yetim bileşen listesi aynı iki kodu veriyor: hiçbir ağaçta geçmiyorlar, eritilmeleri üretimi etkilemez."
+   }
+  },
+  {
+   "id": "alarm",
+   "sira": 11,
+   "sayfa_adi": "ALARM",
+   "baslik": "Stok bitiş alarmı: kaç gün sonra biter, sipariş yetişir mi",
+   "ozet": "Stok bölü günlük hız = bitiş tarihi; ilk siparişin gelişiyle karşılaştırma, son sipariş tarihi, aksiyon listesi: bugün sipariş ver, siparişi öne çek.",
+   "ucretsiz": false,
+   "ajan_gm": "MRP 'ne kadar' sorusuna cevap verir, ALARM 'ne zaman'a. Bu sayfa her kalem için bir takvim tarihi söyler: stok o gün biter, sipariş o gün gelir, arada kaç gün boşta kalırsınız.",
+   "veri_notu": "Sayfanın 1–12 ve 51–127. satırları gösteriliyor: 4 satırlık aksiyon listesi ve 75 malzemenin tamamı. Boş aksiyon satırları gösterilmez; dosyada 1.000 malzeme için yer var.",
+   "notlar": [
+    {
+     "aralik": "B4:P5",
+     "baslik": "Alarmların özeti",
+     "metin": "Bugün sipariş ver 2 kalem; siparişi öne çek 3; yakında (dikkat ufkunda) 3; tedarik süresinden kısa 2; stoğu 7 iş gününde biten 2. Her sayı aşağıdaki tablonun bir sütunundan sayılır.",
+     "karar": "İlk iki sayıyı sabah toplantısına taşıyın; 'yakında' sütunu haftalık satın alma toplantısının gündemidir."
+    },
+    {
+     "aralik": "A9:N9",
+     "baslik": "Öne çek ve sipariş ver",
+     "metin": "BL-007 servis vanası 5/8\": stok 415, açık + yoldaki 4.500, günlük hız 174,87; stok 07.10'da biter, ilk sipariş 08.10'da gelir: 1 stoksuz gün. Tedarik süresi 60 gün; son sipariş tarihi 14.09 idi, 21 gün geçmiş. Alarm: 'ÖNE ÇEK + SİPARİŞ VER'.",
+     "karar": "İki aksiyon birden: yoldaki 4.500 adedi bir gün öne çekin ve yeni siparişi bugün verin; 60 günlük tedarikte bir gün bile pahalıdır."
+    },
+    {
+     "aralik": "A10:N10",
+     "baslik": "Bugün sipariş ver",
+     "metin": "BL-015 akümülatör gövdesi: stok 600, açık sipariş 0, hız 141,45/gün → 09.10'da biter; tedarik süresi 14 gün; son sipariş tarihi 25.09 idi, 10 gün geçmiş. Önerilen miktar 2.250 adet. Alarm: 'BUGÜN SİPARİŞ VER'.",
+     "karar": "Sipariş bugün verilse 19.10'da gelir; 09.10 ile 19.10 arasında üretim bu parçasız kalır. MPS'de bu mamulün planını o günlerden çekin ya da emanet isteyin."
+    },
+    {
+     "aralik": "A11:N12",
+     "baslik": "Siparişi öne çek",
+     "metin": "BL-008 4 yollu vana gövdesi: stok 10.000, açık 6.250, hız 243,21; stok 02.12'de biter, ilk sipariş 14.12'de gelir: 12 stoksuz gün. BL-010 filtre kurutucu: 19.11'de biter, sipariş 03.12'de gelir: 14 gün. Alarm: 'SİPARİŞİ ÖNE ÇEK'.",
+     "karar": "İthal siparişte öne çekme nakliye tipi demektir: deniz yerine kısmi hava ya da kara; farkı stoksuz gün sayısıyla çarpılmış duruş maliyetiyle karşılaştırın."
+    },
+    {
+     "aralik": "F53:O55",
+     "baslik": "Hız yöntemi ve bitiş",
+     "metin": "HM-001: planlanan günlük ihtiyaç 1.385,07 m, geçmiş 30 günün tüketimi 1.105,84 m; Ayarlar'da yöntem 'Büyük olan' → 1.385,07 kullanılır. Stok 16,3 iş günü yeter, siparişlerle 28,4; bitiş 27.10, siparişlerle 13.11. HM-003 açık sipariş olmadığından iki bitiş de 22.10.",
+     "karar": "Plan ve geçmişten büyüğünü seçmek temkinli ama doğrudur; mevsim dönüşünde geçmiş yanıltır, sipariş dosyası daha güvenilirdir."
+    },
+    {
+     "aralik": "P53:W55",
+     "baslik": "Son sipariş tarihi ve alarm",
+     "metin": "HM-001: siparişlerle bitiş 13.11 − tedarik 10 gün = son sipariş tarihi 03.11; ilk sipariş gelişi 08.10 → 'Yeterli süre', alarm 'Uygun'. HM-003: bitiş 22.10, son sipariş 12.10 → alarm 'Yakında', önerilen 14.600 m (MRP ile aynı).",
+     "karar": "'Yakında' alarmı bu hafta verilecek siparişlerdir; 'Uygun' kalemlere dokunmayın, erken sipariş stok gününü ve nakit ihtiyacını artırır."
+    }
+   ],
+   "soru": {
+    "metin": "BL-007: stok 07.10'da bitiyor, yoldaki sipariş 08.10'da geliyor: 1 stoksuz gün. Alarm yine de 'ÖNE ÇEK + SİPARİŞ VER' diyor. 'Sipariş ver' kısmı neden?",
+    "secenekler": [
+     "Son sipariş tarihi 21 gün önce geçmiş: yoldaki 4.500 adet 60 günlük tedarik süresi dolmadan bitecek, yeni sipariş bugün bile geç.",
+     "1 stoksuz gün kritik sayıldığı için.",
+     "Günlük hız çok yüksek olduğu için."
+    ],
+    "dogru": 0,
+    "aciklama": "Alarm iki ayrı kuralı birleştirir: 'öne çek' bitiş ile ilk gelişin karşılaştırmasıdır, 'sipariş ver' ise stok + siparişlerin bitişinden tedarik süresi geri sayılınca bugünü geçmiş olmasıdır. Günde 174,87 adet tüketimle 4.500 adet yaklaşık 26 iş günü yeter; 60 günlük tedarik için sipariş çoktan verilmeliydi."
+   }
+  },
+  {
+   "id": "simulasyon",
+   "sira": 12,
+   "sayfa_adi": "SİMÜLASYON",
+   "baslik": "Simülasyon: üç senaryo yan yana",
+   "ozet": "Talep, kapasite, tedarik süresi, emniyet stoğu, kur, metal ve işçilik değişkenleriyle kapasite aşımı, acil malzeme, stok ihtiyacı ve brüt marj nasıl değişir?",
+   "ucretsiz": false,
+   "ajan_gm": "Patron 'talep yüzde yirmi beş artarsa ne olur' diye sorduğunda bu sayfayı açarsınız. Cevap tek sayı değildir: hat dolar, malzeme acilleşir, marj düşer; hepsi aynı tabloda.",
+   "veri_notu": "Sayfanın ilk 109 satırı gösteriliyor: değişkenler, sonuçlar, grafikler ve 75 malzemelik hesap alanı. Dosyada 1.000 malzeme için yer var.",
+   "notlar": [
+    {
+     "aralik": "B6:F14",
+     "baslik": "Senaryo değişkenleri",
+     "metin": "Baz sütunu bugünkü durumdur. Senaryo 1 'Büyüme': talep +%10, tedarik süresi +7 gün, kur +%10, bakır +%5. Senaryo 2 'Sıçrama': talep +%25, kapasite +%15, tedarik +14 gün, emniyet stoğu 10 gün, kur +%25, bakır +%15, işçilik +%10. Senaryo 3 'Daralma': talep −%15, emniyet 3 gün, bakır −%5. Gri hücreler değiştirilebilir.",
+     "karar": "Senaryoyu tek değişkenle kurmayın; talep artışı kurla, tedarik süresiyle ve emniyet stoğuyla birlikte gelir. Üç senaryoyu iyimser, kötümser ve beklenen olarak adlandırın."
+    },
+    {
+     "aralik": "B19:F21",
+     "baslik": "Kapasite sonuçları",
+     "metin": "Kapasite aşımı (iş merkezi × gün): baz 44 → S1 63, S2 61, S3 16. En yüksek günlük yük %177 → %194, %192, %150. Aşım dakikası 9.492 → 17.710, 18.919, 2.419. Senaryo 2'de kapasite %15 artmasına rağmen aşım artıyor: talep %25 daha hızlı büyüyor.",
+     "karar": "Kırmızı hücre, o senaryoda planın mevcut kapasiteyle uygulanamayacağını söyler (eşik 5 aşım, Ayarlar); daralma senaryosu bile 16 aşımla kırmızıda, darboğaz yapısal."
+    },
+    {
+     "aralik": "B22:F23",
+     "baslik": "Malzeme sonuçları",
+     "metin": "Acil malzeme (Çok Acil + Acil): baz 7 → S1 11, S2 32, S3 3. Hedef ortalama stok tutarı: 18.987.422 PB → 20.886.164, 35.850.377, 12.843.729. Senaryo 2'de emniyet stoğu 10 güne ve tedarik süresi +14 güne çıkınca gereken stok neredeyse iki katına çıkıyor.",
+     "karar": "Talep sıçraması yalnız üretim değil, stoğa bağlanan nakit demektir: Senaryo 2'de hedef stok tutarı yaklaşık 17 milyon PB artıyor; bu finansmanı senaryo kabul edilmeden önce konuşun."
+    },
+    {
+     "aralik": "B24:F28",
+     "baslik": "Maliyet ve marj",
+     "metin": "13 haftalık üretim maliyeti 115.076.868 PB → 139.037.555, 183.986.942, 95.327.088; ciro 134.072.086 → 158.286.659, 198.292.847, 113.961.273. Brüt marj %14,2 → %12,2, %7,2, %16,4 (hedef %15, Ayarlar). Birim maliyet S2'de +%27,9: kur +%25 ve bakır +%15 satış fiyatına yansımıyor.",
+     "karar": "Marj %7,2'ye düşen senaryoda ciro artışı bir şey kazandırmaz; müşteri sözleşmelerine kur ve metal endeksi koymadan talep artışına evet demeyin."
+    },
+    {
+     "aralik": "H6:M31",
+     "baslik": "Grafikler",
+     "metin": "Üstteki çubuklar dört senaryonun kapasite aşımını ve acil malzeme sayısını yan yana gösterir; alttaki çubuk brüt marjı. Grafikler sonuç tablosundan beslenir, gri hücreleri değiştirince yenilenir.",
+     "karar": "Yönetim sunumuna yalnızca iki grafiği koyun; sayıları tablodan okuyacak olan sizsiniz."
+    },
+    {
+     "aralik": "B34:T38",
+     "baslik": "Hesap alanı: malzeme bazında sınıf",
+     "metin": "Her malzeme için senaryo bazında kalan gün ve sınıf: HM-003 baz 0 gün (Çok Acil) → Senaryo 1'de −8 Çok Acil, Senaryo 2'de −24 Çok Acil, Senaryo 3'te +6 Dikkat. HM-002 baz 18 gün Normal → 5 Dikkat, −13 Çok Acil, 26 Normal (sayfadaki S1 sütunu Baz, S2–S4 senaryolardır). Hedef stok tutarı da senaryoya göre: HM-003 2,2 → 2,4 / 4,2 / 1,5 milyon PB.",
+     "karar": "Sunumda 'acil malzeme 32' demek yetmez; bu alandan senaryo 2'de Çok Acil'e düşen kalemleri listeleyip tedarikçi görüşmesini şimdiden planlayın."
+    }
+   ],
+   "soru": {
+    "metin": "Senaryo 2'de kapasite %15 artırılıyor ama kapasite aşımı 44'ten 61'e çıkıyor. Neden?",
+    "secenekler": [
+     "Talep %25 artıyor, yük talep oranında büyüyüp kapasite oranında küçülüyor: 1,25 / 1,15 ≈ 1,09, yük %9 artıyor.",
+     "Kapasite artışı simülasyonda dikkate alınmıyor.",
+     "Tedarik süresi uzadığı için malzeme bekleyen iş artıyor."
+    ],
+    "dogru": 0,
+    "aciklama": "Kılavuz'daki hesap: kapasite yükü talep oranında artar, kapasite oranında azalır. %25 talep artışını dengelemek için kapasite de %25 artmalı; %15 yetmez, aşım 44'ten 61'e çıkar."
+   }
+  }
+ ]
+}

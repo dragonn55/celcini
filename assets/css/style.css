@@ -547,3 +547,9 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Raf sayfasında rehberli derslere bağlantı (Fabrika Dosyaları → Motor dersleri) */
+.rh-raf-kutu { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 14px 16px; max-width: 760px; color: var(--metin); text-decoration: none; border-left: 4px solid var(--mavi); transition: border-color var(--gecis); }
+.rh-raf-kutu:hover { border-color: var(--koyu); }
+.rh-raf-kutu .ikon { flex: none; width: 24px; height: 24px; color: var(--koyu); }
+.rh-raf-kutu span { flex: 1; min-width: 0; }
