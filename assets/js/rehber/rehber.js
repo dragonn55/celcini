@@ -296,8 +296,9 @@ function baslat() {
         if (a && (a.top < 8 || a.top > alt - 48)) window.scrollBy({ top: a.top - 16, behavior: "smooth" });
       });
     }
-    /* Yatay telefon: kart önce sağa konur, tablo alanı soldaki boş banda gelecek kadar kaydırılır.
-       Alan yine örtülü kalırsa (sayfanın sonundaki sütunlar) kart sola geçer. */
+    /* Yatay telefon: kart sağa konur, tablo alanı soldaki boş banda gelecek kadar kaydırılır.
+       Kart sağda kalır ki turda "Sonraki not" yer değiştirmesin; alanın görünen kısmı 120 px'ten azsa
+       (sayfanın sonundaki sütunlar) ve solda daha çoğu görünecekse kart sola geçer. */
     function yanKart(i) {
       balon.classList.add("rh-balon-alt-kart");
       balon.classList.remove("rh-balon-solda");
@@ -310,7 +311,7 @@ function baslat() {
       };
       tablo.notGoster(i, { ortuSag: Math.max(0, k.right - (W - g)) });
       const sagda = gorunen(false), sagKaydirma = kutu.scrollLeft;
-      if (sagda.gen >= sagda.tam - 1) return;
+      if (sagda.gen >= Math.min(sagda.tam, 120) - 1) return;
       tablo.notGoster(i, { ortuSol: Math.max(0, g - k.left) });
       if (gorunen(true).gen > sagda.gen + 1) balon.classList.add("rh-balon-solda");
       else kutu.scrollLeft = sagKaydirma;
