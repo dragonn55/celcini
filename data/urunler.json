@@ -1472,5 +1472,2939 @@
         "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
       }
     ]
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "checkup-esnaf-isletme-defteri",
+    "ad": "CHECK-UP: Esnaf İşletme Defteri",
+    "kisa": "Satış, alış, gider ve veresiye hareketlerini girin; ciro, kâr, kasa, alacak, borç ve stok durumu Panel'de kendiliğinden hesaplansın.",
+    "aciklama": "Ayarlar, Ürünler ve Cariler sayfalarını bir kez doldurursunuz; sonra her satışı, mal alımını, gideri ve veresiye tahsilat ya da ödemeyi kendi sayfasına bir satır olarak girersiniz. Stok, bakiyeler, satılan malın maliyeti ve kâr bu hareketlerden hesaplanır; Panel'de yalnızca yılı seçersiniz. Kasa + Banka tek bakiyedir; nakit, kart ve havale ayrımı yapılmaz. AI Komutları sayfasında 10 hazır komut var.",
+    "ozellikler": [
+      "Satışta ürünü seçip adedi yazarsınız; tutar, maliyet ve kâr her satırda hesaplanır",
+      "Stok kendiliğinden güncellenir; kritik seviyeye inen ürün Kritik, sıfıra inen Tükendi yazar",
+      "Cariler'de her kişi için alacak bakiyesi, borç bakiyesi ve net durum hesaplanır",
+      "Panel: seçilen yılın ciro, satış maliyeti, brüt kâr, giderler, net kâr ve net kâr / ciro oranı",
+      "Panel: kasa + banka, toplam alacak ve borç, stok değeri, kritik ve tükenen ürünler, net durum",
+      "Panel: aylık kâr zarar tablosu, en çok satan ürünler, stok uyarıları, en çok alacağınız olan kişiler, grafik"
+    ],
+    "kimin_icin": "Veresiye çalışan, stok tutan ve satış, alış ve giderlerini tek dosyada izlemek isteyen esnaf ve dükkân sahipleri.",
+    "etiketler": [
+      "esnaf",
+      "satış"
+    ],
+    "sayfa_sayisi": 10,
+    "soz": "Satış, alış, stok, veresiye, kasa ve kâr tek dosyada; hareketi girin, işletmenizin durumunu Panel söylesin.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/checkup-esnaf-isletme-defteri/1-ozet.png",
+        "alt": "CHECK-UP dosyasının Panel sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "İlk kurulum, günlük kullanım, hesap kuralları, renkler, örnek veriler ve kapasite."
+      },
+      {
+        "sayfa": "Panel",
+        "aciklama": "Yıl seçimi; ciro, kâr, kasa, alacak, borç, stok, aylık kâr zarar tablosu, uyarılar ve grafik."
+      },
+      {
+        "sayfa": "Satışlar",
+        "aciklama": "Her satış bir satır: tarih, müşteri, ürün, adet, birim fiyat, ödeme; tutar, maliyet, kâr hesaplanır."
+      },
+      {
+        "sayfa": "Alışlar",
+        "aciklama": "Her mal alımı bir satır: tedarikçi, ürün, adet, birim maliyet, ödeme; alış girince stok artar."
+      },
+      {
+        "sayfa": "Giderler",
+        "aciklama": "Mal alımı dışındaki harcamalar: tarih, kategori, açıklama, tutar."
+      },
+      {
+        "sayfa": "Cari Hareket",
+        "aciklama": "Veresiye müşteriden alınan Tahsilat ve tedarikçiye yapılan Ödeme kayıtları."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün, birim, alış maliyeti, satış fiyatı, açılış stoku, kritik seviye; stok, değer ve durum hesaplanır."
+      },
+      {
+        "sayfa": "Cariler",
+        "aciklama": "Müşteri ve tedarikçiler, telefon, açılış alacağı ve borcu; alacak, borç ve net bakiye hesaplanır."
+      },
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "İşletme adı, açılış kasa + banka bakiyesi ve gider kategorileri."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 10 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Satışlar, Alışlar, Giderler, Cari Hareket, Ürünler ve Cariler sayfalarındaki örnek kayıtları silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Ayarlar'a işletme adınızı, açılış kasa bakiyenizi ve gider kategorilerinizi yazın.",
+      "Ürünler'e sattığınız ürünleri, Cariler'e veresiye çalıştığınız müşteri ve tedarikçileri girin; önceden kalan alacak ya da borcu açılış sütunlarına yazın.",
+      "Satışlar, Alışlar, Giderler ve Cari Hareket sayfalarına her hareketi bir satır olarak girin.",
+      "Panel'de yalnızca yılı seçin; sonuçlar kendiliğinden hesaplanır."
+    ],
+    "teknik_not": "Kapasite: 1000 satış, 500 alış, 500 gider, 500 cari hareket, 200 ürün ve 100 cari; dolunca boş bir kopyayla yeni döneme başlayıp stok ve bakiyeleri açılış olarak girin. Dosya KDV ayrımı yapmaz, tutarları hep KDV dahil ya da hep hariç girin; resmî defter ya da beyanname yerine geçmez. Alış maliyetini değiştirirseniz geçmiş satışların maliyeti ve kârı da yeni rakama göre hesaplanır; ürün ve cari adını değiştirirseniz eski hareketlerdeki adı da değiştirin.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_CHECKUP_Esnaf_Isletme_Defteri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "nabiz-gelir-gider-defteri",
+    "ad": "NABIZ: Gelir Gider Defteri",
+    "kisa": "Gelir ve giderlerinizi tek listeye girin; aylık gelir, gider, net ve kategori dağılımı Özet sayfasında kendiliğinden çıksın.",
+    "aciklama": "Kategoriler sayfasına kendi gelir ve gider kategorilerinizi yazarsınız; Kayıtlar sayfasına her geliri ya da gideri tarih, tür, kategori, açıklama, tutar ve ödeme şekliyle bir satır olarak girersiniz. Tutarı her zaman artı sayı olarak yazarsınız, gelir mi gider mi olduğunu tür sütunu belirler. Özet sayfasında yılı seçince aylık gelir, gider, net ve kategori dağılımı hesaplanır. AI Komutları sayfasında 10 hazır komut var.",
+    "ozellikler": [
+      "Tür, kategori ve ödeme şekli açılır listeden seçilir; kategori listesi türe göre değişir",
+      "Gelir kategorilerini, gider kategorilerini ve ödeme şekillerini Kategoriler sayfasından düzenlersiniz",
+      "Özet: toplam gelir, toplam gider, net (kalan), kalan / gelir oranı ve aylık ortalama gider",
+      "Aylık tablo: her ayın geliri, gideri, neti ve birikimli net",
+      "Gider dağılımı ve gelir dağılımı: kategori başına tutar ve toplam içindeki pay",
+      "Aylık gelir ve gider sütun grafiği"
+    ],
+    "kimin_icin": "Gelir ve giderlerini tek listede tutmak isteyen esnaf, serbest çalışan ve ev bütçesini takip edenler.",
+    "etiketler": [
+      "esnaf",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Esnaf, serbest çalışan ve ev bütçesi için: kaydı girin, özet kendiliğinden çıksın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/nabiz-gelir-gider-defteri/1-ozet.png",
+        "alt": "NABIZ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, renkler, örnek kayıtlar, kapasite ve kategori adı değişirse yapılacaklar."
+      },
+      {
+        "sayfa": "Kayıtlar",
+        "aciklama": "Her gelir ya da gider bir satır: tarih, tür, kategori, açıklama, tutar, ödeme şekli."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, toplam gelir ve gider, net, aylık tablo, gider ve gelir dağılımı, grafik."
+      },
+      {
+        "sayfa": "Kategoriler",
+        "aciklama": "Gelir kategorileri, gider kategorileri ve ödeme şekilleri; açılır listeler buradan beslenir."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 10 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Kayıtlar sayfasındaki 8 örnek satırı seçip silin; yalnızca A-F sütunlarındaki içeriği silin.",
+      "Kategoriler sayfasına kendi gelir ve gider kategorilerinizi yazın; eklediğiniz her kategori kayıt girerken açılır listede görünür.",
+      "Kayıtlar sayfasına her gelir ya da gideri bir satır olarak girin; tutarı her zaman artı sayı olarak yazın.",
+      "Özet sayfasında yalnızca yılı seçin, başka hücreye dokunmayın."
+    ],
+    "teknik_not": "Kayıtlar sayfası 500 satıra kadar hesaplanır; dolunca dosyanın boş bir kopyasıyla yeni yıla başlayın. Bir kategorinin adını sonradan değiştirirseniz eski kayıtlardaki adı da güncelleyin, yoksa Özet'teki dağılımda görünmez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_NABIZ_Gelir_Gider_Defteri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "tansiyon-alacak-borc-takibi",
+    "ad": "TANSİYON: Alacak Borç Takibi",
+    "kisa": "Alacak ve borçlarınızı vade tarihiyle kaydedin; geciken, bu hafta vadesi gelen ve kişi bazında kalan tutarlar kendiliğinden hesaplansın.",
+    "aciklama": "Kişiler sayfasına müşterilerinizi ve borçlu olduğunuz kişileri, Kayıtlar sayfasına her alacak ya da borcu tür, kişi, açıklama, belge tarihi, vade tarihi ve tutarla bir satır olarak yazarsınız. Para geldikçe ya da ödedikçe Ödenen sütununu güncellersiniz; Kalan, Durum ve Gecikme kendiliğinden hesaplanır. Özet sayfasında toplam alacak ve borç, gecikenler, önümüzdeki 7 gün, vade tablosu ve kişi bazında durum görünür. AI Komutları sayfasında 10 hazır komut var.",
+    "ozellikler": [
+      "Kalan tutarı Tutar ile Ödenen farkından hesaplar; Gecikme sütunu vadenin kaç gün geçtiğini gösterir",
+      "Durum her kaydı Ödendi, Gecikti, Bu hafta, Bekliyor ya da Vadesiz olarak işaretler",
+      "Özet: toplam alacak, geciken alacak, toplam borç, geciken borç ve net (alacak − borç)",
+      "Önümüzdeki 7 gün için tahsil edilecek ve ödenecek tutarlar",
+      "Vade tablosu ve Vadeye Göre Alacak ve Borç grafiği; kişi bazında alacak, geciken alacak, borç ve net",
+      "AI Komutları: kibar ve sert hatırlatma mesajı, ödeme sırası, taksit önerisi gibi hazır komutlar"
+    ],
+    "kimin_icin": "Müşteri, tedarikçi ya da kiracıdan alacağı olan ve ödemesi gereken borcu bulunan esnaf ve küçük işletmeler.",
+    "etiketler": [
+      "esnaf",
+      "borç"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Kim size borçlu, siz kime borçlusunuz, hangisi gecikti; kaydı girin, durumu dosya söylesin.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/tansiyon-alacak-borc-takibi/1-ozet.png",
+        "alt": "TANSİYON dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, durum açıklamaları, renkler, örnek kayıtlar, tarih ve kapasite."
+      },
+      {
+        "sayfa": "Kayıtlar",
+        "aciklama": "Her alacak ya da borç bir satır: tür, kişi, tarihler, tutar, ödenen; kalan, durum, gecikme hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Toplam alacak ve borç, gecikenler, önümüzdeki 7 gün, vade tablosu, kişi bazında durum, grafik."
+      },
+      {
+        "sayfa": "Kişiler",
+        "aciklama": "Müşteri, tedarikçi, kiracı gibi kişi ve firmalar; kayıt girerken açılır listede görünür."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 10 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Kayıtlar sayfasındaki 8 örnek satırın ve Kişiler sayfasındaki 5 örnek adın yalnızca sarı hücrelerdeki içeriğini silin; Kalan, Durum ve Gecikme sütunlarına dokunmayın.",
+      "Kişiler sayfasına müşterilerinizi ve borçlu olduğunuz kişi ya da firmaları yazın; Kişi / Firma sütunu zorunludur, diğerleri isteğe bağlıdır.",
+      "Kayıtlar sayfasına her alacak ya da borcu bir satır olarak girin; vade tarihini mümkünse yazın, yazmazsanız durum Vadesiz görünür.",
+      "Para geldikçe ya da ödeme yaptıkça Ödenen sütununu güncelleyin.",
+      "Özet sayfasına yazmayın, yalnızca bakın."
+    ],
+    "teknik_not": "Kayıtlar sayfası 300 satıra, Kişiler sayfası 40 ada kadar hesaplanır. Durumlar bilgisayarınızın bugünkü tarihine göre hesaplanır ve dosyayı her açtığınızda güncellenir. Bir kişinin adını sonradan değiştirirseniz eski kayıtlardaki adı da güncelleyin, yoksa kişi tablosunda görünmez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_TANSIYON_Alacak_Borc_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kasa-gun-sonu-defteri",
+    "ad": "KASA: Gün Sonu Kasa Defteri",
+    "kisa": "Günün hareketlerinden kasada olması gereken parayı hesaplar, saydığınız nakitle karşılaştırır ve açık ya da fazlayı gösterir.",
+    "aciklama": "Günler sayfasına her gün için açılış nakdini, nakit ve kart satışı, kasadan yapılan ödemeleri ve bankaya yatırılanı yazarsınız; günü kapatırken kasayı sayıp Sayılan nakit sütununa girersiniz. Dosya kasada olması gereken parayı hesaplar (kart satış kasadaki nakdi etkilemez), saydığınız nakitle karşılaştırır, farkı ve durumu gösterir. Özet sayfasında aylık nakit ve kart satış, ciro ve kasa farkı görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Olması gereken: açılış nakdi + nakit satış + diğer nakit giriş − kasadan ödenen − bankaya yatırılan",
+      "Fark sütunu sayılan nakitle olması gerekeni karşılaştırır; Durum Tam, Açık ya da Fazla yazar",
+      "Kart satış kasadaki nakdi etkilemez; Günlük ciro nakit ve kart satışın toplamıdır",
+      "Özet: yıl cirosu, kart payı, toplam kasa farkı, açık veren gün ve günlük ortalama ciro",
+      "Özet'te aylık nakit satış, kart satış, ciro ve kasa farkı tablosu"
+    ],
+    "kimin_icin": "Nakit ve kart satışı yapan ve günü kasa sayımıyla kapatan esnaf ve dükkân sahipleri.",
+    "etiketler": [
+      "esnaf",
+      "kasa"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Günü kapatırken kasada olması gereken parayla saydığınız para tutuyor mu; açık ya da fazla varsa hemen görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kasa-gun-sonu-defteri/1-ozet.png",
+        "alt": "KASA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, olması gereken nakdin hesabı, ertesi güne aktarma, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Günler",
+        "aciklama": "Her gün bir satır: açılış nakdi, satışlar, ödemeler, bankaya yatırılan, sayılan nakit; fark ve durum hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, yıl cirosu, kart payı, toplam kasa farkı, açık veren gün ve aylık tablo."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Günler sayfasındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin, beyaz hücreler formüldür.",
+      "Her gün için açılış nakdini, nakit ve kart satışı, kasadan yapılan ödemeleri ve bankaya yatırılanı yazın.",
+      "Günü kapatırken kasayı sayın ve Sayılan nakit sütununa yazın; Fark ve Durum hesaplanır.",
+      "Ertesi gün, bir önceki günün sayılan nakdini yeni günün açılış nakdi olarak kendiniz aktarın.",
+      "Özet sayfasında yalnızca yılı değiştirin."
+    ],
+    "teknik_not": "Günler sayfası 800 satıra kadar hesaplanır. Dosya açılış nakdini bir günden diğerine kendiliğinden aktarmaz; bugünün sayılan nakdini yarının açılış nakdi olarak sizin yazmanız gerekir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KASA_Gun_Sonu_Defteri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "rontgen-stok-takibi",
+    "ad": "RÖNTGEN: Stok Takibi",
+    "kisa": "Mal giriş ve çıkışlarını kaydedin; mevcut stok, stok değeri, kritik, tükenen ve hareketsiz ürünler kendiliğinden çıksın.",
+    "aciklama": "Ürünler sayfasına ürünlerinizi, birim maliyetini, açılış stokunu ve kritik seviyeyi yazarsınız; Hareketler sayfasına her mal girişini ve çıkışını bir satır olarak girersiniz, sayımda fark çıkarsa farkı Giriş ya da Çıkış satırıyla düzeltirsiniz. Dosya her ürünün mevcut stokunu, stok değerini ve durumunu hesaplar. Özet sayfasında kritik, tükenen ve hareketsiz ürünler ile aylık hareket görünür. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Ürünler sayfasında giren, çıkan, mevcut stok, stok değeri, durum, son hareket ve hareketsiz gün hesaplanır",
+      "Durum her ürün için Yeterli, Kritik ya da Tükendi yazar",
+      "Hareketler sayfasındaki Uyarı sütunu stoku eksiye düşüren çıkışı ve tarihi ya da türü eksik satırı gösterir",
+      "Özet: ürün çeşidi, stok değeri, kritik, tükenen ve hareketsiz ürün sayısı",
+      "Özet'te stok uyarısı listesi, parası en çok bağlı ürünler ve aylık giren / çıkan adet grafiği",
+      "Hareketsizlik eşiğini Özet'ten değiştirirsiniz; varsayılan 60 gündür"
+    ],
+    "kimin_icin": "Ürün girişini ve çıkışını kaydedip stok değerini, bitmek üzere olan ve hareketsiz kalan ürünleri görmek isteyen esnaf ve işletmeler.",
+    "etiketler": [
+      "esnaf",
+      "stok"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Rafınızın içini gösterir: ne girdi, ne çıktı, ne kaldı, ne bitmek üzere.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/rontgen-stok-takibi/1-ozet.png",
+        "alt": "RÖNTGEN dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, stok değeri ve hareketsiz ürün tanımı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Hareketler",
+        "aciklama": "Her giriş ya da çıkış bir satır: tarih, tür, ürün, adet, açıklama; Uyarı sütunu hatalı satırı gösterir."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl ve hareketsizlik eşiği; ürün çeşidi, stok değeri, kritik, tükenen, hareketsiz ürün, aylık hareket."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün, birim, birim maliyet, açılış stoku, kritik seviye; giren, çıkan, mevcut, değer, durum hesaplanır."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 6 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Ürünler ve Hareketler sayfalarındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Ürünler sayfasına ürünlerinizi, birim maliyetini, açılış stokunu ve kritik seviyeyi yazın.",
+      "Hareketler sayfasına her mal girişini ve çıkışını bir satır olarak girin; sayımda fark çıkarsa farkı Giriş ya da Çıkış satırıyla düzeltin.",
+      "Özet sayfasında yılı ve gerekirse hareketsizlik eşiğini değiştirin."
+    ],
+    "teknik_not": "Kapasite 300 ürün ve 1500 hareket. Hareketsiz ürün, son hareketinden bu yana eşikten (varsayılan 60 gün) uzun süre geçen üründür ve bugünün tarihine göre hesaplanır; hiç hareketi olmayan ürün hareketsiz sayılmaz. Ürün adını sonradan değiştirirseniz eski hareketlerdeki adı da değiştirin.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_RONTGEN_Stok_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "tahlil-satis-analizi",
+    "ad": "TAHLİL: Satış Analizi",
+    "kisa": "Satış kayıtlarını yapıştırın; ürün ve müşteri sıralaması, A, B, C sınıfı, aylık gidiş ve haftanın günlerine göre ciro çıksın.",
+    "aciklama": "Veri sayfasına satışlarınızı tarih, müşteri, ürün, adet ve tutar olarak yazarsınız ya da başka bir dosyadan yalnızca değerleri yapıştırırsınız. Ürünler ve müşteriler cirosuna göre sıralanır; pay, birikimli pay ve A, B, C sınıfı hesaplanır. Özet sayfasında toplamlar, aylık gidiş, önceki aya göre değişim ve haftanın günlerine göre ciro görünür. AI Komutları sayfasında 7 hazır komut var.",
+    "ozellikler": [
+      "Ürünler sayfası ürünleri cirosuna göre sıralar; adet, ciro, pay, birikimli pay, sınıf ve son satış görünür",
+      "Müşteriler sayfası müşterileri cirosuna göre sıralar; satış satırı, ciro, pay, sınıf ve son alışveriş görünür",
+      "A sınıfı cironun ilk yüzde 80'ini getirenler, B sonraki yüzde 15'i, C kalanlardır",
+      "Özet: toplam ciro, satış satırı, satır başına ortalama, ürün çeşidi, müşteri ve A sınıfı ürün sayısı",
+      "Aylık gidiş tablosu: ciro, adet, satış satırı ve önceki aya göre değişim; aylık ciro grafiği",
+      "Haftanın günlerine göre ciro tablosu"
+    ],
+    "kimin_icin": "Satış kayıtlarını başka bir dosyadan alıp ürün, müşteri, ay ve haftanın günü bazında incelemek isteyen işletme sahipleri.",
+    "etiketler": [
+      "iş ve ofis",
+      "satış"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Satış kayıtlarınızı yapıştırın; en çok kazandıran ürünler, en değerli müşteriler, aylık gidiş ve haftanın günleri kendiliğinden çıksın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/tahlil-satis-analizi/1-ozet.png",
+        "alt": "TAHLİL dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, A, B, C sınıfı kuralı, yazım farkı, ciro analizi olduğu, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Veri",
+        "aciklama": "Satış kayıtları: tarih, müşteri, ürün, adet, tutar; yazılır ya da başka dosyadan yapıştırılır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, toplamlar, aylık gidiş, önceki aya göre değişim, haftanın günlerine göre ciro, grafik."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün Analizi: cirosuna göre sıralı ürünler; adet, ciro, pay, birikimli pay, A, B, C sınıfı."
+      },
+      {
+        "sayfa": "Müşteriler",
+        "aciklama": "Müşteri Analizi: cirosuna göre sıralı müşteriler; satış satırı, ciro, pay, sınıf, son alışveriş."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 7 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Veri sayfasındaki örnek satırların yalnızca sarı hücrelerdeki içeriğini silin.",
+      "Satışlarınızı Veri sayfasına tarih, müşteri, ürün, adet ve tutar olarak yazın ya da başka bir dosyadan kopyalayıp yalnızca değerleri yapıştırın.",
+      "Aynı ürünü ve müşteriyi hep aynı biçimde yazın; farklı yazılan ad ayrı satır sayılır.",
+      "Özet sayfasında yılı seçin; sıralamalara ve sınıflara Ürünler ve Müşteriler sayfalarından bakın."
+    ],
+    "teknik_not": "Kapasite 2000 satış satırı; analizde 200 ürün ve 200 müşteri. Dosya maliyet bilgisi istemez, bu yüzden kâr değil ciro analizi yapar; dolu veriyle birkaç saniye geç hesaplayabilir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_TAHLIL_Satis_Analizi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "recete-teklif-hazirlama",
+    "ad": "REÇETE: Teklif Hazırlama",
+    "kisa": "Müşteriyi ve kalemleri listeden seçip adedi yazın; fiyat, iskonto, KDV ve toplam hesaplanır, teklif yazdırılır ya da PDF yapılır.",
+    "aciklama": "Ayarlar sayfasına firma bilgilerinizi, varsayılan KDV oranını ve teklif geçerlilik süresini, Ürünler ve Müşteriler sayfalarına teklifte kullanacağınız kalemleri ve müşterileri bir kez girersiniz. Teklif sayfasında müşteriyi ve kalemleri açılır listeden seçip adedi yazarsınız, isterseniz özel fiyat ve iskonto girersiniz. Gönderdiğiniz teklifi Teklif Defteri'ne bir satır olarak yazıp sonucunu güncellersiniz; Özet buradan hesaplanır. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Teklif sayfasında müşteri ve kalemler açılır listeden seçilir; adet, özel birim fiyat ve iskonto girilir",
+      "Her kalem için birim, KDV, KDV hariç tutar ve KDV tutarı hesaplanır",
+      "Ara toplam, iskonto, KDV hariç toplam, KDV ve genel toplam; geçerlilik tarihi Ayarlar'daki süreden gelir",
+      "Teklif Defteri'nde her teklifin durumu Gönderildi, Kabul edildi, Reddedildi ya da Yanıt yok olarak tutulur",
+      "Özet: teklif sayısı ve tutarı, kabul edilen, kabul tutarı, kabul oranı, yanıt bekleyen tutar, aylık tablo",
+      "Yazdırmaya hazır teklif sayfası; Dosya > Dışa Aktar ile PDF yapılır"
+    ],
+    "kimin_icin": "Müşterilerine yazdırılabilir ya da PDF fiyat teklifi hazırlayan, ürün ya da hizmet satan esnaf ve küçük işletmeler.",
+    "etiketler": [
+      "iş ve ofis",
+      "satış"
+    ],
+    "sayfa_sayisi": 8,
+    "soz": "Ürünü seçin, adedi yazın; fiyat, iskonto, KDV ve toplam kendiliğinden çıksın, teklifi yazdırın ya da PDF olarak gönderin.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/recete-teklif-hazirlama/1-ozet.png",
+        "alt": "REÇETE dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, tek teklif kuralı, resmî belge olmadığı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Teklif",
+        "aciklama": "Yazdırılabilir teklif: müşteri, kalemler, iskonto, KDV, toplamlar, teklifi veren ve kabul eden alanları."
+      },
+      {
+        "sayfa": "Teklif Defteri",
+        "aciklama": "Gönderilen her teklif bir satır: teklif no, tarih, müşteri, tutar (KDV dahil), durum, not."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi; teklif sayısı ve tutarı, kabul oranı, yanıt bekleyen tutar ve aylık tablo."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürünler ve Hizmetler: teklifte kullanılacak kalemler, birim, KDV hariç birim fiyat, KDV oranı."
+      },
+      {
+        "sayfa": "Müşteriler",
+        "aciklama": "Teklif verilecek kişi ve firmalar: ad, adres, telefon, yetkili."
+      },
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Firma bilgileri, varsayılan KDV oranı, teklif geçerlilik süresi, teklif altı notu."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 6 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Teklif, Teklif Defteri, Ürünler, Müşteriler ve Ayarlar sayfalarındaki örnekleri silin; sarı hücrelerin içeriğini kendi bilgilerinizle değiştirin.",
+      "Ayarlar'a firma bilgilerinizi, varsayılan KDV oranını ve teklif geçerlilik süresini yazın; Ürünler'e kalemlerinizi, Müşteriler'e müşterilerinizi bir kez girin.",
+      "Teklif sayfasında müşteriyi ve kalemleri açılır listeden seçin, adedi yazın; gerekirse özel fiyat ve iskonto girin.",
+      "Sayfayı yazdırın ya da Dosya > Dışa Aktar ile PDF yapın.",
+      "Gönderdiğiniz teklifi Teklif Defteri'ne yazın ve sonucunu güncelleyin."
+    ],
+    "teknik_not": "Kapasite: bir teklifte 20 kalem, 200 ürün, 100 müşteri ve defterde 500 teklif. Teklif sayfası her seferinde bir teklif tutar; yeni teklif için kalemleri silip yeniden doldurun ya da dosyanın kopyasını alın, dosya teklifleri kendiliğinden kaydetmez. Teklif bir fiyat önerisidir, fatura ya da e-fatura yerine geçmez; KDV oranları sizin girdiğiniz değerlerdir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_RECETE_Teklif_Hazirlama.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "fiyat-zam-guncelleme",
+    "ad": "FİYAT: Fiyat Listesi ve Zam Güncelleme",
+    "kisa": "Tüm ürünlere tek seferde zam yapın, kategori ya da ürüne özel oran verin; yeni fiyatı ve marjdaki değişimi görün.",
+    "aciklama": "Kategori Zamları sayfasına kategorilerinizi ve özel zam oranlarını, Ürünler sayfasına ürünlerinizi maliyet ve mevcut fiyatla yazarsınız; Özet sayfasında genel zam oranını ve yuvarlama kuralını belirlersiniz. Ürüne özel zam varsa o, yoksa kategorinin oranı, o da yoksa genel oran uygulanır. Dosya her ürün için yeni fiyatı, farkı, eski ve yeni marjı ile gerçekleşen zammı hesaplar; mevcut fiyatların üzerine yazmaz. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Zam önceliği: ürüne özel oran, yoksa kategorinin oranı, o da yoksa genel zam oranı",
+      "Yeni fiyat, belirlediğiniz yuvarlama adımının katına her zaman yukarı yuvarlanır",
+      "Yuvarlanan fiyattan düşülecek sabit tutarı Özet'te belirlersiniz (Fiyattan düşülecek)",
+      "Ürünler sayfasında uygulanan zam, yeni fiyat, fark, eski marj, yeni marj ve gerçekleşen zam hesaplanır",
+      "Özet: ürün sayısı, ortalama gerçekleşen zam, eski ve yeni ortalama marj, maliyetin altında kalan ürün sayısı",
+      "Ürünlerde kategori, Kategori Zamları sayfasında yazdığınız listeden seçilir"
+    ],
+    "kimin_icin": "Fiyat listesini toplu güncelleyen ve zammın marjı nasıl değiştirdiğini önceden görmek isteyen esnaf ve işletmeler.",
+    "etiketler": [
+      "esnaf",
+      "satış"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Bütün ürünlere tek seferde zam yapın, kategoriye ya da ürüne özel oran verin, fiyatları yuvarlayın; marjın nasıl değiştiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/fiyat-zam-guncelleme/1-ozet.png",
+        "alt": "FİYAT dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, zam önceliği, yuvarlama, fiyatların uygulanması, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün, kategori, maliyet, mevcut fiyat, özel zam; uygulanan zam, yeni fiyat, fark, marj hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Genel zam oranı, yuvarlama adımı, fiyattan düşülecek tutar; ortalama zam ve marj özeti."
+      },
+      {
+        "sayfa": "Kategori Zamları",
+        "aciklama": "Kategoriler ve isteğe bağlı zam oranları; boş bırakılan kategoriye genel oran uygulanır."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Ürünler ve Kategori Zamları sayfalarındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Kategori Zamları sayfasına kategorilerinizi yazın; özel oran vermek istediklerinizin yanına oranı girin, boş bırakırsanız genel oran uygulanır.",
+      "Ürünler sayfasına ürünlerinizi maliyet ve mevcut fiyatla yazın; ürüne özel zam için son sarı sütuna oranı girin.",
+      "Özet sayfasında genel zam oranını, yuvarlama adımını ve fiyattan düşülecek tutarı belirleyin; yeni fiyatlar Ürünler sayfasında çıkar.",
+      "Yeni fiyatları kullanmak için değer olarak kopyalayıp Mevcut fiyat sütununa yapıştırın."
+    ],
+    "teknik_not": "Ürünler sayfası 500 satıra kadar hesaplanır. Yeni fiyat her zaman yukarı yuvarlanır; bu yüzden gerçekleşen zam yazdığınız orandan biraz yüksek çıkabilir. Dosya yalnızca hesaplar, mevcut fiyatların üzerine yazmaz.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_FIYAT_Zam_Guncelleme.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "maliyet-urun-maliyeti",
+    "ad": "MALİYET: Ürün Maliyeti ve Fiyat Hesaplama",
+    "kisa": "Malzeme fiyatlarından ve reçetelerden ürün maliyetini hesaplar; hedef marja ulaşmak için satış fiyatının ne olması gerektiğini gösterir.",
+    "aciklama": "Malzemeler sayfasına malzemeleri, paket fiyatını ve paket miktarını; Ürünler sayfasına ürünü, reçetenin kaç adet verdiğini, adet başına ek maliyeti ve satış fiyatını; Reçeteler sayfasına her ürünün malzemelerini ve miktarını yazarsınız. Dosya malzemenin birim fiyatını, reçete maliyetini, birim maliyeti, kârı ve marjı hesaplar; hedef marja ulaşmak için olması gereken fiyatı da gösterir. Özet sayfasında hedef marjı yazarsınız, hedefin altındaki ürünler görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Malzemeler: paket fiyatı ve paket miktarından birim fiyat hesaplanır",
+      "Reçeteler: ürün ve malzeme açılır listeden seçilir, miktar yazılır; satır maliyeti hesaplanır",
+      "Ürünler: reçete maliyeti, birim maliyet, kâr ve marj; ambalaj, işçilik gibi adet başına ek maliyet girilir",
+      "Hedef marja göre fiyat sütunu, hedefe ulaşmak için gereken satış fiyatını gösterir",
+      "Durum sütunu hedefin altındaki ürünleri Hedefin altında olarak işaretler",
+      "Özet: ürün sayısı, ortalama marj, hedefin altındaki ürün sayısı ve marjı en düşük ürünler"
+    ],
+    "kimin_icin": "Ürününü malzemeden ve reçeteden üretip satış fiyatını maliyete ve hedef marja göre belirlemek isteyen esnaf.",
+    "etiketler": [
+      "esnaf",
+      "maliyet"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Bir kurabiye, bir tabak yemek, bir sabun size kaça mal oluyor; hedeflediğiniz kârı bırakması için kaça satmalısınız.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/maliyet-urun-maliyeti/1-ozet.png",
+        "alt": "MALİYET dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, marj tanımı, kapsam, KDV, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Ürün, reçetenin verdiği adet, ek maliyet, satış fiyatı; maliyet, kâr, marj ve hedef fiyat hesaplanır."
+      },
+      {
+        "sayfa": "Reçeteler",
+        "aciklama": "Her satır bir ürünün bir malzemesi: ürün, malzeme, miktar; satır maliyeti hesaplanır."
+      },
+      {
+        "sayfa": "Malzemeler",
+        "aciklama": "Malzeme, birim, paket fiyatı, paket miktarı; birim fiyat hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Hedef marj, ürün sayısı, ortalama marj, hedefin altındaki ürünler, marjı en düşük ürünler."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Malzemeler, Ürünler ve Reçeteler sayfalarındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Malzemeler'e aldığınız paketin fiyatını ve içindeki miktarı yazın; birim fiyat hesaplanır.",
+      "Ürünler'e ürünü, reçetenin kaç adet verdiğini, adet başına ek maliyeti ve satış fiyatını yazın.",
+      "Reçeteler'e her ürünün malzemelerini ve miktarını malzemenin birimiyle girin.",
+      "Özet'e hedef marjınızı yazın; hedefin altındaki ürünleri görün."
+    ],
+    "teknik_not": "Malzemeler sayfası 150, Ürünler sayfası 80, Reçeteler sayfası 1000 satıra kadar hesaplanır. Marj, kârın satış fiyatına oranıdır; kira, elektrik gibi genel giderler birim maliyete dahil değildir, onları adet başına ek maliyete kendiniz katabilirsiniz. Fiyat ve maliyetleri hep aynı şekilde (KDV dahil ya da hariç) yazın.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_MALIYET_Urun_Maliyeti.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "siparis-online-satis-takibi",
+    "ad": "SİPARİŞ: Online Sipariş ve Net Kazanç Takibi",
+    "kisa": "Siparişleri kanal, tutar, ürün maliyeti, kargo ve durumla girin; komisyondan sonra net kazancı ve iade oranını görün.",
+    "aciklama": "Kanallar sayfasına sattığınız yerleri ve komisyon oranlarını, Siparişler sayfasına her siparişi tutarı, ürün maliyeti, kargosu ve durumuyla yazarsınız. Net, tutardan komisyon, ürün maliyeti ve kargo düşülerek hesaplanır. Aylık sipariş, ciro ve net kazanç Özet sayfasında, kanal bazında iade oranı Kanallar sayfasında görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kanal açılır listeden seçilir; durum Hazırlanıyor, Kargoda, Teslim edildi, İade ya da İptal olarak girilir",
+      "Komisyon ve net tutar her sipariş satırında hesaplanır: tutar − komisyon − ürün maliyeti − kargo",
+      "İade edilen siparişte kargo zarar olarak yazılır, iptal edilen siparişin neti sıfırdır",
+      "Kanallar sayfasında kanal başına sipariş, ciro, net ve iade oranı hesaplanır",
+      "Özet: yıl cirosu, net kazanç, net / ciro, kargolanacak sipariş ve iade oranı",
+      "Aylık tablo: sipariş sayısı, ciro ve net kazanç"
+    ],
+    "kimin_icin": "Birden fazla kanaldan online satış yapan ve komisyon ile kargo sonrası net kazancını görmek isteyen satıcılar.",
+    "etiketler": [
+      "esnaf",
+      "satış"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Hangi kanaldan ne sattınız, komisyon ve kargodan sonra elinizde ne kaldı, iade oranınız ne.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/siparis-online-satis-takibi/1-ozet.png",
+        "alt": "SİPARİŞ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, net ve komisyon hesabı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Siparişler",
+        "aciklama": "Her sipariş bir satır: tarih, sipariş no, kanal, ürün, tutar, maliyet, kargo, durum; komisyon ve net hesaplanır."
+      },
+      {
+        "sayfa": "Kanallar",
+        "aciklama": "Satış Kanalları: kanal ve komisyon oranı; sipariş, ciro, net ve iade oranı hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, yıl cirosu, net kazanç, net / ciro, kargolanacak sipariş, iade oranı ve aylık tablo."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Siparişler ve Kanallar sayfalarındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Kanallar sayfasına sattığınız yerleri ve komisyon oranlarını yazın; kategoriye göre değişen oranlar için ortalama oranı girin.",
+      "Siparişler sayfasına her siparişi tutarı, ürün maliyeti, kargosu ve durumuyla girin; durum değiştikçe güncelleyin.",
+      "Özet sayfasında yılı değiştirerek aylık sipariş, ciro ve net kazancı görün."
+    ],
+    "teknik_not": "Kanallar sayfası 15, Siparişler sayfası 3000 satıra kadar hesaplanır. Komisyon, Kanallar sayfasındaki tek orana göre hesaplanır; kategoriye göre değişen oranlar için ortalama oranı yazın.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_SIPARIS_Online_Satis_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "cek-senet-takibi",
+    "ad": "ÇEK: Çek ve Senet Takibi",
+    "kisa": "Aldığınız ve verdiğiniz çek ve senetleri vade ve tutarıyla kaydedin; bekleyen tutarları ve bu haftanın tahsilat ve ödemelerini görün.",
+    "aciklama": "Belgeler sayfasına aldığınız ve verdiğiniz çek ve senetleri tür, kişi ya da firma, banka, belge no, vade ve tutarla yazarsınız. Tahsil edince, ödeyince, ciro edince ya da karşılıksız çıkınca durumu değiştirirsiniz; yalnızca durumu Bekliyor olan belgeler toplamlara ve takvime girer. Özet sayfasında bekleyen tutarlar, bu hafta tahsil edilecek ve ödenecekler, vade dilimleri ve aylık takvim görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Alınan ve Verilen belgeler tek listede tutulur; tür, belge (Çek ya da Senet) ve durum açılır listeden seçilir",
+      "Durum: Bekliyor, Tahsil edildi, Ödendi, Ciro edildi ya da Karşılıksız",
+      "Kalan gün ve Uyarı sütunları vadesi geçen belgeleri ve bu hafta vadesi gelenleri gösterir",
+      "Özet: bekleyen alınan, bekleyen verilen, net ve karşılıksız tutar; bu hafta tahsil edilecek ve ödenecekler",
+      "Vade takvimi: aylık tahsil edilecek, ödenecek ve net tutar; vade dilimlerine göre alınan ve verilen tutarlar"
+    ],
+    "kimin_icin": "Çek ve senetle çalışan, vadeleri ile aylık tahsilat ve ödeme tutarlarını önceden görmek isteyen esnaf ve işletmeler.",
+    "etiketler": [
+      "esnaf",
+      "borç"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Elinizdeki ve verdiğiniz çeklerin vadesi ne zaman, hangi ay ne kadar tahsil edeceksiniz, ne kadar ödeyeceksiniz.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/cek-senet-takibi/1-ozet.png",
+        "alt": "ÇEK dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bekleyen ve ciro kuralları, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Belgeler",
+        "aciklama": "Çek ve Senetler: tür, belge, kişi, banka, belge no, vade, tutar, durum; kalan gün ve uyarı hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, bekleyen tutarlar, bu haftanın tahsilat ve ödemeleri, vade takvimi ve vade dilimleri."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Belgeler sayfasındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Aldığınız ve verdiğiniz her çek ya da senedi vadesi ve tutarıyla bir satır olarak yazın.",
+      "Tahsil edince, ödeyince, ciro edince ya da karşılıksız çıkınca Durum sütununu değiştirin.",
+      "Özet sayfasında yılı seçin; bekleyen tutarlara, bu haftanın tahsilat ve ödemelerine, vade dilimlerine ve aylık takvime bakın."
+    ],
+    "teknik_not": "Belgeler sayfası 1000 satıra kadar hesaplanır. Kalan gün ve uyarılar bugünün tarihine göre hesaplanır. Ciro ettiğiniz çeki Ciro edildi yapın; karşılıksız çıkarsa sorumluluğunuz sürebilir, dosya bunu izlemez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_CEK_Senet_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "nakit-13-hafta-tahmini",
+    "ad": "NAKİT: 13 Haftalık Nakit Akış Tahmini",
+    "kisa": "Beklediğiniz tahsilat ve ödemeleri girin; 13 haftanın giriş, çıkış ve hafta sonu nakdini görün, nakdin eksiye düştüğü haftayı bulun.",
+    "aciklama": "Tahmin sayfasına bugün elinizdeki nakdi ve ilk haftanın pazartesi tarihini, Kalemler sayfasına beklediğiniz tahsilatları ve yapacağınız ödemeleri tutarı, tarihi, tekrarı ve kesinliğiyle yazarsınız. Tahmin sayfası 13 haftanın giriş, çıkış ve hafta sonu nakdini gösterir; nakit eksiye düşen hafta kırmızı uyarı verir. İki senaryo birlikte görünür: soldaki tablo bütün kalemleri, sağdaki tablo olası girişleri saymadan bütün çıkışları sayar. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kalemler: giriş ya da çıkış; tek sefer, haftalık veya aylık tekrar; kesin ya da olası",
+      "Tahmin sayfasında her hafta için giriş, çıkış, net ve hafta sonu nakit hesaplanır",
+      "İki senaryo: bütün kalemlerle ve yalnız kesin girişlerle (çıkışların tümü)",
+      "En düşük nakit, en düşük olduğu hafta ve kesinlerle en düşük nakit; yetmeyen haftada Nakit yetmiyor uyarısı",
+      "Hafta sonu nakdini gösteren çizgi grafiği"
+    ],
+    "kimin_icin": "Önümüzdeki 13 haftada paranın yetmeyeceği haftayı önceden görmek isteyen işletme sahipleri.",
+    "etiketler": [
+      "iş ve ofis",
+      "planlama"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Önümüzdeki üç ayda kasaya ne girecek, ne çıkacak; hangi hafta paranız yetmeyecek, şimdiden görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/nakit-13-hafta-tahmini/1-ozet.png",
+        "alt": "NAKİT dosyasının Tahmin sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, iki senaryo, aylık tekrar, tahminin sınırı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Tahmin",
+        "aciklama": "13 Haftalık Tahmin: başlangıç nakdi, haftalık giriş, çıkış, net, hafta sonu nakit, uyarı ve grafik."
+      },
+      {
+        "sayfa": "Kalemler",
+        "aciklama": "Beklenen giriş ve çıkışlar: kalem, tür, tutar, ilk tarih, tekrar, kesinlik."
+      },
+      {
+        "sayfa": "Dağılım",
+        "aciklama": "Her kalemin hangi haftaya ne kadar düştüğünün ara hesabı; değiştirilmez."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Kalemler sayfasındaki örnekleri silin; yalnızca sarı hücrelerin içeriğini silin.",
+      "Tahmin sayfasına bugün kasada ve bankada olan nakdi ve ilk haftanın pazartesi tarihini yazın.",
+      "Kalemler sayfasına beklediğiniz tahsilatları ve yapacağınız ödemeleri tutarı, tarihi, tekrarı ve kesinliğiyle girin.",
+      "Tahmin sayfasına dönüp 13 haftanın giriş, çıkış ve hafta sonu nakdine bakın; kırmızı uyarılı haftaları inceleyin.",
+      "Sonuç yazdığınız tutar ve tarihlerin doğruluğu kadar doğrudur; kalemleri her hafta güncelleyin."
+    ],
+    "teknik_not": "Kalemler sayfası 200 satıra kadar, tahmin ise 13 hafta için hesaplanır. Dağılım sayfası ara hesaptır, değiştirmeyin. Aylık kalem, ilk tarihin ayın kaçı olduğuna bakılarak her ay o güne yazılır; kısa aylarda ayın son gününe kayar.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_NAKIT_13_Hafta_Tahmini.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "aday-firsat-takibi",
+    "ad": "ADAY: Müşteri Adayı ve Fırsat Takibi",
+    "kisa": "Müşteri adaylarını tutarı, aşaması ve sonraki temas tarihiyle izleyin; ağırlıklı tutarı, kazanma oranını ve bugün aranacakları görün.",
+    "aciklama": "Aşamalar ve Listeler sayfalarında satış aşamalarını, olasılıklarını ve müşteri kaynaklarını kendinize göre düzenlersiniz; Fırsatlar sayfasına her adayı tutarı, aşaması ve sonraki temas tarihiyle yazarsınız. Ağırlıklı tutar, tutarın aşamanın olasılığıyla çarpımıdır. Özet sayfasında açık ve ağırlıklı tutar, kazanma oranı ve bugün aramanız gerekenler görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Fırsatlar: aday, kaynak, aşama, tutar, ilk temas, sonraki temas ve not; kaynak ve aşama listeden seçilir",
+      "Her satırda olasılık, ağırlıklı tutar ve temas uyarısı (Gecikti ya da Bugün) hesaplanır",
+      "Aşamalar sayfasında her aşamanın olasılığı sizin tahmininiz olarak girilir",
+      "Özet: açık fırsat, açık tutar, ağırlıklı tutar, kazanılan tutar, kazanma oranı, temas zamanı gelen sayısı",
+      "Aşamaya göre ve kaynağa göre adet ve tutar tabloları",
+      "Temas zamanı gelenler listesi: en eski temas tarihli adaylar ve aşamaları"
+    ],
+    "kimin_icin": "Müşteri adaylarını ve satış fırsatlarını aşama aşama izleyip bugün kimi arayacağını görmek isteyen işletmeler.",
+    "etiketler": [
+      "iş ve ofis",
+      "satış"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Kimle görüştünüz, hangi aşamada, ne kadarlık iş, bugün kimi aramanız gerek.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/aday-firsat-takibi/1-ozet.png",
+        "alt": "ADAY dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, ağırlıklı tutar, temas kuralı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Fırsatlar",
+        "aciklama": "Her aday bir satır: aday, kaynak, aşama, tutar, temas tarihleri; olasılık ve ağırlıklı tutar hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Açık ve ağırlıklı tutar, kazanılan tutar, kazanma oranı, aşamaya ve kaynağa göre tablolar, aranacaklar."
+      },
+      {
+        "sayfa": "Aşamalar",
+        "aciklama": "Satış aşamaları ve olasılıkları; Kazanıldı ve Kaybedildi adları değiştirilmez."
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Açılır listede çıkan müşteri kaynakları."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Fırsatlar sayfasındaki örnek satırların yalnızca sarı hücrelerdeki içeriğini silin.",
+      "Aşamalar sayfasına satış aşamalarınızı ve olasılıklarını, Listeler sayfasına müşteri kaynaklarınızı yazın; Kazanıldı ve Kaybedildi adlarını değiştirmeyin.",
+      "Fırsatlar sayfasına her adayı tutarı, aşaması ve sonraki temas tarihiyle girin; görüştükçe aşamayı ve sonraki temas tarihini güncelleyin.",
+      "Özet sayfasına yazmayın; açık ve ağırlıklı tutara, kazanma oranına ve bugün arayacaklarınıza bakın."
+    ],
+    "teknik_not": "Fırsatlar sayfası 1000 satıra kadar hesaplanır. Olasılıklar sizin tahminlerinizdir, gerçek kazanma oranına göre zamanla düzeltin. Sonraki temas tarihi bugün ya da geçmişse aday listede görünür; bu, bugünün tarihine göre hesaplanır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_ADAY_Firsat_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "servis-is-emri-takibi",
+    "ad": "SERVİS: Teknik Servis İş Emri Takibi",
+    "kisa": "Kabul ettiğiniz cihazları arıza, durum, parça ve işçilikle kaydedin; açık işleri, alınmayan hazır cihazları ve tahsil edilmemiş tutarı görün.",
+    "aciklama": "İş Emirleri sayfasına cihazı kabul ederken tarihi, müşteriyi, cihazı ve arızayı yazarsınız; iş ilerledikçe durumu, parça ve işçilik tutarını, alınan ödemeyi ve teslim tarihini girersiniz. Dosya toplam ve kalan tutarı, işin kaç gündür beklediğini ve uyarıyı hesaplar. Özet sayfasında açık işler, hazır olup alınmayanlar, tahsil edilmemiş tutar ve aylık ciro görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Durum açılır listeden seçilir: Bekliyor, Parça bekleniyor, Hazır, Teslim edildi ya da İade edildi",
+      "Toplam (parça + işçilik) ve Kalan (toplam − alınan ödeme) her satırda hesaplanır",
+      "Gün sütunu işin kaç gündür beklediğini, Uyarı sütunu uzun süredir açık kalan işi gösterir",
+      "Özet: açık iş, hazır olup bekleyen, uzun süredir açık iş, tahsil edilmemiş tutar ve ortalama teslim süresi",
+      "En eski açık işler listesi: müşteri, cihaz, kabul tarihi ve durum",
+      "Aylık tablo: teslim edilen iş sayısı ve ciro; ciro teslim tarihindeki aya yazılır"
+    ],
+    "kimin_icin": "Müşteriden cihaz kabul edip onaran teknik servisler.",
+    "etiketler": [
+      "esnaf",
+      "satış"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Hangi cihazın kimde olduğunu, ne zamandır beklediğini, hazır olanı kimin almadığını, kimden tahsilat kaldığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/servis-is-emri-takibi/1-ozet.png",
+        "alt": "SERVİS dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, açık iş ve ciro tanımı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "İş Emirleri",
+        "aciklama": "Kabul edilen her cihaz bir satır: müşteri, arıza, durum, tutarlar, ödeme, teslim; toplam, kalan, gün, uyarı."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, açık işler, hazır olup alınmayanlar, tahsil edilmemiş tutar, aylık ciro, en eski açık işler."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "İş Emirleri sayfasındaki örnek satırların yalnızca sarı hücrelerdeki içeriğini silin.",
+      "Cihazı kabul ederken kabul tarihini, müşteriyi, cihazı ve arızayı yazın.",
+      "İş ilerledikçe durumu, parça ve işçilik tutarını, alınan ödemeyi ve teslim tarihini girin.",
+      "Özet sayfasında yalnızca yılı değiştirin; açık işleri, hazır olup alınmayanları ve tahsil edilmemiş tutarı görün."
+    ],
+    "teknik_not": "İş Emirleri sayfası 1500 satıra kadar hesaplanır. Açık iş, durumu Bekliyor, Parça bekleniyor ya da Hazır olan iştir; ciro yalnızca Teslim edildi durumundaki işlerden, teslim tarihindeki aya yazılır. Gün ve uyarılar bugünün tarihine göre hesaplanır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_SERVIS_Is_Emri_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kiralama-rezervasyon-takibi",
+    "ad": "KİRALAMA: Kiralama ve Rezervasyon Takibi",
+    "kisa": "Kiralık ürünleri günlük ücretle tanımlayıp rezervasyonları girin; çakışmayı, şu an dışarıdaki ürünleri ve ürün başına cirosunu görün.",
+    "aciklama": "Ürünler sayfasına kiraya verdiğiniz ürünleri günlük ücreti ve depozitosuyla, Rezervasyonlar sayfasına her kiralamayı ürün, başlangıç ve bitiş tarihiyle yazarsınız; teslim edince ve geri alınca durumu güncellersiniz. Aynı ürünün tarihleri kesişen ve iptal olmayan iki kaydı varsa ikisi de Çakışıyor yazar. Özet sayfasında aylık kiralama ve ciro, şu an dışarıda olanlar ve yarın teslim edilecekler görünür. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Rezervasyonlar: ürün açılır listeden seçilir; tarihlerden gün sayısı ve tutar hesaplanır, indirim düşülür",
+      "Durum: Rezerve, Teslim edildi, İade alındı ya da İptal",
+      "Çakışma sütunu tarihleri kesişen kayıtları Çakışıyor olarak işaretler",
+      "Ürünler sayfasında kiralanan gün, yıllık ciro, doluluk ve ürünün şu an Dışarıda mı Müsait mi olduğu gösterilir",
+      "Özet: yıl cirosu, şu an dışarıda olanlar, yarın teslim edilecekler, bugün dönecekler, çakışan rezervasyon",
+      "Aylık tablo: kiralama sayısı, kiralanan gün ve ciro"
+    ],
+    "kimin_icin": "Ürünlerini günlük ücretle kiraya veren ve rezervasyonlarını tarih tarih izleyen işletmeler.",
+    "etiketler": [
+      "esnaf",
+      "planlama"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Hangi ürünün hangi tarihte kimde olduğunu, aynı güne iki rezervasyon olup olmadığını, hangi ürünün ne kadar kazandırdığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kiralama-rezervasyon-takibi/1-ozet.png",
+        "alt": "KİRALAMA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, çakışma ve depozito kuralı, renkler ve kapasite."
+      },
+      {
+        "sayfa": "Rezervasyonlar",
+        "aciklama": "Her kiralama bir satır: müşteri, ürün, tarihler, durum, indirim; gün, tutar ve çakışma hesaplanır."
+      },
+      {
+        "sayfa": "Ürünler",
+        "aciklama": "Kiralık Ürünler: ürün, günlük ücret, depozito; kiralanan gün, ciro, doluluk ve şu anki durum."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi, yıl cirosu, şu an dışarıda, yarın teslim, bugün dönecek, çakışan rezervasyon, aylık tablo."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Kayıtlarınızı yapay zeka asistanına yapıştırıp kullanabileceğiniz 4 hazır komut."
+      }
+    ],
+    "adimlar": [
+      "Ürünler ve Rezervasyonlar sayfalarındaki örneklerin yalnızca sarı hücrelerdeki içeriğini silin.",
+      "Ürünler sayfasına kiraya verdiğiniz her ürünü günlük ücreti ve depozitosuyla yazın; aynı üründen birden fazla adet varsa her adedi ayrı ürün olarak yazın.",
+      "Rezervasyonlar sayfasına her kiralamayı ürün, başlangıç ve bitiş tarihiyle girin; ürünü teslim edince ve geri alınca durumu güncelleyin.",
+      "Çakışıyor yazan satırları kontrol edin; Özet sayfasında yılı seçerek aylık kiralama ve cirosuna bakın."
+    ],
+    "teknik_not": "Ürünler sayfası 60, Rezervasyonlar sayfası 1500 satıra kadar hesaplanır. Depozito bilgi amaçlıdır, ciroya girmez; kiralama başladığı aya yazılır. Şu an, Yarın teslim edilecek ve Bugün dönecek göstergeleri bugünün tarihine göre hesaplanır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KIRALAMA_Rezervasyon_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "uyelik-paket-takibi",
+    "ad": "ÜYELİK: Üyelik ve Paket Takibi",
+    "kisa": "Üyelik ve paket satışlarını izler; süren, bitmek üzere olan ve ödemesi eksik üyelikleri gösterir.",
+    "aciklama": "Önce paketlerinizi süresi ve ücretiyle yazarsınız, sonra her satışı üye, paket, başlangıç tarihi ve ödenen tutarla girersiniz. Dosya bitiş tarihini paketin süresinden, borcu da paket ücreti ile ödenen tutarın farkından hesaplar; Özet sayfası süren üyelikleri, bitmek üzere olanları, toplam borcu ve aylık tahsilatı gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Üyelikler sayfasında Bitiş, Ücret, Borç, Kalan gün ve Durum (Aktif, Bitiyor, Bitti, Başlamadı) hesaplanır",
+      "Borcu olan satır renkle ayrılır; Durum sütunu da duruma göre renklenir",
+      "Paketler sayfasında her paketin süren üyelik sayısı görünür",
+      "Özet sayfasında süren üyelik, bitmek üzere olanlar, toplam borç ve yıl tahsilatı yer alır",
+      "Aylık tablo: her ayın yeni üyelik sayısı ve tahsilatı; yılı Özet sayfasından seçersiniz",
+      "Üyeliği en yakın bitecek üyeler üye, bitiş ve paket bilgisiyle listelenir"
+    ],
+    "kimin_icin": "Spor salonu, kurs ya da stüdyo işletip üyeliklerin süresini, ödemesini ve yenilemesini takip etmek isteyenler.",
+    "etiketler": [
+      "esnaf",
+      "satış"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Spor salonunuzda, kursunuzda ya da stüdyonuzda kimin üyeliğinin sürdüğünü, kiminkinin bitmek üzere olduğunu ve kimin borcu olduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/uyelik-paket-takibi/1-ozet.png",
+        "alt": "ÜYELİK dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Üyelikler",
+        "aciklama": "Her satış bir satır: üye, telefon, paket, başlangıç, ödenen. Bitiş, ücret, borç, kalan gün ve durum hesaplanır."
+      },
+      {
+        "sayfa": "Paketler",
+        "aciklama": "Paket, süre (ay) ve ücret; her paketin süren üyelik sayısı hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Süren üyelik, bitmek üzere olanlar, toplam borç, yıl tahsilatı, aylık tablo ve bitişi en yakın üyeler."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Yenileme mesajı, Kayıp üye, Paket analizi ve Borç hatırlatma için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Paketler sayfasına paketlerinizi, sürelerini ve ücretlerini yazın.",
+      "Üyelikler sayfasına her satışı üye, paket, başlangıç tarihi ve ödenen tutarla girin; üye paketini yenilerse yeni satır açın.",
+      "Özet sayfasında yılı seçin; süren üyelikleri, bitmek üzere olanları, toplam borcu ve aylık tahsilatı izleyin."
+    ],
+    "teknik_not": "Paketler sayfası 20, Üyelikler sayfası 2000 satıra kadar hesaplar. Bitiş, başlangıç tarihine paketin süresi eklenip bir gün çıkarılarak bulunur; Kalan gün ve Durum bugünün tarihine göre hesaplanır. Dosya üyelik dondurmayı tutmaz, donduran üyenin başlangıç tarihini elle kaydırmanız gerekir; yenileyen üye için yeni satır açılır, eski satır Bitti olarak kalır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_UYELIK_Paket_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "randevu-randevu-defteri",
+    "ad": "RANDEVU: Randevu Defteri",
+    "kisa": "Randevuları tarih ve saatle tutar, çakışmayı uyarır; gelen, gelmeyen ve ciroyu aylık özetler.",
+    "aciklama": "Önce hizmetlerinizi süresi ve ücretiyle, müşterilerinizi de adlarıyla yazarsınız; sonra her randevuyu tarih, saat, müşteri ve hizmetle girersiniz. Bitiş saati hizmet süresinden hesaplanır, saatleri çakışan randevularda Çakışıyor uyarısı çıkar ve yalnızca durumu Geldi olan randevular ciroya girer. Özet sayfası aylık randevu, gelen, gelmeyen ve ciroyu, en çok yapılan hizmetleri ve en çok harcayan müşterileri gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Müşteri, hizmet ve Durum (Bekliyor, Geldi, Gelmedi, İptal) açılır listeden seçilir",
+      "Bitiş saati hizmet süresinden hesaplanır; özel ücret yazmazsanız hizmetin liste ücreti kullanılır",
+      "Saatleri çakışan randevularda Çakışma sütunu Çakışıyor yazar ve renklenir",
+      "Gün sayfasında tarihi yazarsınız; o günün randevuları saat sırasıyla, beklenen ciroyla listelenir",
+      "Özet sayfasında aylık randevu, gelen, gelmeyen ve ciro tablosu, gelmeme oranı ve Aylık ciro grafiği",
+      "Hizmetler sayfasında her hizmetin yapılan sayısı ve cirosu; Müşteriler sayfasında harcama ve son ziyaret"
+    ],
+    "kimin_icin": "Kuaför, usta, danışman ve klinik gibi randevuyla çalışan işletmeler ve kişiler.",
+    "etiketler": [
+      "esnaf",
+      "planlama"
+    ],
+    "sayfa_sayisi": 7,
+    "soz": "Kimin ne zaman, hangi hizmet için randevu aldığını, gelip gelmediğini ve size ne kazandırdığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/randevu-randevu-defteri/1-ozet.png",
+        "alt": "RANDEVU dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Randevular",
+        "aciklama": "Her randevu bir satır: tarih, saat, müşteri, hizmet, durum. Tutar, bitiş ve çakışma hesaplanır."
+      },
+      {
+        "sayfa": "Gün",
+        "aciklama": "Seçtiğiniz tarihin randevuları saat sırasıyla ve beklenen ciro; bir günde en çok 30 randevu gösterir."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl cirosu, gelen, gelmeyen, aylık tablo ve grafik, en çok yapılan hizmetler, en çok harcayan müşteriler."
+      },
+      {
+        "sayfa": "Hizmetler",
+        "aciklama": "Hizmet, süre (dakika) ve ücret; her hizmetin yapılan sayısı ve cirosu hesaplanır."
+      },
+      {
+        "sayfa": "Müşteriler",
+        "aciklama": "Ad, telefon ve not; her müşterinin randevu, gelmedi, toplam harcama ve son ziyaret bilgisi hesaplanır."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Gelmeyenler, Hatırlatma mesajı, Dolu ve boş saatler, Fiyat kontrolü gibi hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Hizmetler sayfasına hizmetlerinizi, kaç dakika sürdüğünü ve ücretini yazın.",
+      "Müşteriler sayfasına müşterilerinizi yazın; randevu girerken açılır listeden seçersiniz.",
+      "Randevular sayfasına tarih, saat, müşteri ve hizmeti girin; müşteri gelince Durum sütununu Geldi yapın.",
+      "Gün sayfasında tarihi yazıp günün programını görün ya da yazdırın; Özet sayfasında yılı seçin."
+    ],
+    "teknik_not": "Randevular sayfası 1000, Müşteriler sayfası 300, Hizmetler sayfası 50 satıra kadar hesaplar; Gün sayfası bir günde en çok 30 randevu gösterir. Yalnızca durumu Geldi olan randevular ciroya girer. Tek kişinin çalıştığı varsayılır, birden fazla çalışan varsa her çalışan için ayrı dosya kullanılmalıdır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_RANDEVU_Randevu_Defteri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "vizite-personel-izin-takibi",
+    "ad": "VİZİTE: Personel İzin ve Mesai Takibi",
+    "kisa": "Personelin izin, rapor ve fazla mesaisini tutar; kalan yıllık izni ve aylık izin çizelgesini hesaplar.",
+    "aciklama": "Ayarlar sayfasına yılı, Personel sayfasına çalışanları, işe giriş tarihini ve yıllık izin hakkını yazarsınız; her izni ya da raporu başlangıç ve bitiş tarihiyle, fazla çalışmayı kişi, tarih ve saatle girersiniz. Yıllık izin gününden pazarlar ve listedeki resmî tatiller düşülür; rapor ve diğer izinler takvim günü sayılır. Ay sayfası kimin hangi gün izinli olduğunu, Özet sayfası toplamları gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Tür açılır listeden seçilir: Yıllık izin, Rapor, Ücretsiz izin, Mazeret izni; Gün kendiliğinden hesaplanır",
+      "Kontrol sütunu Eksik bilgi ve Bitiş başlangıçtan önce hatalarını gösterir",
+      "Ayarlar sayfasında yıl, resmî tatil listesi ve cumartesinin yıllık izinden düşülüp düşülmeyeceği belirlenir",
+      "Personel sayfasında kullanılan ve kalan izin, rapor, ücretsiz izin, mesai ve kıdem hesaplanır",
+      "Ay sayfasında seçtiğiniz ayın çizelgesi çıkar: İ yıllık izin, R rapor, Ü ücretsiz izin, M mazeret izni",
+      "Özet sayfasında bugün izinde olanlar ve aylara göre izin ile mesai tablosu yer alır"
+    ],
+    "kimin_icin": "Çalışanlarının izin, rapor ve fazla mesaisini kendi takibi için tutmak isteyen işletme sahipleri ve yöneticiler.",
+    "etiketler": [
+      "iş ve ofis",
+      "personel"
+    ],
+    "sayfa_sayisi": 8,
+    "soz": "Kimin ne zaman izinli olduğunu, kimin kaç gün izni kaldığını ve kimin ne kadar mesai yaptığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/vizite-personel-izin-takibi/1-ozet.png",
+        "alt": "VİZİTE dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "İzinler",
+        "aciklama": "Her izin ya da rapor bir satır: personel, tür, başlangıç, bitiş, not. Gün sayısı ve kontrol hesaplanır."
+      },
+      {
+        "sayfa": "Mesai",
+        "aciklama": "Fazla çalışma kaydı: personel, tarih, saat ve açıklama."
+      },
+      {
+        "sayfa": "Ay",
+        "aciklama": "Seçtiğiniz ayda kimin hangi gün izinli olduğunu İ, R, Ü, M harfleriyle gösterir; pazar sütunları gridir."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Bugün izinde olanlar, kullanılan ve kalan yıllık izin, mesai; aylara göre izin ve mesai tablosu."
+      },
+      {
+        "sayfa": "Personel",
+        "aciklama": "Ad, görev, işe giriş, yıllık izin hakkı; kullanılan ve kalan izin, rapor, ücretsiz izin, mesai ve kıdem hesaplanır."
+      },
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Yıl, cumartesinin yıllık izinden düşülüp düşülmeyeceği ve resmî tatil listesi."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "İzin çakışması, İzin planı, Mesai yükü, Rapor örüntüsü gibi hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Ayarlar sayfasına yılı yazın; Ramazan ve Kurban Bayramı günlerini resmî tatil listesine ekleyin.",
+      "Personel sayfasına çalışanları, işe giriş tarihini ve o yılki yıllık izin hakkını yazın.",
+      "İzinler sayfasına her izni ya da raporu başlangıç ve bitiş tarihiyle, Mesai sayfasına fazla çalışmayı kişi, tarih ve saatle girin.",
+      "Ay sayfasında ayı yazarak kimin hangi gün izinli olduğuna, Özet sayfasında toplamlara bakın."
+    ],
+    "teknik_not": "Kapasite 50 personel, 500 izin kaydı ve 500 mesai kaydıdır. Yıllık izin hakkını siz yazarsınız; dosya kıdeme göre hak hesaplamaz ve önceki yıldan devreden izni kendiliğinden eklemez. Bir izin iki yıla yayılıyorsa başladığı yıla yazılır, iki ayrı satır girmeniz daha doğrudur; dosya bordro ve puantaj programı yerine geçmez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_VIZITE_Personel_Izin_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "nobet-vardiya-cizelgesi",
+    "ad": "NÖBET: Haftalık Vardiya Çizelgesi",
+    "kisa": "Haftalık vardiya çizelgesi hazırlar; kişi başına haftalık saati ve gün gün çalışan sayısını hesaplar.",
+    "aciklama": "Vardiyalar sayfasına vardiya kodlarını ve sürelerini yazarsınız (izin için süresi 0 olan bir kod kullanılır); Çizelge sayfasına haftanın pazartesi tarihini, personeli ve her günün vardiya kodunu girersiniz. Dosya kişi başına haftalık saati toplar, sizin girdiğiniz en fazla saati aşanları uyarır ve gün gün kaç kişinin çalıştığını sayar. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Vardiya kodu her gün için açılır listeden seçilir; kodların açıklaması ve saati Vardiyalar sayfasındadır",
+      "Pazartesiden pazara gün sütunlarının tarihleri, haftanın pazartesi tarihini yazınca kendiliğinden gelir",
+      "Haftalık saat sütunu kişinin vardiya saatlerini toplar",
+      "Girdiğiniz En fazla saat aşılırsa Uyarı sütununda En fazla saati aşıyor yazar",
+      "Gün gün kaç kişi çalışıyor tablosu, vardiya kodu başına kişi sayısını ve çalışan toplamını verir"
+    ],
+    "kimin_icin": "Çalışanlarını vardiyalara dağıtıp haftalık saatleri ve günlük kadroyu görmek isteyen işletme sahipleri ve yöneticiler.",
+    "etiketler": [
+      "esnaf",
+      "personel"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Kimin hangi gün hangi vardiyada olduğunu, haftada kaç saat çalıştığını ve hangi gün kaç kişi bulunduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/nobet-vardiya-cizelgesi/1-ozet.png",
+        "alt": "NÖBET dosyasının Çizelge sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Çizelge",
+        "aciklama": "Haftanın pazartesisi, personel, en fazla saat, günlük vardiya kodları; haftalık saat, uyarı ve gün gün çalışan sayısı."
+      },
+      {
+        "sayfa": "Vardiyalar",
+        "aciklama": "Vardiya kodu, açıklama ve saat; izin için süresi 0 olan bir kod kullanılır."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Dengeleme, Boşluk, Duyuru ve İzin talebi için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Vardiyalar sayfasına vardiya kodlarını ve sürelerini yazın; izin için süresi 0 olan bir kod kullanın.",
+      "Çizelge sayfasına haftanın pazartesi tarihini, personeli ve her kişinin en fazla saatini yazın.",
+      "Her günün vardiya kodunu açılır listeden seçin.",
+      "Haftalık saati, Uyarı sütununu ve gün gün çalışan sayısını kontrol edin."
+    ],
+    "teknik_not": "Kapasite 30 personel, 10 vardiya kodu ve bir haftadır. Bir sayfa bir haftayı tutar; yeni hafta için sayfayı kopyalayın ya da kodları silip yeniden doldurun. En fazla saat sizin girdiğiniz sınırdır; yasal çalışma ve dinlenme sürelerine uygunluğu dosya denetlemez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_NOBET_Vardiya_Cizelgesi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "yevmiye-puantaj-hakedis",
+    "ad": "YEVMİYE: Gündelik İşçi Puantaj ve Hakediş",
+    "kisa": "Gündelik işçilerin çalıştığı gün ve mesaiyi kaydeder; dönem hakedişini, avansı, kalan borcu ve iş bazında işçilik maliyetini hesaplar.",
+    "aciklama": "Kişiler sayfasına çalışanları, günlük ücreti ve mesai saat ücretini, Puantaj sayfasına çalışılan her günü kişi ve işle, Ödemeler sayfasına verdiğiniz avans ve ödemeleri yazarsınız. Özet sayfasında dönemin başlangıç ve bitiş tarihini seçince hakediş, ödenen ve kalan borç ile iş bazında işçilik maliyeti hesaplanır; önceki dönemden devreden borç eklenmez. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Puantaj sayfasında Gün ve Mesai (saat) girilir; Maliyet günlük ücret ile mesai saat ücretinden hesaplanır",
+      "Kişi, İş ve ödeme türü (Avans, Ödeme) açılır listelerden seçilir",
+      "Kişiler sayfasında seçilen dönemin Gün, Mesai (saat), Hakediş, Ödenen ve Kalan tutarı hesaplanır",
+      "Özet sayfası dönem başlangıcı ve bitişine göre çalışılan gün, mesai, hakediş, ödenen ve kalan borcu verir",
+      "İşe göre tablo, her işin gün sayısını ve işçilik maliyetini gösterir",
+      "Listeler sayfasında iş adlarını kendi işlerinize göre yazarsınız"
+    ],
+    "kimin_icin": "Gündelik işçi çalıştırıp çalışılan günleri, avansları ve hakedişleri kayıt altında tutmak isteyen işletme sahipleri ve işverenler.",
+    "etiketler": [
+      "esnaf",
+      "personel"
+    ],
+    "sayfa_sayisi": 7,
+    "soz": "Kimin kaç gün çalıştığını, ne kadar hak ettiğini, ne kadar avans aldığını ve kime ne kadar borcunuz kaldığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/yevmiye-puantaj-hakedis/1-ozet.png",
+        "alt": "YEVMİYE dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Puantaj",
+        "aciklama": "Her çalışılan gün bir satır: tarih, kişi, gün, mesai, iş, not. Maliyet hesaplanır."
+      },
+      {
+        "sayfa": "Ödemeler",
+        "aciklama": "Verilen her avans ve ödeme: tarih, kişi, tür, tutar ve not."
+      },
+      {
+        "sayfa": "Kişiler",
+        "aciklama": "Ad, günlük ücret, mesai saat ücreti; seçilen dönemin günü, mesaisi, hakedişi, ödenen ve kalan tutarı hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Dönem başlangıcı ve bitişi; çalışılan gün, mesai, hakediş, ödenen, kalan borç ve işe göre işçilik maliyeti."
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Puantajdaki İş sütununun açılır listesi; sarı hücrelere kendi işlerinizi yazarsınız."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Hakediş özeti, Maliyet, Mesai ve Kontrol için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Kişiler sayfasına çalışanları, günlük ücreti ve mesai saat ücretini yazın.",
+      "Puantaj sayfasına çalışılan her günü kişi ve işle girin.",
+      "Ödemeler sayfasına verdiğiniz avans ve ödemeleri yazın.",
+      "Özet sayfasında dönemin başlangıç ve bitiş tarihini yazın; hakediş, ödenen ve kalan borç bu döneme göre hesaplanır."
+    ],
+    "teknik_not": "Kişiler sayfası 40, Puantaj sayfası 3000, Ödemeler sayfası 600 satıra kadar hesaplar. Hakediş ve ödenen yalnızca seçtiğiniz iki tarih arasındaki kayıtlardan hesaplanır; önceki dönemden devreden borç eklenmez. Dosya bordro, SGK bildirimi ya da resmî puantaj yerine geçmez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_YEVMIYE_Puantaj_Hakedis.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "demirbas-zimmet-takibi",
+    "ad": "DEMİRBAŞ: Demirbaş ve Zimmet Takibi",
+    "kisa": "Demirbaşları kategori, yer ve zimmetliyle kaydeder; basit amortismanla bugünkü net değeri hesaplar.",
+    "aciklama": "Listeler sayfasına kategorileri ve zimmet verilebilecek kişileri, Demirbaşlar sayfasına her demirbaşı alış tarihi, bedeli, faydalı ömrü ve zimmetlisiyle yazarsınız. Bedel faydalı ömre eşit bölünür ve alış tarihinden bugüne geçen süreyle çarpılır; bu basit bir yöntemdir. Özet sayfası toplam bedeli, net değeri, kategori ve kişi bazında dağılımı gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kategori ve Zimmetli açılır listeden seçilir; Yer serbest yazılır",
+      "Yıllık amortisman, geçen yıl, birikmiş amortisman ve net değer her satır için hesaplanır",
+      "Durum sütunu Kullanımda ya da Ömrünü doldurdu yazar; ömrünü dolduranlar renkle ayrılır",
+      "Özet sayfasında demirbaş sayısı, toplam bedel, net değer, bu yılın amortismanı ve ömrünü dolduranlar yer alır",
+      "Kategoriye göre adet, bedel ve net değer; zimmetliye göre adet ve bedel tabloları çıkar"
+    ],
+    "kimin_icin": "İş yerindeki makine, bilgisayar ve mobilyayı kimde olduğuyla birlikte listelemek isteyen işletme sahipleri ve ofis yöneticileri.",
+    "etiketler": [
+      "iş ve ofis",
+      "stok"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "İş yerinizdeki makine, bilgisayar ve mobilyanın kimde olduğunu, kaça alındığını ve bugün defterde kaç lira ettiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/demirbas-zimmet-takibi/1-ozet.png",
+        "alt": "DEMİRBAŞ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Demirbaşlar",
+        "aciklama": "Her demirbaş bir satır: kategori, alış tarihi, bedel, faydalı ömür, zimmetli, yer. Amortisman ve net değer hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Demirbaş sayısı, toplam bedel, net değer, bu yılın amortismanı; kategoriye ve zimmetliye göre dağılım."
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Kategori ve zimmetli açılır listeleri; sarı hücrelere kendi seçeneklerinizi yazarsınız."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Yenileme planı, Zimmet tutanağı, Sayım ve Sigorta için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Listeler sayfasına kategorileri ve zimmet verilebilecek kişileri yazın.",
+      "Demirbaşlar sayfasına her demirbaşı alış tarihi, bedeli, faydalı ömrü (yıl olarak) ve zimmetlisiyle girin.",
+      "Özet sayfasında toplam bedeli, net değeri, kategori ve kişi bazında dağılımı izleyin."
+    ],
+    "teknik_not": "Demirbaşlar sayfası 500 satıra kadar hesaplar. Amortisman basit bir yöntemdir: bedel faydalı ömre eşit bölünür ve alış tarihinden bugüne geçen süreyle çarpılır. Vergi hesabı değildir; vergi mevzuatındaki oran ve yöntemler farklı olabilir, resmî amortisman için mali müşavire danışılmalıdır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DEMIRBAS_Zimmet_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "ameliyat-proje-plani",
+    "ad": "AMELİYAT: Proje ve Görev Planı",
+    "kisa": "Görevleri sorumlu ve tarihle takip eder; zaman çizelgesi çizer, geciken görevleri ve genel ilerlemeyi gösterir.",
+    "aciklama": "Ayarlar sayfasına proje adını, çizelgenin başlayacağı tarihi, ölçeği (gün ya da hafta) ve kişileri, Görevler sayfasına her görevi sorumlusu, başlangıç ve bitiş tarihiyle yazarsınız. İş ilerledikçe yüzdeyi güncellersiniz; yüzde 100 olunca Durum sütunu Tamamlandı yazar. Çizelge sayfası zaman çizelgesini çizer, Özet sayfası geciken görevleri, 7 gün içinde bitecekleri, genel ilerlemeyi ve kişi başına yükü gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Görevler sayfasında Süre (gün), Durum ve Kalan gün hesaplanır; Durum bugünün tarihine göre güncellenir",
+      "Durum: Tamamlandı, Gecikti, Başlamadı, Sürüyor; tarihi eksik satıra Tarih eksik yazar",
+      "Çizelge sayfasında koyu yeşil tamamlanan, açık yeşil kalan kısımdır; bugünün sütunu kırmızı çerçevelidir",
+      "Ayarlar sayfasında çizelgenin başlangıç tarihi ve ölçeği (gün ya da hafta) seçilir",
+      "Özet sayfasında tamamlanan, geciken, 7 gün içinde bitecek görev sayısı ve süreye göre ağırlıklı genel ilerleme",
+      "Özet sayfasında sorumluya göre görev ve açık iş yükü ile geciken görevlerin listesi yer alır"
+    ],
+    "kimin_icin": "Bir projenin görevlerini, sorumlularını ve tarihlerini takip etmek isteyen proje sahipleri ve ekip yöneticileri.",
+    "etiketler": [
+      "iş ve ofis",
+      "planlama"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Görevleri, sorumluları ve tarihleri yazın; zaman çizelgesi, gecikenler ve genel ilerleme kendiliğinden çıksın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/ameliyat-proje-plani/1-ozet.png",
+        "alt": "AMELİYAT dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Görevler",
+        "aciklama": "Her görev bir satır: sorumlu, başlangıç, bitiş, ilerleme. Süre, durum ve kalan gün hesaplanır."
+      },
+      {
+        "sayfa": "Çizelge",
+        "aciklama": "Görevlerin zaman çizelgesi: koyu yeşil tamamlanan, açık yeşil kalan kısım; bugünün sütunu kırmızı çerçeveli."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Tamamlanan, geciken, 7 gün içinde bitecek görevler, genel ilerleme, sorumluya göre yük ve geciken görevler."
+      },
+      {
+        "sayfa": "Ayarlar",
+        "aciklama": "Proje adı, çizelgenin başladığı tarih, ölçek (gün ya da hafta) ve kişi listesi."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Risk taraması, Haftalık plan, Durum raporu, Yük dengesi gibi hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Ayarlar sayfasına proje adını, çizelgenin başlayacağı tarihi, ölçeği (gün ya da hafta) ve kişileri yazın.",
+      "Görevler sayfasına her görevi sorumlusu, başlangıç ve bitiş tarihiyle girin.",
+      "İş ilerledikçe İlerleme sütununu güncelleyin; yüzde 100 olunca Durum Tamamlandı yazar.",
+      "Çizelge sayfasında zaman çizelgesine, Özet sayfasında gecikenlere ve kişi başına yüke bakın."
+    ],
+    "teknik_not": "Kapasite 100 görev ve 15 kişidir. Çizelge 60 sütun gösterir: ölçek 7 ise yaklaşık 14 ay, ölçek 1 ise 2 ay; daha uzun proje için ölçeği büyütün. Dosya görevler arası bağımlılığı (biri bitmeden diğeri başlamaz) tutmaz, bir görev kayarsa sonrakilerin tarihini elle güncellemeniz gerekir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_AMELIYAT_Proje_Plani.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "saat-serbest-calisan-takibi",
+    "ad": "SAAT: Serbest Çalışan Saat Takibi",
+    "kisa": "Müşteri başına çalışılan saati ve tutarı kaydeder; faturalanan ve faturalanmayı bekleyen tutarı gösterir.",
+    "aciklama": "Önce müşterilerinizi ve saat ücretini yazarsınız; sonra her çalışmayı tarih, müşteri, iş ve saat olarak girersiniz (dakikayı ondalık yazın: 30 dakika 0,5 saattir). Tutar, saatin müşterinin saat ücretiyle çarpımıdır; faturasını kestiğiniz kaydın Faturalandı sütununu Evet yaparsınız. Özet sayfası aylık saat ve tutarı, faturalanmayı bekleyen tutarı gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kayıtlar sayfasında Tutar, saat ile müşterinin saat ücretinden hesaplanır",
+      "Faturalandı sütunu Evet ya da Hayır seçilir; Hayır olanlar faturalanmamış tutarı oluşturur",
+      "Müşteriler sayfasında müşteri başına saat, tutar ve faturalanmamış tutar görünür",
+      "Özet sayfasında yıl saati, yıl tutarı, faturalanmamış tutar ve ortalama saat ücreti yer alır",
+      "Aylık tablo: her ayın saati ve tutarı; yılı Özet sayfasından seçersiniz"
+    ],
+    "kimin_icin": "Müşterileri için saat bazında çalışıp neyin faturalanmadığını görmek isteyen serbest çalışanlar.",
+    "etiketler": [
+      "serbest çalışan",
+      "satış"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Hangi müşteriye kaç saat çalıştığınızı, ne kadarının faturalandığını ve faturalanmayı bekleyen tutarı görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/saat-serbest-calisan-takibi/1-ozet.png",
+        "alt": "SAAT dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Kayıtlar",
+        "aciklama": "Her çalışma bir satır: tarih, müşteri, proje, yapılan iş, saat, faturalandı. Tutar hesaplanır."
+      },
+      {
+        "sayfa": "Müşteriler",
+        "aciklama": "Müşteri ve saat ücreti; her müşterinin saati, tutarı ve faturalanmamış tutarı hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl saati, yıl tutarı, faturalanmamış tutar, ortalama saat ücreti ve aylık saat ile tutar tablosu."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Fatura metni, Verimlilik, Ücret ve Kapasite için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Müşteriler sayfasına müşterilerinizi ve saat ücretini yazın.",
+      "Kayıtlar sayfasına her çalışmayı tarih, müşteri, iş ve saat olarak girin; dakikayı ondalık yazın, 30 dakika 0,5 saattir.",
+      "Faturasını kestiğiniz kaydın Faturalandı sütununu Evet yapın.",
+      "Özet sayfasında yılı seçin; aylık saat ve tutara, faturalanmayı bekleyen tutara bakın."
+    ],
+    "teknik_not": "Müşteriler sayfası 50, Kayıtlar sayfası 2000 satıra kadar hesaplar. Saat ücretini değiştirirseniz eski kayıtların tutarı da yeni ücretle hesaplanır. Dosya fatura kesmez; yalnızca neyin faturalanmadığını gösterir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_SAAT_Serbest_Calisan_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "icerik-performans-takibi",
+    "ad": "İÇERİK: Sosyal Medya İçerik Performansı",
+    "kisa": "Paylaşımların erişim ve etkileşimini kaydeder; aylık gidişi, türe ve güne göre ortalamaları, en çok erişim alan içerikleri gösterir.",
+    "aciklama": "Platformları ve içerik türlerini Listeler sayfasına, her paylaşımı tarih, tür, konu ve istatistikleriyle İçerikler sayfasına yazarsınız. Etkileşim oranı, beğeni, yorum, kaydetme ve paylaşım toplamının erişime bölümüdür; Özet sayfası aylık gidişi, türe ve güne göre ortalamaları ve en çok erişim alan içerikleri gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Platform ve Tür açılır listeden seçilir; Etkileşim ve Etkileşim oranı kendiliğinden hesaplanır",
+      "Etkileşim oranı: beğeni, yorum, kaydetme ve paylaşım toplamının erişime bölümü",
+      "Özet sayfasında içerik sayısı, toplam erişim, etkileşim oranı, yeni takipçi ve içerik başına erişim",
+      "Aylık tablo: her ayın içerik sayısı, erişimi, etkileşimi ve yeni takipçisi",
+      "Türe göre tabloda içerik sayısı, ortalama erişim ve etkileşim oranı",
+      "Haftanın günlerine göre ortalama erişim ve en çok erişim alan içeriklerin listesi"
+    ],
+    "kimin_icin": "Sosyal medyada düzenli paylaşım yapıp hangi içeriğin ne kadar erişim ve etkileşim getirdiğini görmek isteyenler.",
+    "etiketler": [
+      "serbest çalışan",
+      "planlama"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Hangi içerik türünün, hangi günün ve hangi konunun daha çok erişim ve etkileşim getirdiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/icerik-performans-takibi/1-ozet.png",
+        "alt": "İÇERİK dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "İçerikler",
+        "aciklama": "Her paylaşım bir satır: tarih, platform, tür, konu, erişim, beğeni, yorum, kaydetme, paylaşım, yeni takipçi."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıllık göstergeler, aylık tablo, türe ve haftanın günlerine göre ortalamalar, en çok erişim alan içerikler."
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Platform ve tür açılır listeleri; sarı hücrelere kendi seçeneklerinizi yazarsınız."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Ne işe yarıyor, Takvim, Başlık ve Zayıf içerik için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Listeler sayfasına kullandığınız platformları ve içerik türlerini yazın.",
+      "İçerikler sayfasına her paylaşımı tarih, tür, konu ve istatistikleriyle girin; rakamları paylaşımdan birkaç gün sonra platformun istatistik ekranından yazın.",
+      "Özet sayfasında yılı seçin; aylık gidişe, türe ve güne göre ortalamalara, en çok erişim alan içeriklere bakın."
+    ],
+    "teknik_not": "İçerikler sayfası 2000 satıra kadar hesaplar. Dosya platformlardan veri çekmez, rakamları siz yazarsınız. Farklı platformların erişim tanımı aynı değildir; platformları kendi içinde karşılaştırmak daha sağlıklıdır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_ICERIK_Performans_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "karar-matrisi",
+    "ad": "KARAR: Karar Matrisi",
+    "kisa": "Seçenekleri sizin koyduğunuz ölçütlerle ağırlıklı puanlayıp sıralar; öndeki seçeneği ve puan farkını gösterir.",
+    "aciklama": "Ölçütleri ve her birinin önemini 1 ile 10 arasında yazarsınız, seçenekleri üst satıra girersiniz, her seçeneği her ölçütte 1 ile 10 arasında puanlarsınız. Yüksek puan her zaman daha iyi demek olmalıdır: fiyatta ucuz olan yüksek puan alır. Dosya her ölçütün puanını o ölçütün toplam önem içindeki payıyla çarpıp toplar; ağırlıklı puanı, sırayı ve öndeki seçeneği verir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Her ölçütün Pay değeri, önem puanının toplam önem içindeki oranından hesaplanır",
+      "Her seçenek için Ağırlıklı puan ve Sıra hesaplanır; birinci sıradaki seçenek vurgulanır",
+      "Eksik puan satırı, seçenek başına puanlanmamış ölçüt sayısını gösterir",
+      "Sonuç bölümünde Öndeki seçenek, İkinciyle puan farkı ve kısa bir Yorum çıkar",
+      "Fark çok küçükse Yorum satırı önemleri ve puanları bir kez daha gözden geçirmenizi söyler",
+      "12 ölçüte ve 8 seçeneğe kadar çalışır"
+    ],
+    "kimin_icin": "Araba, ev, tedarikçi ya da iş teklifi gibi bir kararda seçenekleri ölçütlerle karşılaştırmak isteyen herkes.",
+    "etiketler": [
+      "kişisel",
+      "planlama"
+    ],
+    "sayfa_sayisi": 3,
+    "soz": "Araba, ev, tedarikçi ya da iş teklifi: seçenekleri kendi ölçütlerinizle puanlayın, hangisinin önde olduğunu ve nedenini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/karar-matrisi/1-ozet.png",
+        "alt": "KARAR dosyasının Matris sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Matris",
+        "aciklama": "Ölçütler ve önemleri, seçenekler ve puanlar; ağırlıklı puan, sıra, eksik puan, öndeki seçenek ve yorum."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Ölçüt önerisi, Şeytanın avukatı, Duyarlılık ve Puan tutarlılığı için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek ölçüt, seçenek ve puanları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Matris sayfasına kararda sizin için önemli olan ölçütleri ve her birinin önemini 1 ile 10 arasında yazın.",
+      "Seçenekleri üst satırdaki sarı hücrelere yazın.",
+      "Her seçeneği her ölçütte 1 ile 10 arasında puanlayın; yüksek puan her zaman daha iyi olmalı, fiyatta ucuz olan yüksek puan almalı.",
+      "Ağırlıklı puana, sıraya ve öndeki seçeneğe bakın; Eksik puan satırında sıfırdan büyük bir sayı varsa eksik puanları tamamlayın."
+    ],
+    "teknik_not": "Kapasite 12 ölçüt ve 8 seçenektir. Puanlanmamış ölçüt bulunan seçenek haksız yere düşük görünür; eksik puan satırı bunu gösterir. Dosya sayısal bir karşılaştırma verir, son kararı vermez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KARAR_Matrisi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kiraci-kira-geliri-takibi",
+    "ad": "KİRACI: Kira Geliri Takibi",
+    "kisa": "Dairelerin kirasını, tahsilatını ve giderini izler; eksik kirayı ve yıllık net geliri hesaplar.",
+    "aciklama": "Daireler sayfasına dairenizi, kiracıyı, aylık kirayı, kira gününü ve sözleşme başlangıcını, Tahsilatlar sayfasına gelen her kira ödemesini tarihiyle, Giderler sayfasına aidat, tamir ve vergi gibi masrafları yazarsınız. Dosya, seçtiğiniz yılda sözleşme başlangıcından bugüne kira günü geçmiş her ay için bir kira sayar; Özet sayfası beklenen, tahsil edilen ve eksik kirayı, gideri ve net geliri verir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Daireler sayfasında Beklenen kira, Ödenen, Eksik, Gider ve Net gelir her daire için hesaplanır",
+      "Durum sütunu Gecikmiş ya da Güncel yazar; gecikmiş daireler renkle ayrılır",
+      "Tahsilat ve gider kaydında daire açılır listeden seçilir; gider türü Listeler sayfasından gelir",
+      "Özet sayfasında seçtiğiniz yıl için beklenen kira, tahsil edilen, eksik, gider ve net gelir yer alır",
+      "Aylık tablo: her ayın tahsilatı, gideri ve neti"
+    ],
+    "kimin_icin": "Bir ya da birkaç dairesini kiraya verip tahsilatı ve giderleri takip etmek isteyen ev sahipleri.",
+    "etiketler": [
+      "kişisel",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 7,
+    "soz": "Hangi kiracının ödediğini, hangisinin geride kaldığını ve dairenin size yılda net ne bıraktığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kiraci-kira-geliri-takibi/1-ozet.png",
+        "alt": "KİRACI dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Daireler",
+        "aciklama": "Daire, kiracı, aylık kira, kira günü, sözleşme, depozito; beklenen, ödenen, eksik, durum, gider ve net gelir."
+      },
+      {
+        "sayfa": "Tahsilatlar",
+        "aciklama": "Kiracıdan gelen her ödeme bir satır: tarih, daire, tutar ve not."
+      },
+      {
+        "sayfa": "Giderler",
+        "aciklama": "Daire için yapılan masraflar: tarih, daire, tür, tutar ve not."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Seçilen yılın beklenen kirası, tahsilatı, eksiği, gideri ve net geliri; aylık tahsilat, gider ve net tablosu."
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Gider türü açılır listesi; sarı hücrelere kendi türlerinizi yazarsınız."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Hatırlatma, Getiri, Artış yazısı ve Gider analizi için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek kayıtları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Daireler sayfasına dairenizi, kiracıyı, aylık kirayı, kira gününü ve sözleşme başlangıcını yazın.",
+      "Tahsilatlar sayfasına gelen her kira ödemesini tarihiyle girin.",
+      "Giderler sayfasına aidat, tamir, vergi gibi masrafları yazın.",
+      "Özet sayfasında yılı seçin; beklenen, tahsil edilen ve eksik kirayı ile net geliri izleyin."
+    ],
+    "teknik_not": "Daireler sayfası 30, Tahsilatlar sayfası 1000, Giderler sayfası 1000 satıra kadar hesaplar. Seçili yılda, sözleşme başlangıcından bugüne kadar kira günü geçmiş her ay için bir kira sayılır. Yıl içinde kira değişirse dosya eski ayları yeni tutarla sayar, artıştan sonra eksik tutarı kendiniz kontrol etmelisiniz; dosya kira geliri beyanını hesaplamaz.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KIRACI_Kira_Geliri_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kredi-taksit-hesaplama",
+    "ad": "KREDİ: Kredi Taksit ve Teklif Karşılaştırma",
+    "kisa": "Kredinin taksitini ve ödeme planını çıkarır, erken ödemenin kazancını hesaplar, banka tekliflerini toplam maliyete göre sıralar.",
+    "aciklama": "Kredi sayfasına tutarı, aylık faizi, vergi ve fon oranını, vadeyi ve ilk taksit tarihini yazarsınız; taksit ve ödeme planı çıkar. Bir taksitte fazladan ödeme yapmayı düşünüyorsanız taksit numarasını ve tutarı girip kazancı ve kısalan vadeyi görürsünüz. Teklifler sayfasında farklı bankaların tekliflerini yan yana yazarsınız; toplam maliyete göre sıralanır. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kredi sayfasında vergili aylık oran, aylık taksit, toplam geri ödeme ve toplam faiz ile vergi hesaplanır",
+      "Ödeme planı taksit no, tarih, ödeme, faiz ve vergi, anapara ve kalan borç sütunlarıyla kendiliğinden çıkar",
+      "Erken ödemede toplam faiz ve vergiden kazanılan tutar ile kısalan vade (ay) gösterilir",
+      "Tek seferlik masraflar toplam geri ödemeye eklenir",
+      "Teklifler sayfasında taksit, toplam geri ödeme, toplam maliyet ve Sıra çıkar; en ucuz teklif vurgulanır"
+    ],
+    "kimin_icin": "Kredi çekmeden önce taksiti, toplam maliyeti ve farklı banka tekliflerini karşılaştırmak isteyenler.",
+    "etiketler": [
+      "kişisel",
+      "borç"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Taksidin ne kadar olduğunu, toplamda ne ödeyeceğinizi, erken ödeme yaparsanız ne kazanacağınızı ve toplam maliyete göre hangi banka teklifinin daha ucuz olduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kredi-taksit-hesaplama/1-ozet.png",
+        "alt": "KREDİ dosyasının Kredi sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Kredi",
+        "aciklama": "Tutar, faiz, vergi ve fon oranı, vade, ilk taksit, masraf, erken ödeme girilir; taksit, toplamlar ve ödeme planı çıkar."
+      },
+      {
+        "sayfa": "Teklifler",
+        "aciklama": "Banka, tutar, faiz, vade ve masraf girilir; aylık taksit, toplam geri ödeme, toplam maliyet ve sıra hesaplanır."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Teklif yorumu, Bütçe uyumu, Sorular ve Erken ödeme zamanı için hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek değerleri silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Kredi sayfasına tutarı, aylık faizi, vergi ve fon oranını, vadeyi ve ilk taksit tarihini yazın.",
+      "Bir taksitte fazladan ödeme düşünüyorsanız taksit numarasını ve tutarı yazın; kazancı ve kısalan vadeyi görün.",
+      "Teklifler sayfasına farklı bankaların tekliflerini yan yana yazın; toplam maliyete göre sıralanır."
+    ],
+    "teknik_not": "Teklifler sayfası 10 satıra, vade 120 aya kadar hesaplar. Faiz oranı yazdığınız vergi ve fon oranıyla büyütülür (varsayılan yüzde 30 bir kullanıcı girişidir, kredi türüne göre değişir); erken ödemede fazladan tutar anaparadan düşer, taksit aynı kalır, vade kısalır ve olası erken ödeme ücreti hesaba katılmaz. Bankanın ödeme planı gün hesabı ve yuvarlama nedeniyle birkaç lira farklı olabilir, bağlayıcı olan bankanın planıdır; dosya finansal tavsiye değildir, kredi kullanıp kullanmama kararını vermez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KREDI_Taksit_Hesaplama.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "acil-borc-kapatma-plani",
+    "ad": "ACİL: Borç Kapatma Planı",
+    "kisa": "Borçları Çığ ya da Kartopu yöntemiyle sıralar; borçsuz kalacağınız ayı ve toplam faizi hesaplar, yalnız asgari ödemeyle karşılaştırır.",
+    "aciklama": "Borçlar sayfasına her borcun kalan tutarını, aylık faiz oranını ve asgari aylık ödemesini yazarsınız; asgarilerin üstüne her ay ayırabileceğiniz tutarı girersiniz ve yöntemi (Çığ ya da Kartopu) seçersiniz. Her ay önce bütün borçların faizi işler ve asgari ödemeler yapılır; kalan tutar öncelik sırasındaki ilk borca gider, o kapanınca sıradakine geçer. Özet sayfası ne zaman borçsuz kalacağınızı, toplam faizi ve yalnız asgari ödeseydiniz ne olacağını gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Borçlar sayfasında her borcun Öncelik, Kapanış ayı ve Ödenecek faiz sütunları hesaplanır",
+      "Çığ yöntemi faizi en yüksek borca, Kartopu yöntemi en küçük borca yükler",
+      "Kontrol sütunu asgari ödemesi faizi karşılamayan ya da 120 ayda kapanmayan borcu uyarır",
+      "Özet sayfasında ek ödemeyle ve yalnız asgariyle kapanış süresi, borçsuz kalınan ay ve toplam faiz yan yana",
+      "Kalan toplam borç grafiği iki senaryoyu aynı eksende karşılaştırır",
+      "Plan ve Yalnız Asgari sayfaları ay ay toplam ödemeyi, o ayın faizini ve kalan borcu gösterir"
+    ],
+    "kimin_icin": "Birden fazla borcu olup hangisini önce kapatacağını ve ne zaman borçsuz kalacağını planlamak isteyenler.",
+    "etiketler": [
+      "kişisel",
+      "borç"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Borçlarınızı yazın, her ay ayırabileceğiniz tutarı girin; hangi borcu önce kapatacağınızı, ne zaman borçsuz kalacağınızı ve ne kadar faiz ödeyeceğinizi görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/acil-borc-kapatma-plani/1-ozet.png",
+        "alt": "ACİL dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, hesaplama mantığı, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Borçlar",
+        "aciklama": "Borç, kalan tutar, faiz, asgari ödeme, aylık ek tutar ve yöntem girilir; öncelik, kapanış ayı, faiz ve kontrol çıkar."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Toplam borç, borçsuz kalınacak ay, toplam faiz; ek ödemeyle ve yalnız asgariyle karşılaştırma ve grafik."
+      },
+      {
+        "sayfa": "Plan",
+        "aciklama": "Ek ödemeli planın ay ay dökümü: toplam ödeme, o ayın faizi, kalan borç ve borç bazında dağılım."
+      },
+      {
+        "sayfa": "Yalnız Asgari",
+        "aciklama": "Aynı döküm yalnız asgari ödemeyle; ek ödemeli planla karşılaştırmak içindir."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Yöntem karşılaştırma, Ek ödeme etkisi, Bütçeden yer açma gibi hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek borçları silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Borçlar sayfasına her borcun kalan tutarını, aylık faiz oranını ve asgari aylık ödemesini yazın; faizsiz borçta oranı 0 girin.",
+      "Asgarilerin üstüne her ay ayırabileceğiniz tutarı yazın ve yöntemi (Çığ ya da Kartopu) seçin.",
+      "Özet sayfasında borçsuz kalacağınız ayı, toplam faizi ve yalnız asgari ödemeyle farkı görün.",
+      "Borçlar sayfasına dönüp her borcun öncelik sırasına, kapanış ayına ve ödenecek faize bakın."
+    ],
+    "teknik_not": "Kapasite 10 borç ve 120 aydır; yalnız asgari ödeme 120 ayda borcu bitirmiyorsa o sütundaki faiz 120 ayın faizidir, gerçekte daha fazladır. Aylık faiz oranını vergiler dahil girin; yıllık oran biliyorsanız kabaca 12'ye bölün, bankanın kendi hesabı küçük farklarla çıkabilir. Plan yeni borç yapılmadığını ve her ay aynı tutarın ödendiğini varsayar, gecikme faizi, dönem içi harcama, vergi ve masraf ayrıntılarını hesaba katmaz; banka hesabıyla birebir tutmaz ve finansal tavsiye değildir.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_ACIL_Borc_Kapatma_Plani.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "doz-duzenli-odeme-takibi",
+    "ad": "DOZ: Düzenli Ödeme ve Abonelik Takibi",
+    "kisa": "Kira, fatura, abonelik ve taksit gibi düzenli ödemeleri izler; aylık yükü, sıradaki ödemeleri ve yıllık takvimi gösterir.",
+    "aciklama": "Kira, fatura, abonelik, sigorta, taksit gibi düzenli ödediğiniz her şeyi tutarı, sıklığı ve ilk ödeme tarihiyle Ödemeler sayfasına yazarsınız. Özet sayfası aylık ortalama yükü, önümüzdeki 7 ve 30 günde ödeyeceklerinizi, kategori dağılımını ve sıradaki 10 ödemeyi, Takvim sayfası seçtiğiniz yılda her ödemenin hangi aya düştüğünü ve ayların toplamını gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Sıklık aylık, üç aylık, altı aylık ya da yıllık seçilir; her ödemenin aylık ve yıllık karşılığı hesaplanır",
+      "Sıradaki ödeme, Kalan gün ve Durum (Bu hafta, Bu ay, Bekliyor, Bitti) kendiliğinden hesaplanır",
+      "Bitiş tarihi yalnızca taksit gibi sonu belli ödemelerde doldurulur; bitmiş ödemeler toplama girmez",
+      "Özet sayfasında aylık ortalama yük, yıllık karşılığı, 7 ve 30 günde ödenecekler ve süren ödeme sayısı",
+      "Özet sayfasında kategoriye göre aylık yük, pay ve sıradaki 10 ödemenin listesi yer alır",
+      "Takvim sayfası her ödemenin düştüğü ayı verir; Özet'teki Aylara göre ödeme yükü grafiği ağır ayları gösterir"
+    ],
+    "kimin_icin": "Kira, fatura, abonelik ve taksit gibi düzenli ödemelerini tek yerde görmek isteyen bireyler ve aileler.",
+    "etiketler": [
+      "ev ve aile",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Kira, fatura, abonelik ve taksit için her ay ne kadar çıktığını, sırada hangisinin olduğunu ve yıl boyunca hangi ayın ağır geçtiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/doz-duzenli-odeme-takibi/1-ozet.png",
+        "alt": "DOZ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Kullanım adımları, bilmeniz gerekenler, kapasite ve hücre renklerinin anlamı."
+      },
+      {
+        "sayfa": "Ödemeler",
+        "aciklama": "Her düzenli ödeme bir satır: kategori, tutar, sıklık, ilk ödeme, bitiş. Karşılık, sıradaki ödeme ve durum hesaplanır."
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Bugün, takvim yılı, aylık ortalama yük, 7 ve 30 günde ödenecekler, kategoriye göre yük, sıradaki 10 ödeme ve grafik."
+      },
+      {
+        "sayfa": "Takvim",
+        "aciklama": "Seçilen yılda her ödemenin düştüğü aylar ve ay toplamları."
+      },
+      {
+        "sayfa": "Kategoriler",
+        "aciklama": "Ödeme kategorileri; sarı hücrelere kendi kategorilerinizi yazarsınız."
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "Abonelik temizliği, Ağır aylar, Yıllığa çevir gibi hazır yapay zeka komutları."
+      }
+    ],
+    "adimlar": [
+      "Sarı hücrelerdeki örnek ödemeleri silin; beyaz hücrelerde formül var, onlara dokunmayın.",
+      "Kategoriler sayfasına kendi kategorilerinizi yazın.",
+      "Ödemeler sayfasına düzenli ödediğiniz her şeyi tutarı, sıklığı ve ilk ödeme tarihiyle girin; bitiş tarihini yalnızca taksit gibi sonu belli ödemelerde doldurun.",
+      "Özet sayfasında aylık ortalama yükü, 7 ve 30 günde ödeyeceklerinizi ve sıradaki 10 ödemeyi izleyin.",
+      "Takvim sayfasında yılı Özet sayfasından seçin; yıllık ve altı aylık ödemelerin ağırlaştırdığı ayları görün."
+    ],
+    "teknik_not": "Ödemeler sayfası 100 ödemeye, Kategoriler sayfası 20 kategoriye kadar hesaplar. Sıradaki ödeme ilk ödeme tarihinden sıklığa göre ileri sayılır; ayın 31'i gibi günlerde kısa aylarda ayın son gününe kayar. Fatura gibi değişen ödemelerde ortalama tutarı yazın, dosya geçmiş tutarları ayrı ayrı tutmaz.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DOZ_Duzenli_Odeme_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "diyet-aylik-butce-plani",
+    "ad": "DİYET: Aylık Bütçe Planı",
+    "kisa": "Kategorilere aylık plan koyup harcamaları yazın; hangi kalemde sınırı aştığınızı ve ay sonuna kadar günde ne harcayabileceğinizi görün.",
+    "aciklama": "Plan sayfasına gelir ve gider kategorilerini, türünü (Gelir, Sabit gider, Değişken gider, Birikim) ve aylık plan tutarını yazarsınız; Hareketler sayfasına para girdikçe ve çıktıkça tarih, kategori ve tutar girersiniz. Ay sayfasında seçtiğiniz ay için her kategorinin plan, gerçekleşen, fark ve kullanım oranı çıkar, sınırı aşan gider kırmızı olur; Yıl sayfası on iki ayı yan yana gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Dört tür: Gelir, Sabit gider, Değişken gider, Birikim; her kategoriye aylık plan tutarı",
+      "Ay sayfasında kategori bazında plan, gerçekleşen, fark ve kullanım oranı; sınırı aşan gider kırmızı",
+      "Ay sonuna kadar günde harcanabilecek tutar: değişken gider planından harcananı düşüp kalan güne böler",
+      "Yıl sayfasında on iki ayın gelir, gider, birikim ve kalanı yan yana, aylık grafikle",
+      "Kategori açılır listeden seçilir; planda olmayan kategori Hareketler sayfasında Kategori yok diye işaretlenir"
+    ],
+    "kimin_icin": "Aylık gelir, gider ve birikimini kategori bazında planlayıp harcamalarını sınırlarla karşılaştırmak isteyen kişiler ve aileler.",
+    "etiketler": [
+      "ev ve aile",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Her kategoriye bir sınır koyun, harcadıkça yazın; hangi kalemde sınırı aştığınızı ve ay sonuna kadar günde ne harcayabileceğinizi görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/diyet-aylik-butce-plani/1-ozet.png",
+        "alt": "DİYET dosyasının Ay sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Hareketler",
+        "aciklama": "Her gelir, harcama ya da birikim bir satır: tarih, kategori, tutar, not; tür kategoriden gelir"
+      },
+      {
+        "sayfa": "Ay",
+        "aciklama": "Yıl ve ay seçimi; gelir, gider, birikim, kalan, günlük harcanabilir tutar; kategori bazında plan ve kullanım"
+      },
+      {
+        "sayfa": "Yıl",
+        "aciklama": "On iki ayın gelir, gider, birikim ve kalanı; aylık plan toplamları ve grafik"
+      },
+      {
+        "sayfa": "Plan",
+        "aciklama": "Kategori, tür (Gelir, Sabit gider, Değişken gider, Birikim) ve aylık plan tutarı"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "6 hazır komut: Sınırı aşanlar, Gerçekçi plan, Birikim hedefi, Haftalık bütçe, Harcama alışkanlığı, Ay sonu özeti"
+      }
+    ],
+    "adimlar": [
+      "Plan ve Hareketler sayfalarındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Plan sayfasına gelir ve gider kategorilerinizi, türlerini ve aylık plan tutarlarını yazın.",
+      "Hareketler sayfasına para girdikçe ve çıktıkça bir satır yazın: tarih, kategori ve tutar; tutarı hep artı sayı olarak girin.",
+      "Ay sayfasında yılı ve ayı seçip kırmızı görünen kategorilere bakın; Yıl sayfasında on iki ayı karşılaştırın."
+    ],
+    "teknik_not": "Plan sayfası 40 kategoriye, Hareketler sayfası 2000 harekete kadar hesaplar; bir kategorinin adını değiştirirseniz eski hareketlerdeki adı da değiştirin. Plan tutarı bütün aylar için aynıdır, ay ay farklı plan tutulmaz. Günlük harcanabilir tutar yalnızca içinde bulunduğunuz ay seçiliyken hesaplanır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DIYET_Aylik_Butce_Plani.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kumbara-birikim-hedefleri",
+    "ad": "KUMBARA: Birikim Hedefleri",
+    "kisa": "Birikim hedeflerinizin tutarını ve tarihini girin; her hedefte ne kadar biriktiğinizi ve yetişmek için ayda ne ayırmanız gerektiğini görün.",
+    "aciklama": "Hedefler sayfasına her hedefin adını, tutarını, tarihini ve elinizde başlangıçta olan tutarı yazarsınız; Hareketler sayfasına hedefe para koydukça Yatırma, aldıkça Çekme satırı girersiniz. Dosya her hedef için biriken tutarı, ilerlemeyi, kalan tutarı ve yetişmek için ayda gereken tutarı hesaplar; durum Tamamlandı, Süre doldu ya da Sürüyor olarak yazılır. Özet sayfası genel ilerlemeyi ve yıl içinde ay ay net yatırılan tutarı verir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Hedef başına ad, tutar, tarih ve başlangıç tutarı; biriken tutar hareketlerden hesaplanır",
+      "Her hedefte ilerleme, kalan tutar, kalan ay ve ayda gereken tutar",
+      "Durum sütunu Tamamlandı, Süre doldu ya da Sürüyor yazar; Tamamlandı yeşil, Süre doldu kırmızı görünür",
+      "Hareketlerde Yatırma ve Çekme; hedef adı açılır listeden seçilir",
+      "Özet sayfasında toplam hedef, biriken, genel ilerleme ve aylık gereken toplam",
+      "Yıl içinde ay ay net yatırılan tutar ve yıllık toplam"
+    ],
+    "kimin_icin": "Tatil, araba ya da acil durum fonu gibi birden çok birikim hedefini bir arada izlemek isteyen kişiler.",
+    "etiketler": [
+      "kişisel",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Tatil, araba, acil durum fonu: her hedefte nerede olduğunuzu ve yetişmek için ayda ne ayırmanız gerektiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kumbara-birikim-hedefleri/1-ozet.png",
+        "alt": "KUMBARA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Hedefler",
+        "aciklama": "Hedef, tutar, tarih, başlangıç tutarı; biriken, ilerleme, kalan, kalan ay, aylık gereken ve durum hesaplanır"
+      },
+      {
+        "sayfa": "Hareketler",
+        "aciklama": "Hedefe yatırılan ya da çekilen para: tarih, hedef, tür, tutar, not; net tutar hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Toplam hedef, biriken, genel ilerleme, aylık gereken toplam; yıl seçilir, ay ay net yatırılan tutar görünür"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Öncelik, Gerçekçilik, Motivasyon, Ara hedef"
+      }
+    ],
+    "adimlar": [
+      "Hedefler ve Hareketler sayfalarındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Hedefler sayfasına her hedefin adını, tutarını, tarihini ve elinizdeki başlangıç tutarını yazın.",
+      "Hedefe para koyduğunuzda ya da aldığınızda Hareketler sayfasına bir satır girin: Yatırma veya Çekme.",
+      "Hedefler sayfasına dönüp ilerlemeye, kalan tutara ve ayda gereken tutara bakın; Özet sayfasında yalnızca yılı değiştirin."
+    ],
+    "teknik_not": "Hedefler sayfası 20 satıra, Hareketler sayfası 1000 satıra kadar hesaplar. Aylık gereken tutar, kalan tutarın bugünden hedef tarihine kadar kalan ay sayısına bölümüdür; faiz ya da getiri hesaba katılmaz. Bir hedefin adını değiştirirseniz eski hareketlerdeki adı da değiştirin.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KUMBARA_Birikim_Hedefleri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "sayac-fatura-tuketim-takibi",
+    "ad": "SAYAÇ: Fatura ve Tüketim Takibi",
+    "kisa": "Elektrik, su ve doğalgaz faturalarını girin; tüketimi, birim maliyeti ve geçen yılın aynı ayına göre değişimi görün.",
+    "aciklama": "Listeler sayfasına aboneliklerinizi yazarsınız; Faturalar sayfasına her faturanın tarihini, tutarını ve varsa ilk ve son endeksini girersiniz. Endeks yazarsanız tüketim ve birim maliyet hesaplanır; aynı aboneliğin bir yıl önceki aynı ayına ait faturası varsa değişim de görünür. Özet sayfası aylık tutarları, yıl toplamını ve abonelik bazında tüketimi verir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Fatura başına ay, abonelik, ilk ve son endeks ile tutar; abonelik açılır listeden seçilir",
+      "Endeks girilirse tüketim ve birim maliyet hesaplanır",
+      "Geçen yıl aynı ayın faturası ve değişim, bir yıl önceki kayıt varsa gösterilir",
+      "Özet sayfasında aylık tutar tablosu: Elektrik, Su, Doğalgaz sütunları ve Tümü",
+      "Yıl toplamı ve aylık ortalama tutar",
+      "Aboneliğe göre tutar, tüketim ve fatura sayısı"
+    ],
+    "kimin_icin": "Elektrik, su ve doğalgaz faturalarını abonelik bazında izleyip geçen yılın aynı ayıyla karşılaştırmak isteyen hane halkları.",
+    "etiketler": [
+      "ev ve aile",
+      "maliyet"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Elektrik, su, doğalgaz: ne kadar tükettiğinizi, birimin kaça geldiğini ve geçen yılın aynı ayına göre ne değiştiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/sayac-fatura-tuketim-takibi/1-ozet.png",
+        "alt": "SAYAÇ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Faturalar",
+        "aciklama": "Fatura ayı, abonelik, endeksler ve tutar; tüketim, birim maliyet, geçen yıl aynı ay ve değişim hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi; yıl toplamı, aylık ortalama, aylık tutar tablosu; aboneliğe göre tutar, tüketim, fatura sayısı"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Abonelik seçenekleri; Faturalar sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Artış nedeni, Tasarruf, Kış bütçesi, Kontrol"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasındaki örnek abonelikleri silip kendi aboneliklerinizi yazın; Faturalar sayfasındaki sarı hücrelerin içindeki örnekleri de silin.",
+      "Faturalar sayfasına her faturanın tarihini ve tutarını girin; varsa ilk ve son endeksi de yazın.",
+      "Tüketimi, birim maliyeti ve geçen yılın aynı ayıyla farkı Faturalar sayfasında okuyun.",
+      "Özet sayfasında yalnızca yılı değiştirin; aylık tutarlara, yıl toplamına ve abonelik bazında tüketime bakın."
+    ],
+    "teknik_not": "Faturalar sayfası 600 satıra kadar hesaplar. Geçen yıl karşılaştırması, aynı aboneliğin bir yıl önceki aynı ayına ait fatura varsa gösterilir. Aylık tablonun ilk üç sütunu Elektrik, Su ve Doğalgaz adlarına göre toplar; abonelik adını değiştirirseniz o sütun boş kalır, Tümü sütunu çalışmaya devam eder.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_SAYAC_Fatura_Tuketim_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kontak-arac-gider-takibi",
+    "ad": "KONTAK: Araç Gider ve Yakıt Takibi",
+    "kisa": "Yakıt alımlarını ve araç masraflarını girin; 100 kilometredeki tüketimi, kilometre başına maliyeti ve zamanı gelen bakımları görün.",
+    "aciklama": "Listeler sayfasına aracınızın plakasını yazarsınız; Giderler sayfasına her yakıt alımında tarihi, kilometreyi, litreyi ve tutarı, diğer masraflarda tarih ve tutarı girersiniz. Dosya iki yakıt alımı arasındaki kilometreden 100 kilometredeki yakıt tüketimini, Özet sayfasında kilometre başına maliyeti hesaplar. Bakımlar sayfasına düzenli bakımlarınızı ve aralıklarını yazarsınız, zamanı gelen kırmızı olur. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Yakıt alımından Litre / 100 km, gidilen kilometre ve kilometre başına yakıt maliyeti hesaplanır",
+      "Özet sayfasında ortalama litre / 100 km ve kilometre başına toplam maliyet",
+      "Bakımlar sayfasında tarih ve kilometre aralığına göre sonraki bakım tarihi ve kilometresi",
+      "Bakım durumu Zamanı geldi, Yaklaşıyor ya da Var yazar; zamanı gelen kırmızı görünür",
+      "Aylık yakıt, diğer giderler ve litre tablosu; gider türüne göre tutar",
+      "Araç ve gider türü adları Listeler sayfasından düzenlenir"
+    ],
+    "kimin_icin": "Aracının yakıt tüketimini, masraflarını ve bakım zamanlarını tek yerden izlemek isteyen sürücüler.",
+    "etiketler": [
+      "kişisel",
+      "maliyet"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Aracınızın size kilometre başına kaça geldiğini, 100 kilometrede kaç litre yaktığını ve hangi bakımın zamanı geldiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kontak-arac-gider-takibi/1-ozet.png",
+        "alt": "KONTAK dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Giderler",
+        "aciklama": "Yakıt alımları ve masraflar: tarih, araç, tür, kilometre, litre, tutar; tüketim ve km başına yakıt hesaplanır"
+      },
+      {
+        "sayfa": "Bakımlar",
+        "aciklama": "İş, son yapılan tarih ve kilometre, aralıklar; sonraki tarih, sonraki km ve durum hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi; yıl gideri, yakıt, litre, ortalama tüketim, km başına maliyet; aylık tablo, gider türüne göre tutar"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Araç ve gider türü seçenekleri; Giderler sayfasındaki açılır listeler buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Tüketim yorumu, Yıllık maliyet, Bakım planı, Tasarruf"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasındaki örnek plakayı silip aracınızın plakasını yazın; Giderler ve Bakımlar sayfalarındaki sarı hücrelerin içindeki örnekleri de silin.",
+      "Her yakıt alımında Giderler sayfasına tarihi, kilometreyi, litreyi ve tutarı girin; diğer masraflarda kilometre ve litre boş kalabilir.",
+      "Bakımlar sayfasına düzenli bakımlarınızı, en son ne zaman ve kaç kilometrede yapıldığını ve aralıklarını yazın.",
+      "Özet sayfasında yalnızca yılı değiştirin; aylık yakıt ve masrafa, ortalama tüketime ve kilometre başına maliyete bakın."
+    ],
+    "teknik_not": "Giderler sayfası 1000 satıra, Bakımlar sayfası 40 satıra kadar hesaplar; kilometreye bağlı bakım uyarısı Giderler sayfasındaki en yüksek kilometre kaydına göre çalışır. Tüketim, iki yakıt alımı arasındaki kilometreye bölünerek bulunur; doğru sonuç için depoyu her seferinde aynı seviyeye kadar doldurun ve hiçbir alımı atlamayın. Kilometre başına maliyet, bütün giderlerin kayıtlardaki en düşük ve en yüksek kilometre arasındaki farka bölümüdür.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KONTAK_Arac_Gider_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "esya-ev-envanteri",
+    "ad": "EŞYA: Ev Eşyası ve Garanti Takibi",
+    "kisa": "Evdeki eşyaları oda, değer ve garanti bitişiyle listeleyin; toplam değeri ve garantisi bitmek üzere olanları görün.",
+    "aciklama": "Listeler sayfasında odalarınızı ve kategorilerinizi kendi evinize göre düzenler, Eşyalar sayfasına her eşyayı odası, alış tarihi, değeri ve garanti bitişiyle yazarsınız; garanti bitiş tarihini faturadan ya da garanti belgesinden alın. Dosya her eşyanın garanti durumunu ve yaşını hesaplar. Özet sayfası toplam değeri, oda ve kategori dağılımını ve garantisi bitmek üzere olanları gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Eşya başına oda, kategori, alış tarihi, değer, garanti bitişi, marka ve seri no",
+      "Garanti sütunu garantinin sürdüğünü, bitmek üzere olduğunu ya da bittiğini yazar; bitiş tarihi boşsa Belirsiz",
+      "Alış tarihinden eşyanın yaşı yıl olarak hesaplanır",
+      "Özet sayfasında eşya sayısı, toplam değer, garantisi süren ve bitmek üzere olan eşya sayısı",
+      "Odaya ve kategoriye göre adet ve değer tabloları",
+      "Garantisi en yakın bitecek eşyaların listesi, bitiş tarihleriyle"
+    ],
+    "kimin_icin": "Evindeki eşyaları, değerlerini ve garanti sürelerini sigorta ya da taşınma için kayıt altına almak isteyen aileler.",
+    "etiketler": [
+      "ev ve aile",
+      "stok"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Evde ne olduğunu, kaça alındığını ve garantisinin ne zaman bittiğini görün; sigorta ya da taşınma için hazır bir listeniz olsun.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/esya-ev-envanteri/1-ozet.png",
+        "alt": "EŞYA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Eşyalar",
+        "aciklama": "Eşya, oda, kategori, alış tarihi, değer, garanti bitişi, marka ve seri no; garanti durumu ve yaş hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Eşya sayısı, toplam değer, garantisi süren ve bitmek üzere olanlar; oda ve kategori dağılımı; en yakın garanti bitişleri"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Oda ve kategori seçenekleri; Eşyalar sayfasındaki açılır listeler buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Garanti hatırlatma, Sigorta özeti, Yenileme planı, Taşınma listesi"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasında odaları ve kategorileri kendi evinize göre düzenleyin; Eşyalar sayfasındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Her eşyayı odası, alış tarihi, değeri ve garanti bitişiyle yazın; garanti bitişini faturadan ya da garanti belgesinden alın.",
+      "Özet sayfasında toplam değere, oda ve kategori dağılımına ve garantisi bitmek üzere olanlara bakın."
+    ],
+    "teknik_not": "Eşyalar sayfası 400 satıra kadar hesaplar. Değer sütununa alış bedelini ya da bugünkü tahmini değeri yazabilirsiniz; hangisini seçtiyseniz hep aynısını kullanın. Liste sigorta başvurusunda yardımcı olur ama poliçe ya da ekspertiz yerine geçmez.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_ESYA_Ev_Envanteri.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "kiler-erzak-takibi",
+    "ad": "KİLER: Erzak ve Son Kullanma Tarihi Takibi",
+    "kisa": "Kilerdeki ürünleri miktar ve son kullanma tarihiyle yazın; tarihi geçenleri, azalanları ve alışveriş listesini görün.",
+    "aciklama": "Kiler sayfasına ürünleri, elinizdeki miktarı, altına düşünce almak istediğiniz en az miktarı ve son kullanma tarihini yazar, kullandıkça miktarı güncellersiniz. Dosya her ürünün kalan gününü ve durumunu (Tarihi geçti, Bu hafta bitiyor, Azaldı, Tamam) belirler. Özet sayfasında tarihi yaklaşan ürünler ve alışveriş listesi kendiliğinden çıkar. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Ürün başına kategori, miktar, birim, en az miktar ve son kullanma tarihi",
+      "Kalan gün ve durum: Tarihi geçti, Bu hafta bitiyor, Azaldı ya da Tamam; renkle ayrılır",
+      "Miktar en az miktara eşit ya da altındaysa ürün alışveriş listesine girer",
+      "Özet sayfasında tarihi geçen, bu hafta biten ve azalan ürün sayıları",
+      "Son kullanma tarihi en yakın ürünlerin listesi, kalan günüyle",
+      "Ürün kategorileri Listeler sayfasından düzenlenir, Kiler sayfasında açılır listeyle seçilir"
+    ],
+    "kimin_icin": "Evdeki erzakı, son kullanma tarihlerini ve alışveriş ihtiyacını takip etmek isteyen aileler.",
+    "etiketler": [
+      "ev ve aile",
+      "stok"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Evde ne olduğunu, neyin azaldığını ve hangisinin tarihinin geçmek üzere olduğunu görün; alışveriş listeniz kendiliğinden çıksın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/kiler-erzak-takibi/1-ozet.png",
+        "alt": "KİLER dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Kiler",
+        "aciklama": "Ürün, kategori, miktar, birim, en az miktar, son kullanma; kalan gün ve durum hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Tarihi geçen, bu hafta biten, azalan ürün sayıları; tarihi en yakın ürünler ve alışveriş listesi"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Ürün kategorisi seçenekleri; Kiler sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Yemek fikri, Alışveriş listesi, İsraf analizi, Stok önerisi"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasında kategorileri düzenleyin; Kiler sayfasındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Ürünleri, miktarı, en az miktarı ve son kullanma tarihini yazın.",
+      "Ürünü kullandıkça Kiler sayfasında miktarı güncelleyin.",
+      "Özet sayfasında tarihi yaklaşan ürünlere ve alışveriş listesine bakın."
+    ],
+    "teknik_not": "Kiler sayfası 300 satıra kadar hesaplar. Miktar, en az miktara eşit ya da altındaysa ürün alışveriş listesine girer. Aynı üründen farklı tarihli paketler varsa en yakın tarihi yazın; aynı ürün adı iki satırda tekrarlanamaz.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KILER_Erzak_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "menu-yemek-plani",
+    "ad": "MENÜ: Haftalık Yemek Planı ve Alışveriş Listesi",
+    "kisa": "Yemeklerinizi ve tariflerinizi yazıp haftanın öğünlerine yerleştirin; hangi malzemeden ne kadar alacağınızı dosya toplasın.",
+    "aciklama": "Listeler sayfasına kullandığınız malzemeleri, Yemekler sayfasına yemeklerinizi, Tarifler sayfasına her yemeğin malzemelerini miktarıyla yazarsınız. Plan sayfasında haftanın her günü için kahvaltı, öğle ve akşam yemeğini listeden seçersiniz. Alışveriş sayfası seçtiğiniz yemeklere göre her malzemeden bu hafta ne kadar gerektiğini kendiliğinden toplar. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Plan sayfasında her gün için kahvaltı, öğle ve akşam yemeği açılır listeden seçilir",
+      "Tarifler sayfasında her satır bir yemeğin bir malzemesi; miktar yemeğin tamamı için yazılır",
+      "Bu hafta gereken miktar, yemeğin o hafta kaç kez planlandığıyla çarpılarak bulunur",
+      "Alışveriş sayfasında malzeme bazında gereken miktar ve birim",
+      "Planlanan öğün sayısı ve farklı yemek sayısı",
+      "Yemekler sayfası her yemeğin bu hafta kaç kez planlandığını sayar"
+    ],
+    "kimin_icin": "Haftalık yemeklerini önceden planlayıp alışveriş listesini malzeme bazında çıkarmak isteyen aileler ve evde yemek yapanlar.",
+    "etiketler": [
+      "ev ve aile",
+      "planlama"
+    ],
+    "sayfa_sayisi": 7,
+    "soz": "Haftanın yemeklerini seçin; hangi malzemeden ne kadar alacağınızı dosya toplasın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/menu-yemek-plani/1-ozet.png",
+        "alt": "MENÜ dosyasının Plan sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Plan",
+        "aciklama": "Haftanın günleri için kahvaltı, öğle ve akşam yemeği seçimi; yeni hafta için hücreler silinip yeniden doldurulur"
+      },
+      {
+        "sayfa": "Alışveriş",
+        "aciklama": "Planlanan öğün ve farklı yemek sayısı; bu hafta alınacak malzemelerin miktarı ve birimi"
+      },
+      {
+        "sayfa": "Yemekler",
+        "aciklama": "Yemek listesi, kaç kişilik olduğu ve bu hafta kaç kez planlandığı"
+      },
+      {
+        "sayfa": "Tarifler",
+        "aciklama": "Her yemeğin malzemeleri: malzeme, miktar, birim; bu hafta gereken miktar hesaplanır"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Malzeme seçenekleri; Tarifler sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Yeni tarif, Dengeli hafta, Market sırası, Bütçe"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasındaki örnek malzemeleri silip kullandığınız malzemeleri yazın; Plan, Yemekler ve Tarifler sayfalarındaki sarı hücrelerin içindeki örnekleri de silin.",
+      "Yemekler sayfasına yemeklerinizi, Tarifler sayfasına her yemeğin malzemelerini miktarıyla girin.",
+      "Plan sayfasında haftanın öğünleri için yemekleri listeden seçin; yeni hafta için hücreleri silip yeniden doldurun.",
+      "Alışveriş sayfasında her malzemeden ne kadar gerektiğine bakın; almadan önce dolabınızı kontrol edin."
+    ],
+    "teknik_not": "Yemekler sayfası 60 satıra, Tarifler sayfası 600 satıra kadar hesaplar. Bir malzemeyi bütün tariflerde aynı birimle yazın (hep kg ya da hep adet); dosya birim çevirmez. Alışveriş listesi evde olan malzemeyi düşmez, almadan önce dolabınıza bakın.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_MENU_Yemek_Plani.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "davet-etkinlik-butcesi",
+    "ad": "DAVET: Etkinlik Bütçesi ve Davetli Listesi",
+    "kisa": "Etkinlik harcamalarını ve davetlileri girin; bütçe durumunu, kalan ödemeleri, gelen kişi sayısını ve masa doluluğunu görün.",
+    "aciklama": "Kalemler sayfasına harcama kalemlerini planlanan tutarıyla yazar, fiyat kesinleşince gerçekleşeni, ödeme yaptıkça ödeneni girersiniz. Davetliler sayfasına davetiyeleri, kişi sayısını, yanıtı ve masa numarasını yazarsınız. Özet sayfası bütçe durumunu, kalan ödemeleri, gelen kişi sayısını, kişi başı maliyeti ve masa doluluğunu gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kalem başına planlanan, gerçekleşen ve ödenen tutar; güncel tutar, kalan ödeme ve plan farkı hesaplanır",
+      "Gerçekleşen yazılmamışsa planlanan tutar güncel tutar sayılır",
+      "Davetli başına taraf, kişi sayısı, yanıt (Geliyor, Gelmiyor, Yanıt yok) ve masa numarası",
+      "Özet sayfasında bütçeden kalan, kalan ödeme, gelen kişi ve kişi başı maliyet",
+      "Masa düzeni tablosu masa başına gelen kişiyi sayar; kapasiteyi aşan masa Taştı olarak kırmızı görünür",
+      "Kategoriye göre bütçe ve tarafa göre davetli dağılımı"
+    ],
+    "kimin_icin": "Düğün, nişan ya da açılış gibi bir etkinliğin bütçesini ve davetli listesini birlikte yönetmek isteyen kişiler.",
+    "etiketler": [
+      "ev ve aile",
+      "bütçe"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Düğün, nişan, açılış: bütçenin ne durumda olduğunu, kime ne kadar ödeneceğini, kaç kişinin geldiğini ve masaların dolup dolmadığını görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/davet-etkinlik-butcesi/1-ozet.png",
+        "alt": "DAVET dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Kalemler",
+        "aciklama": "Kalem, kategori, planlanan, gerçekleşen, ödenen tutar; güncel tutar, kalan ödeme ve plan farkı hesaplanır"
+      },
+      {
+        "sayfa": "Davetliler",
+        "aciklama": "Her satır bir davetiye: ad, taraf, kişi sayısı, yanıt, masa numarası, not"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Toplam bütçe ve masa kapasitesi girişi; bütçe durumu, gelen kişi, kişi başı maliyet, masa düzeni, dağılımlar"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Kategori ve taraf seçenekleri; Kalemler ve Davetliler sayfalarındaki açılır listeler buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Bütçe kısma, Yanıt hatırlatma, Ödeme takvimi, Kontrol listesi"
+      }
+    ],
+    "adimlar": [
+      "Kalemler ve Davetliler sayfalarındaki sarı hücrelerin içindeki örnekleri silin; Listeler sayfasında kategori ve taraf seçeneklerini düzenleyin.",
+      "Kalemler sayfasına harcama kalemlerini planlanan tutarıyla yazın; fiyat kesinleşince Gerçekleşen, ödeme yaptıkça Ödenen sütununu doldurun.",
+      "Davetliler sayfasına her davetiyeyi yazın; Kişi sayısı sütununa gelecek toplam kişiyi, ayrıca yanıtı ve masa numarasını girin.",
+      "Özet sayfasına toplam bütçeyi ve bir masanın kaç kişilik olduğunu yazın; bütçe durumu ve masa doluluğu görünür."
+    ],
+    "teknik_not": "Kalemler sayfası 100 satıra, Davetliler sayfası 500 satıra kadar hesaplar. Güncel tutar için Gerçekleşen yazılmışsa o, yazılmamışsa Planlanan tutar esas alınır. Kişi başı maliyet, güncel toplamın Geliyor yanıtı verenlerin kişi sayısına bölümüdür.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DAVET_Etkinlik_Butcesi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "valiz-seyahat-plani",
+    "ad": "VALİZ: Seyahat Planı ve Bütçesi",
+    "kisa": "Seyahat bütçenizi ve gün gün planınızı yazıp harcamaları girin; dövizli tutarlar liraya çevrilir, kişi başı maliyet ve kalan bütçe çıkar.",
+    "aciklama": "Özet sayfasına bütçenizi, döviz kurunu ve kişi sayısını, Plan sayfasına gün gün nerede olacağınızı ve tahmini maliyeti yazarsınız. Yolculukta her harcamayı Harcamalar sayfasına girersiniz; para birimi Döviz olanlar kura göre liraya çevrilir. Dosya harcananı, bütçeden kalanı, kişi başı tutarı, günlük ortalamayı ve kategori paylarını hesaplar. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Plan sayfasında gün gün tarih, şehir, yapılacaklar ve tahmini maliyet",
+      "Harcamada para birimi TL ya da Döviz; dövizli tutar tek bir kurla liraya çevrilir",
+      "Özet sayfasında harcanan, bütçeden kalan, kişi başı, günlük ortalama ve planlanan maliyet",
+      "Kategoriye göre tutar ve toplam içindeki pay",
+      "Harcama kategorileri Listeler sayfasından düzenlenir, Harcamalar sayfasında açılır listeyle seçilir"
+    ],
+    "kimin_icin": "Tatil ya da gezi bütçesini ve gün gün programını kişi başı maliyetle birlikte takip etmek isteyen kişiler ve aileler.",
+    "etiketler": [
+      "kişisel",
+      "planlama"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Gün gün planınızı, dövizli harcamalarınızı, kişi başı maliyeti ve bütçeden kalanı görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/valiz-seyahat-plani/1-ozet.png",
+        "alt": "VALİZ dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Harcamalar",
+        "aciklama": "Tarih, kategori, açıklama, tutar ve para birimi; TL karşılığı kura göre hesaplanır"
+      },
+      {
+        "sayfa": "Plan",
+        "aciklama": "Gün gün tarih, şehir, yapılacaklar ve tahmini maliyet"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Bütçe, döviz kuru ve kişi sayısı girişi; harcanan, kalan, kişi başı, günlük ortalama ve kategori payı"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Harcama kategorisi seçenekleri; Harcamalar sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Rota önerisi, Bütçe kontrolü, Bavul listesi, Kişi başı hesap"
+      }
+    ],
+    "adimlar": [
+      "Özet sayfasındaki sarı hücrelere toplam bütçenizi, bir birim dövizin kaç lira olduğunu (ödediğiniz günkü kuru) ve kişi sayısını yazın.",
+      "Plan sayfasındaki örnekleri silip gün gün nerede olacağınızı, ne yapacağınızı ve tahmini maliyeti yazın.",
+      "Harcamalar sayfasındaki örnekleri silip yolculukta her harcamayı bir satır olarak girin; yabancı parayla ödediyseniz para birimini Döviz seçin.",
+      "Özet sayfasında harcananı, bütçeden kalanı ve kişi başı maliyeti izleyin."
+    ],
+    "teknik_not": "Harcamalar sayfası 500 satıra, Plan sayfası 60 satıra kadar hesaplar. Dosya tek bir döviz kuru kullanır; farklı para birimleri ya da değişen kur için tutarı liraya kendiniz çevirip TL olarak girin. Günlük ortalama, ilk ve son harcama tarihi arasındaki gün sayısına bölünerek bulunur.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_VALIZ_Seyahat_Plani.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "ritim-aliskanlik-takibi",
+    "ad": "RİTİM: Alışkanlık Takibi",
+    "kisa": "Her gün yaptığınız alışkanlığın hücresine 1 yazın; dosya toplam günü, haftalık hedefi, serinizi ve aylık gidişi hesaplasın.",
+    "aciklama": "Alışkanlıklar sayfasına yılı, takip edeceğiniz alışkanlıkları ve haftada kaç gün yapmayı hedeflediğinizi yazarsınız; Takip sayfasında her gün yaptığınız alışkanlığın hücresine 1 yazarsınız, bugünün satırı yeşil görünür. Alışkanlıklar sayfasında toplam gün, bu ay, bu hafta ile hedef, son 30 gün oranı, şimdiki seri ve en uzun seri hesaplanır; Aylar sayfası her alışkanlığı her ay kaç gün yaptığınızı gösterir. AI Komutları sayfasında 6 hazır komut var.",
+    "ozellikler": [
+      "Takip sayfasında yılın her günü bir satır; yaptığınız günün hücresine 1 yazılır",
+      "Bugünün satırı yeşil çerçeveli görünür, işaretlenen günler renkle ayrılır",
+      "Alışkanlık başına haftalık hedef; bu hafta kaç gün yapıldığı hedefle birlikte gösterilir",
+      "Toplam gün, bu ay, son 30 gün oranı, şimdiki seri ve en uzun seri",
+      "Aylar sayfasında her alışkanlığın ay ay yapıldığı gün sayısı ve toplamı"
+    ],
+    "kimin_icin": "Günlük alışkanlıklarını işaretleyip serisini, haftalık hedefini ve aylık gidişini görmek isteyen kişiler.",
+    "etiketler": [
+      "kişisel",
+      "planlama"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Her gün bir işaret koyun; serinizi, haftalık hedefinizi ve aylık gidişinizi dosya saysın.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/ritim-aliskanlik-takibi/1-ozet.png",
+        "alt": "RİTİM dosyasının Alışkanlıklar sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Takip",
+        "aciklama": "Yılın her günü bir satır; yaptığınız alışkanlığın hücresine 1 yazılır, bugünün satırı yeşil çerçevelidir"
+      },
+      {
+        "sayfa": "Alışkanlıklar",
+        "aciklama": "Yıl, alışkanlıklar ve haftalık hedef; toplam gün, bu ay, bu hafta, son 30 gün, şimdiki seri, en uzun seri"
+      },
+      {
+        "sayfa": "Aylar",
+        "aciklama": "Her alışkanlığın ay ay yapıldığı gün sayısı ve toplamı"
+      },
+      {
+        "sayfa": "Seri",
+        "aciklama": "Art arda gün sayısının ara hesabı; bu sayfa değiştirilmez"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "6 hazır komut: Gidiş yorumu, Kopma günleri, Hedef ayarı, Küçük adım, Aylık özet, Hatırlatma planı"
+      }
+    ],
+    "adimlar": [
+      "Takip sayfasındaki örnek işaretleri silin; Alışkanlıklar sayfasındaki örnek alışkanlıkların yerine kendi alışkanlıklarınızı yazın.",
+      "Alışkanlıklar sayfasına yılı, takip edeceğiniz alışkanlıkları ve haftada kaç gün yapmayı hedeflediğinizi yazın.",
+      "Takip sayfasında her gün, yaptığınız alışkanlığın hücresine 1 yazın; yapmadıysanız boş bırakın.",
+      "Alışkanlıklar sayfasına dönüp toplam günü, bu ayı, bu haftayı, serinizi ve hedefe uyumu okuyun; Aylar sayfasında ay ay dağılıma bakın."
+    ],
+    "teknik_not": "Dosya 15 alışkanlığı ve bir yılı tutar; yeni yıl için boş bir kopyayla başlayın. Seri, art arda işaretlenen gün sayısıdır: bugünü henüz işaretlemediyseniz dünkü seri gösterilir, dün de boşsa seri sıfırlanır. Hafta pazartesi başlar.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_RITIM_Aliskanlik_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "antrenman-gunlugu",
+    "ad": "ANTRENMAN: Antrenman Günlüğü",
+    "kisa": "Her antrenmanda hareket, set, tekrar ve ağırlığı girin; hacmi, tahmini 1 tekrarı, rekorları ve aylık yükü görün.",
+    "aciklama": "Listeler sayfasına yaptığınız hareketleri yazarsınız; Günlük sayfasına her antrenmanda hareketi, seti, tekrarı ve ağırlığı girersiniz. Dosya her satır için hacmi (set × tekrar × ağırlık) ve tahmini 1 tekrarı hesaplar, bir hareketin en yüksek değerine ulaşan satıra Rekor yazar. Özet sayfası aylık antrenman günü ve hacmi, hareket bazında en yüksek ağırlığı ve tahmini 1 tekrarı verir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Günlük sayfasında her satır bir set grubu: tarih, hareket, set, tekrar ve ağırlık",
+      "Hacim (set × tekrar × ağırlık) ve tahmini 1 tekrar her satırda hesaplanır",
+      "Tahmini 1 tekrar, ağırlık × (1 + tekrar / 30) formülüyle bulunur",
+      "Bir hareketin en yüksek tahmini 1 tekrar değerine ulaşan satıra Rekor yazılır",
+      "Özet sayfasında yıllık antrenman günü, toplam hacim, rekor sayısı ve aylık tablo",
+      "Harekete göre en yüksek ağırlık, en yüksek tahmini 1 tekrar ve toplam hacim"
+    ],
+    "kimin_icin": "Antrenmanlarını hareket, set, tekrar ve ağırlıkla kaydedip ilerlemesini ve rekorlarını izlemek isteyen sporcular.",
+    "etiketler": [
+      "kişisel",
+      "planlama"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Hangi harekette ne kaldırdığınızı, rekorunuzun ne olduğunu ve aylık yükünüzün nasıl gittiğini görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/antrenman-gunlugu/1-ozet.png",
+        "alt": "ANTRENMAN dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Günlük",
+        "aciklama": "Tarih, hareket, set, tekrar, ağırlık; hacim, tahmini 1 tekrar ve rekor hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl seçimi; antrenman günü, toplam hacim, rekor sayısı, aylık tablo ve harekete göre ağırlık ile tahmini 1 tekrar"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Hareket seçenekleri; Günlük sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Gidiş, Denge, Sonraki hafta, Kayıt kontrolü"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasındaki örnek hareketleri silip yaptığınız hareketleri yazın; Günlük sayfasındaki sarı hücrelerin içindeki örnekleri de silin.",
+      "Her antrenmanda Günlük sayfasına bir set grubu için bir satır girin: tarih, hareket, set, tekrar ve ağırlık.",
+      "Özet sayfasında yalnızca yılı değiştirin; aylık antrenman günü ve hacme, hareket bazında en yüksek değerlere bakın."
+    ],
+    "teknik_not": "Günlük sayfası 2000 satıra kadar hesaplar. Tahmini 1 tekrar, ağırlık × (1 + tekrar / 30) formülüyle bulunan yaklaşık değerdir; gerçek en yüksek kaldırışınız farklı olabilir. Dosya antrenman önerisi vermez; ağrı ya da sakatlıkta bir uzmana danışın.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_ANTRENMAN_Gunlugu.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "okuma-kitap-takibi",
+    "ad": "OKUMA: Kitap Okuma Takibi",
+    "kisa": "Okuduğunuz kitapları sayfa, tarih ve puanla yazın; yıllık hedefinizi, aylık kitap ve sayfa sayısını, en sevdiklerinizi görün.",
+    "aciklama": "Kitaplar sayfasına kitabı, yazarı, türü, sayfa sayısını, başlama ve bitiş tarihini, bitince puanını yazarsınız. Dosya her kitabın durumunu (Bitti, Okunuyor, Sırada), kaç günde okunduğunu ve günde kaç sayfa okunduğunu hesaplar. Özet sayfasına yıllık hedefinizi girer; aylık biten kitap ve sayfayı, tür dağılımını ve en yüksek puanlı kitapları görürsünüz. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Kitap başına yazar, tür, sayfa, başlama ve bitiş tarihi, puan",
+      "Durum kendiliğinden yazılır: Bitti, Okunuyor ya da Sırada; durumlar renkle ayrılır",
+      "Her kitap için okuma süresi (gün) ve günde okunan sayfa",
+      "Yıllık kitap hedefine göre ilerleme, okunan sayfa ve ortalama puan",
+      "Aylık biten kitap ve sayfa tablosu; türe göre kitap sayısı",
+      "En yüksek puanlı kitapların listesi"
+    ],
+    "kimin_icin": "Okuduğu kitapları, sayfa sayılarını ve yıllık okuma hedefini takip etmek isteyen okurlar.",
+    "etiketler": [
+      "kişisel",
+      "planlama"
+    ],
+    "sayfa_sayisi": 5,
+    "soz": "Bu yıl kaç kitap ve kaç sayfa okuduğunuzu, hedefinizin neresinde olduğunuzu ve en sevdiklerinizin hangileri olduğunu görün.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/okuma-kitap-takibi/1-ozet.png",
+        "alt": "OKUMA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Kitaplar",
+        "aciklama": "Kitap, yazar, tür, sayfa, başlama, bitiş, puan; durum, gün ve günde sayfa hesaplanır"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Yıl ve yıllık hedef girişi; biten kitap, sayfa, ortalama puan, aylık tablo, tür dağılımı, en yüksek puanlılar"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Tür seçenekleri; Kitaplar sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Sıradaki kitap, Okuma hızı, Yıl özeti, Not çıkarma"
+      }
+    ],
+    "adimlar": [
+      "Listeler sayfasında türleri düzenleyin; Kitaplar sayfasındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Kitabı, sayfa sayısını, başlama ve bitiş tarihini yazın; kitap bitince puanını girin.",
+      "Özet sayfasına yılı ve yıllık kitap hedefinizi yazın.",
+      "Aylık biten kitap ve sayfaya, tür dağılımına ve en yüksek puanlı kitaplara Özet sayfasından bakın."
+    ],
+    "teknik_not": "Kitaplar sayfası 500 satıra kadar hesaplar. Durum, bitiş tarihi varsa Bitti, yalnız başlama tarihi varsa Okunuyor, ikisi de yoksa Sırada olarak yazılır. Kitap, bittiği yıla ve aya sayılır.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_OKUMA_Kitap_Takibi.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "karne-not-ortalama",
+    "ad": "KARNE: Ders Notu ve Ortalama Hesaplama",
+    "kisa": "Vize ve final notlarını girin; ders ortalamasını, harf notunu, dönem ve genel ortalamayı ve finalden gereken notu görün.",
+    "aciklama": "Not Tablosu sayfasına okulunuzun harf notu sınırlarını ve katsayılarını, Dersler sayfasına derslerinizi kredi, vize, vize ağırlığı ve final notuyla yazarsınız. Dosya her dersin ortalamasını, harf notunu ve katsayısını hesaplar; Özet sayfası dönem ortalamalarını ve genel ortalamayı verir. Final notu boşsa ve hedef ortalama yazdıysanız finalden gereken notu da gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Ders başına dönem, kredi, vize, vize ağırlığı, final notu ve hedef ortalama",
+      "Ders ortalaması, harf notu ve katsayı Not Tablosu sayfasındaki sınırlara göre bulunur",
+      "Final boşsa ve hedef ortalama yazılmışsa finalden gereken not hesaplanır; 100'ü aşarsa kırmızı görünür",
+      "Özet sayfasında genel ortalama, notu girilen kredi ve ders sayısı, bekleyen ders sayısı",
+      "Dönem bazında kredi ve dönem ortalaması",
+      "Harf notu sınırları ve katsayıları kendi okulunuza göre düzenlenir"
+    ],
+    "kimin_icin": "Vize ve final notlarından ders, dönem ve genel ortalamasını hesaplamak, finalden gereken notu görmek isteyen öğrenciler.",
+    "etiketler": [
+      "okul",
+      "planlama"
+    ],
+    "sayfa_sayisi": 6,
+    "soz": "Vize ve final notlarınızı girin; ders ortalaması, harf notu, dönem ve genel ortalama çıksın, finalden kaç almanız gerektiğini de söylesin.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/karne-not-ortalama/1-ozet.png",
+        "alt": "KARNE dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Dersler",
+        "aciklama": "Dönem, ders, kredi, vize, vize ağırlığı, final, hedef ortalama; ortalama, harf, katsayı, finalden gereken not"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Genel ortalama, notu girilen kredi ve ders, bekleyen ders; dönem bazında kredi ve dönem ortalaması"
+      },
+      {
+        "sayfa": "Not Tablosu",
+        "aciklama": "Okulunuzun harf notu alt sınırları ve katsayıları"
+      },
+      {
+        "sayfa": "Listeler",
+        "aciklama": "Dönem seçenekleri; Dersler sayfasındaki açılır liste buradan gelir"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Çalışma planı, Ortalama yükseltme, Ders tekrarı, Konu özeti"
+      }
+    ],
+    "adimlar": [
+      "Not Tablosu sayfasındaki örnek sınırları silip okulunuzun harf notu alt sınırlarını ve katsayılarını küçükten büyüğe sıralı yazın.",
+      "Listeler sayfasında dönem adlarını düzenleyin; Dersler sayfasındaki sarı hücrelerin içindeki örnekleri silin.",
+      "Dersler sayfasına derslerinizi kredi, vize, vize ağırlığı ve final notuyla girin; vize ağırlığını oran olarak yazın.",
+      "Final henüz yoksa Hedef ortalama sütununa hedefinizi yazıp Finalden gereken sütununa bakın; genel ve dönem ortalamasını Özet sayfasında görün."
+    ],
+    "teknik_not": "Dersler sayfası 80 satıra kadar hesaplar; dosya bir vize ve bir final varsayar, ödev ya da ikinci vize varsa ağırlıklı ortalamasını vize notu olarak yazın. Finalden gereken not, final boşsa ve hedef ortalama yazılmışsa gösterilir; 100'den büyük çıkıyorsa hedef o derste ulaşılamaz demektir. Sonuçlar resmî değildir, kesin ortalama için okulunuzun öğrenci bilgi sistemini esas alın.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_KARNE_Not_Ortalama.xlsx"
+  },
+  {
+    "raf": "excel-klinigi",
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": false,
+    "makro": false,
+    "one_cikan": false,
+    "ornek": false,
+    "excel_surum": "Excel 2016, 2019 ve Microsoft 365",
+    "slug": "yoklama-devam-takibi",
+    "ad": "YOKLAMA: Sınıf Yoklama ve Devam Takibi",
+    "kisa": "Her derste öğrencileri X, D, G ya da İ ile işaretleyin; devam oranını, sınırı aşanları ve sınıra yaklaşanları görün.",
+    "aciklama": "Yoklama sayfasına öğrencileri alt alta, ders tarihlerini üst satıra yazar, her ders için X (geldi), D (devamsız), G (geç) ya da İ (izinli) işaretlersiniz; devamsızlık sınırını da siz belirlersiniz. Dosya her öğrencinin devamsız, geç ve izinli ders sayısını ve devam oranını hesaplar, sınırı aşana ya da yaklaşana uyarı yazar. Özet sayfası ortalama devamı, sınırı aşanları ve en çok devamsızlığı olanları gösterir. AI Komutları sayfasında 4 hazır komut var.",
+    "ozellikler": [
+      "Ders tarihleri üst satırda, öğrenciler alt alta; hücreye X, D, G ya da İ yazılır veya listeden seçilir",
+      "Öğrenci başına devamsız, geç ve izinli ders sayısı ile devam oranı",
+      "Uyarı sütunu: Sınırı aştı ya da Sınıra yakın; D ve G işaretleri renkle ayrılır",
+      "Devamsızlık sınırı Yoklama sayfasındaki tek bir hücreden yüzde olarak belirlenir",
+      "Özet sayfasında öğrenci, işlenen ders, ortalama devam, sınırı aşan ve sınıra yakın sayıları",
+      "En çok devamsızlığı olan öğrencilerin listesi, devamsız ders sayısı ve devam oranıyla"
+    ],
+    "kimin_icin": "Sınıf ya da grubunun yoklamasını tutup devamsızlık sınırına yaklaşan öğrencileri erken görmek isteyen öğretmenler.",
+    "etiketler": [
+      "okul",
+      "personel"
+    ],
+    "sayfa_sayisi": 4,
+    "soz": "Her derste kimin geldiğini ve kimin gelmediğini görün; devamsızlık sınırına yaklaşan öğrenciyi geç olmadan fark edin.",
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/yoklama-devam-takibi/1-ozet.png",
+        "alt": "YOKLAMA dosyasının Özet sayfası, örnek verilerle"
+      }
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "Başla",
+        "aciklama": "Nasıl kullanılır, bilmeniz gerekenler ve hücre renklerinin anlamı"
+      },
+      {
+        "sayfa": "Yoklama",
+        "aciklama": "Öğrenciler, ders tarihleri ve X, D, G, İ işaretleri; devamsızlık sınırı, devam oranı ve uyarı"
+      },
+      {
+        "sayfa": "Özet",
+        "aciklama": "Öğrenci sayısı, işlenen ders, ortalama devam, sınırı aşan ve sınıra yakın; en çok devamsızlığı olanlar"
+      },
+      {
+        "sayfa": "AI Komutları",
+        "aciklama": "4 hazır komut: Veli mesajı, Örüntü, Özet rapor, Katılım"
+      }
+    ],
+    "adimlar": [
+      "Yoklama sayfasındaki örnek öğrenci adlarını ve işaretleri silin; öğrencileri alt alta, ders tarihlerini üst satıra yazın.",
+      "Devamsızlık sınırı hücresine sınırı yüzde olarak yazın.",
+      "Her ders için öğrencinin hücresine X (geldi), D (devamsız), G (geç) ya da İ (izinli) yazın veya listeden seçin.",
+      "Uyarı sütununda Sınırı aştı ve Sınıra yakın yazan öğrencilere, Özet sayfasında ortalama devama ve en çok devamsızlığı olanlara bakın."
+    ],
+    "teknik_not": "Dosya 40 öğrenciyi ve 60 dersi tutar; bir dosya bir sınıfı ya da grubu içerir. Devam oranı, geldi ve geç sayılan derslerin o öğrenci için işaretlenmiş bütün derslere oranıdır. Devamsız ders oranı sınırı aşarsa Sınırı aştı, sınırın yüzde 70'ini geçerse Sınıra yakın yazar; izinli dersler devamsız sayılmaz.",
+    "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_YOKLAMA_Devam_Takibi.xlsx"
   }
 ]
