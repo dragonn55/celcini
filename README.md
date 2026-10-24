@@ -68,16 +68,18 @@ npm run onizleme                      # önizlemeyi derle ve http://localhost:30
    | `ozellikler[]` | "Ne yapar" maddeleri. |
    | `kimin_icin` | Tek paragraf. |
    | `etiketler[]` | Raf sayfasındaki etiket süzgecine girer. `yapay zeka` etiketi turuncu rozet olur. |
-   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. |
-   | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez.** |
-   | `gorseller[]` | `"/assets/img/urun/planla-1.png"` ya da `{"src": "...", "alt": "..."}`. Boşsa "Ekran görüntüleri hazırlanıyor" kutusu çıkar. |
+   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. `null` ise fiyat yazmaz ("Shopier'de yakında" / "Fiyatı Shopier'de"). |
+   | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez** (`yakinda: true` değilse). |
+   | `yakinda` | İsteğe bağlı. `true` ise bağlantı boşken de sayfa çıkar: pasif "Shopier'de yakında" düğmesi ve mağaza ana sayfası bağlantısı (`config.js`). Bağlantı gelince yalnızca `shopier_url` doldurulur. |
+   | `gorseller[]` | `"/assets/img/urun/<slug>/1-panel.png"` ya da `{"src": "...", "alt": "..."}`. Yanında aynı adlı `.webp` varsa önce o yüklenir; boyut PNG'den okunur. Boşsa "Ekran görüntüleri hazırlanıyor" kutusu çıkar. |
    | `excel_surum`, `makro`, `sayfa_sayisi` | Teknik bilgi. |
    | `one_cikan` | `true` ise ana sayfada "Öne çıkan" bölümüne girer. |
    | `ornek` | `true` ise yalnızca önizlemede görünür. |
+   | `soz`, `icindekiler[]`, `adimlar[]`, `teknik_not`, `sss[]` | İsteğe bağlı, genişletilmiş ürün sayfası: tek cümlelik söz (yoksa `kisa`), "İçinde ne var" (`{"sayfa", "aciklama"}`), "Nasıl kullanılır" adımları, teknik not, ürün SSS'si (`{"soru", "cevap"}`). |
 
 2. `python3 scripts/derle.py` çalıştır, `npm run check` ile kontrol et, commit et.
 
-Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş kayıtların sayfasını üretmez, raf sayılarına,
+Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş (`yakinda` olmayan) kayıtların sayfasını üretmez, raf sayılarına,
 öne çıkanlara ve sitemap'e katmaz, eski sayfası varsa `urun/` altından siler.
 
 ## Bağlantılar
@@ -107,9 +109,12 @@ fabricakit/js/uygulama.js  Tarayıcı giriş noktası
 - Efektler dosyasız: `arayuz/ses.js`'te Web Audio API ile üretilir. Ses motoru askıdayken (iPhone'da ilk dokunuştan hemen
   sonra) gelen efekt atlanmaz, motor açılınca çalar. Ses kapalıyken hiçbir ses çalmaz (Ajan GM dahil).
 - Ajan GM'nin sesi iki parçalı: sabit cümleler (en fazla 40; `ajan-gm/cumleler.js`) `assets/ses/ajan-gm/<id>.mp3`'ten sabit
-  erkek sesle çalar, aradaki değişken parçalar (hitap, sayı, ürün adı) tarayıcının SpeechSynthesis API'siyle cihazdaki Türkçe
-  sesle okunur (tr-TR, hız 0,95, perde 0,85). Cihazda yerel Türkçe ses yoksa değişken parça atlanır; ses dosyaları henüz
-  üretilmediyse (`ajan-gm/ses-dosyalari.js`) sabit cümleler de cihaz sesiyle okunur.
+  erkek sesle çalar, aradaki değişken parçalar (hitap, sayı, ürün adı) tarayıcının SpeechSynthesis API'siyle cihazdaki erkek
+  Türkçe sesle okunur (tr-TR, hız 0,95, perde 0,85). Ajan GM yalnızca erkek sesle konuşur: cihaz sesi, adı `ayarlar.js`'teki
+  `ERKEK_SESLER` listesinden birini içeren yerel sestir (başlangıçta yalnızca "Tolga"); iPhone'daki Yelda gibi sesler kullanılmaz.
+  Böyle bir ses yoksa değişken parça atlanır; ses dosyaları henüz üretilmediyse (`ajan-gm/ses-dosyalari.js`) sabit cümleler de
+  cihazdaki erkek sesle okunur. Ne ses dosyası ne yerel erkek ses varsa "Sesli oku" ve "Ajan GM konuşsun" düğmeleri görünmez
+  (yazı zaten ekranda); efektler ve hoparlör düğmesi bundan etkilenmez.
   Cümle listesi değişince: `npm run ses-cumleler` (→ `data/ses/cumleler.json`), sonra sesleri yeniden üretin:
   `scripts/ses-piper.py` (Piper, Türkçe erkek ses; modeli bir kez huggingface.co'dan indirir) ya da Windows'ta
   `powershell -ExecutionPolicy Bypass -File scripts\ses-tolga.ps1` ("Microsoft Tolga" + ffmpeg). İkisi de aynı dosya adlarını

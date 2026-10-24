@@ -92,6 +92,11 @@
     var kucukler = document.querySelectorAll("[data-galeri-kucuk]");
     kucukler.forEach(function (b) {
       b.addEventListener("click", function () {
+        /* <picture> ise WebP kaynağı da değişir; boyut "1600x831" biçiminde */
+        var kaynak = ana.parentNode.querySelector("source");
+        if (kaynak) kaynak.srcset = b.getAttribute("data-webp") || b.getAttribute("data-src");
+        var boyut = (b.getAttribute("data-boyut") || "").split("x");
+        if (boyut.length === 2) { ana.width = +boyut[0]; ana.height = +boyut[1]; }
         ana.src = b.getAttribute("data-src");
         ana.alt = b.getAttribute("data-alt");
         kucukler.forEach(function (x) { x.setAttribute("aria-current", String(x === b)); });

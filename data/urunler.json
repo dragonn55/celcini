@@ -28,6 +28,351 @@
     "ornek": false
   },
   {
+    "slug": "vardiya",
+    "ad": "VARDİYA",
+    "raf": "fabrika",
+    "kisa": "Excel'de günlük üretim planlama: ürün ağacı, hammadde stoğu ve günün siparişlerinden bugün ne yetişir, ne sarkar hesaplar. Makrosuz, Excel 2016 ve sonrası.",
+    "soz": "Günün siparişlerini girin; VARDİYA bugün neyin yetişeceğini, neyin yarına sarkacağını ve hangi işin hammadde beklediğini göstersin.",
+    "aciklama": "VARDİYA, Fabrika Dosyaları rafındaki günlük üretim planlama dosyasıdır. Ürünleri, ürün ağacını (BOM) ve prosesleri bir kez tanımlarsınız; her gün açılış stoklarını ve siparişleri girersiniz. Dosya siparişleri aciliyet sırasına dizer, hammaddeyi bu sırayla ayırır ve işleri mesai saatleri içinde art arda çizelgeler. Hesap motoru tamamen formüldür.",
+    "ozellikler": [
+      "Siparişleri aciliyet sırasına dizer (ÇOK ACİL, ACİL, SÜRELİ, NORMAL) ve günün çizelgesini başlama ve bitiş saatleriyle kurar.",
+      "Hammaddeyi öncelik sırasıyla ayırır: stoğu yetmeyen sipariş plana alınmaz, “HAMMADDE EKSİK” olarak işaretlenir.",
+      "Her işin durumunu verir (bugün yetişir, kısmen sarkar, yarına kalır); PANEL'de mesai doluluğu ve iş süreleri grafiği."
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "PANEL",
+        "aciklama": "Bugün yetişen, yarına sarkan ve hammadde bekleyen iş sayısı, mesai doluluğu, günün ilk 5 işi ve iş süreleri grafiği."
+      },
+      {
+        "sayfa": "URUNLER",
+        "aciklama": "Ürün kodları ve adları, 1 adet ürün için ürün ağacı (BOM) ve ürün başına 6 satırlık proses tablosu."
+      },
+      {
+        "sayfa": "HAMMADDE",
+        "aciklama": "Günün açılış stokları; plan sonunda kalan miktar otomatik hesaplanır."
+      },
+      {
+        "sayfa": "SIPARIS",
+        "aciklama": "Günün siparişleri: ürün, adet ve öncelik."
+      },
+      {
+        "sayfa": "PLAN",
+        "aciklama": "Mesai saatleri ve aciliyet sırasına göre otomatik çizelge: süre, başlama, bitiş ve durum."
+      },
+      {
+        "sayfa": "KILAVUZ",
+        "aciklama": "Dört adımda kullanım, hesap mantığı ve sınırlar."
+      },
+      {
+        "sayfa": "HESAP",
+        "aciklama": "Gizli hesap sayfası (motor); dokunulmaz."
+      }
+    ],
+    "adimlar": [
+      "URUNLER sayfasına ürünlerinizi, 1 adet için gereken hammaddeyi ve prosesleri girin: “K kişi + M makine, R adedi S dakikada yapar.”",
+      "Her gün HAMMADDE sayfasına açılış stoklarını, SIPARIS sayfasına günün siparişlerini (ürün, adet, öncelik) yazın.",
+      "PLAN sayfasında mesai saatlerini girin; bugün yetişen, sarkan ve hammadde bekleyen işleri PLAN ve PANEL'de görün."
+    ],
+    "kimin_icin": "Günlük üretim planını Excel'de yapan atölye ve fabrikalar: siparişi, hammaddeyi ve mesaiyi tek dosyada görmek isteyen üretim planlama sorumluları.",
+    "etiketler": [
+      "üretim planlama",
+      "vardiya"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/vardiya/1-panel.png",
+        "alt": "VARDİYA PANEL sayfası: bugün yetişen, yarına sarkan ve hammadde bekleyen işler, mesai doluluğu ve iş süreleri grafiği"
+      },
+      {
+        "src": "/assets/img/urun/vardiya/2-siparisler.png",
+        "alt": "VARDİYA SIPARIS sayfası: ürün kodu, adet ve öncelikle girilen günün siparişleri"
+      },
+      {
+        "src": "/assets/img/urun/vardiya/3-gunun-plani.png",
+        "alt": "VARDİYA PLAN sayfası: aciliyet sırasına göre başlama, bitiş ve durum"
+      }
+    ],
+    "excel_surum": "Excel 2016 ve sonrası",
+    "makro": false,
+    "sayfa_sayisi": 7,
+    "teknik_not": "Makro gerekmez: hesap motoru tamamen formüldür. Sınırlar: 12 hammadde, 8 ürün, ürün başına 6 proses, 20 sipariş.",
+    "sss": [
+      {
+        "soru": "Kaç ürün ve sipariş girebilirim?",
+        "cevap": "Dosya 12 hammadde, 8 ürün, ürün başına 6 proses ve 20 sipariş için hazırlanmıştır. Araya satır eklemeyin ya da silmeyin; boş alanları doldurun, bir kaydı silmek için hücreleri boşaltın."
+      },
+      {
+        "soru": "Stoğu yetmeyen siparişe ne olur?",
+        "cevap": "Hammadde öncelik sırasıyla ayrılır. Stoğu yetmeyen sipariş plana alınmaz ve “HAMMADDE EKSİK” olarak işaretlenir; PANEL'de hammadde bekleyen iş sayısına girer."
+      },
+      {
+        "soru": "İş süreleri nasıl hesaplanır?",
+        "cevap": "Her proses için “K kişi + M makine, R adedi S dakikada yapar” bilgisini siz girersiniz; dosya orantılar. İş süresi, ürünün bütün prosesleri için adet ÷ referans adet × referans süre toplamıdır. Hazır işler açılış saatinden itibaren art arda dizilir."
+      }
+    ],
+    "one_cikan": false,
+    "ornek": false
+  },
+  {
+    "slug": "stok-takip-sayim",
+    "ad": "Stok Takip + Sayım Sistemi v2",
+    "raf": "fabrika",
+    "kisa": "Excel'de stok kartı, giriş-çıkış hareketi, otomatik stok durumu ve sayım farkı takibi; minimum altına düşen malzemeye “SİPARİŞ VER” uyarısı. Makrosuz.",
+    "soz": "Her giriş ve çıkışı tek satırla işleyin; mevcut stok, sipariş uyarısı ve sayım farkı kendiliğinden hesaplansın.",
+    "aciklama": "Stok Takip + Sayım Sistemi, malzemelerinizi stok kartlarında tanımlayıp her giriş, çıkış ve fireyi tek satır olarak işlediğiniz bir Excel dosyasıdır. STOK DURUM sayfası mevcut stoğu kendiliğinden hesaplar ve minimum stoğa inen malzemeyi işaretler. Sayım günü sayılan miktarları girdiğinizde dosya sistem stoğuyla farkı ve fark yüzdesini verir.",
+    "ozellikler": [
+      "Her giriş, çıkış ve fire HAREKETLER sayfasına tek satır olarak işlenir; işlem türü ve malzeme kodu listeden seçilir.",
+      "STOK DURUM mevcut stoğu kendiliğinden hesaplar; minimum stoğa inen malzeme “SİPARİŞ VER” uyarısı alır.",
+      "Sayım günü sayılan miktarı girersiniz; fark ve fark yüzdesi hesaplanır, ÖZET genel durumu tek bakışta gösterir."
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "BAŞLANGIÇ",
+        "aciklama": "Adım adım kurulum ve renk kodu."
+      },
+      {
+        "sayfa": "AYARLAR",
+        "aciklama": "Firma adı; kategori, birim ve işlem türü listeleri."
+      },
+      {
+        "sayfa": "STOK KARTLARI",
+        "aciklama": "Malzeme kodu, adı, kategori, birim, minimum stok, raf/konum ve tedarikçi."
+      },
+      {
+        "sayfa": "HAREKETLER",
+        "aciklama": "Tarih, işlem türü (giriş, çıkış, fire), malzeme kodu, miktar, belge no ve açıklama; malzeme adı koddan gelir."
+      },
+      {
+        "sayfa": "STOK DURUM",
+        "aciklama": "Malzeme başına toplam giriş, çıkış ve fire, mevcut stok, minimum stok ve durum. Otomatik."
+      },
+      {
+        "sayfa": "SAYIM",
+        "aciklama": "Sayım tarihi, sistem stoku, sayılan miktar, fark, fark yüzdesi ve sonuç (tuttu, eksik, fazla)."
+      },
+      {
+        "sayfa": "ÖZET",
+        "aciklama": "Malzeme ve hareket sayısı, sipariş verilmesi gereken kalem, son sayımda tutan, eksik ve fazla çıkan kalem, fire kaydı."
+      }
+    ],
+    "adimlar": [
+      "AYARLAR sayfasına firma adınızı, kategori ve birim listelerinizi yazın; STOK KARTLARI sayfasında malzemelerinizi tanımlayın.",
+      "Her giriş, çıkış ve fireyi HAREKETLER sayfasına tek satır olarak işleyin; STOK DURUM ve ÖZET kendiliğinden güncellenir.",
+      "Sayım günü SAYIM sayfasına sayılan miktarları girin; farkı ve fark yüzdesini görün."
+    ],
+    "kimin_icin": "Depo ve malzeme stoğunu Excel'de tutan işletmeler: girişi, çıkışı ve fireyi kayda geçirip sayımda farkı görmek isteyen depo ve satın alma sorumluları.",
+    "etiketler": [
+      "stok",
+      "sayım"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/stok-takip-sayim/1-baslangic.png",
+        "alt": "Stok Takip + Sayım Sistemi BAŞLANGIÇ sayfası: kurulum adımları ve renk kodu"
+      },
+      {
+        "src": "/assets/img/urun/stok-takip-sayim/2-hareketler.png",
+        "alt": "Stok Takip + Sayım Sistemi HAREKETLER sayfası: tarih, işlem türü, malzeme ve miktarla giriş-çıkış kayıtları"
+      },
+      {
+        "src": "/assets/img/urun/stok-takip-sayim/3-stok-durum.png",
+        "alt": "Stok Takip + Sayım Sistemi STOK DURUM sayfası: mevcut stok, minimum stok ve SİPARİŞ VER uyarısı"
+      }
+    ],
+    "excel_surum": "Excel 2016 ve sonrası",
+    "makro": false,
+    "sayfa_sayisi": 7,
+    "teknik_not": "Makro gerekmez. Mavi yazılı hücrelere siz girersiniz, siyah yazılı hücreler otomatik hesaplanır. 299 malzeme kartı ve 499 hareket satırı için hazırlanmıştır.",
+    "sss": [
+      {
+        "soru": "Örnek verileri nasıl temizlerim?",
+        "cevap": "Mavi yazılı örnek satırları silip kendi malzemelerinizi ve hareketlerinizi girin. Örnek veriler hayali “DEMO Mobilya Ltd.” firmasına aittir ve yalnızca biçimi göstermek içindir."
+      },
+      {
+        "soru": "STOK DURUM sayfasına veri girmem gerekir mi?",
+        "cevap": "Hayır. STOK DURUM kendini hesaplar; elle veri girmeyin. Mevcut stok, toplam girişten çıkış ve fire düşülerek bulunur; minimum stoğa inen malzeme “SİPARİŞ VER” uyarısı alır."
+      },
+      {
+        "soru": "Sayım farkı nasıl hesaplanır?",
+        "cevap": "SAYIM sayfasına malzeme kodunu ve sayılan miktarı girersiniz; sistem stoku STOK DURUM'dan gelir. Dosya farkı ve fark yüzdesini hesaplar, sonucu “TUTTU”, “EKSİK” ya da “FAZLA” olarak yazar."
+      }
+    ],
+    "one_cikan": false,
+    "ornek": false
+  },
+  {
+    "slug": "stok-bitis-alarmi",
+    "ad": "Stok Bitiş Tarihi Alarmı",
+    "raf": "fabrika",
+    "kisa": "Uzun terminli (ithal) malzemenin hangi tarihte biteceğini ve siparişin en geç ne zaman verilmesi gerektiğini üç üretim temposunda hesaplayan Excel dosyası. Makrosuz.",
+    "soz": "Bu malzeme hangi tarihte biter, siparişi en geç ne zaman vermeliyim? Dosya bu soruyu üç tempo senaryosunda cevaplar.",
+    "aciklama": "Stok Bitiş Tarihi Alarmı, uzun terminli malzemede siparişi geç verip hattı durdurmamak için hazırlanmış bir Excel dosyasıdır. Her malzeme için mevcut stoğu, birim sarfı, tedarik süresini ve emniyet stoğunu girersiniz; dosya üç üretim temposu senaryosunda kalan iş gününü, tahmini bitiş tarihini ve son sipariş tarihini hesaplar.",
+    "ozellikler": [
+      "Her malzeme için üç tempo senaryosunda (ör. düşük, normal, yoğun) kalan iş günü, tahmini bitiş tarihi ve son sipariş tarihi.",
+      "Son sipariş tarihi geçmişse “SİPARİŞİ GEÇTİN!”, iki hafta içindeyse “BU HAFTALARDA SİPARİŞ VER” uyarısı.",
+      "Haftalık çalışma günü ve emniyet stoğu (gün) hesaba katılır; tedarik süresi takvim günüyle girilir."
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "BAŞLANGIÇ",
+        "aciklama": "Cevapladığı soru, üç adımda kullanım, hesap mantığı ve renk kodu."
+      },
+      {
+        "sayfa": "PARAMETRELER",
+        "aciklama": "Haftalık çalışma günü, hesap başlangıç tarihi (bugün) ve üç üretim temposu senaryosu (ürün/gün)."
+      },
+      {
+        "sayfa": "MALZEMELER",
+        "aciklama": "Malzeme kodu, adı, birim, mevcut stok, birim sarf, tedarik süresi (takvim günü) ve emniyet stoğu (gün)."
+      },
+      {
+        "sayfa": "SONUÇ",
+        "aciklama": "Malzeme ve senaryo başına günlük tüketim, kalan iş günü, tahmini bitiş, son sipariş tarihi ve durum."
+      }
+    ],
+    "adimlar": [
+      "PARAMETRELER sayfasına haftalık çalışma günü sayısını ve üç üretim temposu senaryosunu (günde kaç ürün) girin.",
+      "MALZEMELER sayfasına her malzeme için mevcut stok, birim sarf, tedarik süresi ve emniyet stoğunu girin.",
+      "SONUÇ sayfasında her malzemenin üç senaryodaki bitiş ve son sipariş tarihini, durum uyarısıyla görün."
+    ],
+    "kimin_icin": "İthal ya da uzun terminli malzeme kullanan üreticiler: siparişin son gününü kaçırıp hattı durdurmak istemeyen planlama ve satın alma sorumluları.",
+    "etiketler": [
+      "stok",
+      "tedarik",
+      "ithalat"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/stok-bitis-alarmi/1-baslangic.png",
+        "alt": "Stok Bitiş Tarihi Alarmı BAŞLANGIÇ sayfası: cevapladığı soru, kullanım ve hesap mantığı"
+      },
+      {
+        "src": "/assets/img/urun/stok-bitis-alarmi/2-malzemeler.png",
+        "alt": "Stok Bitiş Tarihi Alarmı MALZEMELER sayfası: stok, birim sarf, tedarik süresi ve emniyet stoğu"
+      },
+      {
+        "src": "/assets/img/urun/stok-bitis-alarmi/3-sonuc.png",
+        "alt": "Stok Bitiş Tarihi Alarmı SONUÇ sayfası: üç senaryoda tahmini bitiş, son sipariş tarihi ve durum"
+      }
+    ],
+    "excel_surum": "Excel 2016 ve sonrası",
+    "makro": false,
+    "sayfa_sayisi": 4,
+    "teknik_not": "Makro gerekmez. Hesap başlangıç tarihi, dosyayı açtığınız gündür (BUGÜN işlevi). 20 malzeme için hazırlanmıştır.",
+    "sss": [
+      {
+        "soru": "Hesap nasıl yapılıyor?",
+        "cevap": "Günlük tüketim = tempo × birim sarf. Kalan iş günü = (stok − emniyet payı) ÷ günlük tüketim. Bitiş = başlangıç tarihi + kalan iş günü × 7 ÷ haftalık çalışma günü. Son sipariş = bitiş − tedarik süresi."
+      },
+      {
+        "soru": "Tedarik süresini nasıl girmeliyim?",
+        "cevap": "Siparişi verdiğiniz günden malzemenin depoya girdiği güne kadar geçen süreyi takvim günü olarak girin. Son sipariş tarihi, tahmini bitiş tarihinden bu süre çıkarılarak bulunur."
+      },
+      {
+        "soru": "Neden üç senaryo var?",
+        "cevap": "Üretim temposu değişince bitiş tarihi de değişir. Üç senaryo için günde kaç ürün üretileceğini siz girersiniz; dosya her malzemeyi üç senaryoda ayrı hesaplar."
+      }
+    ],
+    "one_cikan": false,
+    "ornek": false
+  },
+  {
+    "slug": "ithalat-maliyet",
+    "ad": "İthalat Maliyet Hesaplayıcı",
+    "raf": "fabrika",
+    "kisa": "İthal ürünün gerçek birim maliyetini (landed cost) hesaplayan Excel dosyası: FOB fiyat, navlun, sigorta, ardiye, müşavirlik payı ve gümrük vergisi. Makrosuz.",
+    "soz": "FOB fiyata navlunu, sigortayı, gümrüğü ve bütün masrafları ekleyin; her ürünün gerçek birim maliyetini TL ve dolar olarak görün.",
+    "aciklama": "İthalat Maliyet Hesaplayıcı, bir yüklemedeki her ürünün gerçek birim maliyetini (landed cost) hesaplar. Yüklemenin masraflarını girer, her masraf için bir dağıtım anahtarı seçersiniz: tutar, ağırlık, hacim ya da adet. Dosya masrafları bu anahtarla ürünlere dağıtır, gümrük vergisini ekler ve birim maliyeti TL ve USD olarak verir.",
+    "ozellikler": [
+      "Masrafları ürünlere dört anahtarla dağıtır: tutar, ağırlık, hacim ya da adet; her masraf kendi anahtarını seçer.",
+      "Her ürün için FOB, masraf payı, gümrük vergisi, toplam maliyet ve birim maliyet (TL ve USD).",
+      "TL, USD ve EUR masrafları girdiğiniz kurla TL'ye çevirir; KDV bilgi amaçlı ayrı sütunda gösterilir."
+    ],
+    "icindekiler": [
+      {
+        "sayfa": "BAŞLANGIÇ",
+        "aciklama": "Ne işe yaradığı, dört adımda kullanım, dağıtım anahtarları ve hesap notu."
+      },
+      {
+        "sayfa": "PARAMETRELER",
+        "aciklama": "USD/TL ve EUR/TL kuru, KDV oranı ve yükleme adı."
+      },
+      {
+        "sayfa": "YÜKLEME",
+        "aciklama": "Ürün kodu, adı, adet, birim FOB (USD), ağırlık, hacim ve gümrük vergisi oranı; toplam FOB (USD ve TL) otomatik."
+      },
+      {
+        "sayfa": "MASRAFLAR",
+        "aciklama": "Masraf kalemi, tutar, para birimi ve dağıtım anahtarı; TL karşılığı ve anahtar bazında toplam otomatik."
+      },
+      {
+        "sayfa": "SONUÇ",
+        "aciklama": "Ürün başına FOB, masraf payı, gümrük vergisi, toplam ve birim maliyet (TL, USD) ve KDV (bilgi)."
+      }
+    ],
+    "adimlar": [
+      "PARAMETRELER sayfasına döviz kurlarını ve KDV oranını girin.",
+      "YÜKLEME sayfasına ürünlerinizi (adet, birim FOB, ağırlık, hacim, gümrük vergisi oranı), MASRAFLAR sayfasına yüklemenin masraflarını ve dağıtım anahtarlarını girin.",
+      "SONUÇ sayfasında her ürünün birim maliyetini TL ve USD olarak görün."
+    ],
+    "kimin_icin": "Yurt dışından ürün ya da malzeme getiren işletmeler: masrafları ürünlere adil dağıtıp gerçek birim maliyeti görmek isteyen satın alma, ithalat ve muhasebe sorumluları.",
+    "etiketler": [
+      "ithalat",
+      "maliyet"
+    ],
+    "fiyat": null,
+    "liste_fiyat": null,
+    "shopier_url": "",
+    "yakinda": true,
+    "gorseller": [
+      {
+        "src": "/assets/img/urun/ithalat-maliyet/1-baslangic.png",
+        "alt": "İthalat Maliyet Hesaplayıcı BAŞLANGIÇ sayfası: kullanım adımları ve dağıtım anahtarları"
+      },
+      {
+        "src": "/assets/img/urun/ithalat-maliyet/2-yukleme.png",
+        "alt": "İthalat Maliyet Hesaplayıcı YÜKLEME sayfası: adet, birim FOB, ağırlık, hacim ve gümrük vergisi oranı"
+      },
+      {
+        "src": "/assets/img/urun/ithalat-maliyet/3-sonuc.png",
+        "alt": "İthalat Maliyet Hesaplayıcı SONUÇ sayfası: masraf payı, gümrük vergisi ve birim maliyet (TL, USD)"
+      }
+    ],
+    "excel_surum": "Excel 2016 ve sonrası",
+    "makro": false,
+    "sayfa_sayisi": 5,
+    "teknik_not": "Makro gerekmez. Gümrük vergisi matrahı bu şablonda “FOB + masraf payı” olarak basitleştirilmiştir; KDV bilgi amaçlı gösterilir, maliyete eklenmez. 100 ürün ve 40 masraf kalemi için hazırlanmıştır.",
+    "sss": [
+      {
+        "soru": "Hangi masraf hangi anahtarla dağıtılmalı?",
+        "cevap": "Dosyanın önerisi: sigorta ve banka masrafı TUTAR'a, kara ve deniz navlunu AĞIRLIK'a, hacim bazlı navlun HACİM'e, elleçleme gibi adet bazlı işler ADET'e göre. Anahtarı her masraf için siz seçersiniz."
+      },
+      {
+        "soru": "KDV neden maliyete eklenmiyor?",
+        "cevap": "Şirketler için KDV genellikle indirilebilir olduğundan maliyete dahil edilmez. SONUÇ sayfasında bilgi amaçlı ayrı sütunda gösterilir."
+      },
+      {
+        "soru": "Ağırlık ya da hacim girmezsem ne olur?",
+        "cevap": "O anahtarla dağıtılacak masraf, tutara (FOB) göre dağıtılır ve MASRAFLAR sayfasında uyarı çıkar. FOB da girilmemişse masraf dağıtılamaz; bunu da uyarı söyler."
+      }
+    ],
+    "one_cikan": false,
+    "ornek": false
+  },
+  {
     "slug": "ornek-vardiya",
     "ad": "VARDİYA (örnek)",
     "raf": "fabrika",
