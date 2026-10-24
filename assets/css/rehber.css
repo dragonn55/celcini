@@ -73,8 +73,10 @@
   border: var(--cizgi-k) solid var(--cizgi); -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
 }
 .rt-kutu:focus-visible { outline: 2px solid var(--koyu); outline-offset: 2px; }
-@media (min-width: 760px) { .rt-kutu { max-height: min(78vh, 900px); } }
+@media (min-width: 760px) and (min-height: 501px) { .rt-kutu { max-height: min(78vh, 900px); } }
 .rt-izgara {
+  /* Dokununca gri parlama yok, çift dokunuşta sayfa yakınlaşmaz (iki parmakla yakınlaştırma açık) */
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   display: grid; position: relative; color: #000000; line-height: 1.2;
   font-family: var(--yazi); font-variant-numeric: tabular-nums; padding: 0 8px 8px 0; box-sizing: content-box;
 }
@@ -167,11 +169,29 @@ a.rh-sekme:hover { background: var(--zemin); color: var(--metin); }
   display: grid; gap: 10px; padding: 16px; background: var(--kart); border: 2px solid var(--koyu); border-radius: var(--r);
 }
 .rh-balon[hidden] { display: none !important; }
-.rh-balon-alt-kart { position: fixed; left: 8px; right: 8px; bottom: 8px; top: auto; width: auto; max-height: 58vh; }
+/* Telefonda alttan açılan kart. Kartın içi sonuna kadar kaydırılınca arkadaki sayfa kaymaz (vurgulanan alan yerinde kalır). */
+.rh-balon-alt-kart {
+  position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); top: auto; width: auto;
+  max-height: 58vh; max-height: 58svh; overscroll-behavior: contain;
+}
+/* Yatay telefon: kart ekranın yarısında, yanda. Hangi yanda duracağını rehber.js seçer (alan görünür kalsın). */
+@media (max-height: 500px) and (orientation: landscape) {
+  .rh-balon-alt-kart { left: auto; width: min(460px, 50vw); max-height: calc(100vh - 24px); max-height: calc(100svh - 24px); gap: 6px; padding-top: 12px; }
+  .rh-balon-alt-kart.rh-balon-solda { left: 8px; right: auto; }
+  .rh-balon-alt-kart .rh-balon-baslik { font-size: var(--fs-1); }
+  .rh-balon-alt-kart .rh-balon-metin, .rh-balon-alt-kart .rh-karar { font-size: 0.9375rem; line-height: 1.5; }
+}
 .rh-balon-ust { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -6px -6px -4px 0; }
 .rh-balon-no { color: var(--metin-2); font-size: var(--fs-0); font-weight: 600; }
 .rh-balon-baslik { font-size: var(--fs-2); }
-.rh-balon-alt { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+/* Düğmeler kartın altında sabit: kart kaydırılsa da "Önceki / Sonraki" görünür (alçak ekranda kart kayar).
+   Sticky sınırı kartın 16 px iç boşluğu kadar içeride başlar; bottom: -16px şeridi kartın gerçek altına oturtur,
+   yoksa şerit metnin son satırını örter. */
+.rh-balon-alt {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  position: sticky; bottom: -16px; margin: 4px -16px -16px; padding: 10px 16px 16px;
+  background: var(--kart); border-top: var(--cizgi-k) solid var(--cizgi); border-radius: 0 0 var(--r) var(--r);
+}
 .rh-bosluk { flex: 1; }
 .rh-sonraki .ikon { width: 18px; height: 18px; }
 

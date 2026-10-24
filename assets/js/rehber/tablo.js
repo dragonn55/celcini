@@ -296,8 +296,9 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       kutu.scrollLeft = merkezX * k - kutu.clientWidth / 2;
       kutu.scrollTop = merkezY * k - kutu.clientHeight / 2;
     },
-    /* Not alanını vurgula ve görünür yap; i = null → vurguyu kaldır */
-    notGoster(i, { kaydir = true } = {}) {
+    /* Not alanını vurgula ve görünür yap; i = null → vurguyu kaldır.
+       ortuSol / ortuSag: kutunun solunda / sağında üstü kartla örtülü genişlik (px; yatay telefonda yan kart) */
+    notGoster(i, { kaydir = true, ortuSol = 0, ortuSag = 0 } = {}) {
       if (etkinNot !== null) katmanlar.alan[etkinNot]?.classList.remove("rt-etkin");
       for (const p of katmanlar.pin) p?.classList.remove("rt-pin-etkin");
       etkinNot = i;
@@ -307,10 +308,11 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       katmanlar.pin[i].classList.add("rt-pin-etkin");
       if (kaydir) {
         const a = notAlanlari[i];
-        const sol = solKenar[a.c1] - NUMARA_G * k - 24, ust = (ustKenar[a.r1] ?? 0) - BASLIK_Y * k - 24;
+        const sol = solKenar[a.c1] - 24, ust = (ustKenar[a.r1] ?? 0) - BASLIK_Y * k - 24;
         const sag = solKenar[Math.min(a.c2, C) + 1];
-        const solDonuk = solKenar[donuk.c] - NUMARA_G * k;
-        if (sol < kutu.scrollLeft + solDonuk || sag > kutu.scrollLeft + kutu.clientWidth) kutu.scrollLeft = Math.max(0, sol - solDonuk);
+        /* Görünen bant: satır numaraları ve dondurulmuş sütunlardan (ya da soldaki karttan) sonra, sağdaki karttan önce */
+        const bosSol = Math.max(solKenar[donuk.c], ortuSol), bosSag = kutu.clientWidth - ortuSag;
+        if (sol < kutu.scrollLeft + bosSol || sag > kutu.scrollLeft + bosSag) kutu.scrollLeft = Math.max(0, sol - bosSol);
         if (kutu.scrollHeight > kutu.clientHeight + 1 && (ust < kutu.scrollTop || ust > kutu.scrollTop + kutu.clientHeight - 80)) {
           kutu.scrollTop = Math.max(0, ust - (a.r1 >= donuk.r ? (ustKenar[donuk.r] ?? BASLIK_Y * k) - BASLIK_Y * k : 0));
         }
@@ -318,5 +320,6 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       return katmanlar.pin[i];
     },
     pin: (i) => katmanlar.pin[i] || null,
+    alan: (i) => katmanlar.alan[i] || null,
   };
 }

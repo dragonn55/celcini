@@ -37,7 +37,10 @@ function ikon(ad, sinif = "ikon") {
   return s;
 }
 
-const TELEFON = window.matchMedia("(max-width: 759px)");
+/* Telefon: dar ekran ya da yatay tutulmuş telefon (alçak ekran). Not alttan açılır, ızgara sayfayla birlikte kayar. */
+const TELEFON = window.matchMedia("(max-width: 759px), (max-height: 500px)");
+/* Yatay telefon: not kartı ekranın bir yanında durur (rehber.css ile aynı sorgu) */
+const YATAY = window.matchMedia("(max-height: 500px) and (orientation: landscape)");
 const ILERLEME = "celcini-rehber";
 
 const oku = (anahtar) => { try { return localStorage.getItem(anahtar); } catch { return null; } };
@@ -133,7 +136,7 @@ function baslat() {
     };
     const girdi = h("input", {
       id: "rh-kod", name: "kod", type: "text", autocomplete: "off", autocapitalize: "characters", spellcheck: "false",
-      inputmode: "text", maxlength: "64", placeholder: "ABCD-EFGH-JKLM", required: true,
+      autocorrect: "off", enterkeyhint: "go", inputmode: "text", maxlength: "64", placeholder: "ABCD-EFGH-JKLM", required: true,
     });
     const mesaj = h("p", { sinif: "rh-kilit-hata", role: "alert" }, HATA[hata] || "");
     mesaj.hidden = !hata;
@@ -273,11 +276,44 @@ function baslat() {
       oncekiDugme.disabled = i === 0;
       temizle(sonrakiDugme).append(i < notlar.length - 1 ? "Sonraki not" : "Soruya geç", ikon("sag"));
       balon.hidden = false;
-      const kutuUst = kutu.getBoundingClientRect().top;
-      if (kutuUst < 0 || kutuUst > window.innerHeight * 0.6) kutu.scrollIntoView({ block: "start", behavior: "smooth" });
-      tablo.notGoster(i);
-      requestAnimationFrame(() => { balonYerlestir(); if (!TELEFON.matches) sonrakiDugme.focus({ preventScroll: true }); });
+      balon.scrollTop = 0;
+      if (!TELEFON.matches) {
+        const kutuUst = kutu.getBoundingClientRect().top;
+        if (kutuUst < 0 || kutuUst > window.innerHeight * 0.6) kutu.scrollIntoView({ block: "start", behavior: "smooth" });
+      }
+      alaniGoster(i);
       setTimeout(balonYerlestir, 400);
+    }
+    /* Alanı vurgular, kartı yerleştirir, alanı kartın örtmediği yere getirir. Telefon yan çevrilince de çalışır. */
+    function alaniGoster(i) {
+      if (YATAY.matches) yanKart(i); else tablo.notGoster(i);
+      requestAnimationFrame(() => {
+        balonYerlestir();
+        if (!TELEFON.matches) { sonrakiDugme.focus({ preventScroll: true }); return; }
+        /* Telefonda not alttan (yatayda yandan) açılır: vurgulanan alanın üstü, kartın örtmediği bölgeye kaydırılır */
+        const a = tablo.alan(i)?.getBoundingClientRect();
+        const alt = YATAY.matches ? window.innerHeight : balon.getBoundingClientRect().top;
+        if (a && (a.top < 8 || a.top > alt - 48)) window.scrollBy({ top: a.top - 16, behavior: "smooth" });
+      });
+    }
+    /* Yatay telefon: kart önce sağa konur, tablo alanı soldaki boş banda gelecek kadar kaydırılır.
+       Alan yine örtülü kalırsa (sayfanın sonundaki sütunlar) kart sola geçer. */
+    function yanKart(i) {
+      balon.classList.add("rh-balon-alt-kart");
+      balon.classList.remove("rh-balon-solda");
+      const g = balon.offsetWidth + 16, k = kutu.getBoundingClientRect(), W = window.innerWidth;
+      const gorunen = (solda) => {
+        const a = tablo.alan(i)?.getBoundingClientRect();
+        if (!a) return { gen: 0, tam: 0 };
+        const gen = Math.min(a.right, k.right, solda ? W : W - g) - Math.max(a.left, k.left, solda ? g : 0);
+        return { gen: Math.max(0, gen), tam: a.width };
+      };
+      tablo.notGoster(i, { ortuSag: Math.max(0, k.right - (W - g)) });
+      const sagda = gorunen(false), sagKaydirma = kutu.scrollLeft;
+      if (sagda.gen >= sagda.tam - 1) return;
+      tablo.notGoster(i, { ortuSol: Math.max(0, g - k.left) });
+      if (gorunen(true).gen > sagda.gen + 1) balon.classList.add("rh-balon-solda");
+      else kutu.scrollLeft = sagKaydirma;
     }
     function notKapat() {
       okumayiDurdur();
@@ -302,6 +338,8 @@ function baslat() {
     window.addEventListener("scroll", yeniden, { passive: true });
     window.addEventListener("resize", yeniden);
     kutu.addEventListener("scroll", yeniden, { passive: true });
+    /* Telefon yan çevrilince (ya da geri) açık not yeni düzene göre yerleşir; sesli okuma kesilmez */
+    YATAY.addEventListener?.("change", () => { if (acikNot !== null && !balon.hidden) alaniGoster(acikNot); });
 
     /* Ders sorusu */
     const soru = icerik.soru;
