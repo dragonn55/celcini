@@ -1,0 +1,212 @@
+{
+ "surum": 1,
+ "urun": "datakit",
+ "ad": "Datakit",
+ "ucretsiz_ders": 4,
+ "dersler": [
+  {
+   "id": "dashboard",
+   "sira": 1,
+   "sayfa_adi": "Dashboard",
+   "baslik": "Kontrol paneli: işin özeti tek ekranda",
+   "ozet": "Filtreler, altı ana gösterge, beş grafik ve günün kritik uyarıları: satış analizinin kontrol paneli nasıl okunur?",
+   "ucretsiz": true,
+   "ajan_gm": "Sabah ilk bu ekrana bakarım. Altı sayı, beş grafik ve dört kritik uyarı: hangisinin bugün işinizi etkilediğini birlikte bulalım.",
+   "konular": [
+    "Filtre şeridi",
+    "Altı ana gösterge",
+    "Bu ay neyle karşılaştırılıyor?",
+    "Müşteri sağlığı",
+    "Beş grafik",
+    "Uyarılar"
+   ]
+  },
+  {
+   "id": "otomatik-yorum",
+   "sira": 2,
+   "sayfa_adi": "Otomatik Yorum",
+   "baslik": "Sayıdan cümleye: kural tabanlı yorum",
+   "ozet": "Otuz ölçü, otuz eşik, otuz hazır cümle: dosya sayıları nasıl yoruma çeviriyor, siz bu yorumu nasıl okumalısınız?",
+   "ucretsiz": true,
+   "ajan_gm": "Sayıları tek tek okumaya vaktiniz yoksa burası sizin sayfanız. Dosya her ölçüyü bir eşikle tartar ve hükmünü tek cümleyle yazar; nedenini sormak size kalır.",
+   "konular": [
+    "İlk 5 cümle",
+    "Değer ve eşik",
+    "İşaretler",
+    "Detay sayfası",
+    "Fiyat mı, hacim mi?",
+    "Kural tabanlı"
+   ]
+  },
+  {
+   "id": "veri-kalitesi",
+   "sira": 3,
+   "sayfa_adi": "Veri Kalitesi",
+   "baslik": "Veriye ne kadar güvenebilirsiniz?",
+   "ozet": "Boş, tip uyumsuz, aykırı ve negatif değerler: analizden önce veriye ne kadar güvenebileceğinizi ölçen sayfa.",
+   "ucretsiz": true,
+   "ajan_gm": "Analizden önce veriye bakarım; kirli veriden temiz rapor çıkmaz. Bu sayfa, dosyanın hangi sonuca ne kadar güvenebileceğinizi söylediği yer.",
+   "konular": [
+    "Genel özet",
+    "Temiz satır oranı ve not",
+    "Makro ile formül yan yana",
+    "Alan bazlı kalite",
+    "Aykırı değer sınırı",
+    "Tarih kapsamı"
+   ]
+  },
+  {
+   "id": "temel-istatistik",
+   "sira": 4,
+   "sayfa_adi": "Temel İstatistik",
+   "baslik": "Ortalamanın söylemedikleri",
+   "ozet": "Ortalama, medyan, standart sapma, yüzdelikler ve çarpıklık: tek sayının arkasındaki dağılımı okumak.",
+   "ucretsiz": true,
+   "ajan_gm": "Ortalama yalan söylemez ama her şeyi de söylemez. Bu sayfada tek sayının arkasındaki dağılımı okumayı öğreneceksiniz.",
+   "konular": [
+    "Ortalama ve medyan",
+    "Standart sapma ve CV",
+    "Güven aralığı",
+    "En küçük ve en büyük",
+    "Çeyrekler ve yüzdelikler",
+    "Çarpıklık"
+   ]
+  },
+  {
+   "id": "satis-ozeti",
+   "sira": 5,
+   "sayfa_adi": "Satış Özeti",
+   "baslik": "Bu ay, geçen ay, geçen yıl",
+   "ozet": "Bu ayı geçen ayla ve geçen yılın aynı ayıyla, yıl başından bugünü de geçen yılın aynı dönemiyle karşılaştırmak: aynı ciro, üç ayrı ölçü.",
+   "ucretsiz": false,
+   "ajan_gm": "Bu ay kötü mü geçti? Cevap, neyle karşılaştırdığınıza bağlı. Geçen ay, geçen yıl ve yıl başından bugün: üç ölçü, üç ayrı hikâye.",
+   "konular": [
+    "Referans tarih",
+    "Aylık değişim",
+    "Yıllık değişim",
+    "Yıl başından bugüne (YTD)",
+    "Marjda puan farkı",
+    "Yıllara göre"
+   ]
+  },
+  {
+   "id": "trend-mevsim",
+   "sira": 6,
+   "sayfa_adi": "Trend ve Mevsim",
+   "baslik": "Eğilim mi, mevsim mi?",
+   "ozet": "36 aylık seri, doğrusal trend, mevsim endeksi ve kategori sezonları: kalıcı eğilimi mevsimden ayırmak.",
+   "ucretsiz": false,
+   "ajan_gm": "Her düşüş kriz değildir; bazen sadece Eylül'dür. Bu sayfa kalıcı eğilimi mevsimin dalgasından ayırır.",
+   "konular": [
+    "36 aylık seri",
+    "3 aylık hareketli ortalama",
+    "Trend özeti",
+    "Enflasyon uyarısı",
+    "Mevsim endeksi",
+    "Sezonluk talep"
+   ]
+  },
+  {
+   "id": "urun-abc",
+   "sira": 7,
+   "sayfa_adi": "Ürün ve ABC",
+   "baslik": "Cironun yükünü hangi ürünler taşıyor?",
+   "ozet": "Ciro sıralaması, ABC sınıfları, en kötü 10 ürün ve iade oranları: cironun yükünü hangi ürünler taşıyor?",
+   "ucretsiz": false,
+   "ajan_gm": "Her ürün aynı ilgiyi hak etmez. Cironun yükünü hangi ürünlerin taşıdığını bilirseniz rafta ve stokta neyi koruyacağınızı da bilirsiniz.",
+   "konular": [
+    "Özet",
+    "Ciro sıralaması",
+    "ABC sütunu",
+    "En kötü 10",
+    "ABC özeti",
+    "İade oranı"
+   ]
+  },
+  {
+   "id": "fiyat-hacim",
+   "sira": 8,
+   "sayfa_adi": "Fiyat-Hacim",
+   "baslik": "Daha çok mu sattık, daha pahalıya mı?",
+   "ozet": "Ciro değişimini fiyat ve hacim etkisine ayırmak; indirimlerin satışa etkisini fiyat esnekliğiyle ölçmek.",
+   "ucretsiz": false,
+   "ajan_gm": "Ciro arttı diye sevinmeden önce bir şey sorarım: daha çok mu sattık, daha pahalıya mı? Bu sayfa iki cevabı birbirinden ayırır.",
+   "konular": [
+    "Ayrıştırma özeti",
+    "İki etki nasıl hesaplanır?",
+    "Kamp Çadırı örneği",
+    "Yön etiketleri",
+    "Fiyat esnekliği",
+    "Gözlem, deney değil"
+   ]
+  },
+  {
+   "id": "musteri-analizi",
+   "sira": 9,
+   "sayfa_adi": "Müşteri Analizi",
+   "baslik": "Kim kalıyor, kim gidiyor?",
+   "ozet": "Aktif, riskte ve kayıp müşteriler, müşteri yaşam boyu değeri (CLTV), RFM segmentleri ve yaş-cinsiyet kırılımı.",
+   "ucretsiz": false,
+   "ajan_gm": "Müşteri bir kez gelir; işi büyüten, geri gelmesidir. Burada kimin kaldığını, kimin gittiğini ve bir müşterinin size ne kazandırdığını göreceksiniz.",
+   "konular": [
+    "Aktif, riskte, kayıp",
+    "Dönemsel churn ve tekrar alış",
+    "Müşteri yaşam boyu değeri (CLTV)",
+    "RFM eşikleri",
+    "RFM segmentleri",
+    "Yaş kırılımı"
+   ]
+  },
+  {
+   "id": "kohort",
+   "sira": 10,
+   "sayfa_adi": "Kohort",
+   "baslik": "Kazanılan müşteriler ay ay nerede?",
+   "ozet": "Müşterileri ilk alış ayına göre gruplayıp ay ay geri dönüşlerini izlemek: elde tutma tablosu nasıl okunur?",
+   "ucretsiz": false,
+   "ajan_gm": "Bu ay kazandığınız müşteriler altı ay sonra nerede? Kohort tablosu bunu ay ay, grup grup gösterir.",
+   "konular": [
+    "Kohort nedir?",
+    "Sütunlar: kaç ay sonra?",
+    "Renk ölçeği",
+    "Ağırlıklı ortalama",
+    "Sağ alttaki boşluk",
+    "Ham sayılar"
+   ]
+  },
+  {
+   "id": "stok-devir",
+   "sira": 11,
+   "sayfa_adi": "Stok ve Devir",
+   "baslik": "Tükenen, eriyen, uyuyan stok",
+   "ozet": "Devir hızı, stokun kaç gün yeteceği, yeniden sipariş noktası ve önerilen sipariş: tükenen, eriyen ve uyuyan stok.",
+   "ucretsiz": false,
+   "ajan_gm": "Rafta bekleyen her ürün, kasada olmayan paradır. Hangi ürün tükendi, hangisi uyuyor, hangisine bugün sipariş vermelisiniz: hepsi bu sayfada.",
+   "konular": [
+    "Stok özeti",
+    "Günlük satış ve devir",
+    "Yeniden sipariş noktası",
+    "Durum ve önerilen sipariş",
+    "Fazla stok",
+    "Ölü stok mu, mevsim mi?"
+   ]
+  },
+  {
+   "id": "tahmin",
+   "sira": 12,
+   "sayfa_adi": "Tahmin",
+   "baslik": "Önümüzdeki 12 ay",
+   "ozet": "Trend × mevsim modeliyle önümüzdeki 12 ay: tahmin, model hatası ve alt-üst sınırlar.",
+   "ucretsiz": false,
+   "ajan_gm": "Geleceği bilmem ama geçmişin ritmini bilirim. Bu sayfa trendi ve mevsimi birleştirip önümüzdeki on iki ayı tahmin eder; sınırlarıyla birlikte.",
+   "konular": [
+    "Özet",
+    "Yöntem: trend × mevsim",
+    "Model hatası (MAPE)",
+    "Alt ve üst sınır",
+    "Gerçekleşen ve tahmin",
+    "Modelin bilmedikleri"
+   ]
+  }
+ ]
+}
