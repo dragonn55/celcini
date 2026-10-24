@@ -492,15 +492,17 @@ def karsilastir(op, a, b):
     return False
 
 
-_IFADE = re.compile(r'\s*(?:(?P<num>\d+(?:\.\d+)?)|(?P<str>"(?:[^"]|"")*")|(?P<ref>\$?[A-Z]{1,3}\$?\d+)(?![A-Za-z0-9_(])'
+_IFADE = re.compile(r'\s*(?:(?P<num>\d+(?:\.\d+)?)|(?P<str>"(?:[^"]|"")*")'
+                    r"|(?P<sref>(?:'[^']+'|[A-Za-z_][A-Za-z0-9_.]*)!\$?[A-Z]{1,3}\$?\d+)(?![A-Za-z0-9_(])"
+                    r'|(?P<ref>\$?[A-Z]{1,3}\$?\d+)(?![A-Za-z0-9_(])'
                     r'|(?P<name>[A-Za-z_][A-Za-z0-9_.]*)|(?P<op><>|<=|>=|[=<>+\-*/(),&]))')
 _ONBELLEK = {}
 
 
 def ifade_derle(f, adlar):
     """Excel koşullu biçim ifadesini (alt küme) derler. Döner: fn(wsv, dr, dc) → değer.
-    Desteklenen: sayı, metin, hücre başvurusu (göreli/mutlak), ad tanımı, + - * / &, karşılaştırma,
-    AND OR NOT IF IFERROR ISNUMBER ISBLANK ISTEXT ISERROR LEN SEARCH ABS MIN MAX SUM VALUE TRUE FALSE."""
+    Desteklenen: sayı, metin, hücre başvurusu (göreli/mutlak; başka sayfa: Ayarlar!$B$8), ad tanımı, + - * / &,
+    karşılaştırma, AND OR NOT IF IFERROR ISNUMBER ISBLANK ISTEXT ISERROR LEN LEFT RIGHT MID SEARCH ABS MIN MAX SUM VALUE TRUE FALSE."""
     f = str(f).strip()
     if f.startswith('='):
         f = f[1:]
@@ -587,6 +589,10 @@ def ifade_derle(f, adlar):
         if t[0] == 'ref':
             al(); ref = t[1]
             return lambda w, dr, dc: hucre_degeri(w.cell(*hucre_kaydir(ref, dr, dc)).value)
+        if t[0] == 'sref':  # başka sayfadaki hücre: 'Sayfa Adı'!$B$8 (aynı çalışma kitabının değer kopyasından)
+            al(); sayfa, ref = t[1].rsplit('!', 1)
+            sayfa = sayfa[1:-1] if sayfa.startswith("'") else sayfa
+            return lambda w, dr, dc: hucre_degeri(w.parent[sayfa].cell(*hucre_kaydir(ref, dr, dc)).value)
         if t[0] == 'name':
             al(); ad = t[1]
             if bak() == ('op', '('):
@@ -634,6 +640,12 @@ def ifade_derle(f, adlar):
             return lambda w, dr, dc: isinstance(args[0](w, dr, dc), Hata)
         if ad == 'LEN':
             return lambda w, dr, dc: len(metin_degeri(args[0](w, dr, dc)))
+        if ad == 'LEFT':
+            return lambda w, dr, dc: metin_degeri(args[0](w, dr, dc))[:int(sayi_degeri(args[1](w, dr, dc))) if len(args) > 1 else 1]
+        if ad == 'RIGHT':
+            return lambda w, dr, dc: metin_degeri(args[0](w, dr, dc))[-(int(sayi_degeri(args[1](w, dr, dc))) if len(args) > 1 else 1):]
+        if ad == 'MID':
+            return lambda w, dr, dc: metin_degeri(args[0](w, dr, dc))[int(sayi_degeri(args[1](w, dr, dc))) - 1:int(sayi_degeri(args[1](w, dr, dc))) - 1 + int(sayi_degeri(args[2](w, dr, dc)))]
         if ad == 'SEARCH':
             def search(w, dr, dc):
                 ne, nerede = metin_degeri(args[0](w, dr, dc)).casefold(), metin_degeri(args[1](w, dr, dc)).casefold()
@@ -757,7 +769,10 @@ def onbellek(e):
 
 def grafik_oku(x, wbv=None):
     t = ET.fromstring(x)
-    baslik = ''.join(e.text or '' for e in t.findall('.//c:title//a:t', NS))
+    # Grafiğin kendi başlığı (c:chart/c:title); eksen başlıkları plotArea altındadır, başlığa karışmaz
+    chart = t.find('.//c:chart', NS)
+    baslik_e = chart.find('c:title', NS) if chart is not None else None
+    baslik = ''.join(e.text or '' for e in (baslik_e.findall('.//a:t', NS) if baslik_e is not None else []))
     plot = t.find('.//c:plotArea', NS)
     seriler = []; tur = None
     for grp in plot:
@@ -794,6 +809,9 @@ def grafik_oku(x, wbv=None):
             renk_e = sp.find('.//a:srgbClr', NS) if sp is not None else None
             if renk_e is None:
                 renk_e = ser.find('.//c:spPr//a:srgbClr', NS)
+            # Sondaki boş kategoriler (seri aralığı dolu alandan uzunsa) atılır
+            while kats and degs and len(kats) == len(degs) and degs[-1] is None and kats[-1] in (None, ''):
+                kats.pop(); degs.pop()
             kayit = {'ad': ad, 'tur': g_tur, 'kategoriler': kats, 'degerler': degs,
                      'bicim': fmt_e.text if fmt_e is not None else None,
                      'renk': ('#' + renk_e.get('val')) if renk_e is not None else None}
@@ -867,7 +885,7 @@ def disa_aktar(kitap, cikis, secim):
                 if c.value not in (None, ''):
                     tam_r = max(tam_r, c.row); tam_c = max(tam_c, c.column)
         son_r = min(tam_r, max(satir_secimi)) if satir_secimi else tam_r
-        son_c = min(tam_c, sutun_siniri) if sutun_siniri else tam_c
+        son_c = sutun_siniri if sutun_siniri else tam_c  # sınır dolu alandan genişse boş sütunlar eklenir (taşan metin, grafik için)
         secili = (lambda r: r in satir_secimi) if satir_secimi else (lambda r: True)
         cf = kosullu_bicimler(wsf, wsv, adlar, satir_secimi, son_c)
         varsayilan = wsv.sheet_format.defaultColWidth or 8.43
