@@ -38,8 +38,8 @@ function kur(canvas){
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
   const controls = new THREE.OrbitControls(camera, canvas);
   controls.enableDamping = true; controls.maxPolarAngle = Math.PI*0.48; controls.minDistance = 4; controls.maxDistance = 70;
-  scene.add(new THREE.HemisphereLight(0xEAF4FB, C.floor, 0.8));
-  const sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(8,16,10); scene.add(sun);
+  scene.add(new THREE.HemisphereLight(0xEAF4FB, C.floor, 0.55));
+  const sun = new THREE.DirectionalLight(0xffffff, 0.5); sun.position.set(8,16,10); scene.add(sun);
 
   let world = new THREE.Group(); scene.add(world);
   let bayMesh = null, bayIndex = new Map(), bayCodes = [], route = null, seqLine = null, picker = null, pinSprites = [], blockGroup = null;
@@ -80,7 +80,7 @@ function kur(canvas){
     const posts = new THREE.InstancedMesh(post, new THREE.MeshStandardMaterial({ color:C.post }), L.racks.length*(L.bays+1)*2);
     let j = 0; L.racks.forEach(r => { for (let z=0; z<=L.bays; z++) [-0.47,0.47].forEach(s => { const p = W2({x:r.x, z:z+0.5}); m4.makeTranslation(p.x+s, 0, p.z); posts.setMatrixAt(j++, m4); }); });
     world.add(posts);
-    L.racks.forEach(r => { const s = label(r.letter, { size:72 }); const p = W2({x:r.x, z:-0.6}); s.position.set(p.x, 0.5, p.z); s.scale.set(0.9,0.9,1); world.add(s); });
+    L.racks.forEach(r => { const s = label(r.letter, { bg:"#0B1F3A", ring:"#5B87AD", size:64 }); const p = W2({x:r.x, z:-0.6}); s.position.set(p.x, 0.5, p.z); s.scale.set(0.9,0.9,1); world.add(s); });
     const d = W2(L.depot);
     const dep = new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.42,0.06,32), new THREE.MeshStandardMaterial({ color:C.depot, emissive:C.depot, emissiveIntensity:0.2 }));
     dep.position.set(d.x, 0.03, d.z); world.add(dep);

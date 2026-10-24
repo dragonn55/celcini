@@ -1,8 +1,144 @@
-/* ROTA 3D · araç stilleri. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir. */
+/* ROTA 3D · araç stilleri. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir.
+   Sayfa çerçevesi sitenin açık zemini; 3D sahne koyu (--metin). Masaüstünde sahne solda, kontroller sağda;
+   telefonda sahne tam genişlik, kontroller alttan açılan çekmecede (Fabricakit görev notu: fabricakit.css .fk-gorev). */
+
+.rota-bas { padding-bottom: 24px; }
+.sayfa-bas .rota-giris { max-width: 72ch; font-size: var(--fs-1); line-height: 1.6; }
+.rota { padding-bottom: 48px; }
 .rota-duzen { display: grid; gap: 16px; }
-.rota-sahne { position: relative; height: 58vh; min-height: 320px; background: var(--metin); }
+
+/* ---------- Sahne ---------- */
+.rota-sahne {
+  position: relative; overflow: hidden; height: 58vh; min-height: 320px; max-height: 560px;
+  margin: 0 calc(-1 * var(--kenar)); background: var(--metin); color: var(--zemin);
+}
 #scene { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+.rota-hud { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; pointer-events: none; }
+.rota-cip {
+  pointer-events: auto; padding: 4px 10px; font-size: var(--fs-0); line-height: 1.5;
+  background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
+}
+.rota-cip b { color: #fff; font-variant-numeric: tabular-nums; }
+.rota-cip-mod { border-color: var(--turuncu); }
+.rota-kameralar { pointer-events: auto; display: flex; gap: 4px; margin-left: auto; }
+.rota-kameralar button {
+  min-width: 52px; min-height: 44px; padding: 0 12px; font: inherit; font-size: var(--fs-0); font-weight: 700; cursor: pointer;
+  color: var(--zemin); background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
+}
+.rota-kameralar button:hover { border-color: var(--cizgi); }
+.rota-kameralar button[aria-pressed="true"] { color: var(--metin); background: var(--zemin); border-color: var(--zemin); }
+.rota-kameralar button:focus-visible { outline-color: #fff; }
+.rota-lejant {
+  position: absolute; left: 12px; bottom: 12px; display: none; flex-wrap: wrap; gap: 4px 14px; max-width: calc(100% - 24px);
+  padding: 6px 12px; font-size: var(--fs-0); background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: var(--r);
+}
+.rota-lejant span { display: inline-flex; align-items: center; gap: 6px; }
+.rota-lejant i { width: 12px; height: 12px; border-radius: 2px; }
+.rota-lejant .l-rota { background: var(--turuncu); height: 4px; border-radius: 2px; }
+.rota-lejant .l-sirali { height: 0; border-top: 2px dashed var(--cizgi); border-radius: 0; }
+.rota-lejant .l-raf { background: var(--cizgi); }
+.rota-lejant .l-secili { background: var(--mavi); }
+.rota-lejant .l-sevk { background: #fff; border-radius: 50%; }
+.rota-lejant .l-engel { background: var(--acil); }
+.rota-uyari {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(420px, calc(100% - 32px));
+  padding: 16px; text-align: center; background: var(--metin); border: var(--cizgi-k) solid var(--turuncu); border-radius: var(--r);
+}
+.rota-toast {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); max-width: calc(100% - 32px);
+  padding: 8px 14px; font-weight: 600; color: var(--metin); background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
+  opacity: 0; pointer-events: none; transition: opacity var(--gecis);
+}
+.rota-toast.show { opacity: 1; }
+.rota-toast:empty { display: none; }
+
+/* ---------- Özet: mesafe, süre, durak, karşılaştırma ---------- */
+.rota-yan { display: grid; gap: 16px; min-width: 0; }
+.rota-yan > .fk-gorev-kap { grid-area: auto; } /* fabricakit.css masaüstünde Fabricakit ızgarasına yerleştirir */
+.rota-ozet { padding: 16px; display: grid; gap: 14px; }
+.rota-stat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.rota-stat > div { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); }
+.rota-stat dt { color: var(--metin-2); font-size: var(--fs-0); line-height: 1.3; }
+.rota-stat dd { margin: 0; font-size: var(--fs-2); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.rota-stat dd small { margin-left: 2px; font-size: var(--fs-0); font-weight: 600; color: var(--metin-2); }
+.rota-stat > .rota-stat-ana { border-color: var(--koyu); }
+.rota-stat-ana dd { color: var(--koyu); }
+.rota-karsilastir { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: end; gap: 12px; }
+.rota-cubuk-etiket { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 4px; font-size: var(--fs-0); color: var(--metin-2); font-variant-numeric: tabular-nums; }
+.rota-cubuk { position: relative; height: 8px; overflow: hidden; background: var(--zemin); border-radius: 4px; }
+.rota-cubuk i { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 4px; }
+.rota-cubuk-sirali i { width: 100%; background: var(--metin-2); }
+.rota-cubuk-opt i { background: var(--turuncu); }
+.rota-tasarruf { font-weight: 700; color: var(--koyu); white-space: nowrap; line-height: 1.2; }
+.rota-yontem { font-size: var(--fs-0); color: var(--metin-2); }
+
+/* ---------- Kontroller (masaüstünde kart, telefonda çekmece) ---------- */
+.rota-cekmece summary .ikon { width: 24px; height: 24px; }
+.rota-sekmeler { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 12px; border-bottom: var(--cizgi-k) solid var(--cizgi); }
+.rota-sekmeler .etiket-dugme[aria-selected="true"],
+.rota-secim .etiket-dugme[aria-pressed="true"] { background: var(--zemin); color: var(--metin); font-weight: 700; border-width: 2px; padding: 0 15px; }
+.rota-panel { display: grid; gap: 24px; padding-top: 16px; }
+.rota-grup { display: grid; gap: 10px; min-width: 0; }
+.rota-h { font-size: var(--fs-1); font-weight: 700; color: var(--koyu); letter-spacing: 0.04em; text-transform: uppercase; }
+.rota-ipucu { color: var(--metin-2); }
+.rota-ipucu code, .rota-panel code { font: inherit; font-weight: 700; color: var(--metin); }
+.rota-hata { color: var(--acil); font-weight: 600; }
+.rota-panel label { display: grid; gap: 6px; color: var(--metin-2); }
+.rota-panel .rota-h label { display: inline; color: inherit; }
+.rota-panel label b { color: var(--metin); font-variant-numeric: tabular-nums; }
+.rota-panel input[type="number"], .rota-panel select, .rota-panel textarea {
+  width: 100%; min-width: 0; min-height: 48px; padding: 8px 12px; font: inherit; color: var(--metin);
+  background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: var(--r);
+}
+.rota-panel textarea { min-height: 88px; resize: vertical; line-height: 1.5; }
+.rota-panel input[type="range"] { width: 100%; min-height: 32px; margin: 0; accent-color: var(--mavi); }
+.rota-panel .rota-kutu { display: flex; align-items: center; gap: 10px; min-height: 44px; color: var(--metin); cursor: pointer; }
+.rota-kutu input { width: 20px; height: 20px; flex: none; margin: 0; accent-color: var(--koyu); }
+.rota-satir { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.rota-satir-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rota-dugmeler { display: flex; flex-wrap: wrap; gap: 8px; }
+.rota-dugmeler .dugme { flex: 1 1 100%; }
+.rota-dugmeler .dugme-cizgi { flex: 1 1 auto; font: inherit; font-weight: 700; cursor: pointer; }
+.rota-secim { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Toplama sırası */
+.rota-sira { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.rota-sira li { padding: 2px 10px; color: var(--metin-2); background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: 999px; font-variant-numeric: tabular-nums; transition: background-color var(--gecis), border-color var(--gecis); }
+.rota-sira li.depot { color: var(--metin); font-weight: 600; }
+.rota-sira li.done { color: var(--metin); background: var(--zemin); border-color: var(--koyu); }
+
+/* Adım adım */
+.rota-adimlar { list-style: none; border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); overflow: hidden; }
+.rota-adimlar li { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 12px; border-top: var(--cizgi-k) solid var(--cizgi); transition: opacity var(--gecis); }
+.rota-adimlar li:first-child { border-top: 0; }
+.rota-adimlar .arr { color: var(--koyu); font-weight: 700; text-align: center; }
+.rota-adimlar .what { min-width: 0; }
+.rota-adimlar .alt { display: block; color: var(--metin-2); font-size: var(--fs-0); }
+.rota-adimlar .m { color: var(--metin-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rota-adimlar li.stop { background: var(--zemin); }
+.rota-adimlar li.stop .what { font-weight: 700; }
+.rota-adimlar li.done { opacity: 0.55; }
+
+/* Isı haritası */
+.rota-isi { display: flex; align-items: center; gap: 8px; color: var(--metin-2); font-size: var(--fs-0); }
+.rota-isi i { flex: 1; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--cizgi), var(--turuncu-zemin), var(--turuncu)); }
+.rota-sik { list-style: none; display: grid; gap: 6px; }
+.rota-sik li { display: grid; grid-template-columns: 52px minmax(0, 1fr) 40px; gap: 8px; align-items: center; font-variant-numeric: tabular-nums; }
+.rota-sik li i { display: block; height: 8px; border-radius: 4px; background: var(--turuncu); }
+.rota-sik li span:last-child { text-align: right; color: var(--metin-2); }
+.rota-sik li.bos { display: block; color: var(--metin-2); }
+
+/* ---------- Masaüstü: sahne solda (kaydırırken görünür kalır), kontroller sağda ---------- */
+@media (min-width: 600px) { .rota-lejant { display: flex; } }
 @media (min-width: 960px) {
-  .rota-duzen { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; }
-  .rota-sahne { height: min(78vh, 720px); }
+  .rota-duzen { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: 20px; }
+  .rota-sahne { position: sticky; top: 16px; margin: 0; height: min(78vh, 720px); max-height: none; border-radius: var(--r); }
+  .rota-hud { top: 12px; left: 12px; right: 12px; }
+  .rota-cekmece { padding: 16px; border-left: var(--cizgi-k) solid var(--cizgi); }
+  .rota-cekmece > summary { display: none; }
+}
+/* Telefon: çekmece kapalıyken sahne ve özet tam görünür; açıkken içi kayar (fabricakit.css .fk-gorev) */
+@media (max-width: 959px) {
+  .rota-cekmece[open] { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .rota-sekmeler { position: sticky; top: 0; z-index: 1; background: var(--kart); }
 }
