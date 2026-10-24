@@ -321,5 +321,7 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     },
     pin: (i) => katmanlar.pin[i] || null,
     alan: (i) => katmanlar.alan[i] || null,
+    /* Dondurulmuş bandın (satır numaraları ve dondurulmuş sütunlar) ekrandaki sağ kenarı: kaydırmayla yer değiştirmez */
+    donukSag: () => kutu.getBoundingClientRect().left + kutu.clientLeft + solKenar[donuk.c],
   };
 }

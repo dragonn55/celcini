@@ -290,10 +290,11 @@ function baslat() {
       requestAnimationFrame(() => {
         balonYerlestir();
         if (!TELEFON.matches) { sonrakiDugme.focus({ preventScroll: true }); return; }
-        /* Telefonda not alttan (yatayda yandan) açılır: vurgulanan alanın üstü, kartın örtmediği bölgeye kaydırılır */
+        /* Telefonda not alttan (yatayda yandan) açılır. Alanın üstü kartın örtmediği bandın dışındaysa
+           ya da alt kısmı kartın arkasında kalıyorsa alan, üstü 16 px'e gelecek kadar kaydırılır. */
         const a = tablo.alan(i)?.getBoundingClientRect();
         const alt = YATAY.matches ? window.innerHeight : balon.getBoundingClientRect().top;
-        if (a && (a.top < 8 || a.top > alt - 48)) window.scrollBy({ top: a.top - 16, behavior: "smooth" });
+        if (a && (a.top < 8 || a.top > alt - 48 || (a.bottom > alt - 8 && a.top > 20))) window.scrollBy({ top: a.top - 16, behavior: "smooth" });
       });
     }
     /* Yatay telefon: kart sağa konur, tablo alanı soldaki boş banda gelecek kadar kaydırılır.
@@ -303,10 +304,13 @@ function baslat() {
       balon.classList.add("rh-balon-alt-kart");
       balon.classList.remove("rh-balon-solda");
       const g = balon.offsetWidth + 16, k = kutu.getBoundingClientRect(), W = window.innerWidth;
+      /* Görünen genişlik dondurulmuş bandın sağından sayılır: alanın dondurulmuş sütunlardaki parçası
+         her durumda solda durur; kartın yerini alanın kayan (veri) sütunları belirler */
+      const donukSag = tablo.donukSag();
       const gorunen = (solda) => {
         const a = tablo.alan(i)?.getBoundingClientRect();
         if (!a) return { gen: 0, tam: 0 };
-        const gen = Math.min(a.right, k.right, solda ? W : W - g) - Math.max(a.left, k.left, solda ? g : 0);
+        const gen = Math.min(a.right, k.right, solda ? W : W - g) - Math.max(a.left, k.left, donukSag, solda ? g : 0);
         return { gen: Math.max(0, gen), tam: a.width };
       };
       tablo.notGoster(i, { ortuSag: Math.max(0, k.right - (W - g)) });
