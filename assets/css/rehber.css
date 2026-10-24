@@ -176,7 +176,7 @@ a.rh-sekme:hover { background: var(--zemin); color: var(--metin); }
 }
 /* Yatay telefon: kart ekranın yarısında, yanda. Hangi yanda duracağını rehber.js seçer (alan görünür kalsın). */
 @media (max-height: 500px) and (orientation: landscape) {
-  .rh-balon-alt-kart { left: auto; width: min(460px, 50vw); max-height: calc(100vh - 24px); max-height: calc(100svh - 24px); gap: 6px; padding-top: 12px; }
+  .rh-balon-alt-kart { left: auto; width: min(460px, 50vw); max-height: calc(100vh - 16px); max-height: calc(100svh - 16px); gap: 6px; padding-top: 12px; }
   .rh-balon-alt-kart.rh-balon-solda { left: 8px; right: auto; }
   .rh-balon-alt-kart .rh-balon-ust { top: -12px; margin-top: -12px; padding-top: 2px; }
   .rh-balon-alt-kart .rh-balon-baslik { font-size: var(--fs-1); }
