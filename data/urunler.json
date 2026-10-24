@@ -3457,7 +3457,7 @@
       "Özet sayfasında aylık ortalama yükü, 7 ve 30 günde ödeyeceklerinizi ve sıradaki 10 ödemeyi izleyin.",
       "Takvim sayfasında yılı Özet sayfasından seçin; yıllık ve altı aylık ödemelerin ağırlaştırdığı ayları görün."
     ],
-    "teknik_not": "Ödemeler sayfası 100 ödemeye, Kategoriler sayfası 20 kategoriye kadar hesaplar. Sıradaki ödeme ilk ödeme tarihinden sıklığa göre ileri sayılır; ayın 31'i gibi günlerde kısa aylarda ayın son gününe kayar. Fatura gibi değişen ödemelerde ortalama tutarı yazın, dosya geçmiş tutarları ayrı ayrı tutmaz.",
+    "teknik_not": "Ödemeler sayfası 100 ödemeye, Kategoriler sayfası 12 kategoriye kadar hesaplar. Sıradaki ödeme ilk ödeme tarihinden sıklığa göre ileri sayılır; ayın 31'i gibi günlerde kısa aylarda ayın son gününe kayar. Fatura gibi değişen ödemelerde ortalama tutarı yazın, dosya geçmiş tutarları ayrı ayrı tutmaz.",
     "ucretsiz_dosya": "/dosyalar/excel-klinigi/ExcelKlinigi_DOZ_Duzenli_Odeme_Takibi.xlsx"
   },
   {
@@ -4091,7 +4091,7 @@
     "aciklama": "Alışkanlıklar sayfasına yılı, takip edeceğiniz alışkanlıkları ve haftada kaç gün yapmayı hedeflediğinizi yazarsınız; Takip sayfasında her gün yaptığınız alışkanlığın hücresine 1 yazarsınız, bugünün satırı yeşil görünür. Alışkanlıklar sayfasında toplam gün, bu ay, bu hafta ile hedef, son 30 gün oranı, şimdiki seri ve en uzun seri hesaplanır; Aylar sayfası her alışkanlığı her ay kaç gün yaptığınızı gösterir. AI Komutları sayfasında 6 hazır komut var.",
     "ozellikler": [
       "Takip sayfasında yılın her günü bir satır; yaptığınız günün hücresine 1 yazılır",
-      "Bugünün satırı yeşil çerçeveli görünür, işaretlenen günler renkle ayrılır",
+      "Bugünün satırı yeşil renkle görünür, işaretlenen günler renkle ayrılır",
       "Alışkanlık başına haftalık hedef; bu hafta kaç gün yapıldığı hedefle birlikte gösterilir",
       "Toplam gün, bu ay, son 30 gün oranı, şimdiki seri ve en uzun seri",
       "Aylar sayfasında her alışkanlığın ay ay yapıldığı gün sayısı ve toplamı"
@@ -4116,7 +4116,7 @@
       },
       {
         "sayfa": "Takip",
-        "aciklama": "Yılın her günü bir satır; yaptığınız alışkanlığın hücresine 1 yazılır, bugünün satırı yeşil çerçevelidir"
+        "aciklama": "Yılın her günü bir satır; yaptığınız alışkanlığın hücresine 1 yazılır, bugünün satırı yeşil renklidir"
       },
       {
         "sayfa": "Alışkanlıklar",

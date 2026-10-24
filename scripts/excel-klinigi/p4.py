@@ -12,7 +12,7 @@ def ritim():
     B.body(wa,R0,NA,8,calc=range(3,9),fmt={2:NUM,3:NUM,4:NUM,6:"0%",7:NUM,8:NUM},center=range(2,9),bold=(7,))
     al=[("Yürüyüş (30 dk)",5),("Kitap okuma (20 sayfa)",7),("İngilizce çalışma",4),("Su (2 litre)",7)]
     B.put(wa,R0,al); B.dv(wa,"int",f"B{R0}:B{R0+NA-1}",(1,7))
-    wt=B.sheet(T,"Takip","Yaptığın günün hücresine 1 yaz. Bugünün satırı yeşil çerçevelidir.",{"A":12,"B":11,**{CL(c):13 for c in range(3,3+NA)},"R":4,"S":4})
+    wt=B.sheet(T,"Takip","Yaptığın günün hücresine 1 yaz. Bugünün satırı yeşil renklidir.",{"A":12,"B":11,**{CL(c):13 for c in range(3,3+NA)},"R":4,"S":4})
     wt.cell(4,1,"Tarih"); wt.cell(4,2,"Gün"); B.head(wt,4,["Tarih","Gün"]+[""]*NA+["y","y"],calc=range(1,3+NA+2),h=34)
     for j in range(NA): wt.cell(4,3+j,f"=IF('{A}'!A{R0+j}=\"\",\"\",'{A}'!A{R0+j})")
     marks={0:lambda k:k%7 not in (5,),1:lambda k:True,2:lambda k:k%7 in (0,2,4),3:lambda k:k%3!=0}
