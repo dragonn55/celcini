@@ -66,5 +66,9 @@ export function bildirimKur(kap, { odaAc }) {
     hata(metin) {
       ekle({ metin, seviye: "acil", oda: null });
     },
+    /* Bilgi (ses açıldı): aynı kuyruktan geçer */
+    bilgi(metin) {
+      ekle({ metin, seviye: "bilgi", oda: null });
+    },
   };
 }

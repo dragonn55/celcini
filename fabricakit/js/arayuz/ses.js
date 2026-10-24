@@ -1,12 +1,12 @@
-/* Fabricakit sesleri. Dış servis yok, ses dosyası yok.
+/* Fabricakit sesleri. Dış servis yok.
    Efektler Web Audio API ile kodda üretilir; hepsi kısa ve kısık, hat çalışırken sürekli ses (uğultu) yoktur.
    Her efektin ekranda bir karşılığı var (bildirim, sayaç, karne): ses kapalıyken hiçbir bilgi kaybolmaz.
-   Ses tercihi yalnızca bu tarayıcıda (localStorage), varsayılan açık. Tarayıcı kuralı gereği AudioContext ilk dokunuşta
-   ("Başla", "Devam et" ya da hoparlör düğmesi) kurulur.
-   Ajan GM'in sesi tarayıcının SpeechSynthesis API'si: tr-TR, hız 0,95, perde 0,85 (kalın, soğukkanlı).
-   Yalnızca cihazdaki (yerel) Türkçe ses kullanılır: okunan metin hitabı içerir, bulut sesine gönderilmez.
-   Yerel Türkçe ses yoksa "Sesli oku" düğmesi görünmez. Ekran ya da panel değişince okuma kesilir (okumayiDurdur). */
+   Ses tercihi yalnızca bu tarayıcıda (localStorage), varsayılan açık; kapalıyken hiçbir ses çalmaz (Ajan GM dahil).
+   Tarayıcı kuralı gereği AudioContext ilk dokunuşta ("Başla", "Devam et" ya da hoparlör düğmesi) kurulur.
+   Ajan GM'nin sesi aşağıda: sabit cümleler sitedeki ses dosyalarından, değişken parçalar cihaz sesiyle. */
 import { AYARLAR } from "../ayarlar.js";
+import { SES_KLASORU, parcala } from "../ajan-gm/cumleler.js";
+import { SES_DOSYALARI_HAZIR } from "../ajan-gm/ses-dosyalari.js";
 import { h, ikon, temizle } from "./dom.js";
 
 const TERCIH = "fabricakit-ses";
@@ -24,8 +24,13 @@ export function sesiDegistir() {
   acik = !acik;
   try { localStorage.setItem(TERCIH, acik ? "acik" : "kapali"); } catch { /* özel pencere: tercih yalnız bu oturumda */ }
   if (acik) sesiBaslat();
+  else okumayiDurdur();
+  dugmeleriGuncelle();
   return acik;
 }
+
+/* Hoparlör düğmesinin yanındaki ipucu (iPhone'da Web Audio sessiz anahtara uyar) */
+export const SESSIZ_ANAHTAR_IPUCU = "iPhone'da sessiz anahtarı açıksa ses çıkmaz.";
 
 /* Kullanıcı dokunuşunun içinde çağrılır */
 export function sesiBaslat() {
@@ -60,9 +65,21 @@ const EFEKT = {
   zil: () => [1, 2, 2.76, 5.4].forEach((k, i) => nota(523.3 * k, 0, 1.3 - i * 0.25, "sine", 0.6 / (i + 1))), // gün sonu zili
 };
 
+/* Bağlam askıdaysa (iPhone'da ilk dokunuştan hemen sonra resume henüz bitmemişken) efekt atlanmaz: kuyruğa girer ve
+   bağlam açılınca çalar. Bayat efekt çalmasın diye kuyrukta en fazla son KUYRUK_EN_FAZLA efekt, KUYRUK_SURE_MS içinde. */
+const KUYRUK_EN_FAZLA = 2;
+const KUYRUK_SURE_MS = 2000;
+let kuyruk = [];
+
 export function efekt(ad) {
-  if (!acik || !baglam || baglam.state !== "running") return;
-  EFEKT[ad]();
+  if (!acik || !baglam || baglam.state === "closed") return;
+  if (baglam.state === "running") { EFEKT[ad](); return; }
+  kuyruk = kuyruk.concat({ ad, an: Date.now() }).slice(-KUYRUK_EN_FAZLA);
+  baglam.resume().then(() => {
+    const bekleyenler = kuyruk;
+    kuyruk = [];
+    for (const e of bekleyenler) if (acik && Date.now() - e.an <= KUYRUK_SURE_MS) EFEKT[e.ad]();
+  }).catch(() => {});
 }
 
 /* Oyun durumundan efekt: her çizimde en fazla bir efekt (düşen sipariş > olay > onay > sipariş geldi), yoksa sayaç tiki.
@@ -158,37 +175,49 @@ export function seseHazirla(metin) {
     .replace(/(^|[^\p{L}])(\p{Lu}{3,})(?!\p{L})/gu, (s, o, w) => (/[AEIİOÖUÜ]/.test(w) ? o + w.toLocaleLowerCase("tr") : s));
 }
 
-/* ---------------- Ajan GM'in sesi ---------------- */
+/* ---------------- Ajan GM'nin sesi ----------------
+   Okunacak metin sabit ve değişken parçalara bölünür (ajan-gm/cumleler.js: parcala). Sabit parça sitedeki ses dosyasından
+   çalar (assets/ses/ajan-gm/<id>.mp3; tek HTMLAudioElement, aynı köken), değişken parça (hitap, sayı, ürün adı) cihaz
+   sesiyle okunur: SpeechSynthesis, tr-TR, hız 0,95, perde 0,85. Ses dosyaları henüz üretilmediyse (ajan-gm/ses-dosyalari.js)
+   ya da bir dosya açılamazsa o parça da cihaz sesiyle okunur.
+   Yalnızca cihazdaki (yerel) Türkçe ses kullanılır: okunan metin hitabı içerir, bulut sesine gönderilmez. Yerel Türkçe ses
+   yoksa değişken parça atlanır (yazı ekranda); ne ses dosyası ne yerel ses varsa düğme görünmez. Ses kapalıyken düğme
+   pasiftir, yanında "Sesi aç" çıkar. Ekran ya da panel değişince okuma kesilir (okumayiDurdur).
+   iPhone'da ses dosyası da konuşma da ancak dokunuşla başlar: ilk parça dokunuşun içinde çalar, öteki türün kilidi aynı
+   dokunuşta açılır (kilitleriAc). */
 const sentez = typeof window !== "undefined" && window.speechSynthesis ? window.speechSynthesis : null;
 let turkce = null;
-const dugmeler = new Set();
-let okuyan = null;
+let calar = null;            // ortak HTMLAudioElement, ilk dokunuşta kurulur
+let okuyan = null;           // okuyan düğmenin kaydı
+let oturum = 0;              // her okuma ve durdurma yeni oturumdur; eski oturumun geri çağrıları yok sayılır
+let bekleyen = null;         // çalan parçayı bitiren işlev (durdurulunca çağrılır)
+const dugmeler = new Map();  // ses düğmesi → çizim; ses açılıp kapanınca ve cihaz sesleri yüklenince yeniden çizilir
+
+function dugmeleriGuncelle() {
+  for (const [el, ciz] of dugmeler) {
+    if (!el.isConnected) dugmeler.delete(el);
+    else ciz();
+  }
+}
 
 function sesleriBul() {
-  const sesler = sentez ? sentez.getVoices() : [];
-  const yerel = sesler.filter((v) => v.localService);
+  const yerel = (sentez ? sentez.getVoices() : []).filter((v) => v.localService);
   turkce = yerel.find((v) => v.lang === "tr-TR") || yerel.find((v) => /^tr([-_]|$)/i.test(v.lang)) || null;
-  for (const d of dugmeler) {
-    if (!d.isConnected) dugmeler.delete(d);
-    else d.hidden = !turkce;
-  }
+  dugmeleriGuncelle();
 }
 if (sentez) {
   sesleriBul();
   if (sentez.addEventListener) sentez.addEventListener("voiceschanged", sesleriBul);
 }
 
-function dugmeCiz(dugme, okuyor) {
-  temizle(dugme).append(ikon(okuyor ? "durdur" : "ses"), okuyor ? "Durdur" : "Sesli oku");
-  dugme.setAttribute("aria-pressed", String(okuyor));
-}
-
 export function okumayiDurdur() {
-  if (!sentez) return;
-  const d = okuyan;
+  oturum += 1;
+  if (bekleyen) bekleyen(false);
+  if (calar && !calar.paused) calar.pause();
+  if (sentez && (sentez.speaking || sentez.pending)) sentez.cancel();
+  const k = okuyan;
   okuyan = null;
-  if (d) dugmeCiz(d, false);
-  if (sentez.speaking || sentez.pending) sentez.cancel();
+  if (k) k.ciz();
 }
 
 /* Metinler sese hazırlanıp cümle cümle okunur (uzun konuşmada bazı tarayıcılar sesi keser).
@@ -196,43 +225,140 @@ export function okumayiDurdur() {
 export const cumlelereBol = (metinler) => metinler.filter(Boolean)
   .flatMap((m) => seseHazirla(m).replace(/([.!?…]+)\s+/g, "$1\n").split("\n")).map((c) => c.trim()).filter(Boolean);
 
-function oku(metinler, dugme) {
+/* Okuma planı: { dosya, metin } ses dosyasından, { cumleler } cihaz sesiyle (ardışık konuşma parçaları birleşir) */
+function planKur(metinler) {
+  const plan = [];
+  const konusma = (metin) => {
+    const cumleler = turkce ? cumlelereBol([metin]) : [];
+    const son = plan[plan.length - 1];
+    if (!cumleler.length) return;
+    if (son && son.cumleler) son.cumleler.push(...cumleler);
+    else plan.push({ cumleler });
+  };
+  for (const m of metinler.filter(Boolean)) {
+    if (!SES_DOSYALARI_HAZIR) { konusma(m); continue; }
+    for (const p of parcala(m)) {
+      if (p.id) plan.push({ dosya: `${SES_KLASORU}${p.id}.mp3`, metin: p.metin });
+      else konusma(p.metin);
+    }
+  }
+  return plan;
+}
+
+/* Ses dosyası çalar; bitince true, açılamazsa ya da durdurulunca false */
+function dosyaCal(adim) {
+  return new Promise((coz) => {
+    const bitir = (oldu) => {
+      if (bekleyen !== bitir) return;
+      bekleyen = null;
+      calar.onended = calar.onerror = null;
+      coz(oldu);
+    };
+    bekleyen = bitir;
+    calar.onended = () => bitir(true);
+    calar.onerror = () => bitir(false);
+    calar.muted = false;
+    calar.src = adim.dosya;
+    const p = calar.play();
+    if (p) p.catch(() => bitir(false));
+  });
+}
+
+/* Cümleleri cihaz sesiyle okur; bitince, hata verince ya da durdurulunca biter */
+function konus(cumleler) {
+  return new Promise((coz) => {
+    let sozler = [];
+    try {
+      sozler = cumleler.map((c) => Object.assign(new SpeechSynthesisUtterance(c), GM_SESI, { voice: turkce }));
+    } catch { /* SpeechSynthesisUtterance yok */ }
+    if (!sozler.length) { coz(); return; }
+    const bitir = () => {
+      if (bekleyen !== bitir) return;
+      bekleyen = null;
+      coz();
+    };
+    bekleyen = bitir;
+    sozler[sozler.length - 1].onend = bitir;
+    for (const s of sozler) {
+      s.onerror = () => { if (bekleyen === bitir) { sentez.cancel(); bitir(); } };
+      sentez.speak(s);
+    }
+  });
+}
+
+/* iPhone: ses öğesi ancak dokunuşla bir kez çalınca, konuşma da dokunuşla bir kez başlayınca sonradan kendiliğinden
+   çalabilir. İlk parça dokunuşun içinde başlar; burada öteki türün kilidi açılır: ses öğesi sessiz başlayıp durur,
+   konuşma boş sözle başlayıp kesilir (plan yalnız dosyaysa da: dosya açılamazsa cihaz sesine düşebilsin). */
+function kilitleriAc(plan) {
+  const ilkDosya = plan.find((a) => a.dosya);
+  if (ilkDosya && !calar) calar = new Audio();
+  if (ilkDosya && !plan[0].dosya) {
+    calar.muted = true;
+    calar.src = ilkDosya.dosya;
+    const p = calar.play();
+    if (p) p.then(() => { if (calar.muted) calar.pause(); }, () => {});
+  }
+  if (turkce && plan[0].dosya) {
+    try { sentez.speak(new SpeechSynthesisUtterance("")); } catch { /* SpeechSynthesisUtterance yok */ }
+    sentez.cancel();
+  }
+}
+
+async function cal(plan, kayit, no) {
+  for (const adim of plan) {
+    const caldi = adim.dosya ? await dosyaCal(adim) : false;
+    if (no !== oturum) return;
+    if (!caldi && turkce) await konus(adim.cumleler || cumlelereBol([adim.metin]));
+    if (no !== oturum) return;
+  }
+  okuyan = null;
+  kayit.ciz();
+}
+
+function oku(metinler, kayit) {
   okumayiDurdur();
-  const cumleler = cumlelereBol(metinler);
-  if (!turkce || !cumleler.length) return;
-  let sozler;
-  try {
-    sozler = cumleler.map((c) => Object.assign(new SpeechSynthesisUtterance(c), GM_SESI, { voice: turkce }));
-  } catch {
-    return;
-  }
-  okuyan = dugme;
-  dugmeCiz(dugme, true);
-  sozler[sozler.length - 1].onend = () => { if (okuyan === dugme) { okuyan = null; dugmeCiz(dugme, false); } };
-  for (const s of sozler) {
-    s.onerror = () => { if (okuyan === dugme) okumayiDurdur(); };
-    sentez.speak(s);
-  }
+  const plan = acik ? planKur(metinler) : [];
+  if (!plan.length) return;
+  kilitleriAc(plan);
+  okuyan = kayit;
+  kayit.ciz();
+  cal(plan, kayit, oturum);
 }
 
-/* "Sesli oku" düğmesi: metin() okunacak metinleri (dizi) verir. Okurken düğme "Durdur" olur. */
-export function sesliOkuDugmesi(metin) {
-  const dugme = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme fk-sesli-oku", type: "button", hidden: !turkce });
-  dugmeCiz(dugme, false);
-  dugme.addEventListener("click", () => { if (okuyan === dugme) okumayiDurdur(); else oku(metin(), dugme); });
-  if (sentez) dugmeler.add(dugme);
-  return dugme;
+/* "Sesli oku" düğmesi: metin() okunacak metinleri (dizi) verir. Okurken düğme "Durdur" olur.
+   Ses kapalıyken düğme pasif, yanındaki "Sesi aç" sesi açar. */
+export function sesliOkuDugmesi(metin, { etiket = "Sesli oku" } = {}) {
+  const dugme = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme fk-sesli-oku", type: "button" });
+  const ac = h("button", { sinif: "dugme-cizgi fk-kucuk-dugme fk-ses-ac", type: "button" }, ikon("sessiz"), "Sesi aç");
+  const kutu = h("span", { sinif: "fk-sesli" }, dugme, ac);
+  const kayit = {
+    ciz() {
+      const okuyor = okuyan === kayit;
+      temizle(dugme).append(ikon(okuyor ? "durdur" : "ses"), okuyor ? "Durdur" : etiket);
+      dugme.setAttribute("aria-pressed", String(okuyor));
+      dugme.disabled = !acik;
+      ac.hidden = acik;
+      kutu.hidden = !SES_DOSYALARI_HAZIR && !turkce;
+    },
+  };
+  dugme.addEventListener("click", () => { if (okuyan === kayit) okumayiDurdur(); else oku(metin(), kayit); });
+  ac.addEventListener("click", () => { if (!acik) sesiDegistir(); dugme.focus(); });
+  kayit.ciz();
+  dugmeler.set(kutu, kayit.ciz);
+  return kutu;
 }
 
-/* Üst şeritteki hoparlör düğmesi */
-export function sesDugmesi() {
-  const dugme = h("button", { sinif: "fk-ust-dugme fk-ses", type: "button" });
+/* Üst şeritteki hoparlör düğmesi. İpucu masaüstünde düğmenin üzerinde (title); telefonda ses açılınca acilinca()
+   (oyun ekranı bildirim balonunda gösterir). */
+export function sesDugmesi({ acilinca } = {}) {
+  const dugme = h("button", { sinif: "fk-ust-dugme fk-ses", type: "button", title: SESSIZ_ANAHTAR_IPUCU });
   const ciz = () => {
     temizle(dugme).append(ikon(acik ? "ses" : "sessiz"), h("span", { sinif: "fk-dugme-metin", metin: acik ? "Sesi kapat" : "Sesi aç" }),
       h("span", { sinif: "fk-dugme-kisa", "aria-hidden": "true", metin: "Ses" }));
     dugme.setAttribute("aria-label", acik ? "Sesi kapat" : "Sesi aç");
   };
-  dugme.addEventListener("click", () => { sesiDegistir(); ciz(); });
+  dugme.addEventListener("click", () => { if (sesiDegistir() && acilinca) acilinca(); });
   ciz();
+  dugmeler.set(dugme, ciz);
   return dugme;
 }

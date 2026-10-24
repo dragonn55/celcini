@@ -216,7 +216,8 @@ span.fk-bildirim-metin { display: flex; align-items: center; cursor: default; }
 .fk-gm-govde { display: grid; gap: 6px; min-width: 0; }
 .fk-gm-baslik-satir { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
 .fk-gm-soz { display: grid; gap: 10px; justify-items: start; min-width: 0; }
-.fk-sesli-oku .fk-ikon { width: 18px; height: 18px; }
+.fk-sesli { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+.fk-sesli .fk-ikon { width: 18px; height: 18px; }
 @media (max-width: 479px) { .fk-gm { width: 56px; height: 56px; } .fk-gm-satir { gap: 12px; } }
 .fk-bekliyor { color: var(--metin-2); }
 

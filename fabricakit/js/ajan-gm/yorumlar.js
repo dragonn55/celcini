@@ -15,6 +15,8 @@ const ilkKalem = (k) => k.unutulan.liste.find((m) => m.startsWith("Unutulan iş"
 const ilkUnutulan = (k) => kucukBas(ilkKalem(k).replace(/^Unutulan (iş|onay): /, ""));
 /* Koşullu şablon yalnızca koşulu tutan günde seçilir */
 const kosullu = (kosul, f) => Object.assign(f, { kosul });
+/* Açılış kalıbı: sayısız sabit parça (ajan-gm/cumleler.js'te ses dosyası olur) + hitap ve puan. Metin ekranda aynıdır. */
+const acilis = (sabit, kalip) => Object.assign((v) => kalip(sabit, v), { sabit });
 const cezasiz = (k) => !k.defter.some((x) => x.puan < 0);
 const gecTeslimYok = (k) => !k.defter.some((x) => x.tur === "GEC_TESLIM");
 
@@ -38,31 +40,31 @@ function degiskenler(k) {
   };
 }
 
-const ACILIS = {
+export const ACILIS = {
   A: [
-    kosullu(cezasiz, (v) => `{hitap}, bugünü temiz kapattınız: ${v.puan} puan, harf notu A.`),
-    kosullu(gecTeslimYok, (v) => `{hitap}, fabrika bugün sözünü tuttu. Not: A, puan ${v.puan}.`),
-    (v) => `{hitap}, kayıtlarıma A notuyla geçiyorsunuz: ${v.puan} puan.`,
+    kosullu(cezasiz, acilis("bugünü temiz kapattınız", (s, v) => `{hitap}, ${s}: ${v.puan} puan, harf notu A.`)),
+    kosullu(gecTeslimYok, acilis("fabrika bugün sözünü tuttu.", (s, v) => `{hitap}, ${s} Not: A, puan ${v.puan}.`)),
+    acilis("kayıtlarıma A notuyla geçiyorsunuz", (s, v) => `{hitap}, ${s}: ${v.puan} puan.`),
   ],
   B: [
-    (v) => `{hitap}, iyi bir gün ama kusursuz değil: ${v.puan} puan, B.`,
-    (v) => `{hitap}, hedefe yakın kaldınız. Not: B, puan ${v.puan}.`,
-    (v) => `{hitap}, işler büyük ölçüde yürüdü. B notu, ${v.puan} puan.`,
+    acilis("iyi bir gün ama kusursuz değil", (s, v) => `{hitap}, ${s}: ${v.puan} puan, B.`),
+    acilis("hedefe yakın kaldınız.", (s, v) => `{hitap}, ${s} Not: B, puan ${v.puan}.`),
+    acilis("işler büyük ölçüde yürüdü.", (s, v) => `{hitap}, ${s} B notu, ${v.puan} puan.`),
   ],
   C: [
-    (v) => `{hitap}, fabrika bugün yarım güçle çalıştı: ${v.puan} puan, C.`,
-    (v) => `{hitap}, ortalama bir gün. Not: C, puan ${v.puan}.`,
-    (v) => `{hitap}, kaçan işler kazanılanları dengeledi. C notu, ${v.puan} puan.`,
+    acilis("fabrika bugün yarım güçle çalıştı", (s, v) => `{hitap}, ${s}: ${v.puan} puan, C.`),
+    acilis("ortalama bir gün.", (s, v) => `{hitap}, ${s} Not: C, puan ${v.puan}.`),
+    acilis("kaçan işler kazanılanları dengeledi.", (s, v) => `{hitap}, ${s} C notu, ${v.puan} puan.`),
   ],
   D: [
-    (v) => `{hitap}, bugün çok şey elden kaçtı: ${v.puan} puan, D.`,
-    (v) => `{hitap}, zayıf bir gün. Not: D, puan ${v.puan}.`,
-    (v) => `{hitap}, bu gün kontrol sizde değildi. D notu, ${v.puan} puan.`,
+    acilis("bugün çok şey elden kaçtı", (s, v) => `{hitap}, ${s}: ${v.puan} puan, D.`),
+    acilis("zayıf bir gün.", (s, v) => `{hitap}, ${s} Not: D, puan ${v.puan}.`),
+    acilis("bu gün kontrol sizde değildi.", (s, v) => `{hitap}, ${s} D notu, ${v.puan} puan.`),
   ],
   E: [
-    (v) => `{hitap}, bu günü olduğu gibi kayda geçiriyorum: ${v.puan} puan, E.`,
-    (v) => `{hitap}, fabrika bugün kendi başına kaldı. Not: E, puan ${v.puan}.`,
-    (v) => `{hitap}, bugün yönetim yoktu, yalnızca olaylar vardı. E notu, ${v.puan} puan.`,
+    acilis("bu günü olduğu gibi kayda geçiriyorum", (s, v) => `{hitap}, ${s}: ${v.puan} puan, E.`),
+    acilis("fabrika bugün kendi başına kaldı.", (s, v) => `{hitap}, ${s} Not: E, puan ${v.puan}.`),
+    acilis("bugün yönetim yoktu, yalnızca olaylar vardı.", (s, v) => `{hitap}, ${s} E notu, ${v.puan} puan.`),
   ],
 };
 
@@ -104,7 +106,9 @@ const SORUN = {
   ],
 };
 
-const TALIMAT = {
+/* Her talimat "Yarın için talimatım: " ile başlar; giriş ve talimatın gövdesi ayrı ses dosyasıdır (ajan-gm/cumleler.js) */
+export const TALIMAT_GIRISI = "Yarın için talimatım:";
+export const TALIMAT = {
   GEC_TESLIM: [
     () => `Yarın için talimatım: saat 09:00 olmadan ${oda("planlama", "de")} kapasite tablosuna bakın, yüzde yüzü aşan günü ${oda("uretim", "de")} ikinci vardiyayla kapatın.`,
     () => `Yarın için talimatım: siparişler gelir gelmez ${oda("planlama", "de")} planı güncelleyin ve geç kalacak satır uyarısını aynı saat içinde kapatın.`,
@@ -211,6 +215,6 @@ export function kuralCevap(karne, soruId) {
     const ornek = karne.defter.find((k) => k.tur === s.tur);
     return `{hitap}, en büyük kaybınız ${PUAN_TURU_ADI[s.tur].toLocaleLowerCase("tr")}: ${sayi(s.adet)} kez, toplam ${sayi(s.puan)} puan. Örnek: ${kucukBas(ornek ? ornek.metin.replace(/^[^:]+: /, "") : "")}.`;
   }
-  const talimat = sec(TALIMAT, talimatAnahtari(karne), karne.gun, [], karne).f(v).replace("Yarın için talimatım: ", "");
+  const talimat = sec(TALIMAT, talimatAnahtari(karne), karne.gun, [], karne).f(v).replace(`${TALIMAT_GIRISI} `, "");
   return `{hitap}, tek iş: ${talimat}`;
 }
