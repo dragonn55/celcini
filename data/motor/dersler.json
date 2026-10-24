@@ -366,7 +366,7 @@
     {
      "aralik": "A26:I36",
      "baslik": "İş merkezi kartı",
-     "metin": "11 iş merkezi: istasyon sayısı, istasyon başına operatör, günlük kapasite dakikası (IM-11 Boru Kesim 765 dk; IM-12 Büküm 3 istasyonla 2.295 dk), fason yapılıp yapılamadığı ve fason kapasitesi (IM-32: 600 dk/gün). Kapasite = istasyon × 900 dk × %85 verim.",
+     "metin": "11 iş merkezi: istasyon sayısı, istasyon başına operatör, günlük kapasite dakikası (IM-11 Boru Kesim 765 dk; IM-12 Büküm 3 istasyonla 2.295 dk), fason yapılıp yapılamadığı ve fason kapasitesi (IM-32: 600 dk/gün). Kapasite = istasyon × 900 dk × verim (çoğu iş merkezinde %85, IM-32'de %95: 855 dk).",
      "karar": "Bir iş merkezine istasyon eklemek bu tablodaki tek sayıyı değiştirir; HAT kartında istasyonu artırıp yükün nasıl değiştiğine bakın."
     },
     {
@@ -535,7 +535,7 @@
      "aralik": "A25:K27",
      "baslik": "Kutu, kutu içi ve metin toplamı",
      "metin": "BL-001 rakor somunu: 43 kutu × 500 adet + ek sayım 463 = 21.963. BL-002: 25 × 500 + '6+7' = 12.513; BL-003: 28 × 500 + '230+231' = 14.461. F sütunundaki metin ifadesini J sütunu toplar, K sayılan miktarı verir. Sayan rolü G'de: Sayım Ekibi 1.",
-     "karar": "Kutu sayısını ve kutu içi miktarı ayrı girin, artanı '230+231' gibi artı ile yazın; J sütunu ifadeyi toplar, K sayılan miktarı verir. Sayan rolünü boş bırakmayın: fark çıkınca kime sorulacağı belli olur."
+     "karar": "Kutu sayısını ve kutu içi miktarı ayrı girin, artanı '230+231' gibi artı ile yazın. Sayan rolünü boş bırakmayın: fark çıkınca kime sorulacağı belli olur."
     },
     {
      "aralik": "L8:R11",
