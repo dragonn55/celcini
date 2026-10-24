@@ -122,7 +122,7 @@
     "slug": "stok-takip-sayim",
     "ad": "Stok Takip + Sayım Sistemi v2",
     "raf": "fabrika",
-    "kisa": "Excel'de stok kartı, giriş-çıkış hareketi, otomatik stok durumu ve sayım farkı takibi; minimum altına düşen malzemeye “SİPARİŞ VER” uyarısı. Makrosuz.",
+    "kisa": "Excel'de stok kartı, giriş-çıkış hareketi, otomatik stok durumu ve sayım farkı takibi; minimum stoğa inen malzemeye “SİPARİŞ VER” uyarısı. Makrosuz.",
     "soz": "Her giriş ve çıkışı tek satırla işleyin; mevcut stok, sipariş uyarısı ve sayım farkı kendiliğinden hesaplansın.",
     "aciklama": "Stok Takip + Sayım Sistemi, malzemelerinizi stok kartlarında tanımlayıp her giriş, çıkış ve fireyi tek satır olarak işlediğiniz bir Excel dosyasıdır. STOK DURUM sayfası mevcut stoğu kendiliğinden hesaplar ve minimum stoğa inen malzemeyi işaretler. Sayım günü sayılan miktarları girdiğinizde dosya sistem stoğuyla farkı ve fark yüzdesini verir.",
     "ozellikler": [
