@@ -1179,7 +1179,7 @@
       "Ürün Analizi'nde kırmızı (kritik) ve turuncu (yüksek) satırlara, iade sonrası kârı eksiye düşen ürünlere bakın.",
       "Çapraz tabloya bakmadan aksiyon almayın: baskın neden paketlemeyse süreç, ölçüyse ürün bilgisi düzeltilir."
     ],
-    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 200 iade kaydı (Veri Girişi 5–204) ve 40 ürün (Satışlar 5–44). Nakliye ve işleme maliyeti iade kaydı başınadır: 1 adetlik iade ile 50 adetlik iade aynı sabit yükü taşır. Kaçan katkı nakit çıkışı değildir, ayrı okunur.",
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 200 iade kaydı (Veri Girişi 5–204) ve 40 ürün (Satışlar 5–44). Nakliye ve işleme maliyeti iade kaydı başınadır: 1 adetlik iade ile 50 adetlik iade aynı sabit yükü taşır. Kaçan katkı nakit çıkışı değildir, ayrı okunur.",
     "sss": [
       {
         "soru": "Neden kodları sabit mi?",
@@ -1208,7 +1208,7 @@
     "slug": "emniyet-stogu-siparis-noktasi",
     "ad": "Emniyet Stoğu ve Sipariş Noktası",
     "kisa": "Ne kadar tampon tutmalı, ne zaman ve ne kadar sipariş vermeli? ABC × XYZ sınıfı, kalem bazında servis seviyesi, emniyet stoğu, sipariş noktası ve EOQ.",
-    "aciklama": "Dönem × ürün tüketim geçmişini ve ürün kartlarını (mevcut stok, birim maliyet, ortalama termin, termin sapması, minimum sipariş, koli katı) girersiniz; dosya her kalem için talep ortalamasını ve sapmasını, değişim katsayısını, yıllık tüketim değerini hesaplar, ABC ve XYZ sınıfına koyar, sınıfa göre servis seviyesi ve Z değeri seçer, talep ve termin belirsizliğini tek formülde birleştirerek emniyet stoğunu, sipariş noktasını, EOQ'yu ve koli katına yuvarlanmış önerilen sipariş miktarını verir; mevcut stoğu bunlarla karşılaştırıp KRİTİK / SİPARİŞ AÇ / Fazla stok / Normal durumunu yazar. Örnek veride 8 kalemin 3'ü emniyet stoğunun altında, 3'ü için sipariş açılmalı; emniyet stoğu toplam stokun %41'i — sebebi tek bir kalemin ±12 günlük termin sapması.",
+    "aciklama": "Dönem × ürün tüketim geçmişini ve ürün kartlarını (mevcut stok, birim maliyet, ortalama termin, termin sapması, minimum sipariş, koli katı) girersiniz; dosya her kalem için talep ortalamasını ve sapmasını, değişim katsayısını, yıllık tüketim değerini hesaplar, ABC ve XYZ sınıfına koyar, sınıfa göre servis seviyesi ve Z değeri seçer, talep ve termin belirsizliğini tek formülde birleştirerek emniyet stoğunu, sipariş noktasını, EOQ'yu ve koli katına yuvarlanmış önerilen sipariş miktarını verir; mevcut stoğu bunlarla karşılaştırıp KRİTİK / SİPARİŞ AÇ / Fazla stok / Normal durumunu yazar. Örnek veride 8 kalemin 3'ü emniyet stoğunun altında, 3'ü için sipariş açılmalı; emniyet stoğu toplam stokun %41'i.",
     "ozellikler": [
       "600 talep satırı ve 40 ürüne kadar; aylık ya da haftalık dönem",
       "Emniyet stoğu = Z × √(L̄·σd² + D̄²·σL²): talep ve termin belirsizliği birlikte",
@@ -1265,7 +1265,7 @@
       "Analiz'de kırmızı (kritik) ve turuncu (sipariş aç) satırları haftalık sipariş listesi olarak kullanın.",
       "Emniyet stoğunun toplam stoka oranı %25'i geçiyorsa belirsizliği azaltmak (tedarikçi termini, tahmin doğruluğu) stok artırmaktan ucuzdur."
     ],
-    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 talep satırı (Talep Geçmişi 5–604) ve 40 ürün (Ürünler 5–44). Talep Geçmişi'nin D sütunu gizli yardımcı hesaptır. Formül talebin normal dağıldığını varsayar; Z sınıfı (düzensiz) kalemlerde sonuç elle gözden geçirilmelidir. Mevsimsel üründe 12 aylık ortalama yanıltır; sezon ve sezon dışı ayrı hesaplanmalıdır.",
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Talep Geçmişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 talep satırı (Talep Geçmişi 5–604) ve 40 ürün (Ürünler 5–44). Talep Geçmişi'nin D sütunu gizli yardımcı hesaptır. Formül talebin normal dağıldığını varsayar; Z sınıfı (düzensiz) kalemlerde sonuç elle gözden geçirilmelidir. Mevsimsel üründe 12 aylık ortalama yanıltır; sezon ve sezon dışı ayrı hesaplanmalıdır.",
     "sss": [
       {
         "soru": "EOQ her zaman doğru mu?",
@@ -1359,7 +1359,7 @@
       "Analiz'in A sütununa ürün kodlarını yazın; kırmızı satırlar (veri az, MAPE yüksek) için tahmin üretilmez.",
       "Tahmin sayfasını plan değil senaryo olarak okuyun; 6 aydan uzun ufukta doğrusal trend yanılır."
     ],
-    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 satış satırı (Satış Geçmişi 5–604) ve 30 ürün (Analiz A5–A34). Satış Geçmişi'nin F–L ve Mevsimsellik'in C–N sütunları gizli hesaplardır. Satış verisi talebi değil karşılanabilen talebi gösterir; stoksuz kalınan aylar ve kampanya ayları endeksi bozar.",
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Satış Geçmişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 600 satış satırı (Satış Geçmişi 5–604) ve 30 ürün (Analiz A5–A34). Satış Geçmişi'nin F–L ve Mevsimsellik'in C–N sütunları gizli hesaplardır. Satış verisi talebi değil karşılanabilen talebi gösterir; stoksuz kalınan aylar ve kampanya ayları endeksi bozar.",
     "sss": [
       {
         "soru": "MAPE ve Bias ne anlatır?",
@@ -1388,11 +1388,11 @@
     "slug": "sepet-analizi-birliktelik-kurallari",
     "ad": "Sepet Analizi ve Birliktelik Kuralları",
     "kisa": "Hangi ürün hangi ürünle satılıyor, hangileri birbirini dışlıyor? Fiş satırlarından destek, güven ve lift; paket, çapraz satış ve raf kararları için kural listesi.",
-    "aciklama": "Ürün listesini ve fiş satırlarını (fiş no, ürün kodu) girersiniz; dosya fiş × ürün matrisini kurar, her ürün çifti için destek (birlikte görünme oranı), güven (A alındığında B'nin alınma oranı, iki yönlü) ve lift'i hesaplar; çiftleri BİRLİKTE SATILIYOR / İlişkisiz / BİRBİRİNİ DIŞLIYOR / örnek yetersiz olarak sınıflar ve AKSİYON yazar (paket yap, yan yana koy, alternatif olarak sun). Lift Matrisi sayfası tüm ilişkiyi tek bakışta renkle gösterir. Örnek veride 250 fiş ve 18 ürün: 190 çiftin 16'sı birlikte satılıyor, 34'ü birbirini dışlıyor; en yüksek lift 4,53.",
+    "aciklama": "Ürün listesini ve fiş satırlarını (fiş no, ürün kodu) girersiniz; dosya fiş × ürün matrisini kurar, her ürün çifti için destek (birlikte görünme oranı), güven (A alındığında B'nin alınma oranı, iki yönlü) ve lift'i hesaplar; çiftleri BİRLİKTE SATILIYOR / İlişkisiz / BİRBİRİNİ DIŞLIYOR / örnek yetersiz olarak sınıflar ve AKSİYON yazar (paket yap, yan yana koy, alternatif olarak sun). Lift Matrisi sayfası tüm ilişkiyi tek bakışta renkle gösterir. Örnek veride 250 fiş ve 18 ürün: 153 çiftin 16'sı birlikte satılıyor, 34'ü birbirini dışlıyor; en yüksek lift 4,53.",
     "ozellikler": [
       "20 ürün ve 250 fişe kadar (1.200 fiş satırı); fiş numarası şart",
       "Destek, iki yönlü güven ve lift; eşikler Ayarlar'da (minimum destek, minimum güven, güçlü ve dışlayıcı lift)",
-      "Kurallar sayfası: 190 ürün çifti, DURUM ve AKSİYON; lift'e göre süzülebilir",
+      "Kurallar sayfası: 20 ürüne kadar 190 ürün çifti, DURUM ve AKSİYON; lift'e göre süzülebilir",
       "Lift Matrisi: koyu turuncu birlikte satılıyor, mavi birbirini dışlıyor",
       "\"Dışlayıcı\" sonucu istatistiksel olarak korur: beklenen birliktelik eşiğin altındaysa dışlıyor demez",
       "Özet: fiş ve satır sayısı, ortalama sepet büyüklüğü, birlikte satılan ve dışlayan çift sayısı, en yüksek lift"
@@ -1406,7 +1406,7 @@
       "veri analizi"
     ],
     "sayfa_sayisi": 7,
-    "soz": "Fiş satırlarınızı yapıştırın; hangi ürünlerin birlikte, hangilerinin asla birlikte alınmadığını görün.",
+    "soz": "Fiş satırlarınızı yapıştırın; hangi ürünlerin birlikte alındığını, hangilerinin beklenenden çok daha az birlikte alındığını görün.",
     "gorseller": [
       {
         "src": "/assets/img/urun/sepet-analizi-birliktelik-kurallari/1-ozet.png",
@@ -1436,7 +1436,7 @@
       },
       {
         "sayfa": "Fiş Matrisi",
-        "aciklama": "Fiş × ürün 1/0 matrisi (otomatik ara hesap, 250 fiş)"
+        "aciklama": "Fiş × ürün 1/0 matrisi (250 fiş): fiş numaraları A sütununa elle yapıştırılır, matris kendiliğinden dolar"
       },
       {
         "sayfa": "Lift Matrisi",
@@ -1444,7 +1444,7 @@
       },
       {
         "sayfa": "Kurallar",
-        "aciklama": "190 çift: destek, güven A→B ve B→A, lift, DURUM, AKSİYON"
+        "aciklama": "190 çiftlik tablo (20 ürün): destek, güven A→B ve B→A, lift, DURUM, AKSİYON"
       },
       {
         "sayfa": "Özet",
@@ -1457,7 +1457,7 @@
       "Kurallar'da önce desteği yeterli çiftlere bakın, sonra lift'e göre sıralayın; yüksek lift + düşük destek tesadüftür.",
       "Aynı setin parçalarını (gövde-kapak gibi) eleyin; dışlayıcı çiftleri paket değil yan yana seçim olarak sunun."
     ],
-    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Formüller boş satırlarda hazır bekler: Veri Girişi'ne satır yazdıkça ilgili analiz satırı kendiliğinden hesaplanır, kopyalama gerekmez. Bazı ara hesap sütunları gizlidir; silinmemelidir. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 20 ürün, 250 fiş ve 1.200 fiş satırı; bu dosya esnetilemez: ürün sayısı artınca çift sayısı karesel büyür (50 üründe 1.225 çift) ve matrislerin baştan kurulması gerekir. Daha büyük ürün listeleri için ürünleri kategoriye göre 20'lik gruplar hâlinde analiz edin.",
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Fiş numaraları kendiliğinden gelmez: Veri Girişi'ndeki benzersiz fiş numaraları Fiş Matrisi'nin A sütununa elle yapıştırılır; yapıştırılmazsa matris eski numaralara göre hesaplanır. Matris, lift, kurallar ve Özet bu numaralardan kendiliğinden hesaplanır. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 20 ürün, 250 fiş ve 1.200 fiş satırı; bu dosya esnetilemez: ürün sayısı artınca çift sayısı karesel büyür (50 üründe 1.225 çift) ve matrislerin baştan kurulması gerekir. Daha büyük ürün listeleri için ürünleri kategoriye göre 20'lik gruplar hâlinde analiz edin.",
     "sss": [
       {
         "soru": "20 ürün sınırı neden var?",
@@ -1465,7 +1465,7 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin). Ürünler'e ürün listenizi, Veri Girişi'ne fiş satırlarınızı \"Değerleri yapıştır\" ile yapıştırın; benzersiz fiş numaralarını Fiş Matrisi'nin A sütununa da yapıştırın (eski numaraları silerek). Kurallar ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
