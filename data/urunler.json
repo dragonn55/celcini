@@ -560,7 +560,7 @@
       "Dashboard'dan tarih, kategori, bölge ve kanal seçin; bütün sayfalar kendiliğinden güncellenir.",
       "Önce 'Otomatik Yorum'un ilk 5 cümlesini ve 'Uyarılar' listesini okuyun: nereye bakmanız gerektiğini söyler."
     ],
-    "teknik_not": "Analizler formüldür ve makrosuz çalışır. İsteğe bağlı makro modülü (modSatisAnaliz.bas) teslimata dahildir; yalnızca Veri Kalitesi'ndeki temiz satır oranını ve Kalite Detay'daki satır satır sorun listesini kendi verinizde yeniler (örnek verili dosyada ikisi de hazır gelir). Kapasite: 10.000 veri satırı ve 2.000 müşteri; 150 ürün, 30 kategori, 30 bölge, 20 kanal, 30 kampanya, 30 tedarikçi. Filtre değişince yeniden hesaplama veri büyüklüğüne göre birkaç saniye sürebilir. Örnek verili dosyadaki veri kurgusaldır.",
+    "teknik_not": "Analizler formüldür ve makrosuz çalışır. İsteğe bağlı makro modülü (modSatisAnaliz.bas) teslimata dahildir; yalnızca Veri Kalitesi'nin makro sonuçlarını (tekrar eden satır, yazım varyantı, temiz satır oranı) ve Kalite Detay listesini kendi verinizde yeniler (örnek verili dosyada hepsi hazır gelir). Modülü Excel'in VBA penceresinden (Alt+F11) bir kez içeri aktarır, dosyayı makro içeren çalışma kitabı (.xlsm) olarak kaydedersiniz. Kapasite: 10.000 veri satırı ve 2.000 müşteri; 150 ürün, 30 kategori, 30 bölge, 20 kanal, 30 kampanya, 30 tedarikçi. Filtre değişince yeniden hesaplama veri büyüklüğüne göre birkaç saniye sürebilir. Örnek verili dosyadaki veri kurgusaldır.",
     "sss": [
       {
         "soru": "Kendi verimi nasıl kullanırım?",
@@ -572,7 +572,7 @@
       },
       {
         "soru": "Makro gerekiyor mu?",
-        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'ndeki temiz satır oranı ile Kalite Detay'daki satır satır sorun listesidir: kendi verinizde teslimattaki isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
+        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'nin makro sonuçları (tekrar eden satır, yazım varyantı, temiz satır oranı) ile Kalite Detay'daki satır satır sorun listesidir: kendi verinizde teslimattaki isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
       }
     ]
   },

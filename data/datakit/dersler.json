@@ -29,7 +29,7 @@
       "Boş dosya: kendi satış verinizi yapıştırıp kullanmanız için",
       "Erişim kodu: sitedeki 12 dersin tamamını açar",
       "Excel 2010 ve sonrası; analizler formüldür, makrosuz çalışır",
-      "İsteğe bağlı makro modülü (modSatisAnaliz.bas): yalnızca veri kalitesinin satır satır sorun listesini ve temiz satır oranını yeniler",
+      "İsteğe bağlı makro modülü (modSatisAnaliz.bas): Veri Kalitesi'nin makro sonuçlarını (tekrar eden satır, yazım varyantı, temiz satır oranı) ve Kalite Detay listesini kendi verinizde yeniler",
       "10.000 satır ve 2.000 müşteri kapasitesi"
     ],
     "veri_notu": "Tablolardaki rakamlar dosyanın örnek verisinden gelir: 2.531 satır, 1.356 sipariş, 358 müşteri; 1 Ocak 2024 – 31 Ağustos 2026. Örnek veri kurgusaldır, gerçek bir işletmeye ait değildir. Filtreler ve formüller Excel dosyasında çalışır; bu sayfalar dosyanın örnek verili hâlini gösterir.",
@@ -48,7 +48,7 @@
       },
       {
         "soru": "Makro gerekiyor mu?",
-        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'ndeki temiz satır oranı ile Kalite Detay'daki satır satır sorun listesidir: örnek verili dosyada hazır gelir, kendi verinizde isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
+        "cevap": "Analizlerin hepsi formüldür ve makrosuz çalışır. Tek istisna Veri Kalitesi'nin makro sonuçları (tekrar eden satır, yazım varyantı, temiz satır oranı) ile Kalite Detay'daki satır satır sorun listesidir: örnek verili dosyada hazır gelir, kendi verinizde isteğe bağlı makro modülüyle (modSatisAnaliz.bas) bir kez çalıştırılarak yenilenir."
       }
     ],
     "ders_veri_notu": "Tablodaki rakamlar dosyanın kurgusal örnek verisidir. Filtreler ve formüller Excel dosyasında çalışır."
@@ -289,7 +289,7 @@
       "sira": 5,
       "sayfa_adi": "Satış Özeti",
       "baslik": "Bu ay, geçen ay, geçen yıl",
-      "ozet": "Bu ayı geçen ayla, geçen yılın aynı ayıyla ve yıl başından bugüne toplamla karşılaştırmak: aynı ciro, üç ayrı ölçü.",
+      "ozet": "Bu ayı geçen ayla ve geçen yılın aynı ayıyla, yıl başından bugünü de geçen yılın aynı dönemiyle karşılaştırmak: aynı ciro, üç ayrı ölçü.",
       "ucretsiz": false,
       "ajan_gm": "Bu ay kötü mü geçti? Cevap, neyle karşılaştırdığınıza bağlı. Geçen ay, geçen yıl ve yıl başından bugün: üç ölçü, üç ayrı hikâye.",
       "notlar": [
@@ -668,7 +668,7 @@
         {
           "aralik": "M7:O55",
           "baslik": "Durum ve önerilen sipariş",
-          "metin": "6 üründe stok tükendi, 2 üründe eriyor: Dekoratif Yastık 13, Güneş Kremi SPF50 30 gün yetecek kadar. Önerilen sipariş, tedarik süresi artı 45 günlük satıştan mevcut stok düşülerek bulunur.",
+          "metin": "6 üründe stok tükendi, 2 üründe eriyor: Dekoratif Yastık 13, Güneş Kremi SPF50 30 gün yetecek kadar. Önerilen sipariş, tedarik süresi ile 45 gün boyunca satılacak miktardan mevcut stok düşülerek bulunur.",
           "karar": "Önerileri tedarikçi sütunuyla birlikte okuyun; aynı tedarikçinin ürünlerini tek siparişte toplayın."
         },
         {

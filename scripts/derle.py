@@ -708,7 +708,7 @@ def urun_sayfasi(u, urunler):
     # Rehberli dersi olan ürün (REHBERLER): dosyanın sayfaları sitede derslerle anlatılır
     rh = next((x for x in REHBERLER if x["urun_slug"] == u["slug"]), None)
     rehber_linki = (f'\n        <p class="not">Dosyanın ana sayfaları sitede rehberli derslerle anlatılır; ilk dersler ücretsiz.</p>'
-                    f'\n        <a class="dugme-cizgi" href="{rh["taban"]}">Dersleri aç{ikon("ok")}</a>') if rh else ""
+                    f'\n        <div class="eylemler"><a class="dugme-cizgi" href="{rh["taban"]}">Dersleri aç{ikon("ok")}</a></div>') if rh else ""
     govde = f"""<div class="kap urun-sayfa">
   <div class="sayfa-bas">{yol_izi([("/", "Ana sayfa"), ("/#dosyalar", "Dosyalar"), (f"/{r['slug']}/", r["ad"]), (None, u["ad"])])}</div>
   <div class="urun-ust">

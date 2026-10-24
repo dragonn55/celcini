@@ -86,6 +86,8 @@
 .rt-ic { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rt-sar { white-space: normal; }
 .rt-sar .rt-ic { white-space: normal; overflow-wrap: anywhere; }
+/* Dondurulmuş sütundan taşan metnin kopyası (tablo.js, aria-hidden) kesilir: devamı asıl hücrede görünür */
+.rt-h[aria-hidden="true"] .rt-ic { text-overflow: clip; }
 .rt-dolu { border-right-color: transparent; border-bottom-color: transparent; }
 .rt-kenar { border-right-color: var(--rt-kenar); border-bottom-color: var(--rt-kenar); }
 .rt-secili { outline: 2px solid var(--koyu); outline-offset: -2px; }
