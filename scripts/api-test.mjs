@@ -116,6 +116,19 @@ dogrula(r.statusCode === 404, "ders: ücretsiz ders api/_dersler'de olmamalı (h
 r = await dersCagir("PUT");
 dogrula(r.statusCode === 405, "ders: GET/POST dışı istek 405");
 dogrula(!ortak.kodGecerli(DERS_KOD), "Datakit kodu Fabricakit listesinde geçmemeli");
+/* Motor: ayrı liste; Datakit kodu Motor dersini açmaz, Motor kodu Datakit dersini açmaz */
+const motorKilitli = JSON.parse(fs.readFileSync(path.join(KOK, "data/motor/dersler.json"), "utf8")).dersler.find((d) => !d.ucretsiz);
+const MOTOR_KOD = "MOTOR-KOD-0001";
+r = await dersCagir("GET", { query: { urun: "motor" } });
+dogrula(r.govde.satista === false, "motor: liste yokken satista: false");
+env("MOTOR_KOD_HASHLERI", ortak.kodHash(MOTOR_KOD));
+r = await dersCagir("POST", { body: { urun: "motor", id: motorKilitli.id, kod: DERS_KOD } });
+dogrula(r.govde.gecerli === false && !r.govde.ders, "motor: Datakit kodu Motor dersini açmamalı");
+r = await dersCagir("POST", { body: { urun: "datakit", id: kilitliDers.id, kod: MOTOR_KOD } });
+dogrula(r.govde.gecerli === false && !r.govde.ders, "motor: Motor kodu Datakit dersini açmamalı");
+r = await dersCagir("POST", { body: { urun: "motor", id: motorKilitli.id, kod: MOTOR_KOD } });
+dogrula(r.govde.gecerli === true && r.govde.ders && r.govde.ders.id === motorKilitli.id && r.govde.ders.sayfa, "motor: doğru kodla kilitli ders gelmeli");
+env("MOTOR_KOD_HASHLERI", undefined);
 env("DATAKIT_KOD_HASHLERI", undefined);
 
 /* ---------- Ajan GM: varsayılan ayar "kural" ---------- */

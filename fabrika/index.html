@@ -21,7 +21,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/assets/css/style.css?v=63a1743f">
+<link rel="stylesheet" href="/assets/css/style.css?v=48dadcaf">
 <noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
 <script src="/assets/js/config.js?v=14f127ff" defer></script>
 <script src="/assets/js/main.js?v=08834545" defer></script>
@@ -44,6 +44,7 @@
     <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
     <h1>Fabrika Dosyaları</h1>
     <p>Fabrika programları (MRP, vardiya, stok, ithalat maliyet)</p>
+    <a class="kart rh-raf-kutu" href="/motor/"><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg><span><strong>Motor:</strong> Fabrika Yönetim ve Simülasyon Motoru, sayfa sayfa. 12 rehberli ders, ilk 4 ders ücretsiz.</span><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
   </div>
 </section>
 <section class="bolum-raf" aria-label="Fabrika Dosyaları ürünleri">
@@ -51,7 +52,7 @@
     <h2 class="gizli">Fabrika Dosyaları ürünleri</h2>
     <div class="filtre" data-filtre>
       <div class="arama"><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label class="gizli" for="ara">Fabrika Dosyaları rafında ara</label><input id="ara" type="search" placeholder="Rafta ara" autocomplete="off"></div>
-      <div class="etiketler" role="group" aria-label="Etikete göre süz"><button class="etiket-dugme" type="button" data-etiket="" aria-pressed="true">Tümü</button><button class="etiket-dugme" type="button" data-etiket="ithalat" aria-pressed="false">ithalat</button><button class="etiket-dugme" type="button" data-etiket="maliyet" aria-pressed="false">maliyet</button><button class="etiket-dugme" type="button" data-etiket="MRP" aria-pressed="false">MRP</button><button class="etiket-dugme" type="button" data-etiket="sayım" aria-pressed="false">sayım</button><button class="etiket-dugme" type="button" data-etiket="stok" aria-pressed="false">stok</button><button class="etiket-dugme" type="button" data-etiket="tedarik" aria-pressed="false">tedarik</button><button class="etiket-dugme" type="button" data-etiket="vardiya" aria-pressed="false">vardiya</button><button class="etiket-dugme" type="button" data-etiket="üretim planlama" aria-pressed="false">üretim planlama</button></div>
+      <div class="etiketler" role="group" aria-label="Etikete göre süz"><button class="etiket-dugme" type="button" data-etiket="" aria-pressed="true">Tümü</button><button class="etiket-dugme" type="button" data-etiket="ithalat" aria-pressed="false">ithalat</button><button class="etiket-dugme" type="button" data-etiket="kapasite" aria-pressed="false">kapasite</button><button class="etiket-dugme" type="button" data-etiket="maliyet" aria-pressed="false">maliyet</button><button class="etiket-dugme" type="button" data-etiket="MRP" aria-pressed="false">MRP</button><button class="etiket-dugme" type="button" data-etiket="sayım" aria-pressed="false">sayım</button><button class="etiket-dugme" type="button" data-etiket="simülasyon" aria-pressed="false">simülasyon</button><button class="etiket-dugme" type="button" data-etiket="stok" aria-pressed="false">stok</button><button class="etiket-dugme" type="button" data-etiket="tedarik" aria-pressed="false">tedarik</button><button class="etiket-dugme" type="button" data-etiket="vardiya" aria-pressed="false">vardiya</button><button class="etiket-dugme" type="button" data-etiket="üretim planlama" aria-pressed="false">üretim planlama</button></div>
     </div>
     <p class="sonuc" data-sonuc aria-live="polite"></p>
     <ul class="izgara izgara-urun"><li data-urun data-ara="PLANLA Excel&#x27;de malzeme ihtiyaç planlaması (MRP) dosyası. Makrosuz, 7 sayfa, Excel 2016 ve sonrası. MRP üretim planlama" data-etiketler="MRP|üretim planlama">
@@ -87,6 +88,13 @@
     <div class="ust"></div>
     <h3><a href="/urun/ithalat-maliyet/">İthalat Maliyet Hesaplayıcı</a></h3>
     <p>İthal ürünün gerçek birim maliyetini (landed cost) hesaplayan Excel dosyası: FOB fiyat, navlun, sigorta, ardiye, müşavirlik payı ve gümrük vergisi. Makrosuz.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Fabrika Motoru Müşteri tahmininden sevkiyata kapalı döngü: BOM, MPS, kapasite, MRP, satın alma, sayım, stok sağlığı, alarm ve simülasyon tek dosyada, makrosuz. Excel 2019 ve Microsoft 365. MRP üretim planlama kapasite stok simülasyon" data-etiketler="MRP|üretim planlama|kapasite|stok|simülasyon">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/fabrika-motoru/">Fabrika Motoru</a></h3>
+    <p>Müşteri tahmininden sevkiyata kapalı döngü: BOM, MPS, kapasite, MRP, satın alma, sayım, stok sağlığı, alarm ve simülasyon tek dosyada, makrosuz. Excel 2019 ve Microsoft 365.</p>
     <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
   </article>
 </li></ul>

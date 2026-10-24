@@ -47,6 +47,17 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
   const satirlar = sayfa.satirlar;
   const C = sutunlar.length;
   const satirSira = new Map(satirlar.map((s, i) => [s.r, i]));       // satır no → ızgara sırası
+  const satirNolari = satirlar.map((s) => s.r);
+  /* Sayfanın yalnız bir bölümü dışa aktarılmışsa (büyük sayfalar) satır numaralarında boşluk olur:
+     ileri = r'den sonraki ilk gösterilen satır, geri = r'den önceki son gösterilen satır */
+  function satirIndeksi(r, yon = "ileri") {
+    const i = satirSira.get(r);
+    if (i !== undefined) return i;
+    if (yon === "ileri") { const j = satirNolari.findIndex((x) => x > r); return j < 0 ? satirlar.length - 1 : j; }
+    let j = -1;
+    for (let k = 0; k < satirNolari.length && satirNolari[k] < r; k++) j = k;
+    return Math.max(0, j);
+  }
   const hucre = new Map();                                            // "r,c" → hücre
   for (const s of satirlar) for (const h of s.hucreler) hucre.set(`${s.r},${harfNo(h.c)}`, h);
 
@@ -114,12 +125,13 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     const anahtar = `${r},${c}`;
     const h = hucre.get(anahtar);
     const b = birlesik.get(anahtar);
-    const rs = b ? b.r2 - b.r1 + 1 : 1;
+    const rs = b ? satirIndeksi(b.r2, "geri") - satirIndeksi(b.r1) + 1 : 1;
     const cs = b ? b.c2 - b.c1 + 1 : 1 + (tasma.get(anahtar) || 0);
     const st = stil(h);
     const d = div("rt-h");
     d.dataset.r = r; d.dataset.c = c;
     yerlestir(d, r, c, rs, cs);
+    if (cs === 1 && sutunlar[c - 1].genislik === 0) d.classList.add("rt-gizli");   // dosyada gizli sütun
     if (h && h.v !== undefined) {
       const ic = div("rt-ic", h.v);
       d.append(ic);
@@ -134,6 +146,12 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
     if (st.dikey) d.style.alignItems = st.dikey === "top" ? "flex-start" : "center";
     if (st.sar) d.classList.add("rt-sar");
     if (tasma.get(anahtar)) d.classList.add("rt-tasan");
+    /* Koşullu biçim veri çubuğu: hücre zemininde soldan sağa, oran dışa aktarımda hesaplanmış */
+    if (h && typeof h.b === "number" && st.cubukRenk) {
+      const yuzde = Math.round(h.b * 1000) / 10;
+      d.style.backgroundImage = `linear-gradient(90deg, ${st.cubukRenk} 0%, ${st.cubukRenk} ${yuzde}%, transparent ${yuzde}%)`;
+      d.style.backgroundOrigin = "border-box";
+    }
     if (st.kenar) {
       d.classList.add("rt-kenar");
       const golge = [];
@@ -194,6 +212,7 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       const d = div("rt-sb", s.harf);
       d.style.gridRow = "1"; d.style.gridColumn = String(i + 2);
       d.dataset.c = i + 1;
+      if (s.genislik === 0) d.classList.add("rt-gizli");
       if (i + 1 < donuk.c) { d.style.left = px(solKenar[i + 1]); d.style.zIndex = "9"; }
       d.setAttribute("aria-hidden", "true");
       parca.append(d);
@@ -212,19 +231,22 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       if (g.disarida) continue;
       const a = aralikCoz(`${g.konum.bas}:${g.konum.son}`);
       if (!a || !satirSira.has(a.r1)) continue;
-      const r2 = Math.min(a.r2, satirlar[satirlar.length - 1].r), c2 = Math.min(a.c2, C);
+      const r2 = satirNolari[satirIndeksi(Math.min(a.r2, satirlar[satirlar.length - 1].r), "geri")], c2 = Math.min(a.c2, C);
       const kap = div("rt-grafik");
       yerlestir(kap, a.r1, a.c1, satirSira.get(r2) - satirSira.get(a.r1) + 1, c2 - a.c1 + 1);
       kap.dataset.r = a.r1; kap.dataset.c = a.c1;
       const w = solKenar[c2 + 1] - solKenar[a.c1];
       const hgt = (ustKenar[r2] + satirlar[satirSira.get(r2)].yukseklik * k) - ustKenar[a.r1];
       kap.append(grafikCiz(g, Math.max(w - 2, 40), Math.max(hgt - 2, 40), k));
+      /* Dondurulmuş bölgedeki grafik (ör. MPS'nin üst şeridi) de yerinde kalır; dondurulmuş hücrelerin üstünde çizilir */
+      dondur(kap, a.r1, a.c1, r2, c2, 4);
       parca.append(kap);
     }
 
     notAlanlari.forEach((a, i) => {
       if (!a) return;
-      const r1 = Math.max(a.r1, satirlar[0].r), r2 = Math.min(a.r2, satirlar[satirlar.length - 1].r);
+      const r1 = satirNolari[satirIndeksi(Math.max(a.r1, satirlar[0].r))];
+      const r2 = satirNolari[satirIndeksi(Math.min(a.r2, satirlar[satirlar.length - 1].r), "geri")];
       const c2 = Math.min(a.c2, C);
       const al = div("rt-alan");
       al.setAttribute("aria-hidden", "true");
@@ -318,7 +340,7 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
       katmanlar.pin[i].classList.add("rt-pin-etkin");
       if (kaydir) {
         const a = notAlanlari[i];
-        const sol = solKenar[a.c1] - 24, ust = (ustKenar[a.r1] ?? 0) - BASLIK_Y * k - 24;
+        const sol = solKenar[a.c1] - 24, ust = (ustKenar[satirNolari[satirIndeksi(a.r1)]] ?? 0) - BASLIK_Y * k - 24;
         const sag = solKenar[Math.min(a.c2, C) + 1];
         /* Görünen bant: satır numaraları ve dondurulmuş sütunlardan (ya da soldaki karttan) sonra, sağdaki karttan önce */
         const bosSol = Math.max(solKenar[donuk.c], ortuSol), bosSag = kutu.clientWidth - ortuSag;

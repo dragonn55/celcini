@@ -1,14 +1,15 @@
 /* Rehberli dersler: kilitli dersin notları, sorusu ve Excel sayfası (Vercel sunucusuz işlevi).
    GET  /api/ders/?urun=datakit         → { satista }   (o ürünün kod listesi tanımlı mı)
    POST /api/ders/ { urun, id, kod }    → { satista, gecerli, ders? }
-   Ürün başına ayrı kod listesi: datakit → DATAKIT_KOD_HASHLERI (Fabricakit'in ERISIM_KOD_HASHLERI'nden ayrı).
+   Ürün başına ayrı kod listesi: datakit → DATAKIT_KOD_HASHLERI, motor → MOTOR_KOD_HASHLERI (Fabricakit'in
+   ERISIM_KOD_HASHLERI'nden ayrı; bir ürünün kodu ötekini açmaz).
    Ders dosyaları api/_dersler/<urun>/<id>.json'dadır: scripts/derle.py yazar, vercel.json includeFiles ile işleve
    eklenir; api/ altı statik yayınlanmaz. Kod saklanmaz, günlüğe yazılmaz. */
 const fs = require("fs");
 const path = require("path");
 const { hashListesi, kodGecerli, govde, bekle } = require("./_ortak.js");
 
-const KOD_LISTESI = { datakit: "DATAKIT_KOD_HASHLERI" };
+const KOD_LISTESI = { datakit: "DATAKIT_KOD_HASHLERI", motor: "MOTOR_KOD_HASHLERI" };
 
 function dersOku(urun, id) {
   if (!/^[a-z0-9-]{1,40}$/.test(id)) return null;
