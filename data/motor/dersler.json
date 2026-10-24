@@ -244,7 +244,7 @@
     {
      "aralik": "B8:P9",
      "baslik": "Oynaklık ve güvenilirlik",
-     "metin": "Öne çekilen 3, ertelenen 4 mamul. İlk 7 gün oynaklığı %27,9, ilk 30 gün %29,2: yakın günler bile oynuyor. Ortalama güvenilirlik 81 (eşik 80, yeşil). 12 aylık rolling tahmin kısa vadeli tahminden +%13,3 sapıyor.",
+     "metin": "Öne çekilen 3, ertelenen 4 mamul. İlk 7 gün oynaklığı %27,9, ilk 30 gün %29,2: yakın günler bile oynuyor. Ortalama güvenilirlik 81 (eşik 80, yeşil). Kısa vadeli tahmin, 12 aylık rolling tahminin %13,3 üstünde (3 aylık sapma).",
      "karar": "Yakın günlerdeki oynaklık %28 ise plan dondurma ufkunu (Ayarlar: 3 iş günü) kısaltmayın; müşteriyle ilk haftanın dondurulmasını konuşun."
     },
     {
@@ -355,7 +355,7 @@
      "aralik": "B5:M9",
      "baslik": "Darboğaz ve aşım",
      "metin": "Darboğaz iş merkezi IM-32 Lehim ve Montaj, hattı HT-03. Aşım 44 iş merkezi × gün; en yüksek günlük yük %177; toplam aşım 9.492 dakika. Bunun 3.571 dakikası fasonla karşılanabilir, 325 dakikası fazla mesaiye kalır; aşımlı takvim günü 14.",
-     "karar": "Toplam aşım dakikasını kapasiteye bölün: 9.492 / 855 ≈ 11 gün. Darboğaza 11 günlük iş fazlası binmiş; ya plan yayılır ya kapasite artar."
+     "karar": "Darboğazın aşımını kendi kapasitesine bölün: IM-32 için 2.739 / 855 ≈ 3,2 gün (Not 6'daki toplam satırı). Darboğaza yaklaşık üç günlük iş fazlası binmiş; ya plan yayılır ya kapasite artar."
     },
     {
      "aralik": "J23:AC24",
@@ -412,7 +412,7 @@
     {
      "aralik": "B5:T6",
      "baslik": "Sınıf dağılımı",
-     "metin": "Çok Acil 3, Acil 4, Dikkat 4, Normal 20, Yeterli 2 kalem; önerilen sipariş tutarı 18.023.315 PB; 20 iş günü içinde eksiye düşen öngörü 15. Sınıf, son sipariş tarihine kalan güne göredir: 0 ve altı Çok Acil, 3'e kadar Acil, 7'ye kadar Dikkat (Ayarlar).",
+     "metin": "Çok Acil 3, Acil 4, Dikkat 4, Normal 20, Yeterli 2 kalem; önerilen sipariş tutarı 18.023.315 PB; 20 iş günü içinde emniyet stoğunun altına inen kalem 15 (sayfa buna 'eksi öngörü' der); bunların 8'i sıfırın da altına iniyor. Sınıf, son sipariş tarihine kalan güne göredir: 0 ve altı Çok Acil, 3'e kadar Acil, 7'ye kadar Dikkat (Ayarlar).",
      "karar": "Sabah toplantısında önce Çok Acil üçlüyü, sonra Acil dörtlüyü kapatın; Dikkat sınıfı bu haftanın işidir."
     },
     {
@@ -535,7 +535,7 @@
      "aralik": "A25:K27",
      "baslik": "Kutu, kutu içi ve metin toplamı",
      "metin": "BL-001 rakor somunu: 43 kutu × 500 adet + ek sayım 463 = 21.963. BL-002: 25 × 500 + '6+7' = 12.513; BL-003: 28 × 500 + '230+231' = 14.461. F sütunundaki metin ifadesini J sütunu toplar, K sayılan miktarı verir. Sayan rolü G'de: Sayım Ekibi 1.",
-     "karar": "Metin sayımda yalnızca sayı ve artı kullanın; harf ya da nokta girerseniz Kontrol sütunu kırmızı olur ve toplam hesaplanmaz."
+     "karar": "Kutu sayısını ve kutu içi miktarı ayrı girin, artanı '230+231' gibi artı ile yazın; J sütunu ifadeyi toplar, K sayılan miktarı verir. Sayan rolünü boş bırakmayın: fark çıkınca kime sorulacağı belli olur."
     },
     {
      "aralik": "L8:R11",
@@ -587,7 +587,7 @@
      "aralik": "B5:M9",
      "baslik": "Stoğun özeti",
      "metin": "Malzeme stok tutarı 33.594.016 PB, mamul stoğu 5.088.218 PB. Ölü stok 25.128 PB (%0,1), yavaş dönen 340.382 PB. Stok devir hızı yılda 12,9; ortalama stok günü 28. Fiili stok ile muhasebe stoğu arasındaki fark 808.701 PB.",
-     "karar": "Devir 12,9 demek stok yaklaşık 28 günde bir yenileniyor demektir; ithal kalemlerin 60 günlük tedarik süresi düşünülürse düşük değil."
+     "karar": "Devir 12,9 demek stok yaklaşık 28 günde bir yenileniyor demektir; 10 günde gelen yerli kalem için bol, 60 günlük ithal kalem için azdır. Ortalamaya değil kalem kalem stok gününe bakın."
     },
     {
      "aralik": "B12:F15",
@@ -715,7 +715,7 @@
      "aralik": "B22:F23",
      "baslik": "Malzeme sonuçları",
      "metin": "Acil malzeme (Çok Acil + Acil): baz 7 → S1 11, S2 32, S3 3. Hedef ortalama stok tutarı: 18.987.422 PB → 20.886.164, 35.850.377, 12.843.729. Senaryo 2'de emniyet stoğu 10 güne ve tedarik süresi +14 güne çıkınca gereken stok neredeyse iki katına çıkıyor.",
-     "karar": "Talep sıçramasının asıl maliyeti işçilik değil, stoğa bağlanan nakittir: 17 milyon PB ek stok için finansmanı senaryo kabul edilmeden önce konuşun."
+     "karar": "Talep sıçraması yalnız üretim değil, stoğa bağlanan nakit demektir: Senaryo 2'de hedef stok tutarı yaklaşık 17 milyon PB artıyor; bu finansmanı senaryo kabul edilmeden önce konuşun."
     },
     {
      "aralik": "B24:F28",
@@ -732,7 +732,7 @@
     {
      "aralik": "B34:T38",
      "baslik": "Hesap alanı: malzeme bazında sınıf",
-     "metin": "Her malzeme için senaryo bazında kalan gün ve sınıf: HM-003 baz 0 gün (Çok Acil) → S1 −8 Çok Acil, S2 −24 Çok Acil, S3 +6 Dikkat. HM-002 baz 18 gün Normal → S1 5 Dikkat, S2 −13 Çok Acil, S3 26 Normal. Hedef stok tutarı da senaryoya göre: HM-003 2,2 → 2,4 / 4,2 / 1,5 milyon PB.",
+     "metin": "Her malzeme için senaryo bazında kalan gün ve sınıf: HM-003 baz 0 gün (Çok Acil) → Senaryo 1'de −8 Çok Acil, Senaryo 2'de −24 Çok Acil, Senaryo 3'te +6 Dikkat. HM-002 baz 18 gün Normal → 5 Dikkat, −13 Çok Acil, 26 Normal (sayfadaki S1 sütunu Baz, S2–S4 senaryolardır). Hedef stok tutarı da senaryoya göre: HM-003 2,2 → 2,4 / 4,2 / 1,5 milyon PB.",
      "karar": "Sunumda 'acil malzeme 32' demek yetmez; bu alandan senaryo 2'de Çok Acil'e düşen kalemleri listeleyip tedarikçi görüşmesini şimdiden planlayın."
     }
    ],
