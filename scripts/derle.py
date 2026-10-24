@@ -919,6 +919,158 @@ def uzay_araci(slug, ad, aciklama, noindex=False):
                  ek_css=[kok + "app.css"], ek_head=f'<script src="{kok}app.js?v={surum(kok + "app.js")}" defer></script>')
 
 
+ROTA_ACIKLAMA = ("ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar, sıralı toplamaya göre "
+                 "tasarrufu gösterir ve rotayı 3D depo planında adım adım çizer. Tarayıcıda çalışır, kurulum istemez.")
+
+
+def rota_sayfasi():
+    """ROTA 3D: depo toplama rotası. Uygulama uzay/rota/js/ (ES modülleri: layout, router, scene3d, ui), stil uzay/rota/css/rota.css.
+    Three.js r128 ve OrbitControls assets/js/vendor/three/ altından klasik betik olarak modülden önce yüklenir (CSP: her şey self).
+    Telefonda kontroller Fabricakit görev notunun çekmecesinde (.fk-gorev-kap / .fk-gorev; fabricakit.css)."""
+    kok = "/uzay/rota/"
+    vendor = "".join(f'\n<script src="{y}?v={surum(y)}" defer></script>' for y in (
+        "/assets/js/vendor/three/three.min.js", "/assets/js/vendor/three/OrbitControls.js"))
+    sekmeler = [("tabPick", "Ürünler"), ("tabLayout", "Depo"), ("tabRoute", "Rota"), ("tabHeat", "Isı haritası"), ("tabSet", "Ayarlar")]
+    sekme_html = "".join(
+        f'<button type="button" class="etiket-dugme" role="tab" id="s-{i}" data-tab="{i}" aria-controls="{i}" '
+        f'aria-selected="{"true" if n == 0 else "false"}">{e(a)}</button>' for n, (i, a) in enumerate(sekmeler))
+    govde = f"""<section class="sayfa-bas rota-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), ("/uzay/", "Uzay"), (None, "ROTA 3D")])}
+    <h1>ROTA 3D</h1>
+    <p class="rota-giris">ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar ve 3D depo planında adım adım gösterir.
+    Depo sorumlusuna ve toplayıcıya yarar: liste sırasıyla yürümeye göre kaç metre ve ne kadar süre kazanıldığını görürsünüz.
+    Raf kodlarını yazın ya da Excel'den yapıştırın, “Rotayı hesapla”ya basın; deponuzun düzenini Depo sekmesinden girin.</p>
+  </div>
+</section>
+<section class="rota" aria-label="ROTA 3D aracı">
+  <div class="kap rota-duzen">
+    <div class="rota-sahne">
+      <canvas id="scene" aria-label="Deponun 3D görünümü ve toplama rotası"></canvas>
+      <div class="rota-hud">
+        <p class="rota-cip">Durum: <b id="hudState">hazır</b></p>
+        <p class="rota-cip">İlerleme: <b id="hudProg">%0</b></p>
+        <p class="rota-cip rota-cip-mod" id="hudMode" hidden></p>
+        <div class="rota-kameralar" role="group" aria-label="Kamera">
+          <button type="button" id="camIso" aria-pressed="true" title="İzometrik">İzo</button>
+          <button type="button" id="camTop" aria-pressed="false" title="Üstten">Üst</button>
+          <button type="button" id="camFollow" aria-pressed="false" title="Toplayıcıyı takip et">Takip</button>
+        </div>
+      </div>
+      <p class="rota-lejant" aria-hidden="true"><span><i class="l-rota"></i>ROTA</span><span><i class="l-sirali"></i>Sıralı toplama</span><span><i class="l-raf"></i>Raf</span><span><i class="l-secili"></i>Listedeki göz</span><span><i class="l-sevk"></i>Sevkiyat</span><span><i class="l-engel"></i>Engel</span></p>
+      <p class="rota-uyari" id="glUyari" hidden>Tarayıcınız 3D çizimi (WebGL) açamadı. Rota hesabı, karşılaştırma ve adım adım liste yine çalışır.</p>
+      <p class="rota-toast" id="toast" role="status" aria-live="polite"></p>
+    </div>
+    <div class="rota-yan">
+      <div class="kart rota-ozet">
+        <dl class="rota-stat">
+          <div class="rota-stat-ana"><dt>ROTA mesafe</dt><dd id="sDist">0<small>m</small></dd></div>
+          <div><dt>Tahmini süre</dt><dd id="sTime">0<small>sn</small></dd></div>
+          <div><dt>Durak</dt><dd id="sStops">0</dd></div>
+        </dl>
+        <div class="rota-karsilastir">
+          <div><p class="rota-cubuk-etiket"><span>Sıralı</span><span id="cSeq">—</span></p><div class="rota-cubuk rota-cubuk-sirali"><i id="bSeq"></i></div></div>
+          <p class="rota-tasarruf" id="cSave">—</p>
+          <div><p class="rota-cubuk-etiket"><span>ROTA</span><span id="cOpt">—</span></p><div class="rota-cubuk rota-cubuk-opt"><i id="bOpt"></i></div></div>
+        </div>
+        <p class="rota-yontem" id="sMethod">—</p>
+      </div>
+      <div class="fk-gorev-kap rota-cekmece-kap">
+        <details class="fk-gorev rota-cekmece" id="cekmece">
+          <summary><span class="fk-gorev-baslik">Kontroller</span><span class="fk-gorev-sayac" id="cekmeceSayac">0 ürün</span>{ikon("yukari", "ikon fk-gorev-ok")}</summary>
+          <div class="rota-sekmeler" role="tablist" aria-label="Kontroller">{sekme_html}</div>
+
+          <div class="rota-panel" id="tabPick" role="tabpanel" aria-labelledby="s-tabPick">
+            <div class="rota-grup">
+              <h2 class="rota-h"><label for="inPicks">Toplanacak ürünler</label></h2>
+              <p class="rota-ipucu">Raf harfi + göz no, isteğe bağlı kat (<code>C07-2</code>). Virgül ya da satırla ayırın.</p>
+              <textarea id="inPicks" rows="3" spellcheck="false"></textarea>
+              <p class="rota-hata" id="pickErr" hidden></p>
+              <div class="rota-dugmeler">
+                <button type="button" class="dugme" id="btnRun">Rotayı hesapla</button>
+                <button type="button" class="dugme-cizgi" id="btnReplay">Tekrar oynat</button>
+                <button type="button" class="dugme-cizgi" id="btnClear">Temizle</button>
+              </div>
+              <p class="rota-ipucu">3D sahnede bir göze dokunarak da listeye ekleyip çıkarabilirsiniz.</p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Toplama sırası</h2>
+              <ol class="rota-sira" id="orderList"></ol>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabLayout" role="tabpanel" aria-labelledby="s-tabLayout" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Depo düzeni</h2>
+              <div class="rota-satir rota-satir-3">
+                <label for="inPairs">Raf bloğu<input id="inPairs" type="number" inputmode="numeric" min="1" max="10" value="4"></label>
+                <label for="inBays">Göz / raf<input id="inBays" type="number" inputmode="numeric" min="3" max="30" value="12"></label>
+                <label for="inLevels">Kat<input id="inLevels" type="number" inputmode="numeric" min="1" max="5" value="3"></label>
+              </div>
+              <div class="rota-satir">
+                <label for="inCell">Göz genişliği (m)<input id="inCell" type="number" inputmode="decimal" min="0.5" max="5" step="0.1" value="1.2"></label>
+                <label for="inDepot">Sevkiyat noktası<select id="inDepot"><option value="left">Sol ön</option><option value="center">Orta ön</option><option value="right">Sağ ön</option></select></label>
+              </div>
+              <p class="rota-ipucu" id="layoutHint"></p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Sahnede düzenleme</h2>
+              <div class="rota-secim" id="editMode" role="group" aria-label="Sahnede düzenleme">
+                <button type="button" class="etiket-dugme" data-mode="pick" aria-pressed="true">Ürün seç</button>
+                <button type="button" class="etiket-dugme" data-mode="block" aria-pressed="false">Engel koy</button>
+                <button type="button" class="etiket-dugme" data-mode="view" aria-pressed="false">Sadece bak</button>
+              </div>
+              <p class="rota-ipucu">Engel modunda koridordaki bir kareye dokunun: palet, forklift ya da kapalı geçit gibi davranır, rota etrafından dolaşır. Tekrar dokunursanız kalkar.</p>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnClearBlocks">Engelleri kaldır</button><button type="button" class="dugme-cizgi" id="btnSample">Örnek depo</button></div>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabRoute" role="tabpanel" aria-labelledby="s-tabRoute" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Adım adım</h2>
+              <ol class="rota-adimlar" id="stepList"></ol>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnCopy">Rota listesini kopyala</button></div>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabHeat" role="tabpanel" aria-labelledby="s-tabHeat" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h"><label for="inHist">Sipariş geçmişi</label></h2>
+              <p class="rota-ipucu">Her satır bir sipariş. Rafların ne sıklıkla ziyaret edildiğini renklendirir.</p>
+              <textarea id="inHist" rows="5" spellcheck="false"></textarea>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnHeat">Isı haritasını göster</button><button type="button" class="dugme-cizgi" id="btnHeatOff">Kapat</button></div>
+              <p class="rota-isi" aria-hidden="true"><span>seyrek</span><i></i><span>sık</span></p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">En sık toplanan gözler</h2>
+              <ul class="rota-sik" id="hotList"></ul>
+              <p class="rota-ipucu" id="heatHint">Sık toplananlar sevkiyata uzak kalıyorsa, onları ön gözlere taşımak her siparişte metre kazandırır.</p>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabSet" role="tabpanel" aria-labelledby="s-tabSet" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Toplayıcı</h2>
+              <label for="inSpeed">Yürüme hızı: <b id="speedVal">1,0</b> m/sn<input id="inSpeed" type="range" min="0.5" max="2.5" step="0.1" value="1.0"></label>
+              <label for="inPickTime">Göz başına alma süresi: <b id="pickVal">8</b> sn<input id="inPickTime" type="range" min="0" max="30" step="1" value="8"></label>
+              <label for="inAnim">Animasyon hızı: <b id="animVal">1×</b><input id="inAnim" type="range" min="0.25" max="4" step="0.25" value="1"></label>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Görünüm</h2>
+              <label class="rota-kutu"><input type="checkbox" id="chkSeq" checked> Sıralı toplama yolunu da göster</label>
+              <label class="rota-kutu"><input type="checkbox" id="chkLabels" checked> Durak numaralarını göster</label>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+  <noscript><div class="kap"><p class="rota-ipucu">ROTA 3D tarayıcıda çalışır; kullanmak için JavaScript'i açın.</p></div></noscript>
+</section>"""
+    return sayfa(kok, "ROTA 3D · Depo toplama rotası", ROTA_ACIKLAMA, govde, etkin="/uzay/",
+                 ek_css=["/fabricakit/css/fabricakit.css", kok + "css/rota.css"], ek_head=vendor, modul=kok + "js/ui.js")
+
+
 def sayfa_404():
     govde = f"""<section class="yok"><div class="kap">
   <p class="ust-yazi">404</p>
@@ -976,7 +1128,7 @@ def main():
             shutil.rmtree(CIKTI)
         CIKTI.mkdir()
         shutil.copytree(KOK / "assets", CIKTI / "assets")
-        for d in ("fabricakit/css", "fabricakit/js", "fabricakit/img", "uzay/araclar/_sablon"):
+        for d in ("fabricakit/css", "fabricakit/js", "fabricakit/img", "uzay/araclar/_sablon", "uzay/rota/css", "uzay/rota/js"):
             shutil.copytree(KOK / d, CIKTI / d, ignore=shutil.ignore_patterns("index.html"))
         for f in ("favicon.ico", "site.webmanifest"):
             shutil.copy2(KOK / f, CIKTI / f)
@@ -998,6 +1150,7 @@ def main():
     for u in urunler:
         yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler)))
     yollar.append(yaz("/uzay/", uzay_sayfasi()))
+    yollar.append(yaz("/uzay/rota/", rota_sayfasi()))
     yollar.append(yaz("/uzay/araclar/_sablon/", uzay_araci(
         "_sablon", "Araç adı", "Aracın ne yaptığını bir cümlede anlatın.", noindex=True)))
     yollar.append(yaz("/hakkinda/", hakkinda()))
@@ -1008,7 +1161,7 @@ def main():
     yollar.append(yaz("/404.html", sayfa_404()))
 
     adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + [f"/urun/{u['slug']}/" for u in urunler] + [
-        "/uzay/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
+        "/uzay/", "/uzay/rota/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for a in adresler:

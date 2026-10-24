@@ -1,0 +1,8 @@
+/* ROTA 3D · araç stilleri. Renk ve ölçüler assets/css/style.css'teki :root değişkenlerinden gelir. */
+.rota-duzen { display: grid; gap: 16px; }
+.rota-sahne { position: relative; height: 58vh; min-height: 320px; background: var(--metin); }
+#scene { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+@media (min-width: 960px) {
+  .rota-duzen { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; }
+  .rota-sahne { height: min(78vh, 720px); }
+}

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROTA 3D · Depo toplama rotası · Celcini</title>
+<meta name="description" content="ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar, sıralı toplamaya göre tasarrufu gösterir ve rotayı 3D depo planında adım adım çizer. Tarayıcıda çalışır, kurulum istemez.">
+<link rel="canonical" href="https://celcini.com/uzay/rota/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="ROTA 3D · Depo toplama rotası · Celcini">
+<meta property="og:description" content="ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar, sıralı toplamaya göre tasarrufu gösterir ve rotayı 3D depo planında adım adım çizer. Tarayıcıda çalışır, kurulum istemez.">
+<meta property="og:url" content="https://celcini.com/uzay/rota/">
+<meta property="og:image" content="https://celcini.com/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=82db7428">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=08834545" defer></script>
+
+<script src="/assets/js/vendor/three/three.min.js?v=eb854986" defer></script>
+<script src="/assets/js/vendor/three/OrbitControls.js?v=98d0f30d" defer></script>
+<link rel="stylesheet" href="/fabricakit/css/fabricakit.css?v=714464f7">
+<link rel="stylesheet" href="/uzay/rota/css/rota.css?v=3ff52594">
+<script type="module" src="/uzay/rota/js/ui.js?v=c37a68d9"></script>
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/uzay/" aria-current="page">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="sayfa-bas rota-bas">
+  <div class="kap">
+    <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li><a href="/uzay/">Uzay</a></li><li aria-current="page">ROTA 3D</li></ol></nav>
+    <h1>ROTA 3D</h1>
+    <p class="rota-giris">ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar ve 3D depo planında adım adım gösterir.
+    Depo sorumlusuna ve toplayıcıya yarar: liste sırasıyla yürümeye göre kaç metre ve ne kadar süre kazanıldığını görürsünüz.
+    Raf kodlarını yazın ya da Excel'den yapıştırın, “Rotayı hesapla”ya basın; deponuzun düzenini Depo sekmesinden girin.</p>
+  </div>
+</section>
+<section class="rota" aria-label="ROTA 3D aracı">
+  <div class="kap rota-duzen">
+    <div class="rota-sahne">
+      <canvas id="scene" aria-label="Deponun 3D görünümü ve toplama rotası"></canvas>
+      <div class="rota-hud">
+        <p class="rota-cip">Durum: <b id="hudState">hazır</b></p>
+        <p class="rota-cip">İlerleme: <b id="hudProg">%0</b></p>
+        <p class="rota-cip rota-cip-mod" id="hudMode" hidden></p>
+        <div class="rota-kameralar" role="group" aria-label="Kamera">
+          <button type="button" id="camIso" aria-pressed="true" title="İzometrik">İzo</button>
+          <button type="button" id="camTop" aria-pressed="false" title="Üstten">Üst</button>
+          <button type="button" id="camFollow" aria-pressed="false" title="Toplayıcıyı takip et">Takip</button>
+        </div>
+      </div>
+      <p class="rota-lejant" aria-hidden="true"><span><i class="l-rota"></i>ROTA</span><span><i class="l-sirali"></i>Sıralı toplama</span><span><i class="l-raf"></i>Raf</span><span><i class="l-secili"></i>Listedeki göz</span><span><i class="l-sevk"></i>Sevkiyat</span><span><i class="l-engel"></i>Engel</span></p>
+      <p class="rota-uyari" id="glUyari" hidden>Tarayıcınız 3D çizimi (WebGL) açamadı. Rota hesabı, karşılaştırma ve adım adım liste yine çalışır.</p>
+      <p class="rota-toast" id="toast" role="status" aria-live="polite"></p>
+    </div>
+    <div class="rota-yan">
+      <div class="kart rota-ozet">
+        <dl class="rota-stat">
+          <div class="rota-stat-ana"><dt>ROTA mesafe</dt><dd id="sDist">0<small>m</small></dd></div>
+          <div><dt>Tahmini süre</dt><dd id="sTime">0<small>sn</small></dd></div>
+          <div><dt>Durak</dt><dd id="sStops">0</dd></div>
+        </dl>
+        <div class="rota-karsilastir">
+          <div><p class="rota-cubuk-etiket"><span>Sıralı</span><span id="cSeq">—</span></p><div class="rota-cubuk rota-cubuk-sirali"><i id="bSeq"></i></div></div>
+          <p class="rota-tasarruf" id="cSave">—</p>
+          <div><p class="rota-cubuk-etiket"><span>ROTA</span><span id="cOpt">—</span></p><div class="rota-cubuk rota-cubuk-opt"><i id="bOpt"></i></div></div>
+        </div>
+        <p class="rota-yontem" id="sMethod">—</p>
+      </div>
+      <div class="fk-gorev-kap rota-cekmece-kap">
+        <details class="fk-gorev rota-cekmece" id="cekmece">
+          <summary><span class="fk-gorev-baslik">Kontroller</span><span class="fk-gorev-sayac" id="cekmeceSayac">0 ürün</span><svg class="ikon fk-gorev-ok" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m18 15-6-6-6 6"/></svg></summary>
+          <div class="rota-sekmeler" role="tablist" aria-label="Kontroller"><button type="button" class="etiket-dugme" role="tab" id="s-tabPick" data-tab="tabPick" aria-controls="tabPick" aria-selected="true">Ürünler</button><button type="button" class="etiket-dugme" role="tab" id="s-tabLayout" data-tab="tabLayout" aria-controls="tabLayout" aria-selected="false">Depo</button><button type="button" class="etiket-dugme" role="tab" id="s-tabRoute" data-tab="tabRoute" aria-controls="tabRoute" aria-selected="false">Rota</button><button type="button" class="etiket-dugme" role="tab" id="s-tabHeat" data-tab="tabHeat" aria-controls="tabHeat" aria-selected="false">Isı haritası</button><button type="button" class="etiket-dugme" role="tab" id="s-tabSet" data-tab="tabSet" aria-controls="tabSet" aria-selected="false">Ayarlar</button></div>
+
+          <div class="rota-panel" id="tabPick" role="tabpanel" aria-labelledby="s-tabPick">
+            <div class="rota-grup">
+              <h2 class="rota-h"><label for="inPicks">Toplanacak ürünler</label></h2>
+              <p class="rota-ipucu">Raf harfi + göz no, isteğe bağlı kat (<code>C07-2</code>). Virgül ya da satırla ayırın.</p>
+              <textarea id="inPicks" rows="3" spellcheck="false"></textarea>
+              <p class="rota-hata" id="pickErr" hidden></p>
+              <div class="rota-dugmeler">
+                <button type="button" class="dugme" id="btnRun">Rotayı hesapla</button>
+                <button type="button" class="dugme-cizgi" id="btnReplay">Tekrar oynat</button>
+                <button type="button" class="dugme-cizgi" id="btnClear">Temizle</button>
+              </div>
+              <p class="rota-ipucu">3D sahnede bir göze dokunarak da listeye ekleyip çıkarabilirsiniz.</p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Toplama sırası</h2>
+              <ol class="rota-sira" id="orderList"></ol>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabLayout" role="tabpanel" aria-labelledby="s-tabLayout" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Depo düzeni</h2>
+              <div class="rota-satir rota-satir-3">
+                <label for="inPairs">Raf bloğu<input id="inPairs" type="number" inputmode="numeric" min="1" max="10" value="4"></label>
+                <label for="inBays">Göz / raf<input id="inBays" type="number" inputmode="numeric" min="3" max="30" value="12"></label>
+                <label for="inLevels">Kat<input id="inLevels" type="number" inputmode="numeric" min="1" max="5" value="3"></label>
+              </div>
+              <div class="rota-satir">
+                <label for="inCell">Göz genişliği (m)<input id="inCell" type="number" inputmode="decimal" min="0.5" max="5" step="0.1" value="1.2"></label>
+                <label for="inDepot">Sevkiyat noktası<select id="inDepot"><option value="left">Sol ön</option><option value="center">Orta ön</option><option value="right">Sağ ön</option></select></label>
+              </div>
+              <p class="rota-ipucu" id="layoutHint"></p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Sahnede düzenleme</h2>
+              <div class="rota-secim" id="editMode" role="group" aria-label="Sahnede düzenleme">
+                <button type="button" class="etiket-dugme" data-mode="pick" aria-pressed="true">Ürün seç</button>
+                <button type="button" class="etiket-dugme" data-mode="block" aria-pressed="false">Engel koy</button>
+                <button type="button" class="etiket-dugme" data-mode="view" aria-pressed="false">Sadece bak</button>
+              </div>
+              <p class="rota-ipucu">Engel modunda koridordaki bir kareye dokunun: palet, forklift ya da kapalı geçit gibi davranır, rota etrafından dolaşır. Tekrar dokunursanız kalkar.</p>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnClearBlocks">Engelleri kaldır</button><button type="button" class="dugme-cizgi" id="btnSample">Örnek depo</button></div>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabRoute" role="tabpanel" aria-labelledby="s-tabRoute" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Adım adım</h2>
+              <ol class="rota-adimlar" id="stepList"></ol>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnCopy">Rota listesini kopyala</button></div>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabHeat" role="tabpanel" aria-labelledby="s-tabHeat" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h"><label for="inHist">Sipariş geçmişi</label></h2>
+              <p class="rota-ipucu">Her satır bir sipariş. Rafların ne sıklıkla ziyaret edildiğini renklendirir.</p>
+              <textarea id="inHist" rows="5" spellcheck="false"></textarea>
+              <div class="rota-dugmeler"><button type="button" class="dugme-cizgi" id="btnHeat">Isı haritasını göster</button><button type="button" class="dugme-cizgi" id="btnHeatOff">Kapat</button></div>
+              <p class="rota-isi" aria-hidden="true"><span>seyrek</span><i></i><span>sık</span></p>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">En sık toplanan gözler</h2>
+              <ul class="rota-sik" id="hotList"></ul>
+              <p class="rota-ipucu" id="heatHint">Sık toplananlar sevkiyata uzak kalıyorsa, onları ön gözlere taşımak her siparişte metre kazandırır.</p>
+            </div>
+          </div>
+
+          <div class="rota-panel" id="tabSet" role="tabpanel" aria-labelledby="s-tabSet" hidden>
+            <div class="rota-grup">
+              <h2 class="rota-h">Toplayıcı</h2>
+              <label for="inSpeed">Yürüme hızı: <b id="speedVal">1,0</b> m/sn<input id="inSpeed" type="range" min="0.5" max="2.5" step="0.1" value="1.0"></label>
+              <label for="inPickTime">Göz başına alma süresi: <b id="pickVal">8</b> sn<input id="inPickTime" type="range" min="0" max="30" step="1" value="8"></label>
+              <label for="inAnim">Animasyon hızı: <b id="animVal">1×</b><input id="inAnim" type="range" min="0.25" max="4" step="0.25" value="1"></label>
+            </div>
+            <div class="rota-grup">
+              <h2 class="rota-h">Görünüm</h2>
+              <label class="rota-kutu"><input type="checkbox" id="chkSeq" checked> Sıralı toplama yolunu da göster</label>
+              <label class="rota-kutu"><input type="checkbox" id="chkLabels" checked> Durak numaralarını göster</label>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+  <noscript><div class="kap"><p class="rota-ipucu">ROTA 3D tarayıcıda çalışır; kullanmak için JavaScript'i açın.</p></div></noscript>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul, 2026.</p>
+    </div>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
+</body>
+</html>
