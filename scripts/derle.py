@@ -26,7 +26,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ikonlar import ikon  # noqa: E402
 
 KOK = Path(__file__).resolve().parent.parent
-SITE = "https://celcini.com"
+# Sitenin kök adresi: canonical, og:url, sitemap ve robots buradan üretilir. Alan adı henüz alınmadı; alınıp Vercel'e
+# bağlanınca "https://celcini.com" yapıp yeniden derle (robots.txt de buradan yazılır).
+SITE = "https://celcini.vercel.app"
 ONIZLEME = "--onizleme" in sys.argv
 CIKTI = KOK / "_onizleme" if ONIZLEME else KOK
 BUGUN = datetime.date.today().isoformat()
@@ -826,7 +828,7 @@ def sss_sayfasi():
 
 
 def gizlilik():
-    ic = """<p>Bu sayfa, celcini.com sitesini kullandığınızda kişisel verilerinizin nasıl işlendiğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) çerçevesinde açıklar.</p>
+    ic = """<p>Bu sayfa, Celcini sitesini kullandığınızda kişisel verilerinizin nasıl işlendiğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) çerçevesinde açıklar.</p>
 <h2>Bu site ne toplar?</h2>
 <ul>
   <li>Site çerez kullanmaz, reklam ya da ziyaretçi analizi aracı çalıştırmaz.</li>
@@ -1528,6 +1530,7 @@ def main():
             shutil.copy2(KOK / f, CIKTI / f)
         (CIKTI / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
     else:
+        (CIKTI / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
         # Artık JSON'da olmayan (ya da gizlenen) ürünlerin eski sayfalarını sil
         urun_dizin = CIKTI / "urun"
         if urun_dizin.exists():
