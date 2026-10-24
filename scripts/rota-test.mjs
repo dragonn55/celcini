@@ -3,10 +3,12 @@
    Denetler: engel çevresinden dolanma (en kısa yol, engelden geçmez), erişilemeyen göz uyarısı,
    optimum ≤ sıralı mesafe (≤12 durak Held-Karp, fazlası en yakın komşu + 2-opt; tohumlu rastgele listeler),
    Held-Karp'ın kaba kuvvetle aynı en kısa turu bulması, yolların geçerliliği (komşu adımlar, yürünebilir hücre,
-   sevkiyatta başlar ve biter, her durağa uğrar), adım adım listenin toplamı, raf kodu ve "Listeyi yapıştır" ayrıştırması.
+   sevkiyatta başlar ve biter, her durağa uğrar), adım adım listenin toplamı, raf kodu ve "Listeyi yapıştır" ayrıştırması,
+   sayfadaki varsayılanlar (yürüme 1,0 m/sn, göz başına alma 15 sn) ve örnek listenin tahmini süresi.
    Çalıştırma: node scripts/rota-test.mjs */
 import { Layout } from "../uzay/rota/js/layout.js";
 import { Router } from "../uzay/rota/js/router.js";
+import fs from "node:fs";
 
 let hataSayisi = 0, denetim = 0;
 const hata = (m) => { console.error("✗ " + m); hataSayisi += 1; };
@@ -136,6 +138,32 @@ bekle(hkSayi > 100 && ikiOptSayi > 30, `yeterli örnek yok: Held-Karp ${hkSayi},
   bekle(bad.join("|") === "Raf kodu|Adet|2|Z99", `yapıştır tanınmayanlar: ${bad}`);
 }
 
+/* ---------------- 5. Varsayılan süreler (derlenmiş sayfa) ve örnek listenin süresi ---------------- */
+let ornekSure = "";
+{
+  const sayfa = fs.readFileSync(new URL("../uzay/rota/index.html", import.meta.url), "utf8");
+  const ui = fs.readFileSync(new URL("../uzay/rota/js/ui.js", import.meta.url), "utf8");
+  const deger = (id) => sayfa.match(new RegExp(`id="${id}"[^>]*value="([^"]+)"`))?.[1];
+  const hiz = +deger("inSpeed"), alma = +deger("inPickTime"), goz = +deger("inCell");
+  bekle(hiz === 1, `varsayılan yürüme hızı 1,0 m/sn olmalı: ${deger("inSpeed")}`);
+  bekle(alma === 15, `varsayılan göz başına alma süresi 15 sn olmalı: ${deger("inPickTime")}`);
+  bekle(/<b id="pickVal">15<\/b> sn/.test(sayfa), "ayarlar etiketi 15 sn yazmalı");
+  bekle(/Varsayılan alma süresi 15 sn: gözü bulma, sayma ve barkod okutma dahil/.test(sayfa), "ayarlarda 15 sn açıklaması olmalı");
+  // örnek depo ve liste ui.js'teki SAMPLE'dan; süre = mesafe / hız + ürün × alma (ui.js timeFor)
+  const ornek = ui.match(/SAMPLE = \{ pairs:(\d+), bays:(\d+), levels:(\d+), cell:([\d.]+), depot:"(\w+)",\s*picks:"([^"]+)"/);
+  bekle(Boolean(ornek), "ui.js'te SAMPLE bulunamadı");
+  if (ornek) {
+    const L = Layout.build(+ornek[1], +ornek[2], +ornek[3], ornek[5]);
+    const r = Router.solve(L, kodlar(L, ornek[6].replace(/\\n/g, "\n")), "opt");
+    bekle(+ornek[4] === goz, `örnek göz genişliği sayfayla aynı olmalı: ${ornek[4]} / ${goz}`);
+    const sn = r.moves * goz / hiz + r.itemCount * alma;
+    bekle(r.moves === 78 && r.itemCount === 10, `örnek rota 78 göz, 10 ürün olmalı: ${r.moves}, ${r.itemCount}`);
+    bekle(Math.abs(sn - 243.6) < 1e-9, `örnek süre 93,6 m / 1,0 + 10 × 15 = 243,6 sn olmalı: ${sn}`);
+    const tr = (n) => n.toFixed(1).replace(".", ",");
+    ornekSure = ` Örnek liste: ${tr(r.moves * goz)} m, ${tr(sn / 60)} dk (alma 15 sn).`;
+  }
+}
+
 if (hataSayisi) { console.error(`\n✗ rota-test: ${hataSayisi} sorun (${denetim} denetim).`); process.exit(1); }
 console.log(`✓ rota-test: ${denetim} denetim geçti. 300 rastgele depo (Held-Karp ${hkSayi}, 2-opt ${ikiOptSayi}, kaba kuvvetle ${kabaSayi}); ` +
-  `toplam sıralı ${toplamSeq} göz → ROTA ${toplamOpt} göz (%${Math.round((1 - toplamOpt / toplamSeq) * 100)} kısa). Engel dolanma ve erişilemeyen göz uyarısı doğru.`);
+  `toplam sıralı ${toplamSeq} göz → ROTA ${toplamOpt} göz (%${Math.round((1 - toplamOpt / toplamSeq) * 100)} kısa). Engel dolanma ve erişilemeyen göz uyarısı doğru.${ornekSure}`);

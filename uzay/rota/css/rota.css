@@ -19,7 +19,12 @@
   background: var(--metin); border: var(--cizgi-k) solid var(--metin-2); border-radius: 999px;
 }
 .rota-cip b { color: #fff; font-variant-numeric: tabular-nums; }
-.rota-cip-mod { border-color: var(--turuncu); }
+.rota-cip-mod { display: inline-flex; align-items: center; gap: 8px; border-color: var(--turuncu); }
+.rota-cip-mod button {
+  min-height: 44px; margin: -4px -8px -4px 0; padding: 0 16px; font: inherit; font-weight: 700; cursor: pointer;
+  color: var(--metin); background: var(--zemin); border: 0; border-radius: 999px;
+}
+.rota-cip-mod button:focus-visible { outline-color: #fff; }
 .rota-kameralar { pointer-events: auto; display: flex; gap: 4px; margin-left: auto; }
 .rota-kameralar button {
   min-width: 52px; min-height: 44px; padding: 0 12px; font: inherit; font-size: var(--fs-0); font-weight: 700; cursor: pointer;
@@ -137,10 +142,47 @@
   .rota-cekmece { padding: 16px; border-left: var(--cizgi-k) solid var(--cizgi); }
   .rota-cekmece > summary { display: none; }
 }
-/* Telefon: çekmece kapalıyken sahne ve özet tam görünür; açıkken içi kayar (fabricakit.css .fk-gorev) */
+/* Telefona özel öğeler (kısa giriş, "Nasıl kullanılır", örnek notu, şerit düğmesi) masaüstünde görünmez */
+.rota-giris-kisa, .rota-nasil, .rota-ornek-not, .rota-serit-dugme { display: none; }
+/* Telefon: kapalı şeritte "Kontroller · N ürün ▲" ve "Rotayı hesapla"; açık çekmece en fazla ekranın %55'i,
+   içi kendi içinde kayar, sahne üstte görünür kalır (fabricakit.css .fk-gorev üstüne) */
 @media (max-width: 959px) {
+  .rota-giris-tam { display: none; }
+  .rota-giris-kisa { display: inline; }
+  .rota-nasil { display: block; margin-top: 4px; }
+  .rota-nasil summary {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 44px; list-style: none; cursor: pointer;
+    font-weight: 700; color: var(--koyu);
+  }
+  .rota-nasil summary::-webkit-details-marker { display: none; }
+  .rota-nasil summary .ikon { width: 20px; height: 20px; transition: transform var(--gecis); }
+  .rota-nasil[open] summary .ikon { transform: rotate(180deg); }
+  .sayfa-bas .rota-nasil p { font-size: var(--fs-1); max-width: 72ch; padding-bottom: 4px; }
+  .rota-sahne { height: 45vh; height: 45svh; min-height: 280px; }
+
+  .rota-cekmece { max-height: 55vh; max-height: 55svh; }
   .rota-cekmece[open] { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
-  .rota-sekmeler { position: sticky; top: 0; z-index: 1; background: var(--kart); }
+  /* Şerit yazısı düğmenin solunda kalır; dar ekranda "· N ürün ▲" ikinci satıra iner, düğmenin altına girmez */
+  .rota-cekmece > summary {
+    position: sticky; top: 0; z-index: 2; flex-wrap: wrap; align-content: center; gap: 0 4px; background: var(--kart);
+    padding-right: calc(var(--serit-dugme, 170px) + 8px);
+  }
+  .rota-cekmece > summary > span { white-space: nowrap; }
+  .rota-serit-satir { display: inline-flex; align-items: center; gap: 4px; }
+  .rota-cekmece > summary .ikon { width: 20px; height: 20px; }
+  .rota-cekmece[open] > summary { padding-right: 0; }
+  .rota-cekmece .fk-gorev-sayac { margin-left: 0; }
+  .rota-cekmece .fk-gorev-sayac::before { content: "· "; color: var(--metin-2); }
+  .rota-sekmeler { position: sticky; top: 52px; z-index: 1; background: var(--kart); }
+  .rota-serit-dugme {
+    display: inline-flex; position: absolute; z-index: 3; right: var(--kenar); bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    min-height: 44px; padding: 0 12px;
+  }
+  .rota-ornek-not {
+    display: block; padding: 6px var(--kenar); font-size: var(--fs-0); color: var(--metin);
+    background: var(--kart); border-top: var(--cizgi-k) solid var(--cizgi);
+  }
+  .rota-cekmece-kap.acik .rota-serit-dugme, .rota-cekmece-kap.acik .rota-ornek-not { display: none; }
 }
 
 /* ---------- Kendi deponuz için ---------- */

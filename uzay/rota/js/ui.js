@@ -40,6 +40,7 @@ function run(){
   readLayout();
   const { ok, bad } = Layout.parsePicks($("inPicks").value, layout);
   $("cekmeceSayac").textContent = `${ok.length} ürün`;
+  $("ornekNot").hidden = $("inPicks").value !== SAMPLE.picks; $("ornekSayi").textContent = ok.length;
   $("pickErr").hidden = bad.length === 0;
   if (bad.length) $("pickErr").textContent = `Tanınmayan kod: ${bad.join(", ")}. Geçerli biçim: harf + göz no${layout.levels>1?" + kat (C07-2)":""}.`;
   Scene3D.highlight(ok.map(p => p.code));
@@ -135,7 +136,7 @@ function pasteAl(){
   if (!ok.length){ d.textContent = `Raf kodu bulunamadı.${kalan} Depo sekmesindeki raf, göz ve kat sayısını kontrol edin.`; return; }
   $("inPicks").value = ok.map(p => p.code).join(", "); $("inPaste").value = "";
   d.textContent = `${ok.length} kod alındı.${kalan}`;
-  run();
+  run(); sahneyeDon(bad.length > 0);
 }
 
 // ısı haritası
@@ -163,7 +164,8 @@ function copySteps(){
 }
 
 // olaylar
-$("btnRun").onclick = run; $("btnReplay").onclick = play; $("btnSample").onclick = loadSample; $("btnCopy").onclick = copySteps;
+$("btnRun").onclick = $("btnRunSerit").onclick = () => { run(); sahneyeDon(); };
+$("btnReplay").onclick = () => { play(); sahneyeDon(); }; $("btnSample").onclick = loadSample; $("btnCopy").onclick = copySteps;
 $("btnClear").onclick = () => { $("inPicks").value = ""; run(); };
 $("btnClearBlocks").onclick = () => { layout.blocked.clear(); Scene3D.drawBlocks(); run(); };
 $("btnHeat").onclick = heatShow; $("btnHeatOff").onclick = heatOff;
@@ -179,22 +181,50 @@ tabs.forEach(b => b.onclick = () => {
   tabs.forEach(x => x.setAttribute("aria-selected", String(x===b)));
   document.querySelectorAll(".rota-panel").forEach(p => p.hidden = p.id !== b.dataset.tab);
 });
+/* Sahnede düzenleme: "Ürün seç" ya da "Engel koy" seçilince sahnedeki mod etiketinde "Bitti" çıkar, basınca "Sadece bak"a döner.
+   Telefonda çekmece kapanır ki sahneye dokunulabilsin. */
 const modes = [...document.querySelectorAll("#editMode button")];
-modes.forEach(b => b.onclick = () => {
-  mode = b.dataset.mode; modes.forEach(x => x.setAttribute("aria-pressed", String(x===b)));
-  const hm = $("hudMode"); hm.hidden = mode === "pick"; hm.textContent = mode === "block" ? "Engel modu: koridora dokunun" : "Sadece bak";
-});
+const MOD_ADI = { pick:"Ürün seçme: göze dokunun", block:"Engel modu: koridora dokunun", view:"Sadece bak" };
+function modSec(m){
+  mode = m; modes.forEach(x => x.setAttribute("aria-pressed", String(x.dataset.mode===m)));
+  $("hudMode").hidden = false; $("hudModeText").textContent = MOD_ADI[m]; $("btnModeDone").hidden = m === "view";
+}
+modes.forEach(b => b.onclick = () => { modSec(b.dataset.mode); if (mode !== "view") cekmeceKapat(); });
+$("btnModeDone").onclick = () => modSec("view");
 const cams = [["camIso","iso"],["camTop","top"],["camFollow","follow"]];
 cams.forEach(([id,m]) => $(id).onclick = () => {
   cams.forEach(([x]) => $(x).setAttribute("aria-pressed", String(x===id))); Scene3D.setCamera(m);
 });
 
-// çekmece: masaüstünde hep açık; telefonda kapalı başlar, sahne tam görünür
-const cekmece = $("cekmece");
-const yerlesim = () => { cekmece.open = masaustu.matches; };
+/* Çekmece: masaüstünde hep açık; telefonda kapalı başlar. Kapalı şeritte "Kontroller · N ürün" ve "Rotayı hesapla";
+   açılınca sahne ekranın üstüne gelir, çekmece en fazla ekranın %55'i kadar açılır (rota.css). */
+const cekmece = $("cekmece"), kap = $("cekmeceKap"), sahne = document.querySelector(".rota-sahne");
+const kaydirma = reduceMotion ? "auto" : "smooth";
+const yerlesim = () => { cekmece.open = masaustu.matches; serit(); };
+function serit(){
+  kap.classList.toggle("acik", cekmece.open);
+  if (masaustu.matches){ document.body.style.paddingBottom = ""; return; }
+  kap.style.setProperty("--serit-dugme", $("btnRunSerit").offsetWidth + "px");
+  if (!cekmece.open) document.body.style.paddingBottom = kap.offsetHeight + "px"; // kapalı şerit sayfanın sonunu örtmesin
+}
+function cekmeceKapat(){
+  if (masaustu.matches) return;
+  cekmece.open = false; sahne.scrollIntoView({ block:"start", behavior:kaydirma });
+}
+/* Telefonda hesaplama ve tekrar oynatmadan sonra: rota çizildiyse çekmece kapanır, sahne ekrana gelir.
+   Uyarı çekmecede kalacağı için sahnede kısa not çıkar; rota yoksa (hata) çekmece açık kalır. */
+function sahneyeDon(uyari = false){
+  if (masaustu.matches || !result) return;
+  cekmeceKapat();
+  if (uyari || !$("pickErr").hidden) toast("Bazı kodlar tanınmadı; ayrıntı Kontroller'de");
+}
 masaustu.addEventListener("change", yerlesim); yerlesim();
-cekmece.addEventListener("toggle", () => { if (masaustu.matches && !cekmece.open) cekmece.open = true; });
-document.body.classList.add("fk-cekmeceli");
+cekmece.addEventListener("toggle", () => {
+  if (masaustu.matches && !cekmece.open) cekmece.open = true;
+  if (!masaustu.matches && cekmece.open) sahne.scrollIntoView({ block:"start", behavior:kaydirma });
+  serit();
+});
+new ResizeObserver(serit).observe(kap);
 if (!Scene3D.ok) $("glUyari").hidden = false;
 
 loadSample();

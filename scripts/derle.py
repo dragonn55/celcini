@@ -925,6 +925,8 @@ def uzay_araci(slug, ad, aciklama, noindex=False):
                  ek_css=[kok + "app.css"], ek_head=f'<script src="{kok}app.js?v={surum(kok + "app.js")}" defer></script>')
 
 
+ROTA_NASIL = ("Depo sorumlusuna ve toplayıcıya yarar: liste sırasıyla yürümeye göre kaç metre ve ne kadar süre kazanıldığını görürsünüz. "
+              "Raf kodlarını yazın ya da Excel'den yapıştırın, “Rotayı hesapla”ya basın; deponuzun düzenini Depo sekmesinden girin.")
 ROTA_ACIKLAMA = ("ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar, sıralı toplamaya göre "
                  "tasarrufu gösterir ve rotayı 3D depo planında adım adım çizer. Tarayıcıda çalışır, kurulum istemez.")
 
@@ -944,9 +946,9 @@ def rota_sayfasi():
   <div class="kap">
     {yol_izi([("/", "Ana sayfa"), ("/uzay/", "Uzay"), (None, "ROTA 3D")])}
     <h1>ROTA 3D</h1>
-    <p class="rota-giris">ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar ve 3D depo planında adım adım gösterir.
-    Depo sorumlusuna ve toplayıcıya yarar: liste sırasıyla yürümeye göre kaç metre ve ne kadar süre kazanıldığını görürsünüz.
-    Raf kodlarını yazın ya da Excel'den yapıştırın, “Rotayı hesapla”ya basın; deponuzun düzenini Depo sekmesinden girin.</p>
+    <p class="rota-giris"><span class="rota-giris-tam">ROTA 3D, depoda toplanacak ürünler için en kısa yürüme rotasını hesaplar ve 3D depo planında adım adım gösterir.
+    {ROTA_NASIL}</span><span class="rota-giris-kisa">Depodaki en kısa toplama rotasını hesaplar, 3D depo planında adım adım gösterir.</span></p>
+    <details class="rota-nasil"><summary>Nasıl kullanılır{ikon("asagi")}</summary><p>{ROTA_NASIL}</p></details>
   </div>
 </section>
 <section class="rota" aria-label="ROTA 3D aracı">
@@ -956,7 +958,7 @@ def rota_sayfasi():
       <div class="rota-hud">
         <p class="rota-cip">Durum: <b id="hudState">hazır</b></p>
         <p class="rota-cip">İlerleme: <b id="hudProg">%0</b></p>
-        <p class="rota-cip rota-cip-mod" id="hudMode" hidden></p>
+        <div class="rota-cip rota-cip-mod" id="hudMode" hidden><span id="hudModeText"></span><button type="button" id="btnModeDone" hidden>Bitti</button></div>
         <div class="rota-kameralar" role="group" aria-label="Kamera">
           <button type="button" id="camIso" aria-pressed="true" title="İzometrik">İzo</button>
           <button type="button" id="camTop" aria-pressed="false" title="Üstten">Üst</button>
@@ -981,9 +983,11 @@ def rota_sayfasi():
         </div>
         <p class="rota-yontem" id="sMethod">—</p>
       </div>
-      <div class="fk-gorev-kap rota-cekmece-kap">
+      <div class="fk-gorev-kap rota-cekmece-kap" id="cekmeceKap">
+        <p class="rota-ornek-not" id="ornekNot" hidden>Örnek liste: <span id="ornekSayi">10</span> ürün. Kendi listenizi Kontroller'den girin.</p>
+        <button type="button" class="dugme rota-serit-dugme" id="btnRunSerit">Rotayı hesapla</button>
         <details class="fk-gorev rota-cekmece" id="cekmece">
-          <summary><span class="fk-gorev-baslik">Kontroller</span><span class="fk-gorev-sayac" id="cekmeceSayac">0 ürün</span>{ikon("yukari", "ikon fk-gorev-ok")}</summary>
+          <summary><span class="fk-gorev-baslik">Kontroller</span><span class="rota-serit-satir"><span class="fk-gorev-sayac" id="cekmeceSayac">0 ürün</span>{ikon("yukari", "ikon fk-gorev-ok")}</span></summary>
           <div class="rota-sekmeler" role="tablist" aria-label="Kontroller">{sekme_html}</div>
 
           <div class="rota-panel" id="tabPick" role="tabpanel" aria-labelledby="s-tabPick">
@@ -1065,7 +1069,8 @@ def rota_sayfasi():
             <div class="rota-grup">
               <h2 class="rota-h">Toplayıcı</h2>
               <label for="inSpeed">Yürüme hızı: <b id="speedVal">1,0</b> m/sn<input id="inSpeed" type="range" min="0.5" max="2.5" step="0.1" value="1.0"></label>
-              <label for="inPickTime">Göz başına alma süresi: <b id="pickVal">8</b> sn<input id="inPickTime" type="range" min="0" max="30" step="1" value="8"></label>
+              <label for="inPickTime">Göz başına alma süresi: <b id="pickVal">15</b> sn<input id="inPickTime" type="range" min="0" max="30" step="1" value="15"></label>
+              <p class="rota-ipucu">Varsayılan alma süresi 15 sn: gözü bulma, sayma ve barkod okutma dahil. Varsayılan yürüme hızı 1,0 m/sn.</p>
               <label for="inAnim">Animasyon hızı: <b id="animVal">1×</b><input id="inAnim" type="range" min="0.25" max="4" step="0.25" value="1"></label>
             </div>
             <div class="rota-grup">
