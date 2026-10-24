@@ -142,3 +142,11 @@
   .rota-cekmece[open] { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
   .rota-sekmeler { position: sticky; top: 0; z-index: 1; background: var(--kart); }
 }
+
+/* ---------- Kendi deponuz için ---------- */
+.rota-alt { padding-top: 16px; }
+.rota-kendi { display: grid; gap: 16px; justify-items: start; padding: 24px; }
+.rota-kendi > .ikon { color: var(--koyu); }
+.rota-kendi-metin { display: grid; gap: 8px; max-width: 72ch; }
+.rota-kendi-metin p { color: var(--metin-2); }
+@media (min-width: 760px) { .rota-kendi { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 28px; } }

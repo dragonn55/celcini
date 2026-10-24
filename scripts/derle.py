@@ -559,8 +559,8 @@ def ana_sayfa(urunler):
   <div class="kap">
     <a class="kart uzay-kart" href="/uzay/">
       {ikon("roket", "ikon ikon-buyuk")}
-      <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Yapay zeka araçları</h2>
-      <span class="uzay-alt">İlk araç Fabricakit. Sırada Ölü Stok Dedektörü var.</span></span>
+      <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Tarayıcıda çalışan araçlar</h2>
+      <span class="uzay-alt">Yeni: ROTA 3D, depoda en kısa toplama rotası. Yanında Fabricakit; sırada Ölü Stok Dedektörü var.</span></span>
       <span class="uzay-git">Uzay'a git{ikon("ok")}</span>
     </a>
   </div>
@@ -869,12 +869,18 @@ def uzay_sayfasi():
     {yol_izi([("/", "Ana sayfa"), (None, "Uzay")])}
     {ikon("roket", "ikon ikon-buyuk")}
     <h1>Uzay</h1>
-    <p>Yapay zeka araçları. Tarayıcıda çalışır, kurulum istemez.</p>
+    <p>Tarayıcıda çalışan araçlar. Kurulum ve üyelik istemez.</p>
   </div>
 </section>
 <section class="bolum-raf" aria-label="Uzay araçları">
   <div class="kap">
-    <ul class="izgara izgara-2">
+    <ul class="izgara izgara-3">
+      <li><article class="kart arac-kart">
+        <div class="ust">{ikon("rota", "ikon ikon-buyuk")}<span class="etiket">Yayında</span></div>
+        <h2 class="h3-boy">ROTA 3D</h2>
+        <p>Depo toplama rotası: raf kodlarından en kısa yürüme yolunu hesaplar, sıralı toplamaya göre tasarrufu gösterir, 3D depoda adım adım çizer.</p>
+        <a class="dugme" href="/uzay/rota/">Dene{ikon("ok")}</a>
+      </article></li>
       <li><article class="kart arac-kart">
         <div class="ust">{gezegen("samanyolu", "ikon ikon-buyuk")}<span class="etiket">Yayında</span></div>
         <h2 class="h3-boy">Fabricakit</h2>
@@ -890,8 +896,8 @@ def uzay_sayfasi():
     <p class="not-satiri"><span>{ikon("kilit")}Uzay araçlarına girdiğin veri işlem sonrası sunucuda saklanmaz.</span></p>
   </div>
 </section>"""
-    return sayfa("/uzay/", "Uzay · Yapay zeka araçları",
-                 "Uzay, Celcini'nin yapay zeka araçları. İlk araç Fabricakit, tarayıcıda fabrika simülasyonu; sırada Ölü Stok Dedektörü var.",
+    return sayfa("/uzay/", "Uzay · Tarayıcı araçları",
+                 "Uzay, Celcini'nin tarayıcıda çalışan araçları: ROTA 3D depo toplama rotası ve Fabricakit fabrika simülasyonu; sırada Ölü Stok Dedektörü var.",
                  govde, etkin="/uzay/")
 
 
@@ -1073,6 +1079,19 @@ def rota_sayfasi():
     </div>
   </div>
   <noscript><div class="kap"><p class="rota-ipucu">ROTA 3D tarayıcıda çalışır; kullanmak için JavaScript'i açın.</p></div></noscript>
+</section>
+<section class="bolum-raf rota-alt" aria-labelledby="kendi-baslik">
+  <div class="kap">
+    <div class="kart rota-kendi">
+      {gezegen("jupiter", "ikon ikon-buyuk")}
+      <div class="rota-kendi-metin">
+        <h2 id="kendi-baslik" class="h3-boy">Kendi deponuz için</h2>
+        <p>Deponuzun düzenini Depo sekmesinden girin: raf bloğu, göz sayısı, kat ve göz genişliği. Depo işinin fabrikadaki yerini görmek isterseniz Fabricakit'i açıp haritada Jüpiter (Depo) odasına girin; gelen mal orada teslim alınır, sayım orada yapılır.</p>
+      </div>
+      <a class="dugme-cizgi" href="/fabricakit/">Jüpiter (Depo) odası{ikon("ok")}</a>
+    </div>
+    <p class="not-satiri"><span>{ikon("kilit")}Girdiğiniz raf kodları yalnızca bu sayfada işlenir; hiçbir yere gönderilmez, saklanmaz.</span></p>
+  </div>
 </section>"""
     return sayfa(kok, "ROTA 3D · Depo toplama rotası", ROTA_ACIKLAMA, govde, etkin="/uzay/",
                  ek_css=["/fabricakit/css/fabricakit.css", kok + "css/rota.css"], ek_head=vendor, modul=kok + "js/ui.js")
