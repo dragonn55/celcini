@@ -159,7 +159,7 @@
         }
       ],
       "soru": {
-        "metin": "Ayarlar'da brüt kâr marjı eşiğini %25'ten %40'a çıkarırsanız 'Brüt kâr marjı' satırındaki cümle ne olur?",
+        "metin": "Ayarlar'daki 'Düşük kâr marjı eşiği'ni %25'ten %40'a çıkarırsanız 'Brüt kâr marjı' satırındaki cümle ne olur?",
         "secenekler": [
           "Değişmez; cümleler yalnızca filtre değişince güncellenir.",
           "'✗ Kâr marjı düşük.' olur; %38,3 yeni eşiğin altında kalır.",
@@ -194,7 +194,7 @@
           "aralik": "E3:I15",
           "baslik": "Makro ile formül yan yana",
           "metin": "Soldaki sayılar canlı formüldür; sağdaki 'Makro' sütunu isteğe bağlı makronun sonucudur. Kontrol sütunundaki ✓, iki yöntemin aynı sayıyı bulduğunu gösterir. Tekrar eden satırları (22) ve yazım varyantlarını (26) yalnızca makro sayar.",
-          "karar": "Formüllü sayılar makrosuz çalışır; temiz satır oranı ve satır satır sorun listesi için makroyu kendi verinizde bir kez çalıştırın."
+          "karar": "Formüllü sayılar makrosuz çalışır; tekrar eden satır, yazım varyantı, temiz satır oranı ve satır satır sorun listesi için makroyu kendi verinizde bir kez çalıştırın."
         },
         {
           "aralik": "A19:P36",

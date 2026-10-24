@@ -248,9 +248,9 @@ export function tabloKur(kutu, sayfa, { notlar = [], olcek = 1, hucreSec = () =>
 
   function secimiGoster(r, c, bildir = true) {
     for (const el of izgara.querySelectorAll(".rt-secili, .rt-sb.rt-sec, .rt-sn.rt-sec")) el.classList.remove("rt-secili", "rt-sec");
-    const el = izgara.querySelector(`.rt-h[data-r="${r}"][data-c="${c}"]`);
-    if (!el) return;
-    el.classList.add("rt-secili");
+    const hucreler = izgara.querySelectorAll(`.rt-h[data-r="${r}"][data-c="${c}"]`);
+    if (!hucreler.length) return;
+    for (const el of hucreler) el.classList.add("rt-secili");
     izgara.querySelector(`.rt-sb[data-c="${c}"]`)?.classList.add("rt-sec");
     izgara.querySelector(`.rt-sn[data-r="${r}"]`)?.classList.add("rt-sec");
     secili = { r, c };
