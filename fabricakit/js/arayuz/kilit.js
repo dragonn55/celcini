@@ -1,6 +1,7 @@
 /* Kilit ekranı: 1. gün ücretsiz, sonraki günler erişim koduyla açılır.
    Kod /api/erisim-kodu/ ile doğrulanır; sunucuda saklanmaz. Açılan kilit bu tarayıcıda kalır.
-   Shopier bağlantısı assets/js/config.js'ten (window.CELCINI_LINKS.shopier_magaza) okunur; boşsa düğme gizlenir. */
+   Kod ürününün bağlantısı (fabricakit_kod) ya da mağaza (shopier_magaza) assets/js/config.js'ten okunur;
+   ikisi de boşsa düğme gizlenir. */
 import { AYARLAR } from "../ayarlar.js";
 import { gunAdi } from "../bicim.js";
 import { h, ikon } from "./dom.js";

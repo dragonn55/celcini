@@ -32,11 +32,11 @@
       },
       {
         "src": "/assets/img/urun/planla/2-sabah-sayimi.png",
-        "alt": "PLANLA SAYIM sayfası: hammadde kodu, adı, birimi, sabah sayımı ve tedarik termini"
+        "alt": "PLANLA 1 · Sabah Sayımı sayfası: hammadde kodu, adı, birimi, sayım (stok) ve tedarik termini"
       },
       {
         "src": "/assets/img/urun/planla/3-siparis-takvimi.png",
-        "alt": "PLANLA SIPARIS sayfası: öncelik sırasına göre sipariş zamanı, en az miktar ve stok bitiş günü"
+        "alt": "PLANLA 5 · Sipariş Takvimi sayfası: öncelik sırasına göre sipariş zamanı, en az miktar ve stok bitiş günü"
       }
     ],
     "excel_surum": "Excel 2016 ve sonrası",
