@@ -91,7 +91,8 @@ alınır; Excel Kliniği'ndeki yedi analiz motorunun görselleri böyle üretild
    | `ozellikler[]` | "Ne yapar" maddeleri. |
    | `kimin_icin` | Tek paragraf. |
    | `etiketler[]` | Raf sayfasındaki etiket süzgecine girer. `yapay zeka` etiketi turuncu rozet olur. |
-   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. `null` ise fiyat yazmaz ("Shopier'de yakında" / "Fiyatı Shopier'de"). |
+   | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. `fiyat` `null` ise fiyat yazmaz ("Shopier'de yakında" / "Fiyatı Shopier'de"); `liste_fiyat` `null` ise üstü çizili fiyat çıkmaz. Üstü çizili fiyat yalnızca ürün o fiyattan indirimden önceki son 10 günde gerçekten satıldıysa yazılır (Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği md. 14, 1.8.2026'dan beri). |
+   | `sayfa_basligi` | İsteğe bağlı. Ücretli ürün sayfasının `<title>`'ı; yoksa "Ad · Raf". Aranan kelimeyi içersin (ör. "PLANLA: Excel'de MRP ve sipariş takvimi"). |
    | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez** (`yakinda: true` değilse). |
    | `yakinda` | İsteğe bağlı. `true` ise bağlantı boşken de sayfa çıkar: pasif "Shopier'de yakında" düğmesi ve mağaza ana sayfası bağlantısı (`config.js`). Bağlantı gelince yalnızca `shopier_url` doldurulur. |
    | `ucretsiz_dosya` | İsteğe bağlı. Sitede duran ücretsiz dosya: `"/dosyalar/<raf>/<dosya>.xlsx"`. Doluysa `shopier_url` ve `fiyat` boş olmalı. Sayfada "Ücretsiz indir" düğmesi ve dosya boyutu çıkar. Rafta bu ürünler "Ücretsiz dosyalar" bölümünde, "ücretsiz" süzgeciyle görünür. |
@@ -117,8 +118,15 @@ başlığını, `etiket_esigi` süzgeç düğmesi olacak etiketin en az kaç ür
 ## Bağlantılar
 
 `assets/js/config.js` tek yerdir. Boş bırakılan bağlantının bölümü sayfada gizlenir (örneğin `google_form`
-boşsa e-posta listesi bölümü, `eposta` boşsa iletişimdeki e-posta satırı). JavaScript kapalıyken de bu
-öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden derlemek gerekmez.
+boşsa e-posta listesi bölümü ve satışta olmayan ürünlerdeki "Açılınca haber ver" düğmeleri, `eposta` boşsa iletişimdeki
+e-posta satırı). JavaScript kapalıyken de bu öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden
+derlemek gerekmez. `fabricakit_kod` Fabricakit erişim kodu ürününün Shopier bağlantısıdır (boşsa kilit ekranı mağazaya
+gider); `fabricakit_kod_fiyat` (ör. "199 TL") doluysa kilit ekranındaki düğmede fiyat da yazar.
+
+Ücretsiz dosya sayfalarında `<title>` ve başlık aranan işle başlar ("Gelir Gider Defteri Excel Şablonu · Ücretsiz İndir ·
+NABIZ"); kod adı rozet olarak kalır. Rafta satışta olmayan ("Shopier'de yakında") ürünler sona dizilir; iki bölümlü rafta
+ücretli dosyaların hiçbiri satışta değilse ücretsiz bölüm önce gelir. Sitenin Instagram ya da Facebook'un uygulama içi
+tarayıcısında açıldığını `main.js` algılar ve üstte "tarayıcıda açın" uyarısı gösterir (Android'de "Chrome'da aç" düğmesiyle).
 
 ## Fabricakit
 

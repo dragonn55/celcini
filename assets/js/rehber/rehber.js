@@ -157,6 +157,10 @@ function baslat() {
       }, () => { mesaj.textContent = HATA.ag; mesaj.hidden = false; gonder.disabled = false; gonder.textContent = "Dersi aç"; });
     });
     const magaza = (window.CELCINI_LINKS && window.CELCINI_LINKS.shopier_magaza) || "";
+    /* Dosyalar satışta değilken config.js'te Google Form varsa "Açılınca haber ver" görünür */
+    const formAdresi = (window.CELCINI_LINKS && window.CELCINI_LINKS.google_form) || "";
+    const haberVer = !ayar.shopier && /^https:\/\/\S+$/.test(formAdresi.trim())
+      ? h("a", { sinif: "dugme-cizgi", href: formAdresi.trim(), rel: "noopener" }, "Açılınca haber ver") : null;
     const al = ayar.shopier
       ? h("a", { sinif: "dugme-cizgi", href: ayar.shopier, rel: "noopener" }, `${dizin.ad} dosyalarını al`, ikon("ok"))
       : h("span", { sinif: "dugme-pasif" }, "Shopier'de yakında");
@@ -168,7 +172,7 @@ function baslat() {
           h("h2", { id: "rh-kilit-baslik", sinif: "h3-boy" }, "Bu ders erişim koduyla açılır")),
         h("p", {}, `${dizin.ad} dosyalarını aldığınızda erişim kodu da gelir. Kodu bir kez girmeniz yeter; bu tarayıcı hatırlar. İlk ${dizin.ucretsiz_ders} ders ücretsizdir.`),
         form,
-        h("div", { sinif: "eylemler" }, al, !ayar.shopier && magaza ? h("a", { sinif: "dugme-cizgi", href: magaza, rel: "noopener" }, "Shopier mağazası") : null),
+        h("div", { sinif: "eylemler" }, al, haberVer, !ayar.shopier && magaza ? h("a", { sinif: "dugme-cizgi", href: magaza, rel: "noopener" }, "Shopier mağazası") : null),
         konular || ""),
       sekmeler(dizin, ders),
     );

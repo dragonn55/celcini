@@ -43,6 +43,11 @@ ALT_BILGI = "Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul,
 SITE_CUMLESI = "Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları."
 FORMUL_TESTI = ("Her dosya havuza girmeden önce yeniden hesaplanır; "
                 "sıfır formül hatasıyla geçmeyen dosya satışa çıkmaz.")
+# Ana sayfanın ilk ekranı: ziyaretçiye önce ne kazandığını ve kimin için olduğunu söyler; ürün adı üst yazıda
+HERO_BASLIK = "Fabrika yönetmeyi oynayarak öğren"
+HERO_KITLE = "Endüstri mühendisliği öğrencileri ve üretimde çalışanlar için."
+# Satışta olmayan ürünlerde: config.js'e Google Form bağlantısı girilince görünür (boşken gizli kalır)
+HABER_VER = f'<a class="dugme-cizgi" data-link="google_form" href="#" hidden>Açılınca haber ver{ikon("ok")}</a>'
 
 RAFLAR = [
     {"slug": "fabrika", "ad": "Fabrika Dosyaları", "ikon": "fabrika",
@@ -100,6 +105,27 @@ def tl(sayi):
 
 def fiyat_var(u):
     return bool(u.get("fiyat"))
+
+
+def satista(u):
+    return bool((u.get("shopier_url") or "").strip())
+
+
+def liste_fiyati(u):
+    """Üstü çizili fiyat yalnızca "liste_fiyat" doluysa çıkar. Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği
+    md. 14 (1.8.2026'dan beri): üstü çizili fiyat, indirimden önceki son 10 günde gerçekten uygulanan en düşük fiyat
+    olmalı. Ürün o fiyattan hiç satılmadıysa alanı boş bırak."""
+    if not u.get("liste_fiyat"):
+        return ""
+    return f'<span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>'
+
+
+def kod_ve_islev(ad):
+    """Kod adlı dosyalarda ("NABIZ: Gelir Gider Defteri") kod adını ve işi ayırır; kod adı yoksa (None, ad)."""
+    kod, ayrac, islev = ad.partition(": ")
+    if ayrac and kod and kod == kod.upper():
+        return kod, islev
+    return None, ad
 
 
 def surum(yol):
@@ -368,8 +394,7 @@ def urun_karti(u, raf_goster=True):
     etiketler = u.get("etiketler", []) + (["ücretsiz"] if ucretsiz(u) else [])  # raftaki "ücretsiz" süzgeci için
     ara = " ".join([u["ad"], u["kisa"], " ".join(etiketler)])
     if fiyat_var(u):
-        alt = (f'<span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>'
-               f'<span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>')
+        alt = f'{liste_fiyati(u)}<span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>'
     elif ucretsiz(u):
         alt = '<span class="fiyat">Ücretsiz</span>'
     else:
@@ -532,8 +557,22 @@ def ana_sayfa(urunler, arsiv):
     # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
     tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
                       if any(o.get("kod") for o in odalar) else "")
-    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Üretim Arşivi ve Uzay (tek bölüm).
+    # Sıra: kahraman (Ajan GM) → Nasıl çalışır → Karne örneği → Dokuz oda + harita → Dosyalar → Üretim Arşivi ve Uzay (tek bölüm).
+    # Önce ne kazandığı ve nasıl oynandığı, sonra fabrikanın dünyası (gezegen adları): yeni gelen önce değeri görür.
     # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
+    # Üst yazı büyük harfle yazılır: .ust-yazi'nin büyük harf dönüşümü lang="tr"de "i"yi "İ" yapar (FABRİCAKİT olmasın).
+    odalar_bolumu = f"""<section class="bolum bolum-sik" aria-labelledby="odalar-baslik">
+  <div class="kap">
+    <div class="bolum-bas">
+      <h2 id="odalar-baslik">Dokuz oda</h2>
+      <p>Fabrikanın adı {e(fabrika["ad"])}; her departmanı bir oda.{tabela_cumlesi}</p>
+    </div>
+    <div class="odalar-harita">
+      {oda_seridi(odalar)}
+      <div class="kart fp-kart">{harita_basligi(fabrika)}{fabrika_plani(odalar)}</div>
+    </div>
+  </div>
+</section>"""
     govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
   <div class="kap">
     <div class="gm-sahne belir">
@@ -544,27 +583,15 @@ def ana_sayfa(urunler, arsiv):
       </figure>
     </div>
     <div class="hero-metin belir belir-2">
-      <h1 id="fk-baslik">Fabricakit</h1>
+      <p class="ust-yazi">FABRICAKIT</p>
+      <h1 id="fk-baslik">{e(HERO_BASLIK)}</h1>
       <p class="hero-slogan">{e(SLOGAN)}</p>
-      <p class="hero-alt">{e(FK_ALT)}</p>
+      <p class="hero-alt">{e(FK_ALT)} {e(HERO_KITLE)}</p>
       <div class="hero-eylem">
         <a class="dugme" href="/fabricakit/">Oynamaya başla{ikon("ok")}</a>
         <a class="dugme-cizgi" href="#nasil">Nasıl çalışır</a>
       </div>
       <p class="not-satiri"><span>{ikon("tik")}1. gün ücretsiz</span><span>{ikon("tik")}Üyelik yok</span><span>{ikon("kilit")}İlerleme yalnızca tarayıcında</span></p>
-    </div>
-  </div>
-</section>
-
-<section class="bolum bolum-sik" aria-labelledby="odalar-baslik">
-  <div class="kap">
-    <div class="bolum-bas">
-      <h2 id="odalar-baslik">Dokuz oda</h2>
-      <p>Fabrikanın adı {e(fabrika["ad"])}; her departmanı bir oda.{tabela_cumlesi}</p>
-    </div>
-    <div class="odalar-harita">
-      {oda_seridi(odalar)}
-      <div class="kart fp-kart">{harita_basligi(fabrika)}{fabrika_plani(odalar)}</div>
     </div>
   </div>
 </section>
@@ -581,6 +608,8 @@ def ana_sayfa(urunler, arsiv):
 </section>
 
 {karne_ornegi()}
+
+{odalar_bolumu}
 
 <section class="bolum bolum-sik" id="dosyalar" aria-labelledby="dosyalar-baslik">
   <div class="kap">
@@ -615,8 +644,10 @@ def ana_sayfa(urunler, arsiv):
 
 
 def raf_sayfasi(r, urunler):
-    # Öne çıkan ürün rafın başında; ötekiler data/urunler.json sırasıyla aynı ızgarada
-    liste = sorted((u for u in urunler if u["raf"] == r["slug"]), key=lambda u: not u.get("one_cikan"))
+    # Satın alınabilen ya da indirilebilen ürünler önce, "Shopier'de yakında" olanlar sonda; aynı grupta öne çıkan başta,
+    # ötekiler data/urunler.json sırasıyla
+    liste = sorted((u for u in urunler if u["raf"] == r["slug"]),
+                   key=lambda u: (not (satista(u) or ucretsiz(u)), not u.get("one_cikan")))
     if liste:
         # Kalabalık rafta (RAFLAR'da "etiket_esigi") tek ürünlük etiket düğme olmaz; ürün aramada yine bulunur
         sayim = Counter(t for u in liste for t in u.get("etiketler", []))
@@ -633,19 +664,22 @@ def raf_sayfasi(r, urunler):
         def izgara(us):
             return f'<ul class="izgara izgara-urun">{"".join(urun_karti(u, raf_goster=False) for u in us)}</ul>'
         if iki_bolum:
-            # Üstte Shopier'deki dosyalar, altta sitede duran ücretsiz dosyalar; süzgeç ikisinde birlikte çalışır
-            hepsi_yakinda = not any((u.get("shopier_url") or "").strip() for u in ucretli)
+            # Shopier'deki dosyalar ve sitede duran ücretsiz dosyalar iki bölümde; süzgeç ikisinde birlikte çalışır.
+            # Ücretlilerin hiçbiri henüz satışta değilse indirilebilen ücretsiz dosyalar önce gelir.
+            hepsi_yakinda = not any(satista(u) for u in ucretli)
             ucretli_notu = "Shopier'de yakında satışa açılacak dosyalar." if hepsi_yakinda else "Shopier'den satılan dosyalar."
-            urun_listesi = f"""<section class="raf-bolum" data-urun-bolum aria-labelledby="ucretli-baslik">
+            ucretli_bolum = f"""<section class="raf-bolum" data-urun-bolum aria-labelledby="ucretli-baslik">
       <h2 id="ucretli-baslik" class="h3-boy">{e(r.get("ucretli_baslik", "Shopier'deki dosyalar"))} · {len(ucretli)}</h2>
       <p>{ucretli_notu}</p>
       {izgara(ucretli)}
-    </section>
-    <section class="raf-bolum" data-urun-bolum aria-labelledby="ucretsiz-baslik">
+    </section>"""
+            ucretsiz_bolum = f"""<section class="raf-bolum" data-urun-bolum aria-labelledby="ucretsiz-baslik">
       <h2 id="ucretsiz-baslik" class="h3-boy">Ücretsiz dosyalar · {len(bedava)}</h2>
       <p>Dosyayı sayfasından indirin; kayıt ya da ödeme gerekmez.</p>
       {izgara(bedava)}
     </section>"""
+            sira = (ucretsiz_bolum, ucretli_bolum) if hepsi_yakinda else (ucretli_bolum, ucretsiz_bolum)
+            urun_listesi = "\n    ".join(sira)
         else:
             urun_listesi = izgara(liste)
         gizli_baslik = "" if iki_bolum else f'<h2 class="gizli">{e(r["ad"])} ürünleri</h2>\n    '
@@ -714,8 +748,12 @@ def urun_sayfasi(u, urunler, arsiv_kartlari=()):
     if u.get("one_cikan"):
         rozetler.append('<span class="etiket etiket-turuncu">Öne çıkan</span>')
     dosya = (u.get("ucretsiz_dosya") or "").strip()
+    # Ücretsiz dosyalarda başlık aranan işle başlar ("Gelir Gider Defteri"); kod adı ("NABIZ") rozet olur
+    kod, islev = kod_ve_islev(u["ad"]) if dosya else (None, u["ad"])
     if dosya:
         rozetler.append('<span class="etiket">Ücretsiz</span>')
+    if kod:
+        rozetler.append(f'<span class="etiket">{e(kod)}</span>')
 
     url = (u.get("shopier_url") or "").strip()
     if dosya:
@@ -725,6 +763,7 @@ def urun_sayfasi(u, urunler, arsiv_kartlari=()):
     elif u.get("yakinda"):
         # Bağlantı gelince yalnızca shopier_url doldurulur; mağaza adresi assets/js/config.js'ten uygulanır
         al = ('<div class="eylemler"><span class="dugme-pasif" aria-disabled="true">Shopier\'de yakında</span>'
+              f'{HABER_VER}'
               f'<a class="dugme-cizgi" data-link="shopier_magaza" href="#" hidden>Shopier mağazasına git{ikon("ok")}</a></div>')
     else:
         al = '<span class="dugme-pasif">Shopier bağlantısı henüz yok</span>'
@@ -733,8 +772,7 @@ def urun_sayfasi(u, urunler, arsiv_kartlari=()):
         <p class="not">Kayıt ya da ödeme gerekmez: Excel dosyası ({dosya_boyutu(dosya)}) doğrudan bilgisayarınıza iner. Dosyaya yazdıklarınız bilgisayarınızda kalır.</p>"""
     elif fiyat_var(u):
         fiyatlar = f"""<div class="fiyatlar">
-          <span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>
-          <span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>
+          {liste_fiyati(u)}<span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>
         </div>
         <p class="not">Açılış fiyatı. Ödeme ve teslim Shopier'de yapılır; ayrıntılar <a href="/teslimat-ve-iade/">Teslimat ve iade</a> sayfasında.</p>"""
     else:
@@ -804,7 +842,7 @@ def urun_sayfasi(u, urunler, arsiv_kartlari=()):
   <div class="urun-ust">
     <div class="urun-bilgi">
       <div class="ust">{"".join(rozetler)}</div>
-      <h1>{e(u["ad"])}</h1>
+      <h1>{e(islev)}</h1>
       <p class="ozet">{e(u.get("soz") or u["kisa"])}</p>
       <p class="aciklama">{e(u["aciklama"])}</p>
       <div class="kart satin-al">
@@ -852,7 +890,10 @@ def urun_sayfasi(u, urunler, arsiv_kartlari=()):
                        "seller": {"@type": "Organization", "name": "Celcini"}},
         })
     og = gorseller[0]["src"] if gorseller else "/assets/img/og-cover.png"
-    baslik = f"{u['ad']} · Ücretsiz Excel" if dosya else f"{u['ad']} · {r['ad']}"
+    if dosya:  # arayan önce işi yazar: "Gelir Gider Defteri Excel Şablonu"; kod adı sonda kalır
+        baslik = f"{islev} Excel Şablonu · Ücretsiz İndir" + (f" · {kod}" if kod else "")
+    else:  # "sayfa_basligi" varsa arama sonucunda o görünür (ör. "PLANLA: Excel'de MRP ve sipariş takvimi")
+        baslik = u.get("sayfa_basligi") or f"{u['ad']} · {r['ad']}"
     aciklama = f"Ücretsiz Excel dosyası. {u['kisa']}" if dosya and len(u["kisa"]) <= 134 else u["kisa"]
     return sayfa(f"/urun/{u['slug']}/", baslik, aciklama, govde,
                  etkin=f"/{r['slug']}/", og_gorsel=og, tur="product", ek_head=ek)
@@ -935,7 +976,7 @@ def gizlilik():
 <p>Satın aldığınız dosyalar sizin bilgisayarınızda çalışır. Dosyalara girdiğiniz veriler Celcini'ye ya da başka bir yere gönderilmez.</p>
 <h2>Haklarınız</h2>
 <p>KVKK'nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini ya da silinmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz. Başvurularınızı <a href="/iletisim/">İletişim</a> sayfasındaki kanallardan iletebilirsiniz.</p>
-<p>Veri sorumlusu: Celcini.</p>"""
+<p>Veri sorumlusu: Burak Çakır (Celcini).</p>"""
     return metin_sayfasi("/gizlilik/", "Gizlilik ve KVKK",
                          "Fabricakit ve Celcini gizlilik, KVKK aydınlatma metni: Fabricakit kaydı yalnızca tarayıcınızda kalır, site çerez kullanmaz, ödeme Shopier'de yapılır.", ic)
 
@@ -1679,6 +1720,7 @@ def rehber_acilis_sayfasi(rh, kaynak, urunler):
         al = f'<a class="dugme" href="{e(url)}" rel="noopener">Shopier\'de al{ikon("ok")}</a>'
     else:
         al = ('<span class="dugme-pasif" aria-disabled="true">Shopier\'de yakında</span>'
+              f'{HABER_VER}'
               f'<a class="dugme-cizgi" data-link="shopier_magaza" href="#" hidden>Shopier mağazasına git{ikon("ok")}</a>')
     urun_linki = f'<a class="dugme-cizgi" href="/urun/{e(u["slug"])}/">Dosyanın ayrıntıları</a>' if u else ""
     gorseller = gorsel_listesi(u) if u else []

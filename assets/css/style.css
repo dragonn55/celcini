@@ -636,3 +636,8 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 .arsiv-urun-liste li + li { border-top: var(--cizgi-k) solid var(--cizgi); }
 .arsiv-urun-liste a { display: inline-flex; align-items: center; min-height: 44px; }
 .arsiv-urun-liste span { color: var(--metin-2); }
+
+/* Instagram ve Facebook'un uygulama içi tarayıcısında üstteki uyarı (main.js ekler) */
+.uygulama-ici { background: var(--turuncu-zemin); border-bottom: var(--cizgi-k) solid var(--turuncu); }
+.uygulama-ici .kap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 12px; padding-bottom: 12px; }
+.uygulama-ici p { flex: 1 1 260px; margin: 0; color: var(--metin); }
