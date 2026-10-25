@@ -66,13 +66,16 @@
     var birim = filtre.getAttribute("data-birim") || "ürün";
     /* Arama kelime başından eşleşir: "kalite" "kalitesi"ni bulur, "isi" "kişi"yi bulmaz (Türkçe ek alır, önek almaz).
        Sorguda Türkçe harf yoksa metnin harfleri de sadeleşir: "sayim" "sayım"ı, "kalip" "Kalıp"ı bulur. Türkçe harfle
-       yazılan sorgu harfi harfine aranır: "kâr" "karar"ı, "kış" "kişi"yi bulmaz. */
+       yazılan sorgu harfi harfine aranır: "kâr" "karar"ı, "kış" "kişi"yi bulmaz. Şapkasız sorgu şapkalı yazımı da bulur:
+       "şikayet" "şikâyet"i, "kağıt" "kâğıt"ı bulur. */
     var kucuk = function (s) { return (s || "").normalize("NFC").toLocaleLowerCase("tr").replace(/\s+/g, " "); };
+    var sapkasiz = function (s) { return s.replace(/â/g, "a").replace(/î/g, "i").replace(/û/g, "u"); };
     var sade = function (s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i"); };
-    var metinler = [], sadeMetinler = [];
+    var metinler = [], sapkasizMetinler = [], sadeMetinler = [];
     kartlar.forEach(function (k) {
       var m = kucuk(k.getAttribute("data-ara"));
       metinler.push(m);
+      sapkasizMetinler.push(sapkasiz(m));
       sadeMetinler.push(sade(m));
     });
     var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
@@ -82,7 +85,7 @@
       var ham = kutu.value.normalize("NFC");
       var turkce = /[çğıöşüâîûÇĞÖŞÜÂÎÛ]/.test(ham);
       var q = (turkce ? kucuk(ham) : sade(ham.toLowerCase().replace(/\s+/g, " "))).trim();
-      var hedef = turkce ? metinler : sadeMetinler;
+      var hedef = !turkce ? sadeMetinler : (/[âîûÂÎÛ]/.test(ham) ? metinler : sapkasizMetinler);
       var desen = q ? new RegExp("(^|[^a-z0-9çğıöşüâîû])" + kacir(q)) : null;
       var n = 0;
       kartlar.forEach(function (k, i) {
