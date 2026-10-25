@@ -563,8 +563,10 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 /* Turuncu yalnızca kartın sol kenarındaki ince çizgi; yazı rengi değil */
 .sayfa-bas .ust-yazi { font-size: var(--fs-1); color: var(--koyu); }
 /* Başlık bağlantıları: satır yüksekliği 24 px, dokunma alanı 44 px (dolgu + eksi kenar boşluğu; yerleşim değişmez).
-   position: relative, alttaki kardeşin (konu sayısı) taşan dolguyu örtmesini önler */
+   Dizinde dolgu 16 px üstte, 4 px altta (ızgara boşluğu kadar): arama sorun sayısını gizlediğinde de ilk sorun
+   bağlantısına binmez. */
 .arsiv-kategori h3 a, .arsiv-kart h2 a { position: relative; display: block; padding: 10px 0; margin: -10px 0; color: var(--metin); text-decoration: none; }
+.arsiv-kategori h3 a { padding: 16px 0 4px; margin: -16px 0 -4px; }
 .arsiv-kategori h3 a:hover, .arsiv-kart h2 a:hover { text-decoration: underline; }
 
 /* Dizin: bölümlere atla (hap bağlantılar), bölüm bölüm konu kartları ve sorun başlıkları */

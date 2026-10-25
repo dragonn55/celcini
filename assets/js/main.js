@@ -77,9 +77,10 @@
     });
     var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
     var uygula = function () {
-      /* Türkçe harf denetimi ham sorguda: tr küçültmesi ASCII "I"yı "ı" yapar, "ISG" / "IADE" yine bulunmalı */
+      /* Türkçe harf denetimi ham sorguda: tr küçültmesi ASCII "I"yı "ı" yapar, "ISG" / "IADE" yine bulunmalı.
+         "İ" sınıfta yok: telefon baştaki "i"yi kendiliğinden "İ" yapar ("İletisim" de "iletisim" gibi aranır). */
       var ham = kutu.value.normalize("NFC");
-      var turkce = /[çğıöşüâîûÇĞİÖŞÜÂÎÛ]/.test(ham);
+      var turkce = /[çğıöşüâîûÇĞÖŞÜÂÎÛ]/.test(ham);
       var q = (turkce ? kucuk(ham) : sade(ham.toLowerCase().replace(/\s+/g, " "))).trim();
       var hedef = turkce ? metinler : sadeMetinler;
       var desen = q ? new RegExp("(^|[^a-z0-9çğıöşüâîû])" + kacir(q)) : null;
