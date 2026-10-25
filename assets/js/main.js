@@ -125,12 +125,14 @@
   }
 
   /* ---- 5. Instagram ve Facebook'un uygulama içi tarayıcısı ----
-     Ziyaretçilerin çoğu Instagram'dan gelir; o tarayıcıda dosya indirme ve sesli okuma çalışmayabilir.
-     Üstte kısa bir uyarı çıkar; Android'de Chrome'da açma düğmesi de olur. Kapatılınca o oturumda bir daha çıkmaz. */
+     Ziyaretçilerin çoğu Instagram'dan gelir; o tarayıcıda dosya indirme çalışmayabilir. Yalnızca dosya indirilen
+     sayfalarda (a[download]) üstte kısa bir uyarı çıkar; Android'de Chrome'da açma düğmesi de olur.
+     Kapatılınca o oturumda bir daha çıkmaz. Ana sayfa ve oyun bu uyarıyla kalabalıklaşmaz. */
   (function () {
     var ua = navigator.userAgent || "";
     var instagram = /Instagram/i.test(ua);
     if (!instagram && !/FBAN|FBAV/i.test(ua)) return;
+    if (!document.querySelector("a[download]")) return;
     var ANAHTAR = "celcini-uygulama-ici";
     try { if (sessionStorage.getItem(ANAHTAR) === "kapandi") return; } catch (e) { /* depolama kapalı: uyarı yine çıkar */ }
     var serit = document.createElement("div");
@@ -139,8 +141,8 @@
     var kap = document.createElement("div");
     kap.className = "kap";
     var yazi = document.createElement("p");
-    yazi.textContent = (instagram ? "Instagram'ın" : "Facebook'un") + " içindeki tarayıcıdasınız: dosya indirme ve sesli okuma burada " +
-      "çalışmayabilir. Sağ üstteki ⋯ menüsünden sayfayı tarayıcıda açın.";
+    yazi.textContent = (instagram ? "Instagram'ın" : "Facebook'un") + " içindesiniz; dosya indirme burada çalışmayabilir. " +
+      "Menüden sayfayı tarayıcıda açın.";
     kap.appendChild(yazi);
     if (/Android/i.test(ua)) {
       var chrome = document.createElement("a");

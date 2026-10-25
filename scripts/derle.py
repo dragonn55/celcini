@@ -955,6 +955,7 @@ def gizlilik():
   <li>Site çerez kullanmaz, reklam ya da ziyaretçi analizi aracı çalıştırmaz.</li>
   <li>Site sizden ad, e-posta ya da ödeme bilgisi istemez. Fabricakit'teki hitap ve erişim kodu alanları aşağıda açıklanmıştır.</li>
   <li>Siteyi barındıran Vercel, güvenlik ve işletim için standart sunucu kayıtları (IP adresi, tarayıcı bilgisi, istek zamanı) tutabilir.</li>
+  <li>Sayfa Instagram ya da Facebook'un uygulama içi tarayıcısında açılınca çıkan uyarıyı kapatırsanız, bu tercih yalnızca o oturum için tarayıcınızda (sessionStorage) tutulur.</li>
 </ul>
 <h2>Fabricakit</h2>
 <ul>

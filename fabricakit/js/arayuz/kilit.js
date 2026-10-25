@@ -23,11 +23,12 @@ async function istek(yontem, govde) {
 /* secenek: { metin, f } — kilit açılmadan geri dönüş (günü baştan oynamak ya da baştan başlamak) */
 export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
   /* Kod ürününün kendi Shopier bağlantısı (config.js: fabricakit_kod) varsa doğrudan ona, yoksa mağazaya gider.
-     config.js'te fabricakit_kod_fiyat yazılıysa düğmede fiyat da görünür. */
+     Fiyat (fabricakit_kod_fiyat) yalnızca kod ürününün bağlantısı varken düğmede görünür: mağazaya giden düğme fiyat yazmaz. */
   const L = window.CELCINI_LINKS || {};
   const baglanti = (v) => (typeof v === "string" && /^https:\/\/\S+$/.test(v.trim()) ? v.trim() : "");
-  const shopier = baglanti(L.fabricakit_kod) || baglanti(L.shopier_magaza);
-  const fiyat = typeof L.fabricakit_kod_fiyat === "string" ? L.fabricakit_kod_fiyat.trim() : "";
+  const kodBaglantisi = baglanti(L.fabricakit_kod);
+  const shopier = kodBaglantisi || baglanti(L.shopier_magaza);
+  const fiyat = kodBaglantisi && typeof L.fabricakit_kod_fiyat === "string" ? L.fabricakit_kod_fiyat.trim() : "";
   const gmSozu = hitapla(`{hitap}, ${KILIT_SOZU}`, hitap);
   const son = AYARLAR.GUNLER.length;
   const girdi = h("input", {

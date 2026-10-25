@@ -121,12 +121,13 @@ başlığını, `etiket_esigi` süzgeç düğmesi olacak etiketin en az kaç ür
 boşsa e-posta listesi bölümü ve satışta olmayan ürünlerdeki "Açılınca haber ver" düğmeleri, `eposta` boşsa iletişimdeki
 e-posta satırı). JavaScript kapalıyken de bu öğeler gizli kalır; kırık link oluşmaz. `config.js` değişince yeniden
 derlemek gerekmez. `fabricakit_kod` Fabricakit erişim kodu ürününün Shopier bağlantısıdır (boşsa kilit ekranı mağazaya
-gider); `fabricakit_kod_fiyat` (ör. "199 TL") doluysa kilit ekranındaki düğmede fiyat da yazar.
+gider); `fabricakit_kod_fiyat` (ör. "199 TL") yalnızca `fabricakit_kod` doluyken kilit ekranındaki düğmede yazar.
 
 Ücretsiz dosya sayfalarında `<title>` ve başlık aranan işle başlar ("Gelir Gider Defteri Excel Şablonu · Ücretsiz İndir ·
 NABIZ"); kod adı rozet olarak kalır. Rafta satışta olmayan ("Shopier'de yakında") ürünler sona dizilir; iki bölümlü rafta
 ücretli dosyaların hiçbiri satışta değilse ücretsiz bölüm önce gelir. Sitenin Instagram ya da Facebook'un uygulama içi
-tarayıcısında açıldığını `main.js` algılar ve üstte "tarayıcıda açın" uyarısı gösterir (Android'de "Chrome'da aç" düğmesiyle).
+tarayıcısında açıldığını `main.js` algılar; dosya indirilen sayfalarda (`a[download]`) üstte "tarayıcıda açın" uyarısı
+gösterir (Android'de "Chrome'da aç" düğmesiyle). Kapatılınca o oturumda bir daha çıkmaz (sessionStorage).
 
 ## Fabricakit
 
