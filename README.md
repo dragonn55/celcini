@@ -278,7 +278,8 @@ başına `/arsiv/<konu>/` sayfasını üretir, adresleri sitemap'e ekler. Bir so
   hata varsa durur. Üretim derlemesi `data/arsiv.json`'da artık olmayan `/arsiv/<konu>/` klasörünü siler.
 - **Arama (`main.js`, raflarda da aynı):** kelime başından eşleşir ("kalite" "kalitesi"ni bulur, "lanla" "PLANLA"yı bulmaz).
   Sorguda Türkçe harf yoksa metnin harfleri de sadeleşir ("sayim" → "sayım"); Türkçe harfle yazılan sorgu harfi harfine aranır
-  ("kâr" "karar"ı bulmaz). Dizinde kartın başlığı, belirtisi, kök nedeni, çözümü, ilkesi, konu ve bölüm adı aranır; arama
+  ("kâr" "karar"ı bulmaz), şapkasız yazılan sorgu şapkalı yazımı da bulur ("şikayet" → "şikâyet"). Tek başına "İ" sorguyu
+  Türkçe saymaz (telefon baştaki "i"yi "İ" yapar). Dizinde kartın başlığı, belirtisi, kök nedeni, çözümü, ilkesi, konu ve bölüm adı aranır; arama
   sürerken bölüm kısayolları ve konu sayıları (`data-arama-gizle`) gizlenir.
 - **İçerik kuralı:** kartlar genel uygulama önerisidir; her sayfanın altında iş güvenliği ve mevzuat notu durur. Gerçek
   firma adı, müşteri ya da rakam yazılmaz; kesin yargı yerine uygulanabilir öneri yazılır.
