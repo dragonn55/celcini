@@ -556,3 +556,70 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 .rh-raf-kutu:hover { border-color: var(--koyu); }
 .rh-raf-kutu .ikon { flex: none; width: 24px; height: 24px; color: var(--koyu); }
 .rh-raf-kutu span { flex: 1; min-width: 0; }
+
+/* ---------- Üretim Arşivi (/arsiv/) ---------- */
+/* Turuncu yalnızca kartın sol kenarındaki ince çizgi; yazı rengi değil */
+.sayfa-bas .ust-yazi { font-size: var(--fs-1); color: var(--koyu); }
+.arsiv-bolum + .arsiv-bolum { margin-top: 48px; }
+.arsiv-bolum > h2 { margin-bottom: 16px; }
+.arsiv-kategoriler { list-style: none; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .arsiv-kategoriler { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .arsiv-kategoriler { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.arsiv-kategori { padding: 20px 24px; display: grid; gap: 4px; align-content: start; }
+.arsiv-kategori h3 a { color: var(--metin); text-decoration: none; }
+.arsiv-kategori h3 a:hover { text-decoration: underline; }
+.arsiv-sayi { color: var(--metin-2); margin-bottom: 8px; }
+.arsiv-basliklar { list-style: none; }
+.arsiv-basliklar li { border-top: var(--cizgi-k) solid var(--cizgi); }
+.arsiv-basliklar a { display: flex; align-items: center; min-height: 44px; padding: 8px 0; text-decoration: none; }
+.arsiv-basliklar a:hover { text-decoration: underline; }
+.arsiv-not { color: var(--metin-2); margin-top: 40px; max-width: 72ch; }
+
+.arsiv-bolum > h2 { scroll-margin-top: 16px; }
+/* Hap bağlantı: dizinde bölümlere atla, konu sayfasında (geniş ekran) içindekiler */
+.arsiv-atla { margin-bottom: 32px; }
+.arsiv-atla ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.arsiv-atla a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 6px 16px; line-height: 1.3;
+  background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: 999px; text-decoration: none;
+  transition: background-color var(--gecis);
+}
+.arsiv-atla a:hover { background: var(--zemin); }
+/* Konu sayfası içindekiler: telefonda kart içinde liste (uzun başlıklar), 760 px'ten itibaren hap bağlantılar */
+.arsiv-icindekiler { margin-bottom: 24px; }
+.arsiv-icindekiler ol { list-style: none; background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); padding: 4px 24px; }
+.arsiv-icindekiler li + li { border-top: var(--cizgi-k) solid var(--cizgi); }
+.arsiv-icindekiler a { display: flex; align-items: center; min-height: 44px; padding: 8px 0; text-decoration: none; }
+.arsiv-icindekiler a:hover { text-decoration: underline; }
+@media (min-width: 760px) {
+  .arsiv-icindekiler ol { display: flex; flex-wrap: wrap; gap: 8px; background: none; border: 0; border-radius: 0; padding: 0; }
+  .arsiv-icindekiler li + li { border-top: 0; }
+  .arsiv-icindekiler a {
+    display: inline-flex; padding: 6px 16px; line-height: 1.3;
+    background: var(--kart); border: var(--cizgi-k) solid var(--koyu); border-radius: 999px; transition: background-color var(--gecis);
+  }
+  .arsiv-icindekiler a:hover { background: var(--zemin); text-decoration: none; }
+}
+.arsiv-kartlar { display: grid; gap: 20px; max-width: 960px; }
+.arsiv-kart { padding: 24px; display: grid; gap: 16px; border-left: 2px solid var(--turuncu); scroll-margin-top: 16px; }
+.arsiv-kart:target { border-color: var(--koyu); border-left-color: var(--turuncu); }
+.arsiv-kart h2 a { color: var(--metin); text-decoration: none; }
+.arsiv-kart h2 a:hover { text-decoration: underline; }
+.arsiv-ic { display: grid; gap: 16px; }
+@media (min-width: 760px) { .arsiv-ic { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
+.arsiv-durum { display: grid; gap: 12px; margin: 0; align-content: start; }
+.arsiv-durum dd { margin: 2px 0 0; }
+.arsiv-etiket { color: var(--koyu); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.arsiv-cozum { display: grid; gap: 2px; align-content: start; }
+.arsiv-cozum ol { padding-left: 1.4em; display: grid; gap: 6px; }
+.arsiv-ilke { font-style: italic; font-weight: 600; padding-top: 12px; border-top: var(--cizgi-k) solid var(--cizgi); }
+.arsiv-ilgili { color: var(--metin-2); }
+.arsiv-gezinti { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.arsiv-gezinti .ikon { width: 20px; height: 20px; }
+
+/* Ürün sayfası: "Üretim Arşivi'nde" (bu dosyayla ilgili kartlar) */
+.arsiv-urun-liste { list-style: none; padding: 4px 24px; max-width: 860px; }
+.arsiv-urun-liste li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 16px; min-height: 52px; padding: 8px 0; }
+.arsiv-urun-liste li + li { border-top: var(--cizgi-k) solid var(--cizgi); }
+.arsiv-urun-liste a { display: inline-flex; align-items: center; min-height: 44px; }
+.arsiv-urun-liste span { color: var(--metin-2); }

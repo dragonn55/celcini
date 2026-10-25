@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Üretim Planlama ve Çizelgeleme sorunları ve çözümleri · Celcini</title>
+<meta name="description" content="Üretim Planlama ve Çizelgeleme: &quot;Siparişler sürekli gecikiyor&quot;, &quot;Kapasitem yetiyor mu bilmiyorum&quot; ve 9 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<link rel="canonical" href="https://celcini.vercel.app/arsiv/uretim-planlama-ve-cizelgeleme/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Üretim Planlama ve Çizelgeleme sorunları ve çözümleri · Celcini">
+<meta property="og:description" content="Üretim Planlama ve Çizelgeleme: &quot;Siparişler sürekli gecikiyor&quot;, &quot;Kapasitem yetiyor mu bilmiyorum&quot; ve 9 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<meta property="og:url" content="https://celcini.vercel.app/arsiv/uretim-planlama-ve-cizelgeleme/">
+<meta property="og:image" content="https://celcini.vercel.app/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=757efb70">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=62f829e9" defer></script>
+
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/arsiv/" aria-current="page">Arşiv</a></li><li><a href="/uzay/">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="sayfa-bas">
+  <div class="kap">
+    <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li><a href="/arsiv/">Üretim Arşivi</a></li><li aria-current="page">Üretim Planlama ve Çizelgeleme</li></ol></nav>
+    <p class="ust-yazi">Planlama ve Talep</p>
+    <h1>Üretim Planlama ve Çizelgeleme</h1>
+    <p>11 sorun; her biri için belirti, kök neden ve üç adımlık çözüm.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Üretim Planlama ve Çizelgeleme sorunları">
+  <div class="kap">
+    <nav class="arsiv-icindekiler" aria-label="Bu sayfadaki sorunlar"><ol><li><a href="#siparisler-surekli-gecikiyor">Siparişler sürekli gecikiyor</a></li><li><a href="#kapasitem-yetiyor-mu-bilmiyorum">Kapasitem yetiyor mu bilmiyorum</a></li><li><a href="#acil-siparisler-tum-plani-bozuyor">Acil siparişler tüm planı bozuyor</a></li><li><a href="#hangi-urunu-once-uretecegim-belli-degil">Hangi ürünü önce üreteceğim belli değil</a></li><li><a href="#haftalik-plan-pazartesi-cokuyor">Haftalık plan pazartesi çöküyor</a></li><li><a href="#kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum">Kaç gün sonra teslim edeceğimi hesaplayamıyorum</a></li><li><a href="#darbogazin-nerede-oldugunu-bilmiyorum">Darboğazın nerede olduğunu bilmiyorum</a></li><li><a href="#kurulum-ve-kalip-degisimleri-cok-zaman-aliyor">Kurulum ve kalıp değişimleri çok zaman alıyor</a></li><li><a href="#plan-var-ama-sahada-uygulanmiyor">Plan var ama sahada uygulanmıyor</a></li><li><a href="#is-emirleri-sahada-takip-edilemiyor">İş emirleri sahada takip edilemiyor</a></li><li><a href="#plan-excel-de-ama-surekli-bozuluyor">Plan Excel&#x27;de ama sürekli bozuluyor</a></li></ol></nav>
+    <div class="arsiv-kartlar">
+<article class="kart arsiv-kart" id="siparisler-surekli-gecikiyor" aria-labelledby="siparisler-surekli-gecikiyor-baslik">
+  <h2 class="h3-boy" id="siparisler-surekli-gecikiyor-baslik"><a href="#siparisler-surekli-gecikiyor">Siparişler sürekli gecikiyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Terminler tutmuyor; müşteri şikâyeti, fazla mesai ve acil sevkiyat maliyeti artıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Plan gerçek kapasite yerine hedefe göre kuruluyor ve darboğaz bilinmiyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Kapasite-yük analizi yap, haftalık doluluğu gör.</li><li>Darboğaz istasyonu tespit et, planı ona göre kur.</li><li>Termini tahminle değil gerçek kapasiteyle söz ver.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Termini kapasite belirler, temenni değil.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/fabrika-motoru/">Fabrika Motoru</a></p>
+</article><article class="kart arsiv-kart" id="kapasitem-yetiyor-mu-bilmiyorum" aria-labelledby="kapasitem-yetiyor-mu-bilmiyorum-baslik">
+  <h2 class="h3-boy" id="kapasitem-yetiyor-mu-bilmiyorum-baslik"><a href="#kapasitem-yetiyor-mu-bilmiyorum">Kapasitem yetiyor mu bilmiyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>İş alınırken kapasite hesabı yapılmıyor, sonra fazla mesaiyle kapatılıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Haftalık iş yükü mevcut makine-adam saatiyle karşılaştırılmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Haftalık toplam gerekli iş saatini hesapla.</li><li>Mevcut makine-adam saatine böl, doluluk oranını bul.</li><li>Doluluk %85&#x27;in üstündeyse yeni termin vermeden önce kapasite ya da sıra kararı al.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Ölçülmeyen kapasite, hep yeterli sanılır.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/fabrika-motoru/">Fabrika Motoru</a></p>
+</article><article class="kart arsiv-kart" id="acil-siparisler-tum-plani-bozuyor" aria-labelledby="acil-siparisler-tum-plani-bozuyor-baslik">
+  <h2 class="h3-boy" id="acil-siparisler-tum-plani-bozuyor-baslik"><a href="#acil-siparisler-tum-plani-bozuyor">Acil siparişler tüm planı bozuyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Her gün plan yeniden yazılıyor, hiçbir iş sırayla bitmiyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Acil talep için ayrılmış kapasite ve tek bir onay noktası yok.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Kapasitenin %10–15&#x27;ini acillere ayır.</li><li>Kalan kapasiteyi sabit çizelgele, dokunma.</li><li>Acil talebi tek onay noktasından geçir.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Acile yer ayırmayan plan, her acilde çöker.</p>
+</article><article class="kart arsiv-kart" id="hangi-urunu-once-uretecegim-belli-degil" aria-labelledby="hangi-urunu-once-uretecegim-belli-degil-baslik">
+  <h2 class="h3-boy" id="hangi-urunu-once-uretecegim-belli-degil-baslik"><a href="#hangi-urunu-once-uretecegim-belli-degil">Hangi ürünü önce üreteceğim belli değil</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Öncelik günlük olarak en çok ısrar eden kişiye göre belirleniyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Yazılı bir önceliklendirme kuralı bulunmuyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Termin, kâr ve darboğaz kullanımına göre puanla.</li><li>En yüksek puanlı işi önce üret.</li><li>Öncelik kuralını yazılı hâle getir.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Kuralı olmayan öncelik, en yüksek sesin önceliğidir.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/vardiya/">VARDİYA</a></p>
+</article><article class="kart arsiv-kart" id="haftalik-plan-pazartesi-cokuyor" aria-labelledby="haftalik-plan-pazartesi-cokuyor-baslik">
+  <h2 class="h3-boy" id="haftalik-plan-pazartesi-cokuyor-baslik"><a href="#haftalik-plan-pazartesi-cokuyor">Haftalık plan pazartesi çöküyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Pazartesi verilen plan salı günü geçersiz hâle geliyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Plan gerçek kapasite yerine hedefe göre kuruluyor; değişiklik yönetimi tanımlı değil.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Planı en fazla %85 doluluğa göre kur, boşluk bırak.</li><li>Değişiklik için haftalık tek revizyon penceresi aç.</li><li>Revizyon nedenlerini kaydet, tekrarlayanı kökten çöz.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Boşluk bırakmayan plan, ilk sürprizde kırılır.</p>
+</article><article class="kart arsiv-kart" id="kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum" aria-labelledby="kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum-baslik">
+  <h2 class="h3-boy" id="kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum-baslik"><a href="#kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum">Kaç gün sonra teslim edeceğimi hesaplayamıyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Müşteriye termin verirken her seferinde tahminde bulunuluyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Ürün başına toplam akış süresi (lead time) tanımlı değil.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Her ürün için operasyon sürelerini ölç.</li><li>Kuyruk ve bekleme sürelerini de ekle.</li><li>Sipariş miktarına göre otomatik termin hesapla.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Ölçülmemiş süre, verilmiş sözü yalancı çıkarır.</p>
+</article><article class="kart arsiv-kart" id="darbogazin-nerede-oldugunu-bilmiyorum" aria-labelledby="darbogazin-nerede-oldugunu-bilmiyorum-baslik">
+  <h2 class="h3-boy" id="darbogazin-nerede-oldugunu-bilmiyorum-baslik"><a href="#darbogazin-nerede-oldugunu-bilmiyorum">Darboğazın nerede olduğunu bilmiyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Kapasite için yatırım yapılıyor ama toplam çıktı artmıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>İstasyon bazlı yük ölçülmüyor; yatırım kararı sezgiyle veriliyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Her istasyonun haftalık yükünü ve kapasitesini yaz.</li><li>Doluluğu en yüksek istasyonu darboğaz kabul et.</li><li>Tüm planı darboğazın hızına göre kur.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Fabrikanın hızı, en yavaş istasyonun hızıdır.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/fabrika-motoru/">Fabrika Motoru</a></p>
+</article><article class="kart arsiv-kart" id="kurulum-ve-kalip-degisimleri-cok-zaman-aliyor" aria-labelledby="kurulum-ve-kalip-degisimleri-cok-zaman-aliyor-baslik">
+  <h2 class="h3-boy" id="kurulum-ve-kalip-degisimleri-cok-zaman-aliyor-baslik"><a href="#kurulum-ve-kalip-degisimleri-cok-zaman-aliyor">Kurulum ve kalıp değişimleri çok zaman alıyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Makine günün önemli bölümünü ürün geçişinde harcıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Benzer ürünler gruplanmıyor; kurulum standart bir yöntemle yapılmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Aynı kalıbı paylaşan işleri arka arkaya çizelgele.</li><li>Kurulum adımlarını iç ve dış olarak ayır (SMED).</li><li>Kurulum süresini ölç ve hedef koy.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Kurulumda geçen saat, üretilmeyen üründür.</p>
+</article><article class="kart arsiv-kart" id="plan-var-ama-sahada-uygulanmiyor" aria-labelledby="plan-var-ama-sahada-uygulanmiyor-baslik">
+  <h2 class="h3-boy" id="plan-var-ama-sahada-uygulanmiyor-baslik"><a href="#plan-var-ama-sahada-uygulanmiyor">Plan var ama sahada uygulanmıyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Kâğıttaki plan ile tezgâhta yapılan iş birbirini tutmuyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Plan sahaya net iletilmiyor; ustanın kendi önceliği devreye giriyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Günlük iş listesini vardiya başında yazılı ver.</li><li>Sapma olduğunda nedenini aynı gün kaydet.</li><li>Plana uyum oranını haftalık ölç.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Sahaya inmeyen plan yalnızca bir temennidir.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/vardiya/">VARDİYA</a></p>
+</article><article class="kart arsiv-kart" id="is-emirleri-sahada-takip-edilemiyor" aria-labelledby="is-emirleri-sahada-takip-edilemiyor-baslik">
+  <h2 class="h3-boy" id="is-emirleri-sahada-takip-edilemiyor-baslik"><a href="#is-emirleri-sahada-takip-edilemiyor">İş emirleri sahada takip edilemiyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Bir işin hangi aşamada olduğunu öğrenmek için telefon turu atılıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>İş emri durumları tanımlı değil ve tek bir izleme panosu yok.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Her iş emrine durum ver: bekliyor / üretimde / bitti.</li><li>Tüm iş emirlerini tek panodan izle.</li><li>Durumu her vardiya başında güncelle.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Görünmeyen iş, yönetilemeyen iştir.</p>
+</article><article class="kart arsiv-kart" id="plan-excel-de-ama-surekli-bozuluyor" aria-labelledby="plan-excel-de-ama-surekli-bozuluyor-baslik">
+  <h2 class="h3-boy" id="plan-excel-de-ama-surekli-bozuluyor-baslik"><a href="#plan-excel-de-ama-surekli-bozuluyor">Plan Excel&#x27;de ama sürekli bozuluyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Herkesin elinde farklı bir kopya var; hangisinin güncel olduğu bilinmiyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Tek kaynak dosya disiplini kurulmamış.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Tek kaynak dosya kullan, kopya çoğaltma.</li><li>Dosyayı herkesin eriştiği ortak klasörde tut; e-postayla kopya gönderme.</li><li>Güncelleme sorumlusunu ve saatini belirle.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Beş kopya varsa, doğru plan yoktur.</p>
+</article>
+    </div>
+    <nav class="arsiv-gezinti" aria-label="Arşivde gezin"><a class="dugme-cizgi" href="/arsiv/">Tüm arşiv</a><a class="dugme-cizgi" href="/arsiv/talep-tahmini-ve-sop/" rel="next">Talep Tahmini ve S&amp;OP<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></nav>
+    <p class="arsiv-not">Kartlar genel uygulama önerileridir; kendi işletmenize uyarlayarak kullanın. İş güvenliği ve yasal yükümlülüklerde mevzuat ve iş güvenliği uzmanınız esastır.</p>
+  </div>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul, 2026.</p>
+    </div>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/arsiv/">Üretim Arşivi</a></li>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
+</body>
+</html>

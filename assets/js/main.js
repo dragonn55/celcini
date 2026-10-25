@@ -1,4 +1,4 @@
-/* Celcini · menü, config bağlantıları, raf araması, galeri. Çerçeve yok. */
+/* Celcini · menü, config bağlantıları, raf ve arşiv araması, galeri. Çerçeve yok. */
 (function () {
   "use strict";
 
@@ -63,18 +63,29 @@
     var kartlar = document.querySelectorAll("[data-urun]");
     var sonuc = document.querySelector("[data-sonuc]");
     var secili = "";
-    var kucuk = function (s) { return (s || "").toLocaleLowerCase("tr"); };
+    var birim = filtre.getAttribute("data-birim") || "ürün";
+    /* Türkçe harfe duyarsız: "sayim" yazan "sayım"ı, "kalip" yazan "Kalıp"ı bulur */
+    var kucuk = function (s) {
+      return (s || "").toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i").replace(/\s+/g, " ");
+    };
+    var metinler = [];
+    kartlar.forEach(function (k) { metinler.push(kucuk(k.getAttribute("data-ara"))); });
+    var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
     var uygula = function () {
       var q = kucuk(kutu.value).trim();
+      /* Kelime başından eşleşir: "isi" yazan "ısı"yı bulur, "kişi"yi bulmaz (Türkçe ek alır, önek almaz) */
+      var desen = q ? new RegExp("(^|[^a-z0-9])" + kacir(q)) : null;
       var n = 0;
-      kartlar.forEach(function (k) {
-        var metinUyar = !q || kucuk(k.getAttribute("data-ara")).indexOf(q) !== -1;
+      kartlar.forEach(function (k, i) {
+        var metinUyar = !desen || desen.test(metinler[i]);
         var etiketUyar = !secili || ("|" + k.getAttribute("data-etiketler") + "|").indexOf("|" + secili + "|") !== -1;
         var gor = metinUyar && etiketUyar;
         k.hidden = !gor;
         if (gor) n++;
       });
-      if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " ürün gösteriliyor." : "Aramanıza uyan ürün yok.");
+      if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " " + birim + " gösteriliyor." : "Aramanıza uyan " + birim + " yok.");
+      /* Arama sürerken bölüm kısayolları ve toplam sayılar gizlenir (süzülmüş listeyle çelişmesin) */
+      document.querySelectorAll("[data-arama-gizle]").forEach(function (el) { el.hidden = !!q; });
       /* İki bölümlü rafta (Shopier + ücretsiz) kartı kalmayan bölümün başlığı da gizlenir */
       document.querySelectorAll("[data-urun-bolum]").forEach(function (b) {
         b.hidden = !b.querySelector("[data-urun]:not([hidden])");

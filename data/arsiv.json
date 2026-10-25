@@ -1,0 +1,2452 @@
+{
+  "ad": "Üretim Arşivi",
+  "bolumler": [
+    {
+      "slug": "planlama-ve-talep",
+      "ad": "Planlama ve Talep",
+      "kategoriler": [
+        {
+          "slug": "uretim-planlama-ve-cizelgeleme",
+          "ad": "Üretim Planlama ve Çizelgeleme",
+          "kartlar": [
+            {
+              "slug": "siparisler-surekli-gecikiyor",
+              "baslik": "Siparişler sürekli gecikiyor",
+              "belirti": "Terminler tutmuyor; müşteri şikâyeti, fazla mesai ve acil sevkiyat maliyeti artıyor.",
+              "kok_neden": "Plan gerçek kapasite yerine hedefe göre kuruluyor ve darboğaz bilinmiyor.",
+              "cozum": [
+                "Kapasite-yük analizi yap, haftalık doluluğu gör.",
+                "Darboğaz istasyonu tespit et, planı ona göre kur.",
+                "Termini tahminle değil gerçek kapasiteyle söz ver."
+              ],
+              "ilke": "Termini kapasite belirler, temenni değil.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "kapasitem-yetiyor-mu-bilmiyorum",
+              "baslik": "Kapasitem yetiyor mu bilmiyorum",
+              "belirti": "İş alınırken kapasite hesabı yapılmıyor, sonra fazla mesaiyle kapatılıyor.",
+              "kok_neden": "Haftalık iş yükü mevcut makine-adam saatiyle karşılaştırılmıyor.",
+              "cozum": [
+                "Haftalık toplam gerekli iş saatini hesapla.",
+                "Mevcut makine-adam saatine böl, doluluk oranını bul.",
+                "Doluluk %85'in üstündeyse yeni termin vermeden önce kapasite ya da sıra kararı al."
+              ],
+              "ilke": "Ölçülmeyen kapasite, hep yeterli sanılır.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "acil-siparisler-tum-plani-bozuyor",
+              "baslik": "Acil siparişler tüm planı bozuyor",
+              "belirti": "Her gün plan yeniden yazılıyor, hiçbir iş sırayla bitmiyor.",
+              "kok_neden": "Acil talep için ayrılmış kapasite ve tek bir onay noktası yok.",
+              "cozum": [
+                "Kapasitenin %10–15'ini acillere ayır.",
+                "Kalan kapasiteyi sabit çizelgele, dokunma.",
+                "Acil talebi tek onay noktasından geçir."
+              ],
+              "ilke": "Acile yer ayırmayan plan, her acilde çöker."
+            },
+            {
+              "slug": "hangi-urunu-once-uretecegim-belli-degil",
+              "baslik": "Hangi ürünü önce üreteceğim belli değil",
+              "belirti": "Öncelik günlük olarak en çok ısrar eden kişiye göre belirleniyor.",
+              "kok_neden": "Yazılı bir önceliklendirme kuralı bulunmuyor.",
+              "cozum": [
+                "Termin, kâr ve darboğaz kullanımına göre puanla.",
+                "En yüksek puanlı işi önce üret.",
+                "Öncelik kuralını yazılı hâle getir."
+              ],
+              "ilke": "Kuralı olmayan öncelik, en yüksek sesin önceliğidir.",
+              "ilgili": "vardiya"
+            },
+            {
+              "slug": "haftalik-plan-pazartesi-cokuyor",
+              "baslik": "Haftalık plan pazartesi çöküyor",
+              "belirti": "Pazartesi verilen plan salı günü geçersiz hâle geliyor.",
+              "kok_neden": "Plan gerçek kapasite yerine hedefe göre kuruluyor; değişiklik yönetimi tanımlı değil.",
+              "cozum": [
+                "Planı en fazla %85 doluluğa göre kur, boşluk bırak.",
+                "Değişiklik için haftalık tek revizyon penceresi aç.",
+                "Revizyon nedenlerini kaydet, tekrarlayanı kökten çöz."
+              ],
+              "ilke": "Boşluk bırakmayan plan, ilk sürprizde kırılır."
+            },
+            {
+              "slug": "kac-gun-sonra-teslim-edecegimi-hesaplayamiyorum",
+              "baslik": "Kaç gün sonra teslim edeceğimi hesaplayamıyorum",
+              "belirti": "Müşteriye termin verirken her seferinde tahminde bulunuluyor.",
+              "kok_neden": "Ürün başına toplam akış süresi (lead time) tanımlı değil.",
+              "cozum": [
+                "Her ürün için operasyon sürelerini ölç.",
+                "Kuyruk ve bekleme sürelerini de ekle.",
+                "Sipariş miktarına göre otomatik termin hesapla."
+              ],
+              "ilke": "Ölçülmemiş süre, verilmiş sözü yalancı çıkarır."
+            },
+            {
+              "slug": "darbogazin-nerede-oldugunu-bilmiyorum",
+              "baslik": "Darboğazın nerede olduğunu bilmiyorum",
+              "belirti": "Kapasite için yatırım yapılıyor ama toplam çıktı artmıyor.",
+              "kok_neden": "İstasyon bazlı yük ölçülmüyor; yatırım kararı sezgiyle veriliyor.",
+              "cozum": [
+                "Her istasyonun haftalık yükünü ve kapasitesini yaz.",
+                "Doluluğu en yüksek istasyonu darboğaz kabul et.",
+                "Tüm planı darboğazın hızına göre kur."
+              ],
+              "ilke": "Fabrikanın hızı, en yavaş istasyonun hızıdır.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "kurulum-ve-kalip-degisimleri-cok-zaman-aliyor",
+              "baslik": "Kurulum ve kalıp değişimleri çok zaman alıyor",
+              "belirti": "Makine günün önemli bölümünü ürün geçişinde harcıyor.",
+              "kok_neden": "Benzer ürünler gruplanmıyor; kurulum standart bir yöntemle yapılmıyor.",
+              "cozum": [
+                "Aynı kalıbı paylaşan işleri arka arkaya çizelgele.",
+                "Kurulum adımlarını iç ve dış olarak ayır (SMED).",
+                "Kurulum süresini ölç ve hedef koy."
+              ],
+              "ilke": "Kurulumda geçen saat, üretilmeyen üründür."
+            },
+            {
+              "slug": "plan-var-ama-sahada-uygulanmiyor",
+              "baslik": "Plan var ama sahada uygulanmıyor",
+              "belirti": "Kâğıttaki plan ile tezgâhta yapılan iş birbirini tutmuyor.",
+              "kok_neden": "Plan sahaya net iletilmiyor; ustanın kendi önceliği devreye giriyor.",
+              "cozum": [
+                "Günlük iş listesini vardiya başında yazılı ver.",
+                "Sapma olduğunda nedenini aynı gün kaydet.",
+                "Plana uyum oranını haftalık ölç."
+              ],
+              "ilke": "Sahaya inmeyen plan yalnızca bir temennidir.",
+              "ilgili": "vardiya"
+            },
+            {
+              "slug": "is-emirleri-sahada-takip-edilemiyor",
+              "baslik": "İş emirleri sahada takip edilemiyor",
+              "belirti": "Bir işin hangi aşamada olduğunu öğrenmek için telefon turu atılıyor.",
+              "kok_neden": "İş emri durumları tanımlı değil ve tek bir izleme panosu yok.",
+              "cozum": [
+                "Her iş emrine durum ver: bekliyor / üretimde / bitti.",
+                "Tüm iş emirlerini tek panodan izle.",
+                "Durumu her vardiya başında güncelle."
+              ],
+              "ilke": "Görünmeyen iş, yönetilemeyen iştir."
+            },
+            {
+              "slug": "plan-excel-de-ama-surekli-bozuluyor",
+              "baslik": "Plan Excel'de ama sürekli bozuluyor",
+              "belirti": "Herkesin elinde farklı bir kopya var; hangisinin güncel olduğu bilinmiyor.",
+              "kok_neden": "Tek kaynak dosya disiplini kurulmamış.",
+              "cozum": [
+                "Tek kaynak dosya kullan, kopya çoğaltma.",
+                "Dosyayı herkesin eriştiği ortak klasörde tut; e-postayla kopya gönderme.",
+                "Güncelleme sorumlusunu ve saatini belirle."
+              ],
+              "ilke": "Beş kopya varsa, doğru plan yoktur."
+            }
+          ]
+        },
+        {
+          "slug": "talep-tahmini-ve-sop",
+          "ad": "Talep Tahmini ve S&OP",
+          "kartlar": [
+            {
+              "slug": "talep-tahmini-hicbir-zaman-tutmuyor",
+              "baslik": "Talep tahmini hiçbir zaman tutmuyor",
+              "belirti": "Tahmin ile gerçekleşen arasındaki fark her ay yüksek çıkıyor.",
+              "kok_neden": "Tahmin doğruluğu ölçülmüyor; sapmanın nedeni hiç analiz edilmiyor.",
+              "cozum": [
+                "Tahmin doğruluğunu (MAPE) aylık ölç.",
+                "Sapmayı ürün grubu bazında incele.",
+                "Yöntemi sapma nedenine göre revize et."
+              ],
+              "ilke": "Doğruluğu ölçülmeyen tahmin hiç düzelmez.",
+              "ilgili": "mevsimsellik-talep-tahmini"
+            },
+            {
+              "slug": "talep-dalgali-ne-kadar-uretecegimi-bilmiyorum",
+              "baslik": "Talep dalgalı, ne kadar üreteceğimi bilmiyorum",
+              "belirti": "Bazı aylar stok patlıyor, bazı aylar sipariş yetiştirilemiyor.",
+              "kok_neden": "Geçmiş satış verisi bir tahmine dönüştürülmüyor.",
+              "cozum": [
+                "Geçmiş satış verisiyle basit tahmin modeli kur.",
+                "Dalgalanmayı stokla mı esnek kapasiteyle mi karşılayacağına karar ver.",
+                "Tahmini her ay gerçekleşenle karşılaştır ve revize et."
+              ],
+              "ilke": "Dalgayı durduramazsın, ona göre yüzmeyi öğrenirsin.",
+              "ilgili": "mevsimsellik-talep-tahmini"
+            },
+            {
+              "slug": "kampanya-ve-sezon-etkisi-hesaba-katilmiyor",
+              "baslik": "Kampanya ve sezon etkisi hesaba katılmıyor",
+              "belirti": "Kampanya döneminde stok bitiyor, sonrasında elde kalıyor.",
+              "kok_neden": "Tahmin geçmiş ortalamaya dayanıyor; sezon etkisi modellenmiyor.",
+              "cozum": [
+                "Sezon endeksini son 2–3 yıldan çıkar.",
+                "Kampanya takvimini tahmine dâhil et.",
+                "Kampanya sonrası stok planını önceden kur."
+              ],
+              "ilke": "Geçmişin ortalaması, geleceğin kampanyasını bilmez.",
+              "ilgili": "mevsimsellik-talep-tahmini"
+            },
+            {
+              "slug": "yeni-urun-icin-tahmin-yapamiyorum",
+              "baslik": "Yeni ürün için tahmin yapamıyorum",
+              "belirti": "Geçmiş verisi olmayan üründe miktar tamamen tahmine kalıyor.",
+              "kok_neden": "Benzer ürün analojisi ve kademeli devreye alma yöntemi kullanılmıyor.",
+              "cozum": [
+                "Benzer ürünün lansman eğrisini referans al.",
+                "İlk partiyi küçük tut, kademeli artır.",
+                "İlk 8 haftanın satışına göre hızla revize et."
+              ],
+              "ilke": "Bilinmeyende büyük parti değil, küçük adım atılır."
+            },
+            {
+              "slug": "stoga-mi-siparise-mi-uretecegimi-bilemiyorum",
+              "baslik": "Stoğa mı siparişe mi üreteceğimi bilemiyorum",
+              "belirti": "Bazı ürünler depoda bekliyor, bazıları için müşteri bekletiliyor.",
+              "kok_neden": "Ürünler talep hacmi ve düzenliliğine göre sınıflandırılmamış.",
+              "cozum": [
+                "Ürünleri hacim ve talep değişkenliğine göre sınıfla.",
+                "Talebi düzenli ürünü stoğa, düzensiz olanı siparişe üret.",
+                "Sınıflandırmayı 6 ayda bir gözden geçir."
+              ],
+              "ilke": "Her ürüne aynı strateji, her ürüne yanlış stratejidir.",
+              "ilgili": "emniyet-stogu-siparis-noktasi"
+            },
+            {
+              "slug": "satis-tahmini-ile-uretim-plani-ayri-dunyalar",
+              "baslik": "Satış tahmini ile üretim planı ayrı dünyalar",
+              "belirti": "Satışın beklediği miktar ile üretimin planladığı tutmuyor.",
+              "kok_neden": "Ortak bir S&OP toplantısı ve tek sayıya bağlanma disiplini yok.",
+              "cozum": [
+                "Aylık S&OP toplantısını takvime sabitle.",
+                "Tek onaylı tahmin sayısına bağlan.",
+                "Kapasite ile tahmini aynı tabloda karşılaştır."
+              ],
+              "ilke": "Ortada iki sayı varsa, kimse aynı plana bakmıyordur."
+            },
+            {
+              "slug": "satis-ve-uretim-surekli-catisiyor",
+              "baslik": "Satış ve üretim sürekli çatışıyor",
+              "belirti": "Satış söz veriyor, üretim yetiştiremiyor; suçlama döngüsü kuruluyor.",
+              "kok_neden": "Ortak bir plan ve termin onay mekanizması bulunmuyor.",
+              "cozum": [
+                "Haftalık ortak planlama toplantısı yap.",
+                "Üretim onaylamadan müşteriye termin verilmesin.",
+                "İki taraf da tek ortak plan dosyasına baksın."
+              ],
+              "ilke": "İki farklı plan, iki farklı gerçeklik demektir."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "musteri-ve-urun",
+      "ad": "Müşteri ve Ürün",
+      "kategoriler": [
+        {
+          "slug": "siparis-ve-musteri-yonetimi",
+          "ad": "Sipariş ve Müşteri Yönetimi",
+          "kartlar": [
+            {
+              "slug": "siparis-bilgileri-eksik-geliyor",
+              "baslik": "Sipariş bilgileri eksik geliyor",
+              "belirti": "Üretim başlarken teknik detay veya miktar teyidi eksik çıkıyor.",
+              "kok_neden": "Sipariş giriş formu standart değil; zorunlu alanlar tanımlanmamış.",
+              "cozum": [
+                "Standart sipariş giriş formu oluştur.",
+                "Zorunlu alanlar dolmadan siparişi açtırma.",
+                "Eksik bilgiyi tamamlayacak tek sorumlu belirle."
+              ],
+              "ilke": "Eksik giren sipariş, eksik çıkan üründür."
+            },
+            {
+              "slug": "musteri-surekli-siparis-degistiriyor",
+              "baslik": "Müşteri sürekli sipariş değiştiriyor",
+              "belirti": "Üretim başladıktan sonra miktar veya özellik değişiyor.",
+              "kok_neden": "Değişiklik için son tarih (freeze) ve bedel tanımı yok.",
+              "cozum": [
+                "Üretime giriş öncesi değişiklik son tarihini belirle.",
+                "Sonrasındaki değişikliği bedele bağla.",
+                "Tüm değişiklik taleplerini yazılı kayda al."
+              ],
+              "ilke": "Sınırı olmayan değişiklik planı da kârı da yer."
+            },
+            {
+              "slug": "teklif-hazirlamak-cok-uzun-suruyor",
+              "baslik": "Teklif hazırlamak çok uzun sürüyor",
+              "belirti": "Teklif için günlerce hesap yapılıyor, müşteri beklerken iş kaçıyor.",
+              "kok_neden": "Standart maliyet ve fiyatlandırma altyapısı yok; her teklif sıfırdan.",
+              "cozum": [
+                "Ürün ailesi bazında standart maliyet tablosu kur.",
+                "Fiyatlandırma kuralını ve marjı yazılı belirle.",
+                "Teklifi hazır şablondan otomatik üret."
+              ],
+              "ilke": "Geç verilen teklif, verilmemiş sayılır.",
+              "ilgili": "recete-teklif-hazirlama"
+            },
+            {
+              "slug": "hangi-musterinin-degerli-oldugunu-bilmiyorum",
+              "baslik": "Hangi müşterinin değerli olduğunu bilmiyorum",
+              "belirti": "En çok alan müşteri, en çok kâr getiren müşteri sanılıyor.",
+              "kok_neden": "Müşteri bazında iskonto, iade ve hizmet maliyeti hesaplanmıyor.",
+              "cozum": [
+                "Müşteri bazında net katkı payını hesapla.",
+                "İskonto, iade ve lojistik maliyetini düş.",
+                "Düşük katkılı müşteride fiyat veya koşulu revize et."
+              ],
+              "ilke": "En çok alan, en çok kazandıran değildir.",
+              "ilgili": "musteri-karliligi-balina-egrisi"
+            },
+            {
+              "slug": "tekrar-siparisler-her-seferinde-sifirdan-isleniyor",
+              "baslik": "Tekrar siparişler her seferinde sıfırdan işleniyor",
+              "belirti": "Aynı ürün için aynı işlemler defalarca tekrar ediliyor.",
+              "kok_neden": "Tekrarlayan siparişler için şablon ve geçmiş kaydı kullanılmıyor.",
+              "cozum": [
+                "Sık sipariş edilen ürünleri şablon hâline getir.",
+                "Geçmiş sipariş verisini tek yerde tut.",
+                "Tekrar siparişi tek adımda oluştur."
+              ],
+              "ilke": "Tekrarlayan işi standartlaştırmayan her seferinde öder."
+            }
+          ]
+        },
+        {
+          "slug": "satis-sonrasi-ve-servis",
+          "ad": "Satış Sonrası ve Servis",
+          "kartlar": [
+            {
+              "slug": "garanti-maliyeti-ongorulemiyor",
+              "baslik": "Garanti maliyeti öngörülemiyor",
+              "belirti": "Garanti kapsamındaki işler bütçede sürprize dönüşüyor.",
+              "kok_neden": "Garanti talepleri ürün ve arıza nedeni bazında izlenmiyor.",
+              "cozum": [
+                "Garanti taleplerini ürün ve arıza koduyla kaydet.",
+                "Ürün başına garanti maliyet oranını hesapla.",
+                "Tekrarlayan arızayı tasarıma geri bildir."
+              ],
+              "ilke": "Kaydı tutulmayan garanti, sınırsız bir borçtur."
+            },
+            {
+              "slug": "servis-talepleri-yanitsiz-kaliyor",
+              "baslik": "Servis talepleri yanıtsız kalıyor",
+              "belirti": "Müşteri arıyor ama kimin ilgileneceği belli olmuyor.",
+              "kok_neden": "Servis talepleri için tek kayıt noktası ve yanıt süresi tanımlı değil.",
+              "cozum": [
+                "Tüm servis taleplerini tek listede topla.",
+                "Yanıt ve çözüm için hedef süre belirle.",
+                "Açık talepleri her gün gözden geçir."
+              ],
+              "ilke": "Cevapsız kalan müşteri sessizce gider.",
+              "ilgili": "servis-is-emri-takibi"
+            },
+            {
+              "slug": "yedek-parca-musteriye-gec-ulasiyor",
+              "baslik": "Yedek parça müşteriye geç ulaşıyor",
+              "belirti": "Müşterinin makinesi yedek parça beklerken durmuş hâlde kalıyor.",
+              "kok_neden": "Satış sonrası için ayrı bir yedek parça stoğu tutulmuyor.",
+              "cozum": [
+                "Kritik yedek parçaları satış sonrası için ayır.",
+                "Sahadaki makine parkına göre stok seviyesi belirle.",
+                "Parça sevkiyatı için hedef süre koy."
+              ],
+              "ilke": "Duran müşteri makinesi, duran itibardır."
+            },
+            {
+              "slug": "sahadan-gelen-geri-bildirim-uretime-ulasmiyor",
+              "baslik": "Sahadan gelen geri bildirim üretime ulaşmıyor",
+              "belirti": "Servis sorunu biliyor ama üretim aynı hatayı yapmaya devam ediyor.",
+              "kok_neden": "Servis verisi ile üretim ve tasarım arasında geri besleme döngüsü yok.",
+              "cozum": [
+                "Aylık servis-üretim geri bildirim toplantısı yap.",
+                "En sık görülen 3 arızayı üretime yazılı ilet.",
+                "Alınan aksiyonu servis ekibine geri bildir."
+              ],
+              "ilke": "Sahadan dönmeyen bilgi aynı hatayı finanse eder."
+            },
+            {
+              "slug": "satis-sonrasi-gelir-kalemi-olarak-gorulmuyor",
+              "baslik": "Satış sonrası gelir kalemi olarak görülmüyor",
+              "belirti": "Servis ve yedek parça bir masraf merkezi gibi yönetiliyor.",
+              "kok_neden": "Satış sonrası gelirleri ayrı izlenmiyor ve doğru fiyatlandırılmıyor.",
+              "cozum": [
+                "Servis ve yedek parça gelirini ayrı izle.",
+                "Periyodik bakım sözleşmesi paketleri oluştur.",
+                "Kârlılığı ürün satışıyla karşılaştır."
+              ],
+              "ilke": "Servis bir gider değil, ikinci bir gelir kapısıdır."
+            }
+          ]
+        },
+        {
+          "slug": "urun-gelistirme-ve-teknik-ofis",
+          "ad": "Ürün Geliştirme ve Teknik Ofis",
+          "kartlar": [
+            {
+              "slug": "teknik-resim-ve-revizyonlar-karisiyor",
+              "baslik": "Teknik resim ve revizyonlar karışıyor",
+              "belirti": "Sahada eski revizyona göre üretim yapıldığı sonradan fark ediliyor.",
+              "kok_neden": "Revizyon kontrolü ve dağıtım listesi tutulmuyor.",
+              "cozum": [
+                "Her resme revizyon numarası ve tarih ver.",
+                "Eski revizyonları sahadan fiziken topla.",
+                "Dağıtım listesini kayıt altına al."
+              ],
+              "ilke": "Eski revizyon sessizce hurda üretir."
+            },
+            {
+              "slug": "numune-sureci-cok-uzuyor",
+              "baslik": "Numune süreci çok uzuyor",
+              "belirti": "Müşteri numuneyi haftalarca bekliyor, bu sürede iş kaçıyor.",
+              "kok_neden": "Numune için ayrı bir öncelik, kapasite ve akış tanımlanmamış.",
+              "cozum": [
+                "Numune için ayrı kapasite ve hedef süre belirle.",
+                "Sürecin adımlarını ve sorumlularını yaz.",
+                "Tüm numune taleplerini tek listede izle."
+              ],
+              "ilke": "Geciken numune, kaybedilen siparişin habercisidir."
+            },
+            {
+              "slug": "yeni-urun-devreye-alirken-surekli-sorun-cikiyor",
+              "baslik": "Yeni ürün devreye alırken sürekli sorun çıkıyor",
+              "belirti": "Seri üretime geçilince beklenmeyen hatalar ortaya çıkıyor.",
+              "kok_neden": "Üretilebilirlik tasarım aşamasında üretimle birlikte değerlendirilmiyor.",
+              "cozum": [
+                "Tasarım aşamasında üretimi masaya davet et.",
+                "Seri öncesi pilot üretim yap.",
+                "Devreye alma kontrol listesi kullan."
+              ],
+              "ilke": "Üretimi masaya çağırmayan tasarım sahada bedel öder."
+            },
+            {
+              "slug": "urun-cesidi-kontrolsuz-artiyor",
+              "baslik": "Ürün çeşidi kontrolsüz artıyor",
+              "belirti": "Yüzlerce varyant var ama hiçbiri yeterince satmıyor.",
+              "kok_neden": "Yeni varyant açmanın kuralı ve kârlılık eşiği tanımlı değil.",
+              "cozum": [
+                "Varyantları satış hacmine göre sırala.",
+                "Alt %20'yi kârlılık açısından sorgula.",
+                "Yeni varyant açmayı eşik kuralına bağla."
+              ],
+              "ilke": "Her yeni varyant gizli bir maliyet taşır."
+            },
+            {
+              "slug": "teknik-bilgi-kisilerin-aklinda-duruyor",
+              "baslik": "Teknik bilgi kişilerin aklında duruyor",
+              "belirti": "Bir mühendis ayrıldığında bilgi de onunla birlikte gidiyor.",
+              "kok_neden": "Teknik dosyalar ve alınan kararlar kayıt altına alınmıyor.",
+              "cozum": [
+                "Her ürün için teknik dosya klasörü oluştur.",
+                "Alınan teknik kararları gerekçesiyle birlikte yaz.",
+                "Dosyayı ekibin ortak erişimine aç."
+              ],
+              "ilke": "Yazılmayan bilgi şirketin değil, kişinin malıdır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "stok-depo-ve-sevkiyat",
+      "ad": "Stok, Depo ve Sevkiyat",
+      "kategoriler": [
+        {
+          "slug": "stok-ve-malzeme-yonetimi",
+          "ad": "Stok ve Malzeme Yönetimi",
+          "kartlar": [
+            {
+              "slug": "stok-sayimi-hicbir-zaman-tutmuyor",
+              "baslik": "Stok sayımı hiçbir zaman tutmuyor",
+              "belirti": "Kayıttaki miktar ile raftaki miktar farklı; hangisinin doğru olduğu bilinmiyor.",
+              "kok_neden": "Hareketler anlık kaydedilmiyor ve sapmanın nedeni araştırılmıyor.",
+              "cozum": [
+                "Giriş-çıkış hareketlerini anlık kaydet.",
+                "Yıl sonu sayımı yerine döngüsel sayıma geç.",
+                "Her sapmanın nedenini yaz, tekrarı engelle."
+              ],
+              "ilke": "Yılda bir sayılan stok, yılın geri kalanında tahmindir.",
+              "ilgili": "stok-takip-sayim"
+            },
+            {
+              "slug": "depoda-ne-oldugunu-kimse-tam-bilmiyor",
+              "baslik": "Depoda ne olduğunu kimse tam bilmiyor",
+              "belirti": "Malzeme aranıyor, bulunamayınca yenisi sipariş ediliyor.",
+              "kok_neden": "Adresleme sistemi ve standart yerleşim düzeni yok.",
+              "cozum": [
+                "Her rafa benzersiz adres kodu ver.",
+                "Her malzemeyi sabit bir adrese bağla.",
+                "Giriş-çıkışta adresi de kaydet."
+              ],
+              "ilke": "Adresi olmayan malzeme, olmayan malzemedir."
+            },
+            {
+              "slug": "olu-stok-sermayeyi-kilitliyor",
+              "baslik": "Ölü stok sermayeyi kilitliyor",
+              "belirti": "Yıllardır hareket görmeyen malzemeler raf ve nakit işgal ediyor.",
+              "kok_neden": "Stok devir hızı ölçülmüyor; tasfiye kararını kimse üstlenmiyor.",
+              "cozum": [
+                "Malzeme bazında son hareket tarihini çıkar.",
+                "12 aydır hareket görmeyeni ölü stok olarak işaretle.",
+                "Tasfiye, iade veya alternatif kullanım kararı ver."
+              ],
+              "ilke": "Rafta bekleyen malzeme, rafta bekleyen paradır.",
+              "ilgili": "olu-stok-baglanan-para"
+            },
+            {
+              "slug": "ne-zaman-siparis-verecegimi-bilmiyorum",
+              "baslik": "Ne zaman sipariş vereceğimi bilmiyorum",
+              "belirti": "Sipariş ya gereksiz erken ya da malzeme bitince veriliyor.",
+              "kok_neden": "Yeniden sipariş noktası (ROP) hiç tanımlanmamış.",
+              "cozum": [
+                "Günlük ortalama tüketimi hesapla.",
+                "Tedarik süresiyle çarp, emniyet stoğunu ekle.",
+                "Bu seviyeye düşünce otomatik uyarı ver."
+              ],
+              "ilke": "Sipariş anını duygu değil, hesap belirler.",
+              "ilgili": "emniyet-stogu-siparis-noktasi"
+            },
+            {
+              "slug": "hat-malzeme-bekliyor-bos-kaliyor",
+              "baslik": "Hat malzeme bekliyor, boş kalıyor",
+              "belirti": "İş emri açık ama malzeme sahada yok; operatör tezgâh başında bekliyor.",
+              "kok_neden": "Malzeme ihtiyaç planı üretim planıyla senkron çalışmıyor.",
+              "cozum": [
+                "Malzeme ihtiyaç planını üretim planıyla senkronla.",
+                "Tedarik sürelerini geçmiş gerçek veriyle güncelle.",
+                "Kritik malzemelere emniyet stoğu tanımla."
+              ],
+              "ilke": "Duran hat, planlanmamış bir malzemenin faturasıdır.",
+              "ilgili": "planla"
+            },
+            {
+              "slug": "urun-recetesi-bom-guncel-degil",
+              "baslik": "Ürün reçetesi (BOM) güncel değil",
+              "belirti": "Hesaplanan malzeme ihtiyacı sahadaki gerçek tüketimi tutmuyor.",
+              "kok_neden": "Ürün revizyonları reçeteye işlenmiyor ve fire payı hesaba katılmıyor.",
+              "cozum": [
+                "Her ürünün reçetesini sahayla birlikte doğrula.",
+                "Fire oranını reçeteye dâhil et.",
+                "Revizyonda reçete güncellemeyi zorunlu kıl."
+              ],
+              "ilke": "Yanlış reçete, doğru planı da yanlışa çevirir.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "ayni-malzeme-farkli-kodlarla-kayitli",
+              "baslik": "Aynı malzeme farklı kodlarla kayıtlı",
+              "belirti": "Sistemde stok yok görünüyor ama depoda başka kodla duruyor.",
+              "kok_neden": "Kodlama standardı yok; herkes kendi kodunu açabiliyor.",
+              "cozum": [
+                "Tek bir kodlama kuralı belirle ve yayınla.",
+                "Mükerrer kodları tespit edip birleştir.",
+                "Yeni kod açmayı tek onay noktasına bağla."
+              ],
+              "ilke": "İki kod tek malzeme, iki kat stok tek kat fayda."
+            }
+          ]
+        },
+        {
+          "slug": "depo-ve-lojistik",
+          "ad": "Depo ve Lojistik",
+          "kartlar": [
+            {
+              "slug": "malzeme-depodan-hatta-gec-geliyor",
+              "baslik": "Malzeme depodan hatta geç geliyor",
+              "belirti": "Hat, malzemeyi depodan bekleyerek zaman kaybediyor.",
+              "kok_neden": "Besleme rotası ve saati tanımlı değil; talep anlık ve düzensiz geliyor.",
+              "cozum": [
+                "Sabit besleme turları ve saatleri belirle.",
+                "Hat kenarı için min-maks seviye tanımla.",
+                "Talebi kanban kartı veya sinyalle tetikle."
+              ],
+              "ilke": "Beslemesi düzensiz hat, düzenli üretemez."
+            },
+            {
+              "slug": "depo-alani-surekli-yetersiz-kaliyor",
+              "baslik": "Depo alanı sürekli yetersiz kalıyor",
+              "belirti": "Yeni gelen mala yer bulunamıyor, koridorlar doluyor.",
+              "kok_neden": "Alan hacme göre değil alışkanlığa göre kullanılıyor; ölü stok yer kaplıyor.",
+              "cozum": [
+                "Malzemeleri hareket hızına göre A-B-C yerleştir.",
+                "Hızlı hareket edenleri çıkışa yakın konumla.",
+                "Ölü stoğu tasfiye ederek alan aç."
+              ],
+              "ilke": "Alan sorunu çoğu zaman bir stok sorunudur."
+            },
+            {
+              "slug": "mal-kabul-sureci-cok-uzun-suruyor",
+              "baslik": "Mal kabul süreci çok uzun sürüyor",
+              "belirti": "Kamyon bekliyor, malzeme günlerce kabul alanında kalıyor.",
+              "kok_neden": "Kabul kriterleri ve kontrol listesi standart hâle getirilmemiş.",
+              "cozum": [
+                "Mal kabul kontrol listesi oluştur.",
+                "Randevulu teslim sistemine geç.",
+                "Kabul edilen malı aynı gün adresine yerleştir."
+              ],
+              "ilke": "Kapıda bekleyen mal henüz kazanç değildir."
+            },
+            {
+              "slug": "palet-ve-ambalaj-maliyeti-kontrolsuz",
+              "baslik": "Palet ve ambalaj maliyeti kontrolsüz",
+              "belirti": "Ambalaj gideri artıyor, geri dönmesi gereken palet kayboluyor.",
+              "kok_neden": "Ambalaj malzemesi stok gibi yönetilmiyor, sayımı yapılmıyor.",
+              "cozum": [
+                "Ambalaj ve paleti ayrı stok kalemi olarak tanımla.",
+                "Müşteri ve tedarikçi bazında palet hareketini izle.",
+                "Ambalaj maliyetini birim başına aylık ölç."
+              ],
+              "ilke": "Sayılmayan ambalaj sessizce kaybolur."
+            },
+            {
+              "slug": "depoda-malzeme-zarar-goruyor",
+              "baslik": "Depoda malzeme zarar görüyor",
+              "belirti": "Hasarlı, ıslanmış veya raf ömrü geçmiş malzemeler ortaya çıkıyor.",
+              "kok_neden": "Stoklama koşulları tanımsız ve FIFO kuralı uygulanmıyor.",
+              "cozum": [
+                "Raf ömrü olan malzemede FIFO veya FEFO uygula.",
+                "Stoklama koşullarını malzeme bazında yaz.",
+                "Aylık hasarlı stok raporu çıkar."
+              ],
+              "ilke": "Yanlış saklanan malzeme, satın alınmamış sayılır."
+            }
+          ]
+        },
+        {
+          "slug": "sevkiyat-ve-dagitim",
+          "ad": "Sevkiyat ve Dağıtım",
+          "kartlar": [
+            {
+              "slug": "sevkiyatlar-son-gun-panige-donuyor",
+              "baslik": "Sevkiyatlar son gün paniğe dönüyor",
+              "belirti": "Ay sonu ve hafta sonu ciddi sevkiyat yığılması yaşanıyor.",
+              "kok_neden": "Sevkiyat planı üretim planıyla birlikte kurgulanmıyor.",
+              "cozum": [
+                "Haftalık sevkiyat planını üretim planıyla eşle.",
+                "Sevkiyatı günlere dengeli dağıt.",
+                "Hazır ürünü bekletmeden sevk et."
+              ],
+              "ilke": "Ay sonuna yığılan iş, ay boyunca planlanmamıştır.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "eksik-veya-yanlis-urun-gonderiliyor",
+              "baslik": "Eksik veya yanlış ürün gönderiliyor",
+              "belirti": "Müşteri eksik ya da hatalı ürün aldığını bildiriyor.",
+              "kok_neden": "Sevk öncesi kontrol adımı yok veya tek kişiye bağlı yürüyor.",
+              "cozum": [
+                "Sevk öncesi kontrol listesi uygula.",
+                "Paketi ikinci bir kişiye doğrulat.",
+                "Hataları neden koduyla kaydet ve analiz et."
+              ],
+              "ilke": "Kapıdan çıkan hata en pahalı hatadır."
+            },
+            {
+              "slug": "nakliye-maliyeti-kontrolsuz-artiyor",
+              "baslik": "Nakliye maliyeti kontrolsüz artıyor",
+              "belirti": "Navlun gideri yükseliyor ama nedeni hiç analiz edilmiyor.",
+              "kok_neden": "Sevkiyat başına maliyet ve araç doluluk oranı ölçülmüyor.",
+              "cozum": [
+                "Sevkiyat başına maliyeti ve doluluğu ölç.",
+                "Aynı bölgeye giden sevkiyatları birleştir.",
+                "Nakliyeci fiyatlarını dönemsel olarak karşılaştır."
+              ],
+              "ilke": "Boş giden araç, ödenmiş ama kullanılmamış kapasitedir."
+            },
+            {
+              "slug": "musteri-malin-nerede-oldugunu-soruyor",
+              "baslik": "Müşteri malın nerede olduğunu soruyor",
+              "belirti": "Sevk edilen ürünün durumu hakkında bilgi verilemiyor.",
+              "kok_neden": "Sevkiyat bilgisi tek yerde tutulmuyor, takip numarası paylaşılmıyor.",
+              "cozum": [
+                "Tüm sevkiyatları takip numarasıyla tek listede tut.",
+                "Sevk anında müşteriye otomatik bilgi gönder.",
+                "Teslim teyidini kayda al."
+              ],
+              "ilke": "Bilgi vermeyen tedarikçi, güven de veremez."
+            },
+            {
+              "slug": "iadeler-duzensiz-yonetiliyor",
+              "baslik": "İadeler düzensiz yönetiliyor",
+              "belirti": "İade gelen ürünün ne olacağı belirsiz, depoda bekliyor.",
+              "kok_neden": "İade süreci, karar mercii ve karar süresi tanımlanmamış.",
+              "cozum": [
+                "İade kabul kriterlerini yazılı olarak belirle.",
+                "Her iadeye karar süresi ve sorumlu ata.",
+                "İade nedenlerini aylık analiz et."
+              ],
+              "ilke": "Karar bekleyen iade iki kez maliyet doğurur.",
+              "ilgili": "iade-analizi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tedarik",
+      "ad": "Tedarik",
+      "kategoriler": [
+        {
+          "slug": "satin-alma-ve-tedarik",
+          "ad": "Satın Alma ve Tedarik",
+          "kartlar": [
+            {
+              "slug": "tedarikci-secimi-hep-fiyata-gore-yapiliyor",
+              "baslik": "Tedarikçi seçimi hep fiyata göre yapılıyor",
+              "belirti": "En ucuz tedarikçi gecikme ve kalite sorunuyla daha pahalıya geliyor.",
+              "kok_neden": "Toplam sahip olma maliyeti değil, yalnızca birim fiyat karşılaştırılıyor.",
+              "cozum": [
+                "Fiyat, teslim, kalite ve esnekliği ayrı ayrı puanla.",
+                "Ağırlıklı skorla tedarikçileri karşılaştır.",
+                "Kararı yazılı gerekçesiyle kaydet."
+              ],
+              "ilke": "En ucuz teklif, çoğu zaman en pahalı karardır.",
+              "ilgili": "karar-matrisi"
+            },
+            {
+              "slug": "tedarikci-surekli-gec-teslim-ediyor",
+              "baslik": "Tedarikçi sürekli geç teslim ediyor",
+              "belirti": "Üretim planı tamamen tedarikçinin insafına kalmış durumda.",
+              "kok_neden": "Teslim performansı ölçülmüyor ve alternatif kaynak geliştirilmemiş.",
+              "cozum": [
+                "Teslim performansını ölç ve tedarikçiyi puanla.",
+                "Kritik malzemede ikinci tedarikçi geliştir.",
+                "Teslim süresini sözleşmeye ve yaptırıma bağla."
+              ],
+              "ilke": "Ölçülmeyen tedarikçi, geç kalmakta özgürdür.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "malzeme-fiyatlari-surekli-degisiyor",
+              "baslik": "Malzeme fiyatları sürekli değişiyor",
+              "belirti": "Yapılan maliyet hesabı bir ay sonra geçersiz hâle geliyor.",
+              "kok_neden": "Fiyat geçmişi tutulmuyor ve sözleşmeye bağlı fiyat yok.",
+              "cozum": [
+                "Kritik kalemlerin fiyat geçmişini aylık kaydet.",
+                "Yüksek hacimli kalemleri yıllık sözleşmeye bağla.",
+                "Fiyat değişimini otomatik maliyete yansıt."
+              ],
+              "ilke": "Fiyat geçmişini tutmayan, geleceğini hiç bilemez.",
+              "ilgili": "maliyet-urun-maliyeti"
+            },
+            {
+              "slug": "ithalat-maliyetini-yanlis-hesapliyorum",
+              "baslik": "İthalat maliyetini yanlış hesaplıyorum",
+              "belirti": "Ürün geldiğinde gerçek maliyet beklenenin çok üstünde çıkıyor.",
+              "kok_neden": "Navlun, gümrük, sigorta ve kur farkı hesaba dâhil edilmiyor.",
+              "cozum": [
+                "Tüm maliyet kalemlerini tek tabloda topla.",
+                "Kuru ödeme anındaki değer üzerinden hesapla.",
+                "Birim başına yüklenmiş maliyeti çıkar."
+              ],
+              "ilke": "Maliyet limanda değil, rafa girince belli olur.",
+              "ilgili": "ithalat-maliyet"
+            },
+            {
+              "slug": "siparisin-nerede-oldugunu-takip-edemiyorum",
+              "baslik": "Siparişin nerede olduğunu takip edemiyorum",
+              "belirti": "Tedarikçiye sürekli durum sorulmak zorunda kalınıyor.",
+              "kok_neden": "Açık sipariş listesi ve termin takibi tek yerde tutulmuyor.",
+              "cozum": [
+                "Tüm açık siparişleri tek listede topla.",
+                "Her siparişe tedarikçi onaylı teslim tarihi gir.",
+                "Termine 3 gün kala otomatik hatırlatma kur."
+              ],
+              "ilke": "Takip edilmeyen sipariş, gecikmeyi hak eder.",
+              "ilgili": "fabrika-motoru"
+            },
+            {
+              "slug": "acil-satin-almalar-butceyi-patlatiyor",
+              "baslik": "Acil satın almalar bütçeyi patlatıyor",
+              "belirti": "Plansız alımlar yüksek fiyat ve hızlı kargo maliyeti getiriyor.",
+              "kok_neden": "İhtiyaç önceden planlanmıyor, eksik son anda fark ediliyor.",
+              "cozum": [
+                "Aylık malzeme ihtiyaç planını düzenli çıkar.",
+                "Acil alımların oranını ve nedenini ölç.",
+                "Tekrarlayan acil kalemlere emniyet stoğu tanımla."
+              ],
+              "ilke": "Her acil alım, geçmişteki bir plansızlığın faturasıdır.",
+              "ilgili": "planla"
+            }
+          ]
+        },
+        {
+          "slug": "ithalat-ve-yurt-disi-tedarik",
+          "ad": "İthalat ve Yurt Dışı Tedarik",
+          "kartlar": [
+            {
+              "slug": "yurt-disina-eksik-miktarda-siparis-verildi",
+              "baslik": "Yurt dışına eksik miktarda sipariş verildi",
+              "belirti": "Mal geldi ama üretimi tamamlamaya yetmiyor, yeniden sipariş gerekiyor.",
+              "kok_neden": "Sipariş miktarı reçete ve fire payı hesaplanmadan verilmiş.",
+              "cozum": [
+                "Sipariş miktarını ürün reçetesi üzerinden hesapla.",
+                "Fire ve numune payını mutlaka ekle.",
+                "Siparişi ikinci bir kişiye kontrol ettir."
+              ],
+              "ilke": "Yarım gelen mal, tam gelmemiş sayılır.",
+              "ilgili": "planla"
+            },
+            {
+              "slug": "yanlis-hammadde-geldi",
+              "baslik": "Yanlış hammadde geldi",
+              "belirti": "Gelen malzeme spesifikasyona uymuyor ve üretimde kullanılamıyor.",
+              "kok_neden": "Sipariş teknik şartname ve onaylı numune olmadan verilmiş.",
+              "cozum": [
+                "Her siparişe teknik spesifikasyon dosyası ekle.",
+                "Seri üretim öncesi numune onayı iste.",
+                "Sipariş teyidini yazılı olarak karşılıklı onayla."
+              ],
+              "ilke": "Şartnamesiz sipariş vermek, kumar oynamaktır."
+            },
+            {
+              "slug": "malzeme-gumrukte-bekliyor",
+              "baslik": "Malzeme gümrükte bekliyor",
+              "belirti": "Ürün limanda, evrak eksikliği yüzünden çekilemiyor.",
+              "kok_neden": "Evrak listesi ve sorumluluk dağılımı önceden netleştirilmemiş.",
+              "cozum": [
+                "Sevkiyat öncesi evrak kontrol listesini tedarikçiyle paylaş.",
+                "Belgeleri mal yola çıkmadan önce doğrula.",
+                "Gümrük müşavirine mal gelmeden ön bilgi gönder."
+              ],
+              "ilke": "Eksik evrak, limanda bekleyen paradır."
+            },
+            {
+              "slug": "tedarik-suresi-hep-tahminden-uzun-suruyor",
+              "baslik": "Tedarik süresi hep tahminden uzun sürüyor",
+              "belirti": "Otuz gün denilen sevkiyat altmış günde geliyor, plan çöküyor.",
+              "kok_neden": "Üretim, yükleme, taşıma ve gümrük süreleri ayrı ayrı hesaplanmıyor.",
+              "cozum": [
+                "Toplam süreyi adım adım parçala ve her adımı ölç.",
+                "Geçmiş gerçekleşen sürelerin ortalamasını kullan.",
+                "Kritik kalemlerde emniyet süresi ekle."
+              ],
+              "ilke": "Tek rakamla verilen termin çoğu zaman iyimserdir.",
+              "ilgili": "stok-bitis-alarmi"
+            },
+            {
+              "slug": "kur-ve-navlun-dalgalanmasi-maliyeti-bozuyor",
+              "baslik": "Kur ve navlun dalgalanması maliyeti bozuyor",
+              "belirti": "Sipariş anındaki maliyet, teslim anında tamamen değişmiş oluyor.",
+              "kok_neden": "Kur ve navlun riski fiyatlamaya ve sözleşmeye yansıtılmamış.",
+              "cozum": [
+                "Verdiğin teklife kur ve navlun geçerlilik süresi koy.",
+                "Yüksek hacimde sabit navlun anlaşmasını değerlendir.",
+                "Maliyeti teslim anındaki değerle yeniden hesapla."
+              ],
+              "ilke": "Sabitlemediğin maliyet er geç seni bulur.",
+              "ilgili": "ithalat-maliyet"
+            }
+          ]
+        },
+        {
+          "slug": "fason-ve-dis-kaynak",
+          "ad": "Fason ve Dış Kaynak",
+          "kartlar": [
+            {
+              "slug": "fasona-giden-mal-takip-edilemiyor",
+              "baslik": "Fasona giden mal takip edilemiyor",
+              "belirti": "Fasoncudaki malzemenin miktarı ve durumu bilinmiyor.",
+              "kok_neden": "Fason stok hareketi ayrı bir hesap olarak izlenmiyor.",
+              "cozum": [
+                "Fason stoğunu ayrı bir stok lokasyonu olarak tanımla.",
+                "Her sevkte irsaliye ve miktarı kaydet.",
+                "Aylık fason mutabakatı yap."
+              ],
+              "ilke": "Dışarıdaki mal da senin bilançonda durur."
+            },
+            {
+              "slug": "fasondan-gelen-urunun-kalitesi-tutmuyor",
+              "baslik": "Fasondan gelen ürünün kalitesi tutmuyor",
+              "belirti": "Fasondan dönen ürünlerde hata oranı belirgin şekilde yüksek.",
+              "kok_neden": "Fasoncuya yazılı standart, onaylı numune ve kabul kriteri verilmemiş.",
+              "cozum": [
+                "Fasoncuya yazılı teknik şartname ver.",
+                "Onaylı limit numuneyi fasoncuda bırak.",
+                "Girişte kabul kriterine göre kontrol et."
+              ],
+              "ilke": "Standardını yazmadığın işin kalitesini bekleyemezsin."
+            },
+            {
+              "slug": "fason-maliyeti-iceride-uretmekten-pahali-cikiyor",
+              "baslik": "Fason maliyeti içeride üretmekten pahalı çıkıyor",
+              "belirti": "Fason kararı verildikten sonra maliyet beklenenin üstüne çıkıyor.",
+              "kok_neden": "Nakliye, fire ve takip iş gücü maliyeti hesaba katılmıyor.",
+              "cozum": [
+                "Yap-satın al analizini tam maliyetle yap.",
+                "Nakliye, fire ve takip maliyetini de ekle.",
+                "Kararı belirli bir hacim eşiğine bağla."
+              ],
+              "ilke": "Fason kararı yalnızca birim fiyatla verilmez."
+            },
+            {
+              "slug": "fasoncu-terminlere-uymuyor",
+              "baslik": "Fasoncu terminlere uymuyor",
+              "belirti": "Fason işler gecikiyor, ana üretim planı topluca kayıyor.",
+              "kok_neden": "Fasoncunun kapasitesi bilinmiyor; sözleşmede termin yaptırımı yok.",
+              "cozum": [
+                "Fasoncunun kapasitesini ve mevcut yükünü öğren.",
+                "Termini sözleşmeye ve yaptırıma bağla.",
+                "Kritik işlerde yedek fasoncu bulundur."
+              ],
+              "ilke": "Kapasitesini bilmediğin tedarikçiye söz veremezsin."
+            },
+            {
+              "slug": "fason-bilgisi-tek-kisinin-elinde",
+              "baslik": "Fason bilgisi tek kişinin elinde",
+              "belirti": "İlgili kişi olmadığında tüm fason süreci tıkanıyor.",
+              "kok_neden": "Fasoncu bilgileri, fiyatlar ve şartlar yazılı kayıt altında değil.",
+              "cozum": [
+                "Her fasoncu için kart oluştur: kapasite, fiyat, şart.",
+                "Fiyat listelerini tarihli olarak arşivle.",
+                "Süreci en az iki kişinin bilmesini sağla."
+              ],
+              "ilke": "Tek kişide duran bilgi, şirketin riskidir."
+            }
+          ]
+        },
+        {
+          "slug": "hammadde-ve-girdi-kalitesi",
+          "ad": "Hammadde ve Girdi Kalitesi",
+          "kartlar": [
+            {
+              "slug": "hammadde-hatasi-uretimin-ortasinda-anlasiliyor",
+              "baslik": "Hammadde hatası üretimin ortasında anlaşılıyor",
+              "belirti": "Sorun ancak ürün bozulunca fark ediliyor, tüm parti riske giriyor.",
+              "kok_neden": "Girdi kalite kontrolü yok veya yalnızca göz kontrolüyle sınırlı.",
+              "cozum": [
+                "Kritik hammaddeye giriş kontrol kriteri tanımla.",
+                "Numune alma planı ve ölçüm yöntemi belirle.",
+                "Uygunsuz partiyi hemen karantinaya al."
+              ],
+              "ilke": "Kontrolsüz giren malzeme, kontrolsüz çıkan üründür."
+            },
+            {
+              "slug": "tedarikci-malzeme-ozelligini-habersiz-degistiriyor",
+              "baslik": "Tedarikçi malzeme özelliğini habersiz değiştiriyor",
+              "belirti": "Aynı kodlu malzeme farklı davranıyor, üretim ayarları tutmuyor.",
+              "kok_neden": "Değişiklik bildirim yükümlülüğü sözleşmeye bağlanmamış.",
+              "cozum": [
+                "Tedarikçiden yazılı değişiklik bildirim taahhüdü al.",
+                "Her partiden referans numune sakla.",
+                "Değişiklik hâlinde yeniden onay sürecini zorunlu kıl."
+              ],
+              "ilke": "Aynı kod, aynı malzeme demek değildir."
+            },
+            {
+              "slug": "partiler-arasi-hammadde-farki-uretimi-etkiliyor",
+              "baslik": "Partiler arası hammadde farkı üretimi etkiliyor",
+              "belirti": "Aynı ürün farklı hammadde partilerinde farklı sonuç veriyor.",
+              "kok_neden": "Partiler arası fark ölçülmüyor; üretim ayarı sabit kabul ediliyor.",
+              "cozum": [
+                "Her partinin ölçüm değerlerini kaydet.",
+                "Parti bilgisini üretim kaydına bağla.",
+                "Üretim ayarını parti özelliğine göre uyarla."
+              ],
+              "ilke": "Değişen girdiye sabit ayar, değişken sonuç verir."
+            },
+            {
+              "slug": "hammadde-depolama-kosullari-uygun-degil",
+              "baslik": "Hammadde depolama koşulları uygun değil",
+              "belirti": "Malzeme nem, sıcaklık veya ışıktan etkilenerek bozuluyor.",
+              "kok_neden": "Malzeme bazında depolama koşulu tanımlanmamış.",
+              "cozum": [
+                "Her hammadde için depolama koşulunu yazılı belirle.",
+                "Kritik alanlarda sıcaklık ve nemi ölç.",
+                "Raf ömrünü FEFO mantığıyla yönet."
+              ],
+              "ilke": "Koşulu yazılmamış depo, malzemeyi sessizce bozar."
+            },
+            {
+              "slug": "uygunsuz-malzeme-icin-karar-gec-veriliyor",
+              "baslik": "Uygunsuz malzeme için karar geç veriliyor",
+              "belirti": "Karantinadaki malzeme haftalarca bekliyor; alan ve nakit kilitleniyor.",
+              "kok_neden": "Karar mercii, karar süresi ve kriterler tanımlanmamış.",
+              "cozum": [
+                "Uygunsuzluk kararı için maksimum süre belirle.",
+                "Karar seçeneklerini standartlaştır: kabul, sapma onayı, iade, hurda.",
+                "Kararı ve gerekçesini yazılı olarak kaydet."
+              ],
+              "ilke": "Bekleyen karantina hem alanı hem parayı tutar."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kalite-ve-bakim",
+      "ad": "Kalite ve Bakım",
+      "kategoriler": [
+        {
+          "slug": "kalite-ve-surec",
+          "ad": "Kalite ve Süreç",
+          "kartlar": [
+            {
+              "slug": "kalite-hatasi-uretim-bitince-fark-ediliyor",
+              "baslik": "Kalite hatası üretim bitince fark ediliyor",
+              "belirti": "Hata en pahalı noktada, yani son kontrolde yakalanıyor.",
+              "kok_neden": "Kalite kontrolü sürecin sonuna yığılmış durumda.",
+              "cozum": [
+                "Kaliteyi son kontrolden alıp hattın içine koy.",
+                "Her istasyona basit bir kontrol noktası tanımla.",
+                "Hatalı parçayı bir sonraki istasyona geçirme."
+              ],
+              "ilke": "Hata ne kadar geç bulunursa, o kadar pahalıdır."
+            },
+            {
+              "slug": "fire-orani-cok-yuksek",
+              "baslik": "Fire oranı çok yüksek",
+              "belirti": "Hurda ve yeniden işleme maliyeti sessizce kârı yiyor.",
+              "kok_neden": "Fire kaynağı ölçülmüyor, iyileştirme çabası her yere dağılıyor.",
+              "cozum": [
+                "Fireyi tezgâh ve operatör bazında ölç.",
+                "En yüksek 3 fire nedenini belirle (Pareto).",
+                "Kaynağı hepsine değil, önce o üçüne ayır."
+              ],
+              "ilke": "Fire tesadüf değildir; ölçmediğin sürece tekrar eder."
+            },
+            {
+              "slug": "ayni-hata-surekli-tekrar-ediyor",
+              "baslik": "Aynı hata sürekli tekrar ediyor",
+              "belirti": "Sorun çözülüyor ama birkaç hafta sonra aynen geri geliyor.",
+              "kok_neden": "Kök neden değil belirti çözülüyor; kalıcı önlem alınmıyor.",
+              "cozum": [
+                "Her tekrarlayan hataya 5 Neden analizi uygula.",
+                "Kalıcı önlemi ve sorumlusunu yazılı belirle.",
+                "30 gün sonra önlemin etkinliğini kontrol et."
+              ],
+              "ilke": "Kökü kalan hata yeniden filizlenir."
+            },
+            {
+              "slug": "musteri-sikayetleri-duzensiz-yonetiliyor",
+              "baslik": "Müşteri şikâyetleri düzensiz yönetiliyor",
+              "belirti": "Şikâyet e-posta ve telefonda kayboluyor, kapanış takibi yapılmıyor.",
+              "kok_neden": "Kayıt, sorumlu ve termin içeren tanımlı bir şikâyet akışı yok.",
+              "cozum": [
+                "Her şikâyeti tek merkezi kayda al.",
+                "Sorumlu ve kapanış tarihi ata.",
+                "Aylık şikâyet nedenlerini analiz et."
+              ],
+              "ilke": "Kaydı tutulmayan şikâyet, ikinci kez gelir."
+            },
+            {
+              "slug": "operatorler-ayni-isi-farkli-yapiyor",
+              "baslik": "Operatörler aynı işi farklı yapıyor",
+              "belirti": "Aynı ürün farklı vardiyalarda farklı kalitede çıkıyor.",
+              "kok_neden": "Standart iş talimatı yok; bilgi tamamen kişiye bağlı.",
+              "cozum": [
+                "Her kritik operasyona tek sayfalık talimat yaz.",
+                "Talimatı tezgâhın görünür yerine as.",
+                "Yeni personeli bu talimat üzerinden eğit."
+              ],
+              "ilke": "Standardı olmayan işin kalitesi de standart olmaz."
+            },
+            {
+              "slug": "olcum-sonuclarina-guvenmiyorum",
+              "baslik": "Ölçüm sonuçlarına güvenmiyorum",
+              "belirti": "İki kişi aynı parçayı ölçüyor, iki farklı sonuç çıkıyor.",
+              "kok_neden": "Kalibrasyon takvimi ve ölçüm yöntemi standardı bulunmuyor.",
+              "cozum": [
+                "Tüm ölçüm cihazlarını envantere al.",
+                "Kalibrasyon tarihlerini takvime bağla.",
+                "Ölçüm yöntemini yazılı standarda kavuştur."
+              ],
+              "ilke": "Kalibre edilmemiş ölçüm, yanlış karara güven verir."
+            },
+            {
+              "slug": "hangi-urunun-en-cok-soruna-yol-actigini-bilmiyorum",
+              "baslik": "Hangi ürünün en çok soruna yol açtığını bilmiyorum",
+              "belirti": "Kalite çabası her yere dağılıyor, somut sonuç alınamıyor.",
+              "kok_neden": "Hata verisi ürün ve neden bazında toplanmıyor.",
+              "cozum": [
+                "Hataları ürün ve neden koduyla kaydet.",
+                "Pareto ile ilk %20'lik grubu belirle.",
+                "Kaynağı önce o gruba yönlendir."
+              ],
+              "ilke": "Her yere dağılan çaba, hiçbir yeri düzeltmez."
+            }
+          ]
+        },
+        {
+          "slug": "kalite-sistemi-ve-denetim",
+          "ad": "Kalite Sistemi ve Denetim",
+          "kartlar": [
+            {
+              "slug": "denetim-oncesi-fabrika-ayaga-kalkiyor",
+              "baslik": "Denetim öncesi fabrika ayağa kalkıyor",
+              "belirti": "Denetim yaklaşınca herkes evrak toplamaya başlıyor.",
+              "kok_neden": "Sistem günlük işleyişin parçası değil, denetim hazırlığı olarak görülüyor.",
+              "cozum": [
+                "Kayıtları günlük iş akışının içine yerleştir.",
+                "Aylık iç denetimle sürekli hazır ol.",
+                "Eksikleri aksiyon listesiyle kapat."
+              ],
+              "ilke": "Denetime hazırlanan sistem, işleyen sistem değildir."
+            },
+            {
+              "slug": "prosedurler-var-ama-kimse-okumuyor",
+              "baslik": "Prosedürler var ama kimse okumuyor",
+              "belirti": "Yazılı doküman raf dolduruyor, saha eski alışkanlıkla çalışıyor.",
+              "kok_neden": "Prosedürler sahanın dilinde ve kısa değil; eğitimle desteklenmemiş.",
+              "cozum": [
+                "Her prosedürü tek sayfaya ve sade dile indir.",
+                "Görsel ve akış şeması ekle.",
+                "Uygulamayı sahada gözlemleyerek doğrula."
+              ],
+              "ilke": "Anlaşılmayan prosedür, uygulanmayan prosedürdür."
+            },
+            {
+              "slug": "uygunsuzluklar-bir-turlu-kapanmiyor",
+              "baslik": "Uygunsuzluklar bir türlü kapanmıyor",
+              "belirti": "Denetimde bulunan bulgular sonraki denetimde de aynen duruyor.",
+              "kok_neden": "Düzeltici faaliyetlere sorumlu, termin ve etkinlik kontrolü atanmıyor.",
+              "cozum": [
+                "Her bulguya kök neden, aksiyon ve termin yaz.",
+                "Kapanışı kanıt belgesiyle destekle.",
+                "90 gün sonra etkinliğini doğrula."
+              ],
+              "ilke": "Kapanmayan bulgu her denetimde seni bekler."
+            },
+            {
+              "slug": "izlenebilirlik-saglanamiyor",
+              "baslik": "İzlenebilirlik sağlanamıyor",
+              "belirti": "Şikâyette ürünün hangi partiden çıktığı geriye doğru bulunamıyor.",
+              "kok_neden": "Parti/lot numarası üretim ve sevkiyat kaydına bağlanmamış.",
+              "cozum": [
+                "Her partiye benzersiz lot numarası ver.",
+                "Lotu hammadde ve sevkiyatla ilişkilendir.",
+                "Geriye izleme tatbikatını yılda bir uygula."
+              ],
+              "ilke": "Geriye izlenemeyen ürün, savunulamayan üründür."
+            },
+            {
+              "slug": "dokuman-surumleri-birbirine-karisiyor",
+              "baslik": "Doküman sürümleri birbirine karışıyor",
+              "belirti": "Sahada hangi formun geçerli olduğu bilinmiyor.",
+              "kok_neden": "Doküman onay, sürüm ve dağıtım süreci tanımlanmamış.",
+              "cozum": [
+                "Her dokümana sürüm numarası, tarih ve onaylayan ekle.",
+                "Güncel sürümü tek ortak klasörde tut.",
+                "Eski sürümleri sahadan topla ve arşivle."
+              ],
+              "ilke": "İki geçerli form, hiç geçerli form yok demektir."
+            }
+          ]
+        },
+        {
+          "slug": "bakim-ve-ekipman",
+          "ad": "Bakım ve Ekipman",
+          "kartlar": [
+            {
+              "slug": "bakim-hep-ariza-olduktan-sonra-yapiliyor",
+              "baslik": "Bakım hep arıza olduktan sonra yapılıyor",
+              "belirti": "Üretim duruyor, ardından bakım ekibi koşturmaya başlıyor.",
+              "kok_neden": "Önleyici bakım planı ve sorumlu ataması bulunmuyor.",
+              "cozum": [
+                "Kritik makineler için periyodik bakım takvimi kur.",
+                "Bakımı üretim planına dâhil et.",
+                "Yapılan her bakımı kayda geçir."
+              ],
+              "ilke": "Planlı bakım seçimdir, plansız duruş mecburiyet."
+            },
+            {
+              "slug": "makineler-sik-arizalaniyor",
+              "baslik": "Makineler sık arızalanıyor",
+              "belirti": "Plan, makine duruşları yüzünden düzenli olarak çöküyor.",
+              "kok_neden": "Arızanın kök nedeni araştırılmıyor; makine onarılıp aynı arızanın tekrarı bekleniyor.",
+              "cozum": [
+                "Her arızayı makine ve arıza türüyle kaydet.",
+                "Aynı makinede tekrarlayan arızaya kök neden analizi uygula.",
+                "Kalıcı önlemi bakım planına işle ve sonucunu izle."
+              ],
+              "ilke": "Onarılan ama anlaşılmayan arıza geri gelir."
+            },
+            {
+              "slug": "yedek-parca-ya-hic-yok-ya-da-fazla",
+              "baslik": "Yedek parça ya hiç yok ya da fazla",
+              "belirti": "Kritik parça bulunamıyor, gereksiz parça raflarda bekliyor.",
+              "kok_neden": "Parçalar duruş etkisine göre sınıflandırılmamış.",
+              "cozum": [
+                "Parçaları duruş etkisine göre A-B-C sınıfla.",
+                "A sınıfı için minimum stok seviyesi tanımla.",
+                "C sınıfını talep üzerine tedarik et."
+              ],
+              "ilke": "Doğru parça doğru zamanda; gerisi maliyettir."
+            },
+            {
+              "slug": "durus-surelerini-hic-olcmuyorum",
+              "baslik": "Duruş sürelerini hiç ölçmüyorum",
+              "belirti": "Kapasite kaybının büyüklüğü sayısal olarak bilinmiyor.",
+              "kok_neden": "Duruş kaydı tutulmuyor, yalnızca üretilen adet yazılıyor.",
+              "cozum": [
+                "Her duruşu süresi ve nedeniyle kaydet.",
+                "Nedenleri sabit bir kod listesiyle sınıfla.",
+                "Aylık en büyük 3 duruş nedenini hedefe al."
+              ],
+              "ilke": "Ölçülmeyen duruş, hiç yaşanmamış sayılır."
+            },
+            {
+              "slug": "makine-verimliligimi-bilmiyorum",
+              "baslik": "Makine verimliliğimi bilmiyorum",
+              "belirti": "Makine iyi çalışıyor deniyor ama sayısal karşılığı yok.",
+              "kok_neden": "Kullanılabilirlik, performans ve kalite ayrı ayrı ölçülmüyor.",
+              "cozum": [
+                "OEE'nin üç bileşenini ayrı ayrı hesapla.",
+                "Makine bazında haftalık olarak takip et.",
+                "En düşük çıkan bileşene odaklan."
+              ],
+              "ilke": "İyi çalışıyor demek, bir ölçüm değildir."
+            },
+            {
+              "slug": "bakim-maliyeti-kontrolsuz-artiyor",
+              "baslik": "Bakım maliyeti kontrolsüz artıyor",
+              "belirti": "Bakım harcamaları bütçeyi aşıyor ama nedeni belirsiz kalıyor.",
+              "kok_neden": "Maliyet makine bazında değil toplu olarak izleniyor.",
+              "cozum": [
+                "Bakım maliyetini makine bazında ayrıştır.",
+                "Arıza sıklığıyla birlikte değerlendir.",
+                "Bakım maliyeti yenileme bedeline yaklaşan makinede yenilemeyi değerlendir."
+              ],
+              "ilke": "Makine bazında görülmeyen gider, toplamda saklanır."
+            }
+          ]
+        },
+        {
+          "slug": "kalip-aparat-ve-sarf",
+          "ad": "Kalıp, Aparat ve Sarf",
+          "kartlar": [
+            {
+              "slug": "kalibin-nerede-oldugu-bilinmiyor",
+              "baslik": "Kalıbın nerede olduğu bilinmiyor",
+              "belirti": "Üretim öncesi kalıp aranıyor, bulunamayınca iş bekliyor.",
+              "kok_neden": "Kalıplar için adresleme ve zimmet sistemi kurulmamış.",
+              "cozum": [
+                "Her kalıba benzersiz kod ve sabit yer ver.",
+                "Kalıp hareketini zimmetle kayda geçir.",
+                "Üretim planına kalıp uygunluğunu ekle."
+              ],
+              "ilke": "Aranan kalıp, duran üretim demektir.",
+              "ilgili": "demirbas-zimmet-takibi"
+            },
+            {
+              "slug": "kalip-omru-takip-edilmiyor",
+              "baslik": "Kalıp ömrü takip edilmiyor",
+              "belirti": "Kalıp beklenmedik anda kırılıyor, üretim aniden duruyor.",
+              "kok_neden": "Kalıp başına basılan adet ve bakım periyodu izlenmiyor.",
+              "cozum": [
+                "Kalıp başına kümülatif adet sayacı tut.",
+                "Belirli adette periyodik bakımı otomatik tetikle.",
+                "Kritik kalıplarda yedek bulundur."
+              ],
+              "ilke": "Ömrü izlenmeyen kalıp en kötü anda kırılır."
+            },
+            {
+              "slug": "sarf-malzeme-tuketimi-kontrolsuz",
+              "baslik": "Sarf malzeme tüketimi kontrolsüz",
+              "belirti": "Eldiven, kesici uç, yağ gibi sarflar beklenenden hızlı tükeniyor.",
+              "kok_neden": "Sarf tüketimi üretim miktarına oranlanmıyor ve sahibi belli değil.",
+              "cozum": [
+                "Sarf tüketimini üretim adedine böl, birim tüketimi bul.",
+                "Anormal tüketimi bölüm bazında sorgula.",
+                "Sarf çıkışını zimmet veya talep formuna bağla."
+              ],
+              "ilke": "Ucuz olan malzeme, kontrolsüzse pahalı olur."
+            },
+            {
+              "slug": "kesici-takim-maliyeti-cok-yuksek",
+              "baslik": "Kesici takım maliyeti çok yüksek",
+              "belirti": "Takım gideri bütçeyi zorluyor, takım ömürleri çok kısa.",
+              "kok_neden": "Kesme parametreleri ve takım ömrü standartlaştırılmamış.",
+              "cozum": [
+                "Malzeme bazında kesme parametrelerini standartlaştır.",
+                "Takım ömrünü işlenen parça sayısıyla ölç.",
+                "Bileme ve yeniden kullanım imkânını değerlendir."
+              ],
+              "ilke": "Yanlış parametre takımı da parayı da yer."
+            },
+            {
+              "slug": "ayni-aparat-tekrar-tekrar-yaptiriliyor",
+              "baslik": "Aynı aparat tekrar tekrar yaptırılıyor",
+              "belirti": "Var olan aparat bulunamadığı için yenisi sıfırdan imal ediliyor.",
+              "kok_neden": "Mevcut aparat envanteri ve hangi ürüne ait olduğu kayıtlı değil.",
+              "cozum": [
+                "Tüm aparatları ürün ilişkisiyle envantere al.",
+                "Yeni yaptırmadan önce envanter kontrolünü zorunlu kıl.",
+                "Kullanılmayanları belirli sürede tasfiye et."
+              ],
+              "ilke": "Bulunamayan aparat ikinci kez satın alınır.",
+              "ilgili": "demirbas-zimmet-takibi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "maliyet-ve-finans",
+      "ad": "Maliyet ve Finans",
+      "kategoriler": [
+        {
+          "slug": "maliyet-ve-verimlilik",
+          "ad": "Maliyet ve Verimlilik",
+          "kartlar": [
+            {
+              "slug": "gercek-maliyetimi-bilmiyorum",
+              "baslik": "Gerçek maliyetimi bilmiyorum",
+              "belirti": "Fiyat rakibe bakarak veriliyor; hangi üründe zarar edildiği belirsiz.",
+              "kok_neden": "Maliyet kalemleri ürün başına ayrıştırılmıyor.",
+              "cozum": [
+                "Malzeme, işçilik ve genel gideri ürün başına ayır.",
+                "Fire ve yeniden işlemeyi maliyete dâhil et.",
+                "Satış fiyatını bu gerçek maliyetin üstüne kur."
+              ],
+              "ilke": "Maliyetini bilmeyen, kârını da tesadüfen bulur.",
+              "ilgili": "maliyet-urun-maliyeti"
+            },
+            {
+              "slug": "genel-giderleri-urunlere-dagitamiyorum",
+              "baslik": "Genel giderleri ürünlere dağıtamıyorum",
+              "belirti": "Ürün maliyetleri gerçekçi değil, kâr marjı yanıltıcı çıkıyor.",
+              "kok_neden": "Genel gider tek bir oranla dağıtılıyor, gerçek kullanım göz ardı ediliyor.",
+              "cozum": [
+                "Gider merkezlerini net olarak tanımla.",
+                "Dağıtım anahtarını makine veya işçilik saati yap.",
+                "Ürün maliyetini bu anahtarla yeniden hesapla."
+              ],
+              "ilke": "Yanlış dağıtılan gider, yanlış ürünü kârlı gösterir."
+            },
+            {
+              "slug": "hangi-urunun-gercekten-kar-getirdigini-bilmiyorum",
+              "baslik": "Hangi ürünün gerçekten kâr getirdiğini bilmiyorum",
+              "belirti": "Ciro artıyor ama kâr aynı oranda artmıyor.",
+              "kok_neden": "Kârlılık ürün bazında değil yalnızca toplamda değerlendiriliyor.",
+              "cozum": [
+                "Her ürün için katkı payını hesapla.",
+                "Düşük katkılı ürünleri ayrı listele.",
+                "Fiyat, maliyet veya portföy kararını ver."
+              ],
+              "ilke": "Ciro gurur, kâr gerçektir.",
+              "ilgili": "maliyet-urun-maliyeti"
+            },
+            {
+              "slug": "kucuk-siparisler-cok-maliyetli",
+              "baslik": "Küçük siparişler çok maliyetli",
+              "belirti": "Kurulum süresi üretim süresinden uzun; küçük işler kârı eritiyor.",
+              "kok_neden": "Benzer işler gruplanmıyor ve kurulum süresi hiç ölçülmüyor.",
+              "cozum": [
+                "Benzer küçük işleri birleştirip grupla.",
+                "Tek kurulumla toplu üretim yap.",
+                "Kurulum süresini ölç ve kısalt (SMED)."
+              ],
+              "ilke": "Kurulumu kısaltmayan, küçük siparişe hep zarar eder."
+            },
+            {
+              "slug": "fazla-mesai-maliyeti-kontrolden-cikti",
+              "baslik": "Fazla mesai maliyeti kontrolden çıktı",
+              "belirti": "Her ay mesai bütçesi aşılıyor, sebebi sürekli tartışılıyor.",
+              "kok_neden": "Mesai plansızlığın sonucu olarak doğuyor ve nedeniyle ölçülmüyor.",
+              "cozum": [
+                "Mesai saatini nedeniyle birlikte kaydet.",
+                "Plansızlıktan kaynaklanan kısmı ayrı göster.",
+                "Kapasite planını mesaisiz kurgula."
+              ],
+              "ilke": "Sürekli mesai, plansızlığın faturasıdır.",
+              "ilgili": "vizite-personel-izin-takibi"
+            },
+            {
+              "slug": "enerji-maliyeti-sessizce-yukseliyor",
+              "baslik": "Enerji maliyeti sessizce yükseliyor",
+              "belirti": "Enerji faturası artıyor ama ürün maliyetleri ve fiyatlar eski hesapla kalıyor.",
+              "kok_neden": "Enerji gideri ürün başına ayrıştırılmıyor; artış maliyete yansımıyor.",
+              "cozum": [
+                "Aylık enerji giderini üretim adedine bölüp birim enerji maliyetini bul.",
+                "Birim enerji maliyetini ürün maliyetine her ay işle.",
+                "Artış belirli bir eşiği geçince fiyat ve teklif hesabını güncelle."
+              ],
+              "ilke": "Fiyata yansımayan enerji, kârdan ödenir."
+            },
+            {
+              "slug": "iyilestirme-yapiyoruz-ama-kazanc-gorunmuyor",
+              "baslik": "İyileştirme yapıyoruz ama kazanç görünmüyor",
+              "belirti": "Projeler bitiyor, mali tabloda hiçbir şey değişmiyor.",
+              "kok_neden": "Öncesi-sonrası ölçüm yapılmıyor ve kazanç paraya çevrilmiyor.",
+              "cozum": [
+                "Her iyileştirmeye başlangıç ölçümü koy.",
+                "30–60–90 gün sonra tekrar ölç.",
+                "Kazancı TL karşılığıyla raporla."
+              ],
+              "ilke": "Ölçülmeyen iyileştirme, yapılmamış sayılır."
+            }
+          ]
+        },
+        {
+          "slug": "nakit-ve-finansal-kontrol",
+          "ad": "Nakit ve Finansal Kontrol",
+          "kartlar": [
+            {
+              "slug": "kar-gorunuyor-ama-kasada-para-yok",
+              "baslik": "Kâr görünüyor ama kasada para yok",
+              "belirti": "Tablolarda kâr var, ödemeler ise zor yetişiyor.",
+              "kok_neden": "Nakit döngüsü (tahsilat-ödeme-stok) aktif olarak yönetilmiyor.",
+              "cozum": [
+                "Nakit döngü süresini hesapla.",
+                "Tahsilat ve ödeme vadelerini karşılaştır.",
+                "Stok gününü düşürerek nakdi serbest bırak."
+              ],
+              "ilke": "Kâr bir görüş, nakit bir gerçektir.",
+              "ilgili": "nakit-13-hafta-tahmini"
+            },
+            {
+              "slug": "tahsilat-gecikmeleri-plani-bozuyor",
+              "baslik": "Tahsilat gecikmeleri planı bozuyor",
+              "belirti": "Ödemeler gecikiyor, tedarikçiye borç birikiyor.",
+              "kok_neden": "Vade takibi ve hatırlatma süreci sistematik yürütülmüyor.",
+              "cozum": [
+                "Alacakları yaşlandırma tablosuyla izle.",
+                "Vade öncesi otomatik hatırlatma gönder.",
+                "Riskli müşteriye kredi limiti tanımla."
+              ],
+              "ilke": "Tahsil edilmemiş satış henüz satış değildir.",
+              "ilgili": "tansiyon-alacak-borc-takibi"
+            },
+            {
+              "slug": "butce-yapiliyor-ama-takip-edilmiyor",
+              "baslik": "Bütçe yapılıyor ama takip edilmiyor",
+              "belirti": "Yıl başında bütçe hazırlanıyor, sonra kimse dönüp bakmıyor.",
+              "kok_neden": "Bütçe ve gerçekleşen karşılaştırması aylık olarak yapılmıyor.",
+              "cozum": [
+                "Aylık bütçe-gerçekleşen sapma raporu çıkar.",
+                "Yüksek sapmalı kalemlere açıklama zorunluluğu koy.",
+                "Bütçeyi çeyrek bazında revize et."
+              ],
+              "ilke": "Takip edilmeyen bütçe, iyi niyetli bir tahmindir."
+            },
+            {
+              "slug": "yatirim-kararlarini-hisle-veriyorum",
+              "baslik": "Yatırım kararlarını hisle veriyorum",
+              "belirti": "Makine alınıyor ama geri dönüş süresi hiç hesaplanmıyor.",
+              "kok_neden": "Geri ödeme süresi ve alternatif maliyeti değerlendirilmiyor.",
+              "cozum": [
+                "Yatırımın yıllık net kazancını hesapla.",
+                "Geri ödeme süresini (payback) çıkar.",
+                "En az iki alternatifle karşılaştırarak karar ver."
+              ],
+              "ilke": "Geri dönüşü hesaplanmayan yatırım bir bahistir.",
+              "ilgili": "karar-matrisi"
+            },
+            {
+              "slug": "fiyat-artisini-musteriye-yansitamiyorum",
+              "baslik": "Fiyat artışını müşteriye yansıtamıyorum",
+              "belirti": "Maliyet artıyor, satış fiyatı sabit kalıyor, marj eriyor.",
+              "kok_neden": "Maliyet değişimi düzenli izlenmiyor; zam gerekçesi belgelenmiyor.",
+              "cozum": [
+                "Maliyet değişimini kalem bazında aylık izle.",
+                "Marj eşiğinin altına düşen ürünleri işaretle.",
+                "Zam talebini veriye dayalı belgeyle sun."
+              ],
+              "ilke": "Maliyeti yansıtmayan fiyat, sessiz bir zarardır.",
+              "ilgili": "fiyat-zam-guncelleme"
+            }
+          ]
+        },
+        {
+          "slug": "proje-ve-yatirim-yonetimi",
+          "ad": "Proje ve Yatırım Yönetimi",
+          "kartlar": [
+            {
+              "slug": "projeler-surekli-gecikiyor",
+              "baslik": "Projeler sürekli gecikiyor",
+              "belirti": "Başlangıç hevesli oluyor, bitiş tarihi sürekli öteleniyor.",
+              "kok_neden": "İş kırılımı yapılmıyor ve süre tahminleri gerçekçi değil.",
+              "cozum": [
+                "Projeyi 1–2 haftalık paketlere böl.",
+                "Her pakete sorumlu ve bitiş tarihi ata.",
+                "Haftalık ilerlemeyi yüzdeyle takip et."
+              ],
+              "ilke": "Parçalanmayan iş, hiç bitmeyen iştir.",
+              "ilgili": "ameliyat-proje-plani"
+            },
+            {
+              "slug": "yatirim-sonrasi-kimse-sonucu-olcmuyor",
+              "baslik": "Yatırım sonrası kimse sonucu ölçmüyor",
+              "belirti": "Makine alındı ama vaat edilen kazanç hiç doğrulanmadı.",
+              "kok_neden": "Yatırım öncesi hedef ve sonrası ölçüm yöntemi tanımlanmamış.",
+              "cozum": [
+                "Yatırım öncesi hedef göstergeyi yazılı belirle.",
+                "3. ve 6. ayda aynı göstergeyi tekrar ölç.",
+                "Sapma varsa nedenini raporla."
+              ],
+              "ilke": "Ölçülmeyen yatırım, doğrulanmamış bir vaattir."
+            },
+            {
+              "slug": "proje-butcesi-her-seferinde-asiliyor",
+              "baslik": "Proje bütçesi her seferinde aşılıyor",
+              "belirti": "Harcamalar bittiğinde bütçenin çok üstüne çıkılmış oluyor.",
+              "kok_neden": "Harcamalar proje bazında değil genel giderde izleniyor.",
+              "cozum": [
+                "Her projeye ayrı bütçe kodu aç.",
+                "Harcamayı haftalık olarak bütçeyle karşılaştır.",
+                "%10 sapmada onay mekanizması devreye girsin."
+              ],
+              "ilke": "İzlenmeyen harcama ancak bittiğinde görünür."
+            },
+            {
+              "slug": "devreye-alma-sureci-cok-uzuyor",
+              "baslik": "Devreye alma süreci çok uzuyor",
+              "belirti": "Makine geldi ama aylarca tam kapasitede çalışmıyor.",
+              "kok_neden": "Kurulum, eğitim ve kabul testleri önceden planlanmamış.",
+              "cozum": [
+                "Kurulum, eğitim ve kabul testi takvimini önceden yap.",
+                "Kabul kriterlerini sözleşmeye yaz.",
+                "Ödemenin bir kısmını kabul testine bağla."
+              ],
+              "ilke": "Kabul kriteri yazılmayan makine geç kabul edilir."
+            },
+            {
+              "slug": "ayni-hatalar-her-projede-tekrarlaniyor",
+              "baslik": "Aynı hatalar her projede tekrarlanıyor",
+              "belirti": "Önceki projenin dersleri yeni projede yeniden yaşanıyor.",
+              "kok_neden": "Proje sonu değerlendirmesi yapılmıyor, dersler kayda geçmiyor.",
+              "cozum": [
+                "Her proje sonunda tek sayfalık değerlendirme yaz.",
+                "Öğrenilen dersleri ortak arşivde tut.",
+                "Yeni proje başlarken bu arşivi zorunlu oku."
+              ],
+              "ilke": "Ders çıkarılmayan proje bir sonrakinde tekrar yaşanır."
+            }
+          ]
+        },
+        {
+          "slug": "enerji-ve-surdurulebilirlik",
+          "ad": "Enerji ve Sürdürülebilirlik",
+          "kartlar": [
+            {
+              "slug": "enerjinin-nereye-gittigi-bilinmiyor",
+              "baslik": "Enerjinin nereye gittiği bilinmiyor",
+              "belirti": "Fatura yüksek ama hangi bölümün tükettiği belirsiz kalıyor.",
+              "kok_neden": "Bölüm veya hat bazında alt sayaç ve ölçüm noktası bulunmuyor.",
+              "cozum": [
+                "Ana bölümlere alt sayaç yerleştir.",
+                "Tüketimi üretim adedine bölüp birim tüketimi izle.",
+                "En yüksek tüketen 3 noktayı hedefe al."
+              ],
+              "ilke": "Tek sayaç toplamı gösterir, kaybın yerini göstermez."
+            },
+            {
+              "slug": "ekipmanlar-bosta-calisiyor",
+              "baslik": "Ekipmanlar boşta çalışıyor",
+              "belirti": "Üretim yokken kompresör, aydınlatma ve fanlar açık kalıyor.",
+              "kok_neden": "Boşta çalışma için kapatma prosedürü ve sorumlusu tanımlı değil.",
+              "cozum": [
+                "Vardiya sonu kapatma kontrol listesi oluştur.",
+                "Boşta tüketimi hafta sonu ölçümüyle tespit et.",
+                "Otomatik kapanma veya zamanlayıcı kur."
+              ],
+              "ilke": "Boşta dönen makine, çalışmadan para harcar."
+            },
+            {
+              "slug": "atik-miktari-ve-maliyeti-izlenmiyor",
+              "baslik": "Atık miktarı ve maliyeti izlenmiyor",
+              "belirti": "Atık bertaraf gideri artıyor ama kaynağı bilinmiyor.",
+              "kok_neden": "Atık türü ve kaynak bölüm bazında kayıt tutulmuyor.",
+              "cozum": [
+                "Atığı tür ve kaynak bölüm bazında tart ve kaydet.",
+                "Geri kazanılabilir atığı ayrıştır.",
+                "En büyük atık kaynağını süreçte iyileştir."
+              ],
+              "ilke": "Atık, parası ödenmiş ama kullanılmamış malzemedir."
+            },
+            {
+              "slug": "basincli-hava-kacaklari-fark-edilmiyor",
+              "baslik": "Basınçlı hava kaçakları fark edilmiyor",
+              "belirti": "Kompresör neredeyse hiç durmuyor ama nedeni sorgulanmıyor.",
+              "kok_neden": "Kaçak tespiti periyodik bir işe dönüştürülmemiş.",
+              "cozum": [
+                "Üretim durduğunda basınç düşüşünü ölç.",
+                "Hat üstü kaçak taramasını periyodik yap.",
+                "Tespit edilen kaçakları öncelik sırasıyla kapat."
+              ],
+              "ilke": "Duyulmayan kaçak her saat fatura yazar."
+            },
+            {
+              "slug": "surdurulebilirlik-verisi-istendiginde-elde-yok",
+              "baslik": "Sürdürülebilirlik verisi istendiğinde elde yok",
+              "belirti": "Müşteri enerji ve karbon verisi istiyor, hazır bilgi bulunmuyor.",
+              "kok_neden": "Enerji, su ve atık verileri düzenli olarak toplanmıyor.",
+              "cozum": [
+                "Aylık enerji, su ve atık verisini tek tabloda topla.",
+                "Üretim miktarına oranlayarak birim değer hesapla.",
+                "Verileri yıllık karşılaştırmalı olarak raporla."
+              ],
+              "ilke": "Toplanmayan veri, istendiği gün üretilemez."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "insan-ve-calisma-ortami",
+      "ad": "İnsan ve Çalışma Ortamı",
+      "kategoriler": [
+        {
+          "slug": "insan-ve-organizasyon",
+          "ad": "İnsan ve Organizasyon",
+          "kartlar": [
+            {
+              "slug": "yeni-personel-cok-gec-verimli-hale-geliyor",
+              "baslik": "Yeni personel çok geç verimli hâle geliyor",
+              "belirti": "İşe alım sonrası aylarca düşük verimle çalışılıyor.",
+              "kok_neden": "Yapılandırılmış oryantasyon ve eğitim planı yok.",
+              "cozum": [
+                "İlk 30 gün için adım adım eğitim planı hazırla.",
+                "Her yeni çalışana bir mentor ata.",
+                "30. günde yetkinlik değerlendirmesi yap."
+              ],
+              "ilke": "Eğitime harcanmayan gün, hatayla geri döner."
+            },
+            {
+              "slug": "kimin-neyi-yapabildigini-bilmiyorum",
+              "baslik": "Kimin neyi yapabildiğini bilmiyorum",
+              "belirti": "İzin ve devamsızlıkta yerine kimin geçeceği belirsiz kalıyor.",
+              "kok_neden": "Yetkinlik matrisi tutulmuyor, bilgi yöneticinin aklında.",
+              "cozum": [
+                "Operasyon × personel matrisi kur.",
+                "Yetkinliği 4 seviyede puanla.",
+                "Tek kişiye bağlı operasyonları öncelikle eğit."
+              ],
+              "ilke": "Yedeği olmayan yetkinlik, gizli bir risktir."
+            },
+            {
+              "slug": "performans-konusmalari-tartismaya-donuyor",
+              "baslik": "Performans konuşmaları tartışmaya dönüyor",
+              "belirti": "Geri bildirim kişisel algılanıyor, sonuç alınamıyor.",
+              "kok_neden": "Ölçülebilir hedef yok; konuşma izlenim üzerinden yürüyor.",
+              "cozum": [
+                "Her role 3–5 ölçülebilir gösterge tanımla.",
+                "Veriyi aylık olarak şeffaf paylaş.",
+                "Konuşmayı kişi değil gösterge üzerinden yürüt."
+              ],
+              "ilke": "Veriyle konuşulan yerde tartışma biter."
+            },
+            {
+              "slug": "vardiya-plani-adaletsiz-bulunuyor",
+              "baslik": "Vardiya planı adaletsiz bulunuyor",
+              "belirti": "Aynı kişiler sürekli zor vardiyaya denk geliyor, huzursuzluk artıyor.",
+              "kok_neden": "Rotasyon kuralı yok; plan elle ve kişiye göre yapılıyor.",
+              "cozum": [
+                "Rotasyon kuralını yazılı olarak belirle.",
+                "Planı bu kurala göre hazırla.",
+                "Dağılımı aylık kişi bazında raporla."
+              ],
+              "ilke": "Kuralı olmayan plan, adaletsiz görünmeye mahkûmdur.",
+              "ilgili": "nobet-vardiya-cizelgesi"
+            },
+            {
+              "slug": "sahadan-gelen-oneriler-yukari-ulasmiyor",
+              "baslik": "Sahadan gelen öneriler yukarı ulaşmıyor",
+              "belirti": "İyi fikirler sözde kalıyor, kimse takibini yapmıyor.",
+              "kok_neden": "Öneri toplama ve geri bildirim mekanizması kurulmamış.",
+              "cozum": [
+                "Basit bir öneri formu ve kayıt listesi kur.",
+                "Her öneriye 15 gün içinde yanıt ver.",
+                "Uygulananları görünür şekilde duyur."
+              ],
+              "ilke": "Cevapsız kalan öneri bir daha gelmez."
+            }
+          ]
+        },
+        {
+          "slug": "calisma-duzeni-ve-disiplin",
+          "ad": "Çalışma Düzeni ve Disiplin",
+          "kartlar": [
+            {
+              "slug": "molalar-hatti-tamamen-durduruyor",
+              "baslik": "Molalar hattı tamamen durduruyor",
+              "belirti": "Mola saatinde tüm hat aynı anda boşalıyor, üretim sıfıra iniyor.",
+              "kok_neden": "Mola planı vardiya içinde dönüşümlü olarak kurgulanmamış.",
+              "cozum": [
+                "Kritik hatlarda dönüşümlü mola planı yap.",
+                "Sürekli çalışması gereken istasyona yedek operatör ata.",
+                "Mola başlangıç ve bitişini görünür şekilde duyur."
+              ],
+              "ilke": "Aynı anda boşalan hat, planlanmamış bir duruştur."
+            },
+            {
+              "slug": "vardiyanin-ilk-yarim-saati-kayip",
+              "baslik": "Vardiyanın ilk yarım saati kayıp",
+              "belirti": "Vardiya başlıyor ama üretim ancak 30–40 dakika sonra fiilen başlıyor.",
+              "kok_neden": "Hazırlık, devir ve malzeme temini vardiya süresinin içinde yapılıyor.",
+              "cozum": [
+                "Malzeme ve aparatı bir önceki vardiyada hazırla.",
+                "Vardiya başında 5 dakikalık standart toplantı kur.",
+                "İlk üretim saatini ölç ve hedefe bağla."
+              ],
+              "ilke": "Vardiya hazırlıkla değil, üretimle başlamalıdır."
+            },
+            {
+              "slug": "mola-sureleri-surekli-asiliyor",
+              "baslik": "Mola süreleri sürekli aşılıyor",
+              "belirti": "15 dakikalık mola pratikte 25 dakikaya çıkıyor.",
+              "kok_neden": "Mola başlangıç ve bitişi ölçülmüyor; kural hatırlatılmıyor.",
+              "cozum": [
+                "Mola başlangıç ve bitişini sesli veya görsel sinyale bağla.",
+                "Kayıp süreyi haftalık ölç ve ekiple paylaş.",
+                "Kuralı cezayla değil ekip hedefiyle destekle."
+              ],
+              "ilke": "Ölçülmeyen dakikalar aylık saatlere dönüşür."
+            },
+            {
+              "slug": "devamsizlik-son-anda-ogreniliyor",
+              "baslik": "Devamsızlık son anda öğreniliyor",
+              "belirti": "Vardiya başlarken kimin gelmediği fark ediliyor, plan çöküyor.",
+              "kok_neden": "Bildirim kuralı ve yedekleme planı tanımlanmamış.",
+              "cozum": [
+                "Devamsızlık bildirimi için net saat kuralı koy.",
+                "Kritik istasyona yedek operatör listesi hazırla.",
+                "Devamsızlık oranını bölüm bazında izle."
+              ],
+              "ilke": "Geç duyulan devamsızlık, çökmüş bir plandır.",
+              "ilgili": "vizite-personel-izin-takibi"
+            },
+            {
+              "slug": "personel-devamsizligi-plani-cokertiyor",
+              "baslik": "Personel devamsızlığı planı çökertiyor",
+              "belirti": "Tek bir kişi gelmediğinde o iş komple duruyor.",
+              "kok_neden": "Kritik işlerde çapraz eğitim ve yedekleme yapılmamış.",
+              "cozum": [
+                "Kritik işlerde çapraz eğitim uygula.",
+                "Yetkinlik matrisi tut, kim neyi yapabiliyor gör.",
+                "Her kritik iş için en az 2 kişi yetiştir."
+              ],
+              "ilke": "Tek kişiye bağlı iş, planlanmış bir duruştur."
+            },
+            {
+              "slug": "sahada-telefon-kullanimi-hataya-yol-aciyor",
+              "baslik": "Sahada telefon kullanımı hataya yol açıyor",
+              "belirti": "Operatörler çalışırken cep telefonuna bakıyor; hata ve iş kazası riski artıyor.",
+              "kok_neden": "Sahada telefon kullanımı için net bir kural yok; uygulama kişiden kişiye değişiyor.",
+              "cozum": [
+                "Bölge bazında telefon kullanım kuralı yaz ve panoya as.",
+                "Kuralı istisnasız herkese eşit uygula.",
+                "Acil durumlar için telefon dışında bir iletişim kanalı tanımla."
+              ],
+              "ilke": "Dalgınlıkla çalışan el, er ya da geç hata yapar."
+            }
+          ]
+        },
+        {
+          "slug": "is-guvenligi-ve-calisma-ortami",
+          "ad": "İş Güvenliği ve Çalışma Ortamı",
+          "kartlar": [
+            {
+              "slug": "ramak-kala-olaylar-kayit-altina-alinmiyor",
+              "baslik": "Ramak kala olaylar kayıt altına alınmıyor",
+              "belirti": "Kaza gerçekleşene kadar hiçbir uyarı sinyali görünmüyor.",
+              "kok_neden": "Ramak kala bildirimi teşvik edilmiyor; ceza korkusu bildirimi engelliyor.",
+              "cozum": [
+                "Basit ve isimsiz ramak kala formu kur.",
+                "Bildirimi cezalandırma, tersine teşvik et.",
+                "Aylık bildirimleri analiz edip önlem al."
+              ],
+              "ilke": "Ramak kala, ucuz atlatılmış bir kazadır."
+            },
+            {
+              "slug": "sahada-duzen-ve-temizlik-saglanamiyor",
+              "baslik": "Sahada düzen ve temizlik sağlanamıyor",
+              "belirti": "Alet aranıyor, geçişler tıkalı, ortam sürekli dağınık.",
+              "kok_neden": "5S uygulanmıyor; düzenin sahibi ve denetimi tanımlı değil.",
+              "cozum": [
+                "Her alan için 5S sorumlusu belirle.",
+                "Alet ve ekipmana sabit yer tanımla.",
+                "Haftalık 5S denetim puanı ver ve yayınla."
+              ],
+              "ilke": "Dağınık saha, gecikmiş bir kazadır."
+            },
+            {
+              "slug": "koruyucu-donanim-kullanimi-takip-edilmiyor",
+              "baslik": "Koruyucu donanım kullanımı takip edilmiyor",
+              "belirti": "Kişisel koruyucu donanım (KKD) veriliyor ama sahada kullanılıp kullanılmadığı bilinmiyor.",
+              "kok_neden": "KKD zimmeti ve sahadaki kullanım kayıt altına alınmıyor.",
+              "cozum": [
+                "KKD zimmet kaydını kişi bazında tut.",
+                "Haftalık saha denetimi yap ve puanla.",
+                "Kullanım oranını görünür panoda yayınla."
+              ],
+              "ilke": "Verilmiş donanım, takılmadıkça korumaz."
+            },
+            {
+              "slug": "risk-degerlendirmesi-kagitta-kaliyor",
+              "baslik": "Risk değerlendirmesi kâğıtta kalıyor",
+              "belirti": "Doküman hazır ama sahada fiilen hiçbir şey değişmiyor.",
+              "kok_neden": "Riskler aksiyona, sorumluya ve termine bağlanmamış.",
+              "cozum": [
+                "Her riske aksiyon, sorumlu ve termin ata.",
+                "Aksiyonları aylık takip toplantısında izle.",
+                "Kapanan riskleri belirli aralıkla yeniden değerlendir."
+              ],
+              "ilke": "Aksiyona dönüşmeyen risk analizi sadece evraktır."
+            },
+            {
+              "slug": "egitimler-yapiliyor-ama-etkisi-olculmuyor",
+              "baslik": "Eğitimler yapılıyor ama etkisi ölçülmüyor",
+              "belirti": "Eğitim listesi imzalanıyor, sahadaki davranış değişmiyor.",
+              "kok_neden": "Eğitim sonrası ölçüm ve saha uygulaması takip edilmiyor.",
+              "cozum": [
+                "Eğitim sonrası kısa değerlendirme uygula.",
+                "30 gün sonra saha gözlemiyle doğrula.",
+                "Eğitim ihtiyacını olay verisinden belirle."
+              ],
+              "ilke": "İmzalanan eğitim değil, değişen davranış sayılır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "yonetim-ve-iletisim",
+      "ad": "Yönetim ve İletişim",
+      "kategoriler": [
+        {
+          "slug": "yonetim-ve-karar-surecleri",
+          "ad": "Yönetim ve Karar Süreçleri",
+          "kartlar": [
+            {
+              "slug": "toplantilar-uzun-ama-karar-cikmiyor",
+              "baslik": "Toplantılar uzun ama karar çıkmıyor",
+              "belirti": "Saatler harcanıyor, tek çıktı yeni bir toplantı oluyor.",
+              "kok_neden": "Gündem, süre ve karar kaydı disiplini bulunmuyor.",
+              "cozum": [
+                "Her toplantıya yazılı gündem ve süre koy.",
+                "Kararı, sorumluyu ve termini aynı sayfaya yaz.",
+                "Sonraki toplantıya kapanış kontrolüyle başla."
+              ],
+              "ilke": "Kararla bitmeyen toplantı, harcanmış zamandır."
+            },
+            {
+              "slug": "sorumluluklar-net-degil",
+              "baslik": "Sorumluluklar net değil",
+              "belirti": "Bir iş aksadığında kimin sorumlu olduğu tartışılıyor.",
+              "kok_neden": "Görev tanımları ve karar yetkileri yazılı hâle getirilmemiş.",
+              "cozum": [
+                "Her rol için görev tanımı yaz.",
+                "Kritik süreçlerde RACI matrisi kur.",
+                "Karar yetki sınırlarını tutar bazında belirle."
+              ],
+              "ilke": "Herkesin işi, hiç kimsenin işidir."
+            },
+            {
+              "slug": "yonetim-sahadan-gec-haberdar-oluyor",
+              "baslik": "Yönetim sahadan geç haberdar oluyor",
+              "belirti": "Sorun ancak büyüdükten sonra yönetimin masasına ulaşıyor.",
+              "kok_neden": "Düzenli ve kısa bir raporlama ritmi kurulmamış.",
+              "cozum": [
+                "Günlük 10 dakikalık saha durum toplantısı kur.",
+                "Kritik göstergeleri tek sayfada topla.",
+                "Eşiği aşan sapmada anında bildirim kuralı koy."
+              ],
+              "ilke": "Geç duyulan sorun, büyümüş sorundur."
+            },
+            {
+              "slug": "buyudukce-sistem-bozuluyor",
+              "baslik": "Büyüdükçe sistem bozuluyor",
+              "belirti": "Küçükken işleyen düzen, hacim artınca dağılıyor.",
+              "kok_neden": "Süreçler kişilere bağlı yürüyor; yazılı standart yok.",
+              "cozum": [
+                "Kritik süreçleri adım adım yazıya dök.",
+                "Her sürece bir sahip ve gösterge ata.",
+                "Yeni personeli süreç dokümanıyla eğit."
+              ],
+              "ilke": "Kişiye dayanan düzen, büyümeyi kaldıramaz."
+            },
+            {
+              "slug": "neyi-olcmem-gerektigini-bilmiyorum",
+              "baslik": "Neyi ölçmem gerektiğini bilmiyorum",
+              "belirti": "Onlarca sayı üretiliyor ama hangisinin önemli olduğu belirsiz.",
+              "kok_neden": "Şirket hedefleriyle bağlantılı bir gösterge seti tanımlanmamış.",
+              "cozum": [
+                "Yıllık hedeften geriye 5–7 ana gösterge türet.",
+                "Her göstergeye sahip ve hedef değer ata.",
+                "Aylık tek sayfalık panoda izle."
+              ],
+              "ilke": "Her şeyi ölçen, hiçbir şeyi yönetemez."
+            }
+          ]
+        },
+        {
+          "slug": "toplanti-ve-ic-iletisim",
+          "ad": "Toplantı ve İç İletişim",
+          "kartlar": [
+            {
+              "slug": "toplantiya-hazirliksiz-geliniyor",
+              "baslik": "Toplantıya hazırlıksız geliniyor",
+              "belirti": "İlk yarım saat herkesin konuyu anlamasıyla geçip gidiyor.",
+              "kok_neden": "Gündem ve ön okuma malzemesi önceden paylaşılmıyor.",
+              "cozum": [
+                "Gündemi en az 24 saat önce gönder.",
+                "Karar gerektiren konuyu veriyle birlikte ekle.",
+                "Hazırlıksız gelinen konuyu bir sonraki toplantıya ertele."
+              ],
+              "ilke": "Gündemsiz toplantı, planlanmış bir zaman kaybıdır."
+            },
+            {
+              "slug": "toplantiya-gereksiz-kisiler-katiliyor",
+              "baslik": "Toplantıya gereksiz kişiler katılıyor",
+              "belirti": "On iki kişi oturuyor, üç kişi konuşuyor, dokuz kişinin vakti gidiyor.",
+              "kok_neden": "Katılımcı listesi role göre değil alışkanlığa göre oluşuyor.",
+              "cozum": [
+                "Her katılımcının rolünü yaz: karar veren, bilgi veren, bilgilenen.",
+                "Sadece bilgilenecek kişiye toplantı yerine özet gönder.",
+                "Katılımcı sayısını yedi ile sınırla."
+              ],
+              "ilke": "Her fazladan katılımcı, toplantının maliyetidir."
+            },
+            {
+              "slug": "alinan-kararlar-unutuluyor",
+              "baslik": "Alınan kararlar unutuluyor",
+              "belirti": "Bir sonraki toplantıda aynı konu en baştan tartışılıyor.",
+              "kok_neden": "Karar kaydı tutulmuyor veya tutuluyorsa kimse takip etmiyor.",
+              "cozum": [
+                "Kararı toplantı sırasında ekranda yaz ve onaylat.",
+                "Sorumlu ve termin olmadan kararı kapatma.",
+                "Sonraki toplantıyı kapanış kontrolüyle başlat."
+              ],
+              "ilke": "Yazılmayan karar, alınmamış karardır."
+            },
+            {
+              "slug": "bolumler-arasi-bilgi-gec-akiyor",
+              "baslik": "Bölümler arası bilgi geç akıyor",
+              "belirti": "Bir bölümün aldığı kararı diğeri günler sonra öğreniyor.",
+              "kok_neden": "Bölümler arası düzenli bir bilgi paylaşım ritmi bulunmuyor.",
+              "cozum": [
+                "Günlük 10 dakikalık ayaküstü koordinasyon toplantısı kur.",
+                "Kritik bilgiyi tek ortak panoda tut.",
+                "Değişikliği etkilenen bölüme aynı gün bildir."
+              ],
+              "ilke": "Geç ulaşan bilgi, çoktan eskimiş bilgidir."
+            },
+            {
+              "slug": "vardiyalar-arasinda-bilgi-kayboluyor",
+              "baslik": "Vardiyalar arasında bilgi kayboluyor",
+              "belirti": "Yarım kalan iş sonraki vardiyada baştan başlıyor ya da tamamen unutuluyor.",
+              "kok_neden": "Devir sözlü yapılıyor, yazılı bir kayıt tutulmuyor.",
+              "cozum": [
+                "Vardiya sonu devir formunu zorunlu tut.",
+                "Yarım kalan işi ve nedenini net yaz.",
+                "Devri alan kişiden formu okuyup imzalamasını iste."
+              ],
+              "ilke": "Sözle devredilen bilgi, kapıda kaybolur."
+            },
+            {
+              "slug": "duyurular-sahaya-hic-ulasmiyor",
+              "baslik": "Duyurular sahaya hiç ulaşmıyor",
+              "belirti": "E-posta gönderiliyor ama saha personelinin haberi olmuyor.",
+              "kok_neden": "İletişim kanalı hedef kitleye göre seçilmiyor.",
+              "cozum": [
+                "Saha için fiziksel pano ve vardiya başı duyuru kullan.",
+                "Kritik duyuruyu iki farklı kanaldan ver.",
+                "Ulaşıp ulaşmadığını sahada örnekleme ile kontrol et."
+              ],
+              "ilke": "Okunmayan duyuru, yapılmamış duyurudur."
+            }
+          ]
+        },
+        {
+          "slug": "zaman-ve-is-akisi-yonetimi",
+          "ad": "Zaman ve İş Akışı Yönetimi",
+          "kartlar": [
+            {
+              "slug": "gun-surekli-acil-islerle-geciyor",
+              "baslik": "Gün sürekli acil işlerle geçiyor",
+              "belirti": "Planlanan iş yapılamıyor, akşam hiçbir şey bitmemiş oluyor.",
+              "kok_neden": "İşler önem ve aciliyet ayrımına göre sınıflandırılmıyor.",
+              "cozum": [
+                "İşleri önem ve aciliyete göre dört kutuya ayır.",
+                "Günün ilk saatini en önemli işe ayır.",
+                "Acil ama önemsiz işi devret veya sınırla."
+              ],
+              "ilke": "Acil olan, çoğu zaman önemli olan değildir."
+            },
+            {
+              "slug": "ayni-bilgi-gun-icinde-defalarca-soruluyor",
+              "baslik": "Aynı bilgi gün içinde defalarca soruluyor",
+              "belirti": "Aynı soruya günde birçok kez cevap vermek zorunda kalınıyor.",
+              "kok_neden": "Ortak erişilebilir bilgi kaynağı yok; bilgi kişinin aklında duruyor.",
+              "cozum": [
+                "Sık sorulan bilgileri tek dokümanda topla.",
+                "Dokümanı herkesin erişebileceği yere koy.",
+                "Yeni soru geldikçe dokümanı güncelle."
+              ],
+              "ilke": "Yazılmayan cevap sonsuz kez sorulur."
+            },
+            {
+              "slug": "onay-bekleyen-isler-tikaniyor",
+              "baslik": "Onay bekleyen işler tıkanıyor",
+              "belirti": "İş akışı tek kişinin onayını beklerken günlerce duruyor.",
+              "kok_neden": "Onay yetki sınırları ve vekâlet düzeni tanımlanmamış.",
+              "cozum": [
+                "Tutar ve konu bazında onay yetkisini dağıt.",
+                "Her onaycı için bir vekil tanımla.",
+                "Onay süresine hedef koy ve düzenli ölç."
+              ],
+              "ilke": "Tek onaycıya bağlı akış, tek kişilik darboğazdır."
+            },
+            {
+              "slug": "isler-kisiler-arasinda-dusuyor",
+              "baslik": "İşler kişiler arasında düşüyor",
+              "belirti": "Kimsenin sahiplenmediği işler tamamlanmadan ortada kalıyor.",
+              "kok_neden": "Süreç devir noktalarında sorumluluk net tanımlanmamış.",
+              "cozum": [
+                "Sürecin her adımına tek bir sorumlu ata.",
+                "Devir noktalarını yazılı hâle getir.",
+                "Sahipsiz işleri haftalık olarak gözden geçir."
+              ],
+              "ilke": "Sahibi olmayan iş hiç yapılmaz."
+            },
+            {
+              "slug": "raporlama-uretimden-cok-zaman-caliyor",
+              "baslik": "Raporlama üretimden çok zaman çalıyor",
+              "belirti": "Ekip günün önemli kısmını form doldurarak geçiriyor.",
+              "kok_neden": "Aynı veri birden çok forma giriliyor; kullanılmayan alanlar var.",
+              "cozum": [
+                "Tüm formları listele, tekrar eden alanları birleştir.",
+                "Hiç kullanılmayan alanları formdan kaldır.",
+                "Veriyi tek noktadan gir, raporları ondan türet."
+              ],
+              "ilke": "Aynı veriyi iki kez yazmak, iki kez kaybetmektir."
+            }
+          ]
+        },
+        {
+          "slug": "kriz-ve-beklenmedik-durum",
+          "ad": "Kriz ve Beklenmedik Durum",
+          "kartlar": [
+            {
+              "slug": "ani-arizada-ne-yapilacagi-belirsiz",
+              "baslik": "Ani arızada ne yapılacağı belirsiz",
+              "belirti": "Arıza olunca herkes birbirine soruyor, saatler böyle kaybediliyor.",
+              "kok_neden": "Acil müdahale planı ve iletişim sırası tanımlanmamış.",
+              "cozum": [
+                "Kritik makineler için acil müdahale kartı hazırla.",
+                "Kimin sırayla aranacağını kartın üstüne yaz.",
+                "Kartı makinenin görünür yerine as."
+              ],
+              "ilke": "Kriz anı, plan yapma anı değildir."
+            },
+            {
+              "slug": "ana-tedarikci-aniden-teslim-edemedi",
+              "baslik": "Ana tedarikçi aniden teslim edemedi",
+              "belirti": "Tek tedarikçiye bağımlılık üretimi tamamen durduruyor.",
+              "kok_neden": "Kritik kalemlerde alternatif tedarikçi hiç geliştirilmemiş.",
+              "cozum": [
+                "Kritik malzemeleri tek kaynak riskine göre listele.",
+                "Her biri için alternatif tedarikçiyi önceden onayla.",
+                "Yılda bir alternatiften deneme siparişi ver."
+              ],
+              "ilke": "Tek kaynak, tek noktadan kırılmaktır."
+            },
+            {
+              "slug": "altyapi-kesintisi-uretimi-durduruyor",
+              "baslik": "Altyapı kesintisi üretimi durduruyor",
+              "belirti": "Kesinti sonrası devreye alma saatler sürüyor, ürün zayi oluyor.",
+              "kok_neden": "Kesinti senaryosu ve kritik ekipman önceliği belirlenmemiş.",
+              "cozum": [
+                "Kesintide korunacak kritik ekipmanı önceliklendir.",
+                "Devreye alma sırasını yazılı prosedüre bağla.",
+                "Yılda bir kesinti tatbikatı yap."
+              ],
+              "ilke": "Tatbikatı olmayan plan kâğıt üstünde kalır."
+            },
+            {
+              "slug": "anahtar-personel-ayrilinca-surec-duruyor",
+              "baslik": "Anahtar personel ayrılınca süreç duruyor",
+              "belirti": "Tek bir kişinin ayrılması koca bir bölümü felç ediyor.",
+              "kok_neden": "Kritik bilgi ve yetki tek kişide toplanmış; devir planı yok.",
+              "cozum": [
+                "Kritik rolleri ve tek kişiye bağımlılığı listele.",
+                "Her kritik role yedek kişi yetiştir.",
+                "Görev devir dosyasını sürekli güncel tut."
+              ],
+              "ilke": "Devri planlanmamış bilgi kapıdan çıkar gider."
+            },
+            {
+              "slug": "kriz-sonrasi-ayni-hataya-tekrar-dusuluyor",
+              "baslik": "Kriz sonrası aynı hataya tekrar düşülüyor",
+              "belirti": "Yaşanan kriz atlatılıyor ama hiçbir kalıcı önlem alınmıyor.",
+              "kok_neden": "Kriz sonrası değerlendirme yapılmıyor; ders kayda geçmiyor.",
+              "cozum": [
+                "Her kriz sonrası tek sayfalık değerlendirme yaz.",
+                "Kalıcı önlemi sorumlu ve terminle bağla.",
+                "Önlemin etkinliğini 6 ay sonra doğrula."
+              ],
+              "ilke": "Dersini almayan aynı krizi ikinci kez yaşar."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "iyilestirme-ve-dijitallesme",
+      "ad": "İyileştirme ve Dijitalleşme",
+      "kategoriler": [
+        {
+          "slug": "yalin-uretim-ve-iyilestirme",
+          "ad": "Yalın Üretim ve İyileştirme",
+          "kartlar": [
+            {
+              "slug": "surecte-nerede-israf-oldugunu-goremiyorum",
+              "baslik": "Süreçte nerede israf olduğunu göremiyorum",
+              "belirti": "Herkes yoğun çalışıyor ama toplam çıktı artmıyor.",
+              "kok_neden": "Süreç akışı haritalanmamış; katma değersiz adımlar görünmüyor.",
+              "cozum": [
+                "Değer akış haritasını (VSM) çiz.",
+                "Katma değerli ve değersiz süreleri ayır.",
+                "En büyük bekleme noktasından iyileştirmeye başla."
+              ],
+              "ilke": "Meşguliyet, verimliliğin kanıtı değildir."
+            },
+            {
+              "slug": "malzeme-ve-insan-fabrikada-cok-yol-yuruyor",
+              "baslik": "Malzeme ve insan fabrikada çok yol yürüyor",
+              "belirti": "Basit bir iş için sahada uzun mesafeler kat ediliyor.",
+              "kok_neden": "Yerleşim ürün akışına göre değil, geçmiş alışkanlığa göre şekillenmiş.",
+              "cozum": [
+                "Spagetti diyagramı ile hareketi görünür kıl.",
+                "Ardışık operasyonları fiziksel olarak yan yana getir.",
+                "Yerleşimi akışa göre yeniden kur."
+              ],
+              "ilke": "Her fazladan adım ürüne değil maliyete gider."
+            },
+            {
+              "slug": "yari-mamul-her-yerde-birikiyor",
+              "baslik": "Yarı mamul her yerde birikiyor",
+              "belirti": "Ara stok alanı doluyor, nakit yarı mamulde kilitleniyor.",
+              "kok_neden": "Üretim itme mantığıyla çalışıyor, istasyon arası stok limiti yok.",
+              "cozum": [
+                "İtme değil çekme (pull) mantığına yaklaş.",
+                "Sonraki istasyon çekmeden üretim yapma.",
+                "İstasyon arası stok için üst limit koy."
+              ],
+              "ilke": "Yarı mamul yığını, üretim değil bekleyen paradır."
+            },
+            {
+              "slug": "iyilestirme-fikirleri-uygulamaya-gecmiyor",
+              "baslik": "İyileştirme fikirleri uygulamaya geçmiyor",
+              "belirti": "Toplantıda konuşuluyor, ertesi hafta unutuluyor.",
+              "kok_neden": "Aksiyonun sorumlusu, termini ve takip mekanizması yok.",
+              "cozum": [
+                "Her fikri sorumlu ve terminle aksiyon listesine yaz.",
+                "Haftalık 15 dakikalık takip toplantısı yap.",
+                "Kapanmayan aksiyonu üst yönetime raporla."
+              ],
+              "ilke": "Sorumlusu olmayan fikir, fikir olarak kalır."
+            },
+            {
+              "slug": "hedefler-var-ama-sahada-bilinmiyor",
+              "baslik": "Hedefler var ama sahada bilinmiyor",
+              "belirti": "Operatör kendi hattının hedefini ve mevcut durumunu bilmiyor.",
+              "kok_neden": "Göstergeler yalnızca yönetim raporunda kalıyor, sahaya inmiyor.",
+              "cozum": [
+                "Hat başına görsel performans panosu kur.",
+                "Günlük hedef ve gerçekleşeni her gün yaz.",
+                "Vardiya başında 5 dakikalık değerlendirme yap."
+              ],
+              "ilke": "Hedefi bilmeyen ekip ona doğru koşamaz."
+            },
+            {
+              "slug": "iyilestirme-tek-bir-kisiye-bagli-kaliyor",
+              "baslik": "İyileştirme tek bir kişiye bağlı kalıyor",
+              "belirti": "O kişi izne çıkınca tüm iyileştirme çalışması duruyor.",
+              "kok_neden": "Yöntem kurumsallaşmamış; ekip sistemi bilmiyor.",
+              "cozum": [
+                "İyileştirme yöntemini yazılı standarda dönüştür.",
+                "Her bölümden bir sorumlu yetiştir.",
+                "Sonuçları düzenli olarak tüm ekiple paylaş."
+              ],
+              "ilke": "Kişiye bağlı iyileştirme, o kişiyle birlikte gider."
+            }
+          ]
+        },
+        {
+          "slug": "kaizen-ve-surekli-iyilestirme",
+          "ad": "Kaizen ve Sürekli İyileştirme",
+          "kartlar": [
+            {
+              "slug": "kaizen-calismalari-basliyor-ama-bitmiyor",
+              "baslik": "Kaizen çalışmaları başlıyor ama bitmiyor",
+              "belirti": "Ekip kuruluyor, birkaç toplantıdan sonra kendiliğinden dağılıyor.",
+              "kok_neden": "Kapsam çok geniş tutulmuş; süre ve hedef tanımlanmamış.",
+              "cozum": [
+                "Her kaizeni tek soruna ve 4–6 haftaya sınırla.",
+                "Baştan ölçülebilir bir hedef koy.",
+                "Bitişte sonucu sayısal olarak sun."
+              ],
+              "ilke": "Sınırı olmayan iyileştirme hiç tamamlanmaz."
+            },
+            {
+              "slug": "iyilestirme-fikri-sadece-yoneticilerden-geliyor",
+              "baslik": "İyileştirme fikri sadece yöneticilerden geliyor",
+              "belirti": "Sahadaki operatör ya fikir üretmiyor ya da söylemiyor.",
+              "kok_neden": "Katılım teşvik edilmiyor; fikir söyleyene ek iş yükü olarak dönüyor.",
+              "cozum": [
+                "Fikri uygulayacak kaynağı önceden ayır.",
+                "Küçük fikirleri hızla uygula ve görünür kıl.",
+                "Katkı sağlayanı ekip önünde takdir et."
+              ],
+              "ilke": "Sahayı dinlemeyen iyileştirme yarım kalır."
+            },
+            {
+              "slug": "elde-edilen-kazanc-kalici-olmuyor",
+              "baslik": "Elde edilen kazanç kalıcı olmuyor",
+              "belirti": "İyileştirme sonrası birkaç ay içinde eski duruma geri dönülüyor.",
+              "kok_neden": "Yeni yöntem standartlaştırılmamış ve eğitimle desteklenmemiş.",
+              "cozum": [
+                "Yeni yöntemi yazılı standart hâline getir.",
+                "Tüm vardiyalara aynı eğitimi ver.",
+                "3. ayda ölçümle geri dönüş olup olmadığını kontrol et."
+              ],
+              "ilke": "Standartlaşmayan kazanç geri alınır."
+            },
+            {
+              "slug": "kucuk-kayiplar-gormezden-geliniyor",
+              "baslik": "Küçük kayıplar görmezden geliniyor",
+              "belirti": "\"Bir dakika ne olacak\" denilerek gün içinde toplamda saatler kaybediliyor.",
+              "kok_neden": "Küçük duruşlar ölçülmüyor; toplam etkisi hiç hesaplanmıyor.",
+              "cozum": [
+                "Küçük duruşları bir hafta boyunca sayarak kaydet.",
+                "Yıllık toplam kaybı saat ve TL olarak hesapla.",
+                "En sık tekrar edeni ilk hedef olarak seç."
+              ],
+              "ilke": "Günde bir dakika, yılda saatler eder."
+            },
+            {
+              "slug": "iyilestirme-sonuclari-paylasilmiyor",
+              "baslik": "İyileştirme sonuçları paylaşılmıyor",
+              "belirti": "Bir bölümdeki iyileştirmeyi diğer bölümler hiç duymuyor.",
+              "kok_neden": "Ortak bir paylaşım ve yaygınlaştırma mekanizması kurulmamış.",
+              "cozum": [
+                "Her kaizeni tek sayfalık A3 formatında özetle.",
+                "Aylık paylaşım panosu veya toplantısı kur.",
+                "Uygulanabilir olanı diğer hatlara kopyala."
+              ],
+              "ilke": "Paylaşılmayan iyileştirme tek hatta hapsolur."
+            }
+          ]
+        },
+        {
+          "slug": "5s-ve-isyeri-organizasyonu",
+          "ad": "5S ve İşyeri Organizasyonu",
+          "kartlar": [
+            {
+              "slug": "5s-basladi-ama-ilk-ayda-sondu",
+              "baslik": "5S başladı ama ilk ayda söndü",
+              "belirti": "Büyük temizlik yapıldı, iki hafta sonra her şey eski hâline döndü.",
+              "kok_neden": "5S'in son adımı olan disiplin (Shitsuke) hiç kurulmamış.",
+              "cozum": [
+                "Haftalık denetim takvimini kalıcı hâle getir.",
+                "Her alana isimli sorumlu ata.",
+                "Denetim puanını görünür panoda yayınla."
+              ],
+              "ilke": "Denetimi olmayan düzen kısa sürede bozulur."
+            },
+            {
+              "slug": "neyin-gereksiz-oldugu-bir-turlu-kararlastirilamiyor",
+              "baslik": "Neyin gereksiz olduğu bir türlü kararlaştırılamıyor",
+              "belirti": "Ayıklama adımında hiçbir şey atılamıyor, her şeye lazım olur deniyor.",
+              "kok_neden": "Ayıklama için objektif ve yazılı bir kriter belirlenmemiş.",
+              "cozum": [
+                "\"Son 6 ayda kullanıldı mı?\" sorusunu kriter yap.",
+                "Kararsızları kırmızı etiketle karantina alanına al.",
+                "90 gün sonra kullanılmayanı tasfiye et."
+              ],
+              "ilke": "\"Belki lazım olur\" en pahalı cümledir."
+            },
+            {
+              "slug": "alet-ve-ekipmanin-sabit-yeri-yok",
+              "baslik": "Alet ve ekipmanın sabit yeri yok",
+              "belirti": "Her alet her seferinde başka yerde; arama süresi uzun.",
+              "kok_neden": "Düzenleme adımında görsel yer tanımı yapılmamış.",
+              "cozum": [
+                "Gölge pano ile her aletin yerini işaretle.",
+                "Kullanım sıklığına göre en yakın noktaya yerleştir.",
+                "Eksik aleti tek bakışta görünür kıl."
+              ],
+              "ilke": "Yeri belli olmayan alet her gün yeniden aranır."
+            },
+            {
+              "slug": "temizlik-ekstra-is-olarak-goruluyor",
+              "baslik": "Temizlik ekstra iş olarak görülüyor",
+              "belirti": "Temizlik mesai sonuna bırakılıyor ve çoğu zaman hiç yapılmıyor.",
+              "kok_neden": "Temizlik günlük iş standardının bir parçası hâline getirilmemiş.",
+              "cozum": [
+                "Günlük 5–10 dakikalık temizliği vardiyanın içine göm.",
+                "Temizliği makine kontrolüyle birleştir.",
+                "Kontrol listesini istasyonun görünür yerine as."
+              ],
+              "ilke": "İşin parçası olmayan temizlik hiç yapılmaz."
+            },
+            {
+              "slug": "5s-sadece-gorunen-alanlarda-yapiliyor",
+              "baslik": "5S sadece görünen alanlarda yapılıyor",
+              "belirti": "Müşterinin gezdiği alanlar tertemiz, arka bölümler dağınık kalıyor.",
+              "kok_neden": "Denetim kapsamı tüm alanları içermiyor ve puanlama objektif değil.",
+              "cozum": [
+                "Tüm alanları haritalandırıp kapsama al.",
+                "Standart puanlama formu kullan.",
+                "Düşük puanlı alana aksiyon ve termin ata."
+              ],
+              "ilke": "Görünmeyen alan, gerçek düzenin aynasıdır."
+            }
+          ]
+        },
+        {
+          "slug": "veri-ve-dijitallesme",
+          "ad": "Veri ve Dijitalleşme",
+          "kartlar": [
+            {
+              "slug": "geriye-donuk-ne-urettigimi-bilmiyorum",
+              "baslik": "Geriye dönük ne ürettiğimi bilmiyorum",
+              "belirti": "Veri olmadığı için hiçbir iyileştirme kararı sayıya dayanmıyor.",
+              "kok_neden": "Üretim ve duruş kaydı düzenli olarak tutulmuyor.",
+              "cozum": [
+                "Basit üretim günlüğü tut: tarih, ürün, miktar, süre.",
+                "Duruşları ve nedenlerini de kaydet.",
+                "Ayda bir bu veriyi analiz et, bir aksiyon çıkar."
+              ],
+              "ilke": "Kaydı olmayan geçmişten ders çıkmaz."
+            },
+            {
+              "slug": "veri-var-ama-karar-icin-kullanilamiyor",
+              "baslik": "Veri var ama karar için kullanılamıyor",
+              "belirti": "Raporlar düzenli üretiliyor ama kimse bakmıyor.",
+              "kok_neden": "Rapor sorulara göre değil, eldeki veriye göre tasarlanmış.",
+              "cozum": [
+                "Önce hangi kararı vereceğini yaz.",
+                "O karara hizmet eden 3–5 göstergeyi seç.",
+                "Raporu yalnızca bu göstergeler üstüne kur."
+              ],
+              "ilke": "Karara hizmet etmeyen veri, sadece gürültüdür."
+            },
+            {
+              "slug": "her-rapor-elle-hazirlaniyor",
+              "baslik": "Her rapor elle hazırlanıyor",
+              "belirti": "Rapor hazırlamak günler sürüyor ve hata riski yüksek.",
+              "kok_neden": "Veri farklı dosyalara dağılmış, otomasyon kurulmamış.",
+              "cozum": [
+                "Veriyi tek standart tabloda topla.",
+                "Raporu formül veya pivotla otomatikleştir.",
+                "Elle müdahaleyi en aza indir."
+              ],
+              "ilke": "Elle yapılan rapor hem geç kalır hem hataya açıktır.",
+              "ilgili": "satis-analizi"
+            },
+            {
+              "slug": "excel-dosyalari-kontrolden-cikti",
+              "baslik": "Excel dosyaları kontrolden çıktı",
+              "belirti": "Onlarca dosya var, hangisinin güncel olduğu bilinmiyor.",
+              "kok_neden": "Dosya isimlendirme ve sürüm yönetimi kuralı yok.",
+              "cozum": [
+                "Tek klasör yapısı ve isimlendirme standardı belirle.",
+                "Her dosyaya sahip ve güncelleme sıklığı ata.",
+                "Eski sürümleri arşiv klasörüne taşı."
+              ],
+              "ilke": "Sürümü belirsiz dosya, güvenilmez bilgidir."
+            },
+            {
+              "slug": "erp-kurduk-ama-kimse-kullanmiyor",
+              "baslik": "ERP kurduk ama kimse kullanmıyor",
+              "belirti": "Sistem satın alındı, iş yine Excel üzerinden yürüyor.",
+              "kok_neden": "Süreçler tanımlanmadan yazılım devreye alınmış.",
+              "cozum": [
+                "Önce mevcut süreci yaz, sonra sisteme uyarla.",
+                "Anahtar kullanıcıları eğit ve yetkilendir.",
+                "Paralel Excel kullanımını kademeli kapat."
+              ],
+              "ilke": "Süreç düzelmeden yazılım hiçbir şeyi düzeltmez."
+            },
+            {
+              "slug": "nereden-baslayacagimi-bilmiyorum",
+              "baslik": "Nereden başlayacağımı bilmiyorum",
+              "belirti": "Sorun çok, kaynak az; her şey aynı anda acil görünüyor.",
+              "kok_neden": "Sorunlar etki ve efor açısından önceliklendirilmiyor.",
+              "cozum": [
+                "Tüm sorunları tek listeye yaz.",
+                "Etki ve uygulama kolaylığına göre puanla.",
+                "Yüksek etkili ve kolay uygulananlardan başla."
+              ],
+              "ilke": "Her şeye başlamak, hiçbir şeye başlamamaktır."
+            }
+          ]
+        },
+        {
+          "slug": "otomasyon-ve-endustri-4-0",
+          "ad": "Otomasyon ve Endüstri 4.0",
+          "kartlar": [
+            {
+              "slug": "makineden-veri-alamiyorum",
+              "baslik": "Makineden veri alamıyorum",
+              "belirti": "Üretim verisi hâlâ elle kâğıda yazılıyor.",
+              "kok_neden": "Makinelerin veri çıkış imkânı hiç değerlendirilmemiş.",
+              "cozum": [
+                "Hangi makinede hangi veri çıkışı var envanterini çıkar.",
+                "Kritik 2–3 makineden başla, hepsini bekleme.",
+                "Veriyi önce basit bir tabloya akıt."
+              ],
+              "ilke": "Kâğıda yazılan veri, geç kalmış veridir."
+            },
+            {
+              "slug": "otomasyona-yatirim-yaptim-ama-verim-artmadi",
+              "baslik": "Otomasyona yatırım yaptım ama verim artmadı",
+              "belirti": "Yeni ekipman alındı, toplam çıktı beklendiği kadar artmadı.",
+              "kok_neden": "Otomasyon darboğaz olmayan bir noktaya uygulanmış.",
+              "cozum": [
+                "Önce darboğaz istasyonu tespit et.",
+                "Otomasyonu darboğaz noktasına uygula.",
+                "Kazancı öncesi-sonrası ölçümüyle doğrula."
+              ],
+              "ilke": "Darboğaz dışına yapılan yatırım çıktıyı artırmaz."
+            },
+            {
+              "slug": "barkod-sistemi-kuruldu-ama-kullanilmiyor",
+              "baslik": "Barkod sistemi kuruldu ama kullanılmıyor",
+              "belirti": "Etiketler basılıyor ama okutulmuyor, kayıt yine elle giriliyor.",
+              "kok_neden": "Okutma iş akışının zorunlu bir adımı hâline getirilmemiş.",
+              "cozum": [
+                "Okutmayı işin doğal adımı yap, ek yük olmaktan çıkar.",
+                "Okutulmadan sonraki adıma geçişi engelle.",
+                "Okutma oranını günlük olarak ölç."
+              ],
+              "ilke": "İş akışına girmeyen sistem kullanılmaz."
+            },
+            {
+              "slug": "dijitallesme-projesi-hep-yarim-kaliyor",
+              "baslik": "Dijitalleşme projesi hep yarım kalıyor",
+              "belirti": "Proje hevesle başlıyor, pilot aşamada takılıp unutuluyor.",
+              "kok_neden": "Kapsam çok geniş tutulmuş; hızlı ve görünür kazanım hedeflenmemiş.",
+              "cozum": [
+                "Kapsamı tek süreç ve tek hatla sınırla.",
+                "8 hafta içinde ölçülebilir kazanım hedefle.",
+                "Yaygınlaştırmadan önce sonucu belgele."
+              ],
+              "ilke": "Büyük başlayan proje küçük biter."
+            },
+            {
+              "slug": "veri-toplaniyor-ama-guvenilir-degil",
+              "baslik": "Veri toplanıyor ama güvenilir değil",
+              "belirti": "Sistemdeki rakam sahadaki gerçeği yansıtmıyor.",
+              "kok_neden": "Veri girişi zamanında ve tek noktadan yapılmıyor.",
+              "cozum": [
+                "Veriyi kaynağında ve anında kaydet.",
+                "Aynı veriyi iki yere girmeyi ortadan kaldır.",
+                "Aylık veri doğruluk kontrolü uygula."
+              ],
+              "ilke": "Yanlış veriyle alınan karar, karar sayılmaz."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

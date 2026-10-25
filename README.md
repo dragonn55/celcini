@@ -4,7 +4,8 @@ Celcini'nin ana gövdesi **Fabricakit**: tarayıcıda oynanan fabrika simülatö
 Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klinigi/`, `/datakit/`); Datakit'in açılış sayfası
 rehberli dersleri de taşır (`/datakit/<ders>/`: Excel sayfası sitede, notlarıyla); Fabrika Motoru'nun dersleri `/motor/` altında
 (Fabrika rafından ve ürün sayfasından bağlanır);
-tarayıcı araçları `/uzay/` altında (ROTA 3D `/uzay/rota/`, Fabrika İkizi `/uzay/ikiz/`).
+tarayıcı araçları `/uzay/` altında (ROTA 3D `/uzay/rota/`, Fabrika İkizi `/uzay/ikiz/`). Üretim Arşivi (`/arsiv/`) fabrikada
+sık görülen sorunları belirti, kök neden ve çözüm adımlarıyla konu konu toplar.
 
 Celcini sitesinin kaynağı (yayın adresi `https://celcini.vercel.app`; alan adı alınınca `scripts/derle.py` → `SITE` değiştirilir): saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
@@ -14,6 +15,7 @@ Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 
 ```
 data/urunler.json        Tüm ürünler (tek kaynak)
+data/arsiv.json          Üretim Arşivi: bölüm → konu → kart (belirti, kök neden, 3 çözüm adımı, ilke)
 data/karne-ornegi.json   Ana sayfadaki karne örneği (scripts/karne-ornegi.mjs üretir; elle düzenlenmez)
 data/datakit/            Datakit rehberli dersleri: dersler.json (notlar, sorular, açılış metinleri), sayfalar/<id>.json (Excel dışa aktarımı)
 data/motor/              Motor (Fabrika Motoru) rehberli dersleri, aynı yapı
@@ -48,12 +50,12 @@ data/ses/cumleler.json   Ajan GM'nin ses dosyası olan 40 sabit cümlesi (ses-cu
 assets/ses/ajan-gm/      Ajan GM ses dosyaları (<id>.mp3; üretim betikleri yazar)
 assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
 assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
-assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
+assets/js/main.js        Mobil menü, bağlantıları uygulama, raf ve arşiv araması (Türkçe harfe duyarsız), galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 dosyalar/<raf>/          Ücretsiz indirilen dosyalar (data/urunler.json: ucretsiz_dosya); Excel Kliniği'nde 43 xlsx
 
 index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html, uzay/ikiz/index.html,
-uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
+uzay/araclar/_sablon/index.html, arsiv/ (ve arsiv/<konu>/), hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
 
@@ -252,6 +254,21 @@ verisi eklenmez.
 - **Arayüz (`arayuz.js`):** oynatıcı (gün; hız düğmeleri masaüstünde), kamera (genel / üst / hat), sekmeler Senaryo · Gün · Sonuç · Model; telefonda
   kontroller Fabricakit görev notunun çekmecesinde. "Ne yapmalı?" önerileri aynı modelle kolları tek tek deneyerek bulunur;
   yapay zeka çağrısı yoktur. Sayfa veri almaz.
+
+## Üretim Arşivi (`/arsiv/`)
+
+Kaynak `data/arsiv.json`; içerik Fabricakit Üretim Arşivi sunumlarından aktarıldı ve site için düzenlendi (sunum dosyaları
+repoda durmaz). `scripts/derle.py` `/arsiv/` dizinini (arama kutusu, bölüm bölüm konu kartları ve sorun başlıkları) ve konu
+başına `/arsiv/<konu>/` sayfasını üretir, adresleri sitemap'e ekler. Bir sorunun adresi `/arsiv/<konu>/#<kart>`.
+
+- **Yapı:** `bolumler[]` (`slug`, `ad`) → `kategoriler[]` (`slug`, `ad`) → `kartlar[]`. Kart alanları: `slug`, `baslik`,
+  `belirti`, `kok_neden`, `cozum[]` (tam üç adım), `ilke` (tek cümle), isteğe bağlı `ilgili` (ürün slug'ı).
+- **İlgili dosya:** `ilgili` yalnızca üretimde görünen bir ürünü gösterebilir. Kartın altında "İlgili dosya" bağlantısı,
+  ürün sayfasında "Üretim Arşivi'nde" listesi çıkar. Bağlantı yalnızca dosya o sorunu gerçekten çözüyorsa verilir.
+- **Denetim:** derleme slug biçimini ve tekliğini, boş alanı, üç çözüm adımını ve `ilgili` ürünün varlığını denetler;
+  hata varsa durur. Üretim derlemesi `data/arsiv.json`'da artık olmayan `/arsiv/<konu>/` klasörünü siler.
+- **İçerik kuralı:** kartlar genel uygulama önerisidir; her sayfanın altında iş güvenliği ve mevzuat notu durur. Gerçek
+  firma adı, müşteri ya da rakam yazılmaz; kesin yargı yerine uygulanabilir öneri yazılır.
 
 ## Tasarım kuralları (özet)
 

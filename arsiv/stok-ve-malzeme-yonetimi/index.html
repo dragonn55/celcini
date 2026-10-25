@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stok ve Malzeme Yönetimi sorunları ve çözümleri · Celcini</title>
+<meta name="description" content="Stok ve Malzeme Yönetimi: &quot;Stok sayımı hiçbir zaman tutmuyor&quot;, &quot;Depoda ne olduğunu kimse tam bilmiyor&quot; ve 5 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<link rel="canonical" href="https://celcini.vercel.app/arsiv/stok-ve-malzeme-yonetimi/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Stok ve Malzeme Yönetimi sorunları ve çözümleri · Celcini">
+<meta property="og:description" content="Stok ve Malzeme Yönetimi: &quot;Stok sayımı hiçbir zaman tutmuyor&quot;, &quot;Depoda ne olduğunu kimse tam bilmiyor&quot; ve 5 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<meta property="og:url" content="https://celcini.vercel.app/arsiv/stok-ve-malzeme-yonetimi/">
+<meta property="og:image" content="https://celcini.vercel.app/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=757efb70">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=62f829e9" defer></script>
+
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/arsiv/" aria-current="page">Arşiv</a></li><li><a href="/uzay/">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="sayfa-bas">
+  <div class="kap">
+    <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li><a href="/arsiv/">Üretim Arşivi</a></li><li aria-current="page">Stok ve Malzeme Yönetimi</li></ol></nav>
+    <p class="ust-yazi">Stok, Depo ve Sevkiyat</p>
+    <h1>Stok ve Malzeme Yönetimi</h1>
+    <p>7 sorun; her biri için belirti, kök neden ve üç adımlık çözüm.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Stok ve Malzeme Yönetimi sorunları">
+  <div class="kap">
+    <nav class="arsiv-icindekiler" aria-label="Bu sayfadaki sorunlar"><ol><li><a href="#stok-sayimi-hicbir-zaman-tutmuyor">Stok sayımı hiçbir zaman tutmuyor</a></li><li><a href="#depoda-ne-oldugunu-kimse-tam-bilmiyor">Depoda ne olduğunu kimse tam bilmiyor</a></li><li><a href="#olu-stok-sermayeyi-kilitliyor">Ölü stok sermayeyi kilitliyor</a></li><li><a href="#ne-zaman-siparis-verecegimi-bilmiyorum">Ne zaman sipariş vereceğimi bilmiyorum</a></li><li><a href="#hat-malzeme-bekliyor-bos-kaliyor">Hat malzeme bekliyor, boş kalıyor</a></li><li><a href="#urun-recetesi-bom-guncel-degil">Ürün reçetesi (BOM) güncel değil</a></li><li><a href="#ayni-malzeme-farkli-kodlarla-kayitli">Aynı malzeme farklı kodlarla kayıtlı</a></li></ol></nav>
+    <div class="arsiv-kartlar">
+<article class="kart arsiv-kart" id="stok-sayimi-hicbir-zaman-tutmuyor" aria-labelledby="stok-sayimi-hicbir-zaman-tutmuyor-baslik">
+  <h2 class="h3-boy" id="stok-sayimi-hicbir-zaman-tutmuyor-baslik"><a href="#stok-sayimi-hicbir-zaman-tutmuyor">Stok sayımı hiçbir zaman tutmuyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Kayıttaki miktar ile raftaki miktar farklı; hangisinin doğru olduğu bilinmiyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Hareketler anlık kaydedilmiyor ve sapmanın nedeni araştırılmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Giriş-çıkış hareketlerini anlık kaydet.</li><li>Yıl sonu sayımı yerine döngüsel sayıma geç.</li><li>Her sapmanın nedenini yaz, tekrarı engelle.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Yılda bir sayılan stok, yılın geri kalanında tahmindir.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/stok-takip-sayim/">Stok Takip + Sayım Sistemi v2</a></p>
+</article><article class="kart arsiv-kart" id="depoda-ne-oldugunu-kimse-tam-bilmiyor" aria-labelledby="depoda-ne-oldugunu-kimse-tam-bilmiyor-baslik">
+  <h2 class="h3-boy" id="depoda-ne-oldugunu-kimse-tam-bilmiyor-baslik"><a href="#depoda-ne-oldugunu-kimse-tam-bilmiyor">Depoda ne olduğunu kimse tam bilmiyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Malzeme aranıyor, bulunamayınca yenisi sipariş ediliyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Adresleme sistemi ve standart yerleşim düzeni yok.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Her rafa benzersiz adres kodu ver.</li><li>Her malzemeyi sabit bir adrese bağla.</li><li>Giriş-çıkışta adresi de kaydet.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Adresi olmayan malzeme, olmayan malzemedir.</p>
+</article><article class="kart arsiv-kart" id="olu-stok-sermayeyi-kilitliyor" aria-labelledby="olu-stok-sermayeyi-kilitliyor-baslik">
+  <h2 class="h3-boy" id="olu-stok-sermayeyi-kilitliyor-baslik"><a href="#olu-stok-sermayeyi-kilitliyor">Ölü stok sermayeyi kilitliyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Yıllardır hareket görmeyen malzemeler raf ve nakit işgal ediyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Stok devir hızı ölçülmüyor; tasfiye kararını kimse üstlenmiyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Malzeme bazında son hareket tarihini çıkar.</li><li>12 aydır hareket görmeyeni ölü stok olarak işaretle.</li><li>Tasfiye, iade veya alternatif kullanım kararı ver.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Rafta bekleyen malzeme, rafta bekleyen paradır.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/olu-stok-baglanan-para/">Ölü Stok ve Bağlanan Para</a></p>
+</article><article class="kart arsiv-kart" id="ne-zaman-siparis-verecegimi-bilmiyorum" aria-labelledby="ne-zaman-siparis-verecegimi-bilmiyorum-baslik">
+  <h2 class="h3-boy" id="ne-zaman-siparis-verecegimi-bilmiyorum-baslik"><a href="#ne-zaman-siparis-verecegimi-bilmiyorum">Ne zaman sipariş vereceğimi bilmiyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Sipariş ya gereksiz erken ya da malzeme bitince veriliyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Yeniden sipariş noktası (ROP) hiç tanımlanmamış.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Günlük ortalama tüketimi hesapla.</li><li>Tedarik süresiyle çarp, emniyet stoğunu ekle.</li><li>Bu seviyeye düşünce otomatik uyarı ver.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Sipariş anını duygu değil, hesap belirler.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/emniyet-stogu-siparis-noktasi/">Emniyet Stoğu ve Sipariş Noktası</a></p>
+</article><article class="kart arsiv-kart" id="hat-malzeme-bekliyor-bos-kaliyor" aria-labelledby="hat-malzeme-bekliyor-bos-kaliyor-baslik">
+  <h2 class="h3-boy" id="hat-malzeme-bekliyor-bos-kaliyor-baslik"><a href="#hat-malzeme-bekliyor-bos-kaliyor">Hat malzeme bekliyor, boş kalıyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>İş emri açık ama malzeme sahada yok; operatör tezgâh başında bekliyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Malzeme ihtiyaç planı üretim planıyla senkron çalışmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Malzeme ihtiyaç planını üretim planıyla senkronla.</li><li>Tedarik sürelerini geçmiş gerçek veriyle güncelle.</li><li>Kritik malzemelere emniyet stoğu tanımla.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Duran hat, planlanmamış bir malzemenin faturasıdır.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/planla/">PLANLA</a></p>
+</article><article class="kart arsiv-kart" id="urun-recetesi-bom-guncel-degil" aria-labelledby="urun-recetesi-bom-guncel-degil-baslik">
+  <h2 class="h3-boy" id="urun-recetesi-bom-guncel-degil-baslik"><a href="#urun-recetesi-bom-guncel-degil">Ürün reçetesi (BOM) güncel değil</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Hesaplanan malzeme ihtiyacı sahadaki gerçek tüketimi tutmuyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Ürün revizyonları reçeteye işlenmiyor ve fire payı hesaba katılmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Her ürünün reçetesini sahayla birlikte doğrula.</li><li>Fire oranını reçeteye dâhil et.</li><li>Revizyonda reçete güncellemeyi zorunlu kıl.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Yanlış reçete, doğru planı da yanlışa çevirir.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/fabrika-motoru/">Fabrika Motoru</a></p>
+</article><article class="kart arsiv-kart" id="ayni-malzeme-farkli-kodlarla-kayitli" aria-labelledby="ayni-malzeme-farkli-kodlarla-kayitli-baslik">
+  <h2 class="h3-boy" id="ayni-malzeme-farkli-kodlarla-kayitli-baslik"><a href="#ayni-malzeme-farkli-kodlarla-kayitli">Aynı malzeme farklı kodlarla kayıtlı</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Sistemde stok yok görünüyor ama depoda başka kodla duruyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Kodlama standardı yok; herkes kendi kodunu açabiliyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Tek bir kodlama kuralı belirle ve yayınla.</li><li>Mükerrer kodları tespit edip birleştir.</li><li>Yeni kod açmayı tek onay noktasına bağla.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">İki kod tek malzeme, iki kat stok tek kat fayda.</p>
+</article>
+    </div>
+    <nav class="arsiv-gezinti" aria-label="Arşivde gezin"><a class="dugme-cizgi" href="/arsiv/urun-gelistirme-ve-teknik-ofis/" rel="prev"><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Ürün Geliştirme ve Teknik Ofis</a><a class="dugme-cizgi" href="/arsiv/">Tüm arşiv</a><a class="dugme-cizgi" href="/arsiv/depo-ve-lojistik/" rel="next">Depo ve Lojistik<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></nav>
+    <p class="arsiv-not">Kartlar genel uygulama önerileridir; kendi işletmenize uyarlayarak kullanın. İş güvenliği ve yasal yükümlülüklerde mevzuat ve iş güvenliği uzmanınız esastır.</p>
+  </div>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul, 2026.</p>
+    </div>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/arsiv/">Üretim Arşivi</a></li>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
+</body>
+</html>

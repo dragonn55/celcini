@@ -11,6 +11,7 @@ Fabricakit'in dokuz odası fabricakit/js/odalar.js'den okunur (ana sayfadaki oda
 /fabricakit/ sayfasının yalnızca kabuğu burada üretilir; simülatörün kendisi fabricakit/js/ altındadır.
 Rehberli Excel dersleri (REHBERLER; ilki Datakit) data/<urun>/'dan üretilir: açılış ve ders sayfaları, herkese açık
 <taban>/veri/ ve kilitli dersler için api/_dersler/<urun>/ (yalnızca api/ders.js okur).
+Üretim Arşivi data/arsiv.json'dan üretilir: /arsiv/ dizini ve kategori başına /arsiv/<kategori>/ sayfası.
 """
 import datetime
 import hashlib
@@ -67,7 +68,7 @@ def rehber_raf_yerine(rh):
 # Menü: ("/yol/", "Ad") ya da ("Ad", [alt öğeler]) — alt menü
 MENU = [("/fabricakit/", "Fabricakit"),
         ("Dosyalar", [(f"/{r['slug']}/", r["ad"]) for r in RAFLAR]),
-        ("/uzay/", "Uzay"), ("/hakkinda/", "Hakkında")]
+        ("/arsiv/", "Arşiv"), ("/uzay/", "Uzay"), ("/hakkinda/", "Hakkında")]
 GEZEGENLER = "/fabricakit/img/gezegenler.svg"
 
 SSS = [
@@ -281,6 +282,7 @@ def alt_bilgi():
     </div>
     <nav aria-label="Raflar"><h2>Raflar</h2><ul>{raflar}</ul></nav>
     <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/arsiv/">Üretim Arşivi</a></li>
       <li><a href="/hakkinda/">Hakkında</a></li>
       <li><a href="/iletisim/">İletişim</a></li>
       <li><a href="/sss/">SSS</a></li>
@@ -521,7 +523,8 @@ def karne_ornegi():
 </section>"""
 
 
-def ana_sayfa(urunler):
+def ana_sayfa(urunler, arsiv):
+    arsiv_toplam, arsiv_konu = arsiv_sayilari(arsiv)
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     ucretsiz_sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"] and ucretsiz(u)) for r in RAFLAR}
     raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]], ucretsiz_sayilar[r["slug"]]) for r in RAFLAR)
@@ -530,7 +533,7 @@ def ana_sayfa(urunler):
     # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
     tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
                       if any(o.get("kod") for o in odalar) else "")
-    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Uzay.
+    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Üretim Arşivi → Uzay.
     # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
     govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
   <div class="kap">
@@ -584,6 +587,17 @@ def ana_sayfa(urunler):
   <div class="kap">
     <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Kurulumsuz Excel dosyaları; işe göre üç rafta.{e(ucretsiz_cumlesi)}</p></div>
     <ul class="izgara izgara-3 raf-izgara">{raf_kartlari}</ul>
+  </div>
+</section>
+
+<section class="bolum bolum-sik" aria-labelledby="arsiv-baslik">
+  <div class="kap">
+    <a class="kart uzay-kart" href="{ARSIV_YOLU}">
+      {ikon("kitap", "ikon ikon-buyuk")}
+      <span class="uzay-metin"><span class="ust-yazi">{e(ARSIV_AD)}</span><h2 id="arsiv-baslik" class="h3-boy">{arsiv_toplam} fabrika sorunu ve çözümü</h2>
+      <span class="uzay-alt">{arsiv_konu} konuda: planlamadan stoğa, kaliteden bakıma her sorun için belirti, kök neden ve üç adımlık çözüm.</span></span>
+      <span class="uzay-git">Arşive git{ikon("ok")}</span>
+    </a>
   </div>
 </section>
 
@@ -680,7 +694,7 @@ def raf_sayfasi(r, urunler):
                  etkin=f"/{r['slug']}/")
 
 
-def urun_sayfasi(u, urunler):
+def urun_sayfasi(u, urunler, arsiv_kartlari=()):
     r = RAF[u["raf"]]
     gorseller = gorsel_listesi(u)
     if gorseller:
@@ -776,6 +790,17 @@ def urun_sayfasi(u, urunler):
   <ul class="izgara izgara-urun">{"".join(urun_karti(x, raf_goster=False) for x in benzer)}</ul>
 </section>"""
 
+    # Üretim Arşivi'nde bu ürüne bağlanan kartlar (data/arsiv.json "ilgili")
+    arsiv_bolum = ""
+    if arsiv_kartlari:
+        satirlar = "".join(f'<li><a href="{ARSIV_YOLU}{kat["slug"]}/#{k["slug"]}">{e(k["baslik"])}</a>'
+                           f'<span>{e(kat["ad"])}</span></li>' for kat, k in arsiv_kartlari)
+        arsiv_bolum = f"""<section class="bolum" aria-labelledby="arsiv-ilgili-baslik">
+  <div class="bolum-bas"><h2 id="arsiv-ilgili-baslik">{e(ARSIV_AD)}'nde</h2><p>Bu dosyayla ilgili sorunlar; her biri belirti, kök neden ve çözüm adımlarıyla.</p></div>
+  <ul class="kart arsiv-urun-liste">{satirlar}</ul>
+</section>
+  """
+
     # Rehberli dersi olan ürün (REHBERLER): dosyanın sayfaları sitede derslerle anlatılır
     rh = next((x for x in REHBERLER if x["urun_slug"] == u["slug"]), None)
     rehber_linki = (f'\n        <p class="not">Dosyanın ana sayfaları sitede rehberli derslerle anlatılır; ilk dersler ücretsiz.</p>'
@@ -816,7 +841,7 @@ def urun_sayfasi(u, urunler):
       </div>
     </div>
   </section>{ek_bolumler}
-  {benzer_bolum}
+  {arsiv_bolum}{benzer_bolum}
 </div>"""
 
     ek = ""
@@ -861,6 +886,8 @@ def hakkinda():
 <p>Sahada çalışmış bir endüstri mühendisinin hazırladığı, kurulum gerektirmeyen Excel dosyaları üç rafta durur:</p>
 <ul>{"".join(f'<li><a href="/{r["slug"]}/">{e(r["ad"])}</a>: {e(r["aciklama"][0].lower() + r["aciklama"][1:])}</li>' for r in RAFLAR)}</ul>
 <p>Kurulum yok, abonelik yok: dosyayı alır, Excel'de açarsınız. Girdiğiniz bilgiler sizin bilgisayarınızdaki dosyada kalır. {e(FORMUL_TESTI)}</p>
+<h2>Üretim Arşivi</h2>
+<p><a href="{ARSIV_YOLU}">{ARSIV_AD}</a>, fabrikada sık görülen sorunları konu konu toplar: her biri için belirti, kök neden ve üç adımlık çözüm. Ücretsizdir, üyelik gerekmez.</p>
 <h2>Uzay</h2>
 <p><a href="/uzay/">Uzay</a>, yapay zeka araçlarının modülü: Fabricakit, ROTA 3D ve Fabrika İkizi; sırada Ölü Stok Dedektörü var.</p>
 <p>İstanbul, 2026.</p>"""
@@ -1346,6 +1373,175 @@ def ikiz_sayfasi():
                  ek_css=["/fabricakit/css/fabricakit.css", kok + "css/ikiz.css"], ek_head=vendor, modul=kok + "js/arayuz.js")
 
 
+# ---------------------------------------------------------------- Üretim Arşivi
+ARSIV_YOLU = "/arsiv/"
+ARSIV_AD = "Üretim Arşivi"
+ARSIV_KART_ALANLARI = ("slug", "baslik", "belirti", "kok_neden", "cozum", "ilke")  # zorunlu; "ilgili" isteğe bağlı
+ARSIV_NOTU = ("Kartlar genel uygulama önerileridir; kendi işletmenize uyarlayarak kullanın. "
+              "İş güvenliği ve yasal yükümlülüklerde mevzuat ve iş güvenliği uzmanınız esastır.")
+SLUG_DESENI = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+
+
+def arsivi_oku(urunler):
+    """data/arsiv.json: bölüm → kategori → kart. Kategori slug'ı adrestir (/arsiv/<kategori>/), kart slug'ı sayfa içi
+    çapadır (#<kart>). Kartın isteğe bağlı "ilgili" alanı sitede görünen bir ürünün slug'ıdır ("İlgili dosya" bağlantısı)."""
+    veri = json.loads((KOK / "data" / "arsiv.json").read_text(encoding="utf-8"))
+    gorunen = {u["slug"] for u in urunler}
+    sluglar = {"bölüm": set(), "kategori": set(), "kart": set()}
+
+    def slug_denetle(tur, s):
+        if not isinstance(s, str) or not SLUG_DESENI.fullmatch(s):
+            sys.exit(f"HATA: arsiv.json: geçersiz {tur} slug'ı '{s}' (yalnızca küçük harf, rakam ve tire)")
+        if s in sluglar[tur]:
+            sys.exit(f"HATA: arsiv.json: tekrarlanan {tur} slug'ı '{s}'")
+        sluglar[tur].add(s)
+
+    if not veri.get("bolumler"):
+        sys.exit("HATA: arsiv.json: bölüm yok")
+    for b in veri["bolumler"]:
+        slug_denetle("bölüm", b.get("slug"))
+        if not (b.get("ad") or "").strip() or not b.get("kategoriler"):
+            sys.exit(f"HATA: arsiv.json: {b['slug']} bölümünün adı ya da kategorisi yok")
+        for kat in b["kategoriler"]:
+            slug_denetle("kategori", kat.get("slug"))
+            if not (kat.get("ad") or "").strip() or not kat.get("kartlar"):
+                sys.exit(f"HATA: arsiv.json: {kat['slug']} kategorisinin adı ya da kartı yok")
+            for k in kat["kartlar"]:
+                eksik = [a for a in ARSIV_KART_ALANLARI if not k.get(a)]
+                if eksik:
+                    sys.exit(f"HATA: arsiv.json: {kat['slug']} kategorisinde kartta eksik alan: {', '.join(eksik)}")
+                slug_denetle("kart", k["slug"])
+                # Yazım hatalı alan adı (ör. "ilgli") sessizce yok sayılmasın
+                bilinmeyen = sorted(set(k) - set(ARSIV_KART_ALANLARI) - {"ilgili"})
+                if bilinmeyen:
+                    sys.exit(f"HATA: arsiv.json: {k['slug']}: bilinmeyen alan: {', '.join(bilinmeyen)}")
+                if not isinstance(k["cozum"], list):
+                    sys.exit(f"HATA: arsiv.json: {k['slug']}: çözüm bir liste olmalı")
+                metinler = [k["baslik"], k["belirti"], k["kok_neden"], k["ilke"], *k["cozum"]]
+                if len(k["cozum"]) != 3 or not all(isinstance(m, str) and m.strip() for m in metinler):
+                    sys.exit(f"HATA: arsiv.json: {k['slug']}: çözüm üç adım olmalı, metinler boş olamaz")
+                if k.get("ilgili") and k["ilgili"] not in gorunen:
+                    sys.exit(f"HATA: arsiv.json: {k['slug']}: ilgili ürün '{k['ilgili']}' sitede görünmüyor")
+    return veri
+
+
+def arsiv_sayilari(veri):
+    kategoriler = [kat for b in veri["bolumler"] for kat in b["kategoriler"]]
+    return sum(len(kat["kartlar"]) for kat in kategoriler), len(kategoriler)
+
+
+def arsiv_urun_baglantilari(veri):
+    """Ürün slug'ı → o ürüne bağlanan kartlar [(kategori, kart)]: ürün sayfasındaki "Üretim Arşivi'nde" bölümü için."""
+    sonuc = {}
+    for b in veri["bolumler"]:
+        for kat in b["kategoriler"]:
+            for k in kat["kartlar"]:
+                if k.get("ilgili"):
+                    sonuc.setdefault(k["ilgili"], []).append((kat, k))
+    return sonuc
+
+
+def arsiv_karti(k, urun_bilgisi):
+    cozum = "".join(f"<li>{e(c)}</li>" for c in k["cozum"])
+    ilgili = ""
+    if k.get("ilgili"):
+        ad, bedava = urun_bilgisi[k["ilgili"]]
+        ilgili = (f'\n  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/{e(k["ilgili"])}/">{e(ad)}</a>'
+                  f'{" (ücretsiz)" if bedava else ""}</p>')
+    return f"""<article class="kart arsiv-kart" id="{e(k["slug"])}" aria-labelledby="{e(k["slug"])}-baslik">
+  <h2 class="h3-boy" id="{e(k["slug"])}-baslik"><a href="#{e(k["slug"])}">{e(k["baslik"])}</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>{e(k["belirti"])}</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>{e(k["kok_neden"])}</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol>{cozum}</ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">{e(k["ilke"])}</p>{ilgili}
+</article>"""
+
+
+def arsiv_sayfasi(veri):
+    toplam, n_kat = arsiv_sayilari(veri)
+    bolumler = []
+    for b in veri["bolumler"]:
+        kategoriler = []
+        for kat in b["kategoriler"]:
+            basliklar = "".join(
+                f'<li data-urun data-ara="{e(" ".join([k["baslik"], k["belirti"], k["kok_neden"], *k["cozum"], k["ilke"], kat["ad"], b["ad"]]))}">'
+                f'<a href="{ARSIV_YOLU}{kat["slug"]}/#{k["slug"]}">{e(k["baslik"])}</a></li>'
+                for k in kat["kartlar"])
+            kategoriler.append(f"""<li class="kart arsiv-kategori" data-urun-bolum>
+          <h3><a href="{ARSIV_YOLU}{kat["slug"]}/">{e(kat["ad"])}</a></h3>
+          <p class="arsiv-sayi" data-arama-gizle>{len(kat["kartlar"])} sorun</p>
+          <ul class="arsiv-basliklar">{basliklar}</ul>
+        </li>""")
+        bolumler.append(f"""<section class="arsiv-bolum" data-urun-bolum aria-labelledby="bolum-{b["slug"]}">
+      <h2 id="bolum-{b["slug"]}" class="h3-boy">{e(b["ad"])}</h2>
+      <ul class="arsiv-kategoriler">{"".join(kategoriler)}</ul>
+    </section>""")
+    atla = "".join(f'<li><a href="#bolum-{b["slug"]}">{e(b["ad"])}</a></li>' for b in veri["bolumler"])
+    govde = f"""<section class="sayfa-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), (None, ARSIV_AD)])}
+    {ikon("kitap", "ikon ikon-buyuk")}
+    <h1>{e(ARSIV_AD)}</h1>
+    <p>Fabrikada sık görülen {toplam} sorun, {n_kat} konuda: her biri için belirti, kök neden ve üç adımlık çözüm.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Arşiv dizini">
+  <div class="kap">
+    <div class="filtre" data-filtre data-birim="sorun">
+      <div class="arama">{ikon("ara")}<label class="gizli" for="ara">Arşivde ara</label><input id="ara" type="search" placeholder="Sorun ara: termin, sayım, kalıp…" autocomplete="off"></div>
+    </div>
+    <p class="sonuc" data-sonuc aria-live="polite"></p>
+    <nav class="arsiv-atla" aria-label="Bölümler" data-arama-gizle><ul>{atla}</ul></nav>
+    {"".join(bolumler)}
+    <p class="arsiv-not">{e(ARSIV_NOTU)}</p>
+  </div>
+</section>"""
+    return sayfa(ARSIV_YOLU, f"{ARSIV_AD}: {toplam} fabrika sorunu ve çözümü",
+                 f"Üretim planlamadan stoğa, kaliteden bakıma {toplam} fabrika sorunu: her biri için belirti, kök neden "
+                 f"ve üç adımlık çözüm. Ücretsiz, üyelik yok.", govde, etkin=ARSIV_YOLU)
+
+
+def arsiv_kategori_sayfasi(b, kat, onceki, sonraki, urun_bilgisi):
+    kartlar = kat["kartlar"]
+    icindekiler = "".join(f'<li><a href="#{e(k["slug"])}">{e(k["baslik"])}</a></li>' for k in kartlar)
+    gezinti = []
+    if onceki:
+        gezinti.append(f'<a class="dugme-cizgi" href="{ARSIV_YOLU}{onceki["slug"]}/" rel="prev">{ikon("geri")}{e(onceki["ad"])}</a>')
+    gezinti.append(f'<a class="dugme-cizgi" href="{ARSIV_YOLU}">Tüm arşiv</a>')
+    if sonraki:
+        gezinti.append(f'<a class="dugme-cizgi" href="{ARSIV_YOLU}{sonraki["slug"]}/" rel="next">{e(sonraki["ad"])}{ikon("ok")}</a>')
+    govde = f"""<section class="sayfa-bas">
+  <div class="kap">
+    {yol_izi([("/", "Ana sayfa"), (ARSIV_YOLU, ARSIV_AD), (None, kat["ad"])])}
+    <p class="ust-yazi">{e(b["ad"])}</p>
+    <h1>{e(kat["ad"])}</h1>
+    <p>{len(kartlar)} sorun; her biri için belirti, kök neden ve üç adımlık çözüm.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="{e(kat["ad"])} sorunları">
+  <div class="kap">
+    <nav class="arsiv-icindekiler" aria-label="Bu sayfadaki sorunlar"><ol>{icindekiler}</ol></nav>
+    <div class="arsiv-kartlar">
+{"".join(arsiv_karti(k, urun_bilgisi) for k in kartlar)}
+    </div>
+    <nav class="arsiv-gezinti" aria-label="Arşivde gezin">{"".join(gezinti)}</nav>
+    <p class="arsiv-not">{e(ARSIV_NOTU)}</p>
+  </div>
+</section>"""
+    ornek = ", ".join(f'"{k["baslik"]}"' for k in kartlar[:2])
+    kalan = len(kartlar) - 2
+    aciklama = (f"{kat['ad']}: {ornek}{f' ve {kalan} sorun daha' if kalan > 0 else ''}; "
+                "belirti, kök neden ve üç adımlık çözümle.")
+    return sayfa(f"{ARSIV_YOLU}{kat['slug']}/", f"{kat['ad']} sorunları ve çözümleri", aciklama, govde, etkin=ARSIV_YOLU)
+
+
 def sayfa_404():
     govde = f"""<section class="yok"><div class="kap">
   <p class="ust-yazi">404</p>
@@ -1582,6 +1778,10 @@ def main():
     tumu = urunleri_oku()
     urunler = [u for u in tumu if gorunur(u)]
     gizlenen = [u["slug"] for u in tumu if not gorunur(u)]
+    arsiv = arsivi_oku(urunler)
+    arsiv_kategorileri = [(b, kat) for b in arsiv["bolumler"] for kat in b["kategoriler"]]
+    arsiv_bag = arsiv_urun_baglantilari(arsiv)
+    urun_bilgisi = {u["slug"]: (u["ad"], ucretsiz(u)) for u in urunler}
 
     if ONIZLEME:
         if CIKTI.exists():
@@ -1604,9 +1804,16 @@ def main():
             for d in urun_dizin.iterdir():
                 if d.is_dir() and d.name not in gecerli:
                     shutil.rmtree(d)
+        # Arşivden çıkan ya da adı değişen kategorilerin eski sayfalarını sil
+        arsiv_dizin = CIKTI / ARSIV_YOLU.strip("/")
+        if arsiv_dizin.exists():
+            gecerli = {kat["slug"] for _, kat in arsiv_kategorileri}
+            for d in arsiv_dizin.iterdir():
+                if d.is_dir() and d.name not in gecerli:
+                    shutil.rmtree(d)
 
     yollar = []
-    yollar.append(yaz("/", ana_sayfa(urunler)))
+    yollar.append(yaz("/", ana_sayfa(urunler, arsiv)))
     yollar.append(yaz("/fabricakit/", fabricakit_sayfasi()))
     rehber_raflari = {rh["raf"] for rh in REHBERLER if rehber_raf_yerine(rh)}
     rehber_adresleri = []
@@ -1623,7 +1830,12 @@ def main():
         if r["slug"] not in rehber_raflari:
             yollar.append(yaz(f"/{r['slug']}/", raf_sayfasi(r, urunler)))
     for u in urunler:
-        yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler)))
+        yollar.append(yaz(f"/urun/{u['slug']}/", urun_sayfasi(u, urunler, arsiv_bag.get(u["slug"], ()))))
+    yollar.append(yaz(ARSIV_YOLU, arsiv_sayfasi(arsiv)))
+    for i, (b, kat) in enumerate(arsiv_kategorileri):
+        onceki = arsiv_kategorileri[i - 1][1] if i > 0 else None
+        sonraki = arsiv_kategorileri[i + 1][1] if i + 1 < len(arsiv_kategorileri) else None
+        yollar.append(yaz(f"{ARSIV_YOLU}{kat['slug']}/", arsiv_kategori_sayfasi(b, kat, onceki, sonraki, urun_bilgisi)))
     yollar.append(yaz("/uzay/", uzay_sayfasi()))
     yollar.append(yaz("/uzay/rota/", rota_sayfasi()))
     yollar.append(yaz("/uzay/ikiz/", ikiz_sayfasi()))
@@ -1637,6 +1849,7 @@ def main():
     yollar.append(yaz("/404.html", sayfa_404()))
 
     adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + rehber_adresleri + [f"/urun/{u['slug']}/" for u in urunler] + [
+        ARSIV_YOLU] + [f"{ARSIV_YOLU}{kat['slug']}/" for _, kat in arsiv_kategorileri] + [
         "/uzay/", "/uzay/rota/", "/uzay/ikiz/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -1647,7 +1860,9 @@ def main():
 
     kip = "ÖNİZLEME → _onizleme/" if ONIZLEME else "ÜRETİM → depo kökü"
     bedava = sum(1 for u in urunler if ucretsiz(u))
-    print(f"{kip}: {len(yollar)} sayfa, {len(urunler)} ürün{f' ({bedava} ücretsiz)' if bedava else ''}, sitemap {len(adresler)} adres.")
+    kart_sayisi, _ = arsiv_sayilari(arsiv)
+    print(f"{kip}: {len(yollar)} sayfa, {len(urunler)} ürün{f' ({bedava} ücretsiz)' if bedava else ''}, "
+          f"arşiv {len(arsiv_kategorileri)} kategori / {kart_sayisi} kart, sitemap {len(adresler)} adres.")
     if gizlenen:
         print(f"Gizlenen kayıtlar (örnek ya da Shopier bağlantısı boş): {', '.join(gizlenen)}")
     yakinda = [u["slug"] for u in urunler if u.get("yakinda") and not (u.get("shopier_url") or "").strip()]
