@@ -46,7 +46,7 @@ RAFLAR = [
     {"slug": "fabrika", "ad": "Fabrika Dosyaları", "ikon": "fabrika",
      "aciklama": "Fabrika programları (MRP, vardiya, stok, ithalat maliyet)"},
     {"slug": "excel-klinigi", "ad": "Excel Kliniği", "ikon": "klinik",
-     "aciklama": "Genel iş şablonları (kasa, alacak-borç, sipariş, personel)"},
+     "aciklama": "Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve genel iş şablonları"},
     {"slug": "datakit", "ad": "Datakit", "ikon": "grafik",
      "aciklama": "Veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)"},
 ]

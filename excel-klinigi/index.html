@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Excel Kliniği · Celcini</title>
-<meta name="description" content="Excel Kliniği: Genel iş şablonları (kasa, alacak-borç, sipariş, personel). Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları.">
+<meta name="description" content="Excel Kliniği: Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve genel iş şablonları. Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları.">
 <link rel="canonical" href="https://celcini.vercel.app/excel-klinigi/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Celcini">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="Excel Kliniği · Celcini">
-<meta property="og:description" content="Excel Kliniği: Genel iş şablonları (kasa, alacak-borç, sipariş, personel). Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları.">
+<meta property="og:description" content="Excel Kliniği: Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve genel iş şablonları. Celcini: Fabricakit fabrika simülasyonu ve Excel dosyaları.">
 <meta property="og:url" content="https://celcini.vercel.app/excel-klinigi/">
 <meta property="og:image" content="https://celcini.vercel.app/assets/img/og-cover.png">
 <meta property="og:image:alt" content="Celcini">
@@ -43,20 +43,67 @@
     <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li><a href="/#dosyalar">Dosyalar</a></li><li aria-current="page">Excel Kliniği</li></ol></nav>
     <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>
     <h1>Excel Kliniği</h1>
-    <p>Genel iş şablonları (kasa, alacak-borç, sipariş, personel)</p>
+    <p>Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve genel iş şablonları</p>
   </div>
 </section>
 <section class="bolum-raf" aria-label="Excel Kliniği ürünleri">
   <div class="kap">
-    <div class="kart bos-kutu">
-      <svg class="ikon ikon-buyuk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-      <h2 class="gizli">Ürünler</h2>
-      <p>Bu rafa henüz ürün eklenmedi.</p>
-      <div class="eylemler">
-        <a class="dugme" data-link="google_form" href="#" hidden>Yeni dosyalardan haberdar ol<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <a class="dugme-cizgi" href="/fabrika/">Fabrika Dosyaları rafına bak</a>
-      </div>
+    <h2 class="gizli">Excel Kliniği ürünleri</h2>
+    <div class="filtre" data-filtre>
+      <div class="arama"><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label class="gizli" for="ara">Excel Kliniği rafında ara</label><input id="ara" type="search" placeholder="Rafta ara" autocomplete="off"></div>
+      <div class="etiketler" role="group" aria-label="Etikete göre süz"><button class="etiket-dugme" type="button" data-etiket="" aria-pressed="true">Tümü</button><button class="etiket-dugme" type="button" data-etiket="ABC analizi" aria-pressed="false">ABC analizi</button><button class="etiket-dugme" type="button" data-etiket="e-ticaret" aria-pressed="false">e-ticaret</button><button class="etiket-dugme" type="button" data-etiket="emniyet stoğu" aria-pressed="false">emniyet stoğu</button><button class="etiket-dugme" type="button" data-etiket="EOQ" aria-pressed="false">EOQ</button><button class="etiket-dugme" type="button" data-etiket="fiyat" aria-pressed="false">fiyat</button><button class="etiket-dugme" type="button" data-etiket="iade" aria-pressed="false">iade</button><button class="etiket-dugme" type="button" data-etiket="kalite" aria-pressed="false">kalite</button><button class="etiket-dugme" type="button" data-etiket="kârlılık" aria-pressed="false">kârlılık</button><button class="etiket-dugme" type="button" data-etiket="mevsimsellik" aria-pressed="false">mevsimsellik</button><button class="etiket-dugme" type="button" data-etiket="müşteri" aria-pressed="false">müşteri</button><button class="etiket-dugme" type="button" data-etiket="nakit" aria-pressed="false">nakit</button><button class="etiket-dugme" type="button" data-etiket="perakende" aria-pressed="false">perakende</button><button class="etiket-dugme" type="button" data-etiket="planlama" aria-pressed="false">planlama</button><button class="etiket-dugme" type="button" data-etiket="satın alma" aria-pressed="false">satın alma</button><button class="etiket-dugme" type="button" data-etiket="satış" aria-pressed="false">satış</button><button class="etiket-dugme" type="button" data-etiket="sepet analizi" aria-pressed="false">sepet analizi</button><button class="etiket-dugme" type="button" data-etiket="stok" aria-pressed="false">stok</button><button class="etiket-dugme" type="button" data-etiket="talep tahmini" aria-pressed="false">talep tahmini</button><button class="etiket-dugme" type="button" data-etiket="veri analizi" aria-pressed="false">veri analizi</button><button class="etiket-dugme" type="button" data-etiket="zam" aria-pressed="false">zam</button><button class="etiket-dugme" type="button" data-etiket="çapraz satış" aria-pressed="false">çapraz satış</button><button class="etiket-dugme" type="button" data-etiket="ölü stok" aria-pressed="false">ölü stok</button></div>
     </div>
+    <p class="sonuc" data-sonuc aria-live="polite"></p>
+    <ul class="izgara izgara-urun"><li data-urun data-ara="Ölü Stok ve Bağlanan Para Stokta ne kadar paranız yatıyor, hangi kalem ölü? ABC ve FSN sınıflarıyla kalem kalem bağlanan tutar, eritme önceliği ve serbest kalabilecek nakit. stok ölü stok nakit ABC analizi veri analizi" data-etiketler="stok|ölü stok|nakit|ABC analizi|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/olu-stok-baglanan-para/">Ölü Stok ve Bağlanan Para</a></h3>
+    <p>Stokta ne kadar paranız yatıyor, hangi kalem ölü? ABC ve FSN sınıflarıyla kalem kalem bağlanan tutar, eritme önceliği ve serbest kalabilecek nakit.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Müşteri Kârlılığı ve Balina Eğrisi En çok ciro yapan müşteri en çok kâr ettiren mi? İskonto, nakliye, iade, vade ve sipariş işlem maliyetini düşüp müşteri başına net kârı ve balina eğrisini çıkarır. müşteri kârlılık satış veri analizi" data-etiketler="müşteri|kârlılık|satış|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/musteri-karliligi-balina-egrisi/">Müşteri Kârlılığı ve Balina Eğrisi</a></h3>
+    <p>En çok ciro yapan müşteri en çok kâr ettiren mi? İskonto, nakliye, iade, vade ve sipariş işlem maliyetini düşüp müşteri başına net kârı ve balina eğrisini çıkarır.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Fiyat Esnekliği ve Zam Senaryoları Fiyatı %10 artırırsanız satış ne kadar düşer? Geçmiş fiyat değişimlerinden ürün başına esneklik, yedi zam senaryosunun kâr etkisi ve &quot;masadaki para&quot;. fiyat zam kârlılık satış veri analizi" data-etiketler="fiyat|zam|kârlılık|satış|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/fiyat-esnekligi-zam-senaryolari/">Fiyat Esnekliği ve Zam Senaryoları</a></h3>
+    <p>Fiyatı %10 artırırsanız satış ne kadar düşer? Geçmiş fiyat değişimlerinden ürün başına esneklik, yedi zam senaryosunun kâr etkisi ve &quot;masadaki para&quot;.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="İade Analizi İadenin gerçek maliyeti: kaybedilen mal, değer kaybı, nakliye ve işleme. Ürün bazında iade oranı, iade sonrası kâr ve ürün × neden çapraz tablosu. iade e-ticaret kalite kârlılık veri analizi" data-etiketler="iade|e-ticaret|kalite|kârlılık|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/iade-analizi/">İade Analizi</a></h3>
+    <p>İadenin gerçek maliyeti: kaybedilen mal, değer kaybı, nakliye ve işleme. Ürün bazında iade oranı, iade sonrası kâr ve ürün × neden çapraz tablosu.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Emniyet Stoğu ve Sipariş Noktası Ne kadar tampon tutmalı, ne zaman ve ne kadar sipariş vermeli? ABC × XYZ sınıfı, kalem bazında servis seviyesi, emniyet stoğu, sipariş noktası ve EOQ. stok satın alma emniyet stoğu EOQ veri analizi" data-etiketler="stok|satın alma|emniyet stoğu|EOQ|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/emniyet-stogu-siparis-noktasi/">Emniyet Stoğu ve Sipariş Noktası</a></h3>
+    <p>Ne kadar tampon tutmalı, ne zaman ve ne kadar sipariş vermeli? ABC × XYZ sınıfı, kalem bazında servis seviyesi, emniyet stoğu, sipariş noktası ve EOQ.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Mevsimsellik ve Talep Tahmini Hangi ürün hangi ayda ne kadar satar? Trend ve ay endeksiyle 6 aylık tahmin; MAPE ve Bias ile doğruluğu ölçülmüş, güvenilmeyen tahmini gizleyen model. talep tahmini mevsimsellik planlama satış veri analizi" data-etiketler="talep tahmini|mevsimsellik|planlama|satış|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/mevsimsellik-talep-tahmini/">Mevsimsellik ve Talep Tahmini</a></h3>
+    <p>Hangi ürün hangi ayda ne kadar satar? Trend ve ay endeksiyle 6 aylık tahmin; MAPE ve Bias ile doğruluğu ölçülmüş, güvenilmeyen tahmini gizleyen model.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li><li data-urun data-ara="Sepet Analizi ve Birliktelik Kuralları Hangi ürün hangi ürünle satılıyor, hangileri birbirini dışlıyor? Fiş satırlarından destek, güven ve lift; paket, çapraz satış ve raf kararları için kural listesi. sepet analizi perakende çapraz satış e-ticaret veri analizi" data-etiketler="sepet analizi|perakende|çapraz satış|e-ticaret|veri analizi">
+  <article class="kart urun-kart">
+    <div class="ust"></div>
+    <h3><a href="/urun/sepet-analizi-birliktelik-kurallari/">Sepet Analizi ve Birliktelik Kuralları</a></h3>
+    <p>Hangi ürün hangi ürünle satılıyor, hangileri birbirini dışlıyor? Fiş satırlarından destek, güven ve lift; paket, çapraz satış ve raf kararları için kural listesi.</p>
+    <div class="alt"><span class="fiyat-yok">Shopier'de yakında</span></div>
+  </article>
+</li></ul>
   </div>
 </section>
 </main>
