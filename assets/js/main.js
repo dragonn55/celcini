@@ -77,8 +77,11 @@
     });
     var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
     var uygula = function () {
-      var q = kucuk(kutu.value).trim();
-      var hedef = q === sade(q) ? sadeMetinler : metinler;
+      /* Türkçe harf denetimi ham sorguda: tr küçültmesi ASCII "I"yı "ı" yapar, "ISG" / "IADE" yine bulunmalı */
+      var ham = kutu.value.normalize("NFC");
+      var turkce = /[çğıöşüâîûÇĞİÖŞÜÂÎÛ]/.test(ham);
+      var q = (turkce ? kucuk(ham) : sade(ham.toLowerCase().replace(/\s+/g, " "))).trim();
+      var hedef = turkce ? metinler : sadeMetinler;
       var desen = q ? new RegExp("(^|[^a-z0-9çğıöşüâîû])" + kacir(q)) : null;
       var n = 0;
       kartlar.forEach(function (k, i) {

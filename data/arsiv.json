@@ -1542,7 +1542,7 @@
               "cozum": [
                 "Vardiya sonu kapatma kontrol listesi oluştur.",
                 "Boşta tüketimi hafta sonu ölçümüyle tespit et.",
-                "Acil aydınlatma, havalandırma ve yangın sistemleri dışındaki ekipmana otomatik kapanma ya da zamanlayıcı kur."
+                "Acil aydınlatma, zorunlu havalandırma ve yangın sistemleri dışındaki ekipmana otomatik kapanma ya da zamanlayıcı kur."
               ],
               "ilke": "Boşta dönen makine, çalışmadan para harcar."
             },
@@ -2028,7 +2028,7 @@
               "belirti": "Arıza olunca herkes birbirine soruyor, saatler böyle kaybediliyor.",
               "kok_neden": "Acil müdahale planı ve iletişim sırası tanımlanmamış.",
               "cozum": [
-                "Kritik makineler için acil müdahale kartı hazırla; ilk adım güvenli durdurma ve enerjiyi kesmek olsun.",
+                "Kritik makineler için acil müdahale kartı hazırla; ilk adım makineyi güvenle durdurup enerjisini kesmek olsun.",
                 "Kimin sırayla aranacağını kartın üstüne yaz.",
                 "Kartı makinenin görünür yerine as."
               ],
