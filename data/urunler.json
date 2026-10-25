@@ -926,7 +926,7 @@
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Analiz'in son formül satırını aşağı sürükleyin, sonra Ctrl + H ile formüllerdeki $104'leri yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar ABC sınıflamasına ve Özet'e girmez. Adımlar kılavuzda."
+        "cevap": "Analiz'in son formül satırını aşağı sürükleyin, Ctrl + H ile formüllerdeki $104'leri yeni son satırla değiştirin ve Veri Girişi A107'deki notu silin. Yalnız sürüklemek yetmez: yeni satırlar ABC toplamına ve Özet'e girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1093,11 +1093,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: Veri Girişi'nde A5:F204, Analiz'de A5:A44 hücrelerini seçip Delete'e basın. Sütun ya da satır başlığından seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Gözlem için Veri Girişi'nin gizli G–K sütunlarında, ürün için Analiz'in B–W sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $204'leri (gözlem) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
+        "cevap": "Gözlem için Veri Girişi'nin gizli G–K sütunlarında, ürün için Analiz'in B–W sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $204'leri (gözlem) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1191,7 +1191,7 @@
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "İade kaydı için Ctrl + H ile formüllerdeki $204'leri yeni son satırla değiştirin; Veri Girişi'nde sürüklenecek formül yoktur. 40 ürün tavanı aşılamaz: Neden Analizi'nde ürün tablosunun hemen altında Pareto tablosu durur. Adımlar kılavuzda."
+        "cevap": "İade kaydı için Ctrl + H ile formüllerdeki $204'leri yeni son satırla değiştirin; Veri Girişi'nde sürüklenecek formül yoktur. 40 ürün tavanı aşılamaz: Neden Analizi'nde ürün tablosunun hemen altında Pareto tablosu durur. Adımlar kılavuzda."
       }
     ]
   },
@@ -1273,11 +1273,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: Talep Geçmişi'nde A5:C604, Ürünler'de A5:H44 hücrelerini seçip Delete'e basın. Sütun ya da satır başlığından seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Talep için Talep Geçmişi'nin gizli D sütununda, ürün için Analiz'in A–U sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (talep) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
+        "cevap": "Talep için Talep Geçmişi'nin gizli D sütununda, ürün için Analiz'in A–U sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (talep) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1367,11 +1367,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: Satış Geçmişi'nde A5:E604, Analiz'de A5:A34 hücrelerini seçip Delete'e basın. Sütun ya da satır başlığından seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Satış için Satış Geçmişi'nin gizli F–L sütunlarında, ürün için Analiz, Mevsimsellik ve Tahmin sayfalarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (satış) ya da $34'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
+        "cevap": "Satış için Satış Geçmişi'nin gizli F–L sütunlarında, ürün için Analiz, Mevsimsellik ve Tahmin sayfalarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (satış) ya da $34'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
