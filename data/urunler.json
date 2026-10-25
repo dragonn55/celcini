@@ -926,7 +926,7 @@
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "Analiz'in son formül satırını aşağı sürükleyin, sonra Ctrl + H ile formüllerdeki $104'leri yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar ABC sınıflamasına ve Özet'e girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1015,7 +1015,7 @@
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "100 müşteri tavanı bu dosyada aşılamaz: Sıralama sayfasında her satırın sıra numarası formülün içine yazılıdır, aşağı sürüklenen satırlar 100'ü tekrarlar. Daha fazla müşteri için Sıralama sayfası ve balina grafiği yeniden kurulmalıdır."
       }
     ]
   },
@@ -1093,11 +1093,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "Gözlem için Veri Girişi'nin gizli G–K sütunlarında, ürün için Analiz'in B–W sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $204'leri (gözlem) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1187,11 +1187,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Ürün Analizi, Neden Analizi ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "İade kaydı için Ctrl + H ile formüllerdeki $204'leri yeni son satırla değiştirin; Veri Girişi'nde sürüklenecek formül yoktur. 40 ürün tavanı aşılamaz: Neden Analizi'nde ürün tablosunun hemen altında Pareto tablosu durur. Adımlar kılavuzda."
       }
     ]
   },
@@ -1273,11 +1273,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "Talep için Talep Geçmişi'nin gizli D sütununda, ürün için Analiz'in A–U sütunlarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (talep) ya da $44'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1367,11 +1367,11 @@
       },
       {
         "soru": "Kendi verimi nasıl kullanırım?",
-        "cevap": "Örnek satırları seçip silin (satırları silmeyin, içeriğini temizleyin), kendi verinizi \"Değerleri yapıştır\" ile yapıştırın; Analiz ve Özet kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
+        "cevap": "Örnek verileri temizleyin: veri sütunlarını seçip Delete'e basın; satır başlığından bütün satırı seçmeyin (gizli formül sütunları da silinir) ve satırları silmeyin. Kendi verinizi \"Değerleri yapıştır\" ile yapıştırın, Analiz'in A sütununa ürün kodlarını yazın; gerisi kendiliğinden hesaplanır. Veriniz bilgisayarınızda kalır, siteye gönderilmez."
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "Satış için Satış Geçmişi'nin gizli F–L sütunlarında, ürün için Analiz, Mevsimsellik ve Tahmin sayfalarında son formül satırını aşağı sürükleyin; sonra Ctrl + H ile formüllerdeki $604'leri (satış) ya da $34'leri (ürün) yeni son satırla değiştirin. Yalnız sürüklemek yetmez: yeni satırlar hesaba girmez. Adımlar kılavuzda."
       }
     ]
   },
@@ -1457,7 +1457,7 @@
       "Kurallar'da önce desteği yeterli çiftlere bakın, sonra lift'e göre sıralayın; yüksek lift + düşük destek tesadüftür.",
       "Aynı setin parçalarını (gövde-kapak gibi) eleyin; dışlayıcı çiftleri paket değil yan yana seçim olarak sunun."
     ],
-    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Fiş numaraları kendiliğinden gelmez: Veri Girişi'ndeki benzersiz fiş numaraları Fiş Matrisi'nin A sütununa elle yapıştırılır; yapıştırılmazsa matris eski numaralara göre hesaplanır. Matris, lift, kurallar ve Özet bu numaralardan kendiliğinden hesaplanır. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 20 ürün, 250 fiş ve 1.200 fiş satırı; bu dosya esnetilemez: ürün sayısı artınca çift sayısı karesel büyür (50 üründe 1.225 çift) ve matrislerin baştan kurulması gerekir. Daha büyük ürün listeleri için ürünleri kategoriye göre 20'lik gruplar hâlinde analiz edin.",
+    "teknik_not": "Dosya makrosuzdur; yalnız klasik Excel işlevleri kullanır (ETOPLA, ÇOKETOPLA, ÇOKEĞERSAY, İNDİS/KAÇINCI, EĞERHATA). Fiş numaraları kendiliğinden gelmez: Veri Girişi'ndeki benzersiz fiş numaraları Fiş Matrisi'nin A sütununa elle yapıştırılır; yapıştırılmazsa matris eski numaralara göre hesaplanır. Matris, lift, kurallar ve Özet bu numaralardan kendiliğinden hesaplanır. Yapıştırırken \"Değerleri yapıştır\" kullanın. Dosyayla birlikte yedi analiz motorunun ortak kapasite ve kullanım kılavuzu (PDF) verilir. Kapasite 20 ürün, 250 fiş ve 1.200 fiş satırı; ürün ve fiş tavanı esnetilemez: ürün sayısı artınca çift sayısı karesel büyür (50 üründe 1.225 çift) ve matrislerin baştan kurulması gerekir. Daha büyük ürün listeleri için ürünleri kategoriye göre 20'lik gruplar hâlinde analiz edin.",
     "sss": [
       {
         "soru": "20 ürün sınırı neden var?",
@@ -1469,7 +1469,7 @@
       },
       {
         "soru": "Kapasite dolarsa?",
-        "cevap": "Çoğu sayfada son formül satırını seçip aşağı sürüklemek yeter; birkaç sabit aralığın nasıl genişletileceği kılavuzda dosya dosya yazılıdır."
+        "cevap": "20 ürün ve 250 fiş tavanı aşılamaz; daha fazla ürünü kategori kategori, 20'lik gruplarla analiz edin. 1.200 satırlık Veri Girişi tavanı kılavuzdaki yolla genişletilebilir."
       }
     ]
   },
