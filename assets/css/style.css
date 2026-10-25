@@ -453,6 +453,9 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 .bos-kutu p { color: var(--metin-2); }
 .bos-kutu .ikon { color: var(--koyu); }
 .eylemler { display: flex; flex-wrap: wrap; gap: 12px; }
+/* İki bölümlü raf (Shopier dosyaları + ücretsiz dosyalar) */
+.raf-bolum + .raf-bolum { margin-top: 56px; }
+.raf-bolum > p { color: var(--metin-2); margin: 4px 0 20px; }
 
 /* ---------- Ürün sayfası ---------- */
 .urun-ust { display: grid; gap: 40px; padding: 24px 0 64px; }

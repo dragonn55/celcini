@@ -20,6 +20,7 @@ import re
 import shutil
 import struct
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -46,7 +47,8 @@ RAFLAR = [
     {"slug": "fabrika", "ad": "Fabrika Dosyaları", "ikon": "fabrika",
      "aciklama": "Fabrika programları (MRP, vardiya, stok, ithalat maliyet)"},
     {"slug": "excel-klinigi", "ad": "Excel Kliniği", "ikon": "klinik",
-     "aciklama": "Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve genel iş şablonları"},
+     "aciklama": "Veri analizi motorları (stok, müşteri, fiyat, iade, tahmin, sepet) ve ücretsiz iş şablonları",
+     "ucretli_baslik": "Analiz motorları", "etiket_esigi": 2},
     {"slug": "datakit", "ad": "Datakit", "ikon": "grafik",
      "aciklama": "Veri analizi süreçleri (satış analizi, ölü stok, talep tahmini)"},
 ]
@@ -103,13 +105,23 @@ def surum(yol):
     return hashlib.md5((KOK / yol.lstrip("/")).read_bytes()).hexdigest()[:8]
 
 
+def ucretsiz(u):
+    """Sitede duran, ücretsiz indirilen dosya: "ucretsiz_dosya": "/dosyalar/<raf>/<dosya>.xlsx" (Shopier yok)."""
+    return bool((u.get("ucretsiz_dosya") or "").strip())
+
+
+def dosya_boyutu(yol):
+    kb = max(1, round((KOK / yol.lstrip("/")).stat().st_size / 1024))
+    return f"{kb:,} KB".replace(",", ".")
+
+
 def gorunur(u):
     if ONIZLEME:
         return True
     if u.get("ornek"):
         return False
     # "yakinda": true → Shopier bağlantısı gelene kadar sayfa "Shopier'de yakında" düğmesiyle görünür
-    return bool((u.get("shopier_url") or "").strip()) or bool(u.get("yakinda"))
+    return bool((u.get("shopier_url") or "").strip()) or bool(u.get("yakinda")) or ucretsiz(u)
 
 
 def png_boyutu(yol):
@@ -352,14 +364,17 @@ def urun_karti(u, raf_goster=True):
         ust.append('<span class="etiket etiket-turuncu">Öne çıkan</span>')
     if any(t.lower() == "yapay zeka" for t in u.get("etiketler", [])):
         ust.append('<span class="etiket etiket-turuncu">yapay zeka</span>')
-    ara = " ".join([u["ad"], u["kisa"], " ".join(u.get("etiketler", []))])
+    etiketler = u.get("etiketler", []) + (["ücretsiz"] if ucretsiz(u) else [])  # raftaki "ücretsiz" süzgeci için
+    ara = " ".join([u["ad"], u["kisa"], " ".join(etiketler)])
     if fiyat_var(u):
         alt = (f'<span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>'
                f'<span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>')
+    elif ucretsiz(u):
+        alt = '<span class="fiyat">Ücretsiz</span>'
     else:
         durum = "Fiyatı Shopier'de" if (u.get("shopier_url") or "").strip() else "Shopier'de yakında"
         alt = f'<span class="fiyat-yok">{durum}</span>'
-    return f"""<li data-urun data-ara="{e(ara)}" data-etiketler="{e("|".join(u.get("etiketler", [])))}">
+    return f"""<li data-urun data-ara="{e(ara)}" data-etiketler="{e("|".join(etiketler))}">
   <article class="kart urun-kart">
     <div class="ust">{"".join(ust)}</div>
     <h3><a href="/urun/{e(u["slug"])}/">{e(u["ad"])}</a></h3>
@@ -369,8 +384,8 @@ def urun_karti(u, raf_goster=True):
 </li>"""
 
 
-def raf_karti(r, sayi):
-    sayi_metin = f"{sayi} ürün" if sayi else "Raf hazırlanıyor"
+def raf_karti(r, sayi, ucretsiz_sayi=0):
+    sayi_metin = (f"{sayi} ürün" + (f" · {ucretsiz_sayi} ücretsiz" if ucretsiz_sayi else "")) if sayi else "Raf hazırlanıyor"
     return f"""<li><a class="kart raf-kart" href="/{r["slug"]}/">
   {ikon(r["ikon"], "ikon ikon-buyuk")}
   <h3>{e(r["ad"])}</h3>
@@ -508,7 +523,9 @@ def karne_ornegi():
 
 def ana_sayfa(urunler):
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
-    raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]]) for r in RAFLAR)
+    ucretsiz_sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"] and ucretsiz(u)) for r in RAFLAR}
+    raf_kartlari = "".join(raf_karti(r, sayilar[r["slug"]], ucretsiz_sayilar[r["slug"]]) for r in RAFLAR)
+    ucretsiz_cumlesi = "".join(f" {RAF[s]['ad']} rafında {n} dosya ücretsiz indirilir." for s, n in ucretsiz_sayilar.items() if n)
     fabrika, odalar = odalari_oku()
     # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
     tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
@@ -565,7 +582,7 @@ def ana_sayfa(urunler):
 
 <section class="bolum bolum-sik" id="dosyalar" aria-labelledby="dosyalar-baslik">
   <div class="kap">
-    <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Sahada test edilmiş, kurulumsuz Excel dosyaları; işe göre üç rafta.</p></div>
+    <div class="bolum-bas"><p class="ust-yazi">Dosyalar</p><h2 id="dosyalar-baslik">Derin Excel havuzu</h2><p>Kurulumsuz Excel dosyaları; işe göre üç rafta.{e(ucretsiz_cumlesi)}</p></div>
     <ul class="izgara izgara-3 raf-izgara">{raf_kartlari}</ul>
   </div>
 </section>
@@ -593,17 +610,43 @@ def raf_sayfasi(r, urunler):
     # Öne çıkan ürün rafın başında; ötekiler data/urunler.json sırasıyla aynı ızgarada
     liste = sorted((u for u in urunler if u["raf"] == r["slug"]), key=lambda u: not u.get("one_cikan"))
     if liste:
-        etiketler = sorted({t for u in liste for t in u.get("etiketler", [])}, key=lambda s: s.lower())
+        # Kalabalık rafta (RAFLAR'da "etiket_esigi") tek ürünlük etiket düğme olmaz; ürün aramada yine bulunur
+        sayim = Counter(t for u in liste for t in u.get("etiketler", []))
+        etiketler = sorted((t for t, n in sayim.items() if n >= r.get("etiket_esigi", 1)), key=lambda s: s.lower())
+        ucretli = [u for u in liste if not ucretsiz(u)]
+        bedava = [u for u in liste if ucretsiz(u)]
+        iki_bolum = bool(ucretli and bedava)
+        if iki_bolum:
+            etiketler = ["ücretsiz"] + [t for t in etiketler if t != "ücretsiz"]
         etiket_dugmeleri = '<button class="etiket-dugme" type="button" data-etiket="" aria-pressed="true">Tümü</button>' + "".join(
             f'<button class="etiket-dugme" type="button" data-etiket="{e(t)}" aria-pressed="false">{e(t)}</button>'
             for t in etiketler)
-        icerik = f"""<h2 class="gizli">{e(r["ad"])} ürünleri</h2>
-    <div class="filtre" data-filtre>
+
+        def izgara(us):
+            return f'<ul class="izgara izgara-urun">{"".join(urun_karti(u, raf_goster=False) for u in us)}</ul>'
+        if iki_bolum:
+            # Üstte Shopier'deki dosyalar, altta sitede duran ücretsiz dosyalar; süzgeç ikisinde birlikte çalışır
+            hepsi_yakinda = not any((u.get("shopier_url") or "").strip() for u in ucretli)
+            ucretli_notu = "Shopier'de yakında satışa açılacak dosyalar." if hepsi_yakinda else "Shopier'den satılan dosyalar."
+            urun_listesi = f"""<section class="raf-bolum" data-urun-bolum aria-labelledby="ucretli-baslik">
+      <h2 id="ucretli-baslik" class="h3-boy">{e(r.get("ucretli_baslik", "Shopier'deki dosyalar"))} · {len(ucretli)}</h2>
+      <p>{ucretli_notu}</p>
+      {izgara(ucretli)}
+    </section>
+    <section class="raf-bolum" data-urun-bolum aria-labelledby="ucretsiz-baslik">
+      <h2 id="ucretsiz-baslik" class="h3-boy">Ücretsiz dosyalar · {len(bedava)}</h2>
+      <p>Dosyayı sayfasından indirin; kayıt ya da ödeme gerekmez.</p>
+      {izgara(bedava)}
+    </section>"""
+        else:
+            urun_listesi = izgara(liste)
+        gizli_baslik = "" if iki_bolum else f'<h2 class="gizli">{e(r["ad"])} ürünleri</h2>\n    '
+        icerik = f"""{gizli_baslik}<div class="filtre" data-filtre>
       <div class="arama">{ikon("ara")}<label class="gizli" for="ara">{e(r["ad"])} rafında ara</label><input id="ara" type="search" placeholder="Rafta ara" autocomplete="off"></div>
       <div class="etiketler" role="group" aria-label="Etikete göre süz">{etiket_dugmeleri}</div>
     </div>
     <p class="sonuc" data-sonuc aria-live="polite"></p>
-    <ul class="izgara izgara-urun">{"".join(urun_karti(u, raf_goster=False) for u in liste)}</ul>"""
+    {urun_listesi}"""
     else:
         icerik = f"""<div class="kart bos-kutu">
       {ikon("kutu", "ikon ikon-buyuk")}
@@ -662,9 +705,14 @@ def urun_sayfasi(u, urunler):
         rozetler.append('<span class="etiket etiket-ornek">ÖRNEK</span>')
     if u.get("one_cikan"):
         rozetler.append('<span class="etiket etiket-turuncu">Öne çıkan</span>')
+    dosya = (u.get("ucretsiz_dosya") or "").strip()
+    if dosya:
+        rozetler.append('<span class="etiket">Ücretsiz</span>')
 
     url = (u.get("shopier_url") or "").strip()
-    if url:
+    if dosya:
+        al = f'<a class="dugme" href="{e(dosya)}" download>Ücretsiz indir{ikon("indir")}</a>'
+    elif url:
         al = (f'<a class="dugme" href="{e(url)}" rel="noopener">Shopier\'de al{ikon("ok")}</a>')
     elif u.get("yakinda"):
         # Bağlantı gelince yalnızca shopier_url doldurulur; mağaza adresi assets/js/config.js'ten uygulanır
@@ -672,7 +720,10 @@ def urun_sayfasi(u, urunler):
               f'<a class="dugme-cizgi" data-link="shopier_magaza" href="#" hidden>Shopier mağazasına git{ikon("ok")}</a></div>')
     else:
         al = '<span class="dugme-pasif">Shopier bağlantısı henüz yok</span>'
-    if fiyat_var(u):
+    if dosya:
+        fiyatlar = f"""<div class="fiyatlar"><span class="fiyat">Ücretsiz</span></div>
+        <p class="not">Kayıt ya da ödeme gerekmez: Excel dosyası ({dosya_boyutu(dosya)}) doğrudan bilgisayarınıza iner. Dosyaya yazdıklarınız bilgisayarınızda kalır.</p>"""
+    elif fiyat_var(u):
         fiyatlar = f"""<div class="fiyatlar">
           <span class="liste-fiyat"><span class="gizli">Liste fiyatı </span>{tl(u["liste_fiyat"])}</span>
           <span class="fiyat"><span class="gizli">Açılış fiyatı </span>{tl(u["fiyat"])}</span>
@@ -684,6 +735,8 @@ def urun_sayfasi(u, urunler):
     ozellikler = "".join(f'<li>{ikon("tik")}<span>{e(o)}</span></li>' for o in u.get("ozellikler", []))
     etiketler = "".join(etiket_html(t) for t in u.get("etiketler", []))
     makro = "Var" if u.get("makro") else "Yok (makrosuz)"
+    dosya_satiri = (f"\n          <dt>Dosya</dt><dd>Excel (.xlsx), {dosya_boyutu(dosya)}</dd>"
+                    "\n          <dt>Doğrulama</dt><dd>Formüller örnek veriyle LibreOffice'te hesaplatılıp denetlendi</dd>") if dosya else ""
     # Genişletilmiş ürün sayfası: "icindekiler", "adimlar", "teknik_not" ve "sss" alanları olan kayıtlarda ek bölümler
     teknik_not = f'\n        <p class="kimin">{e(u["teknik_not"])}</p>' if u.get("teknik_not") else ""
     ek_bolumler = ""
@@ -711,7 +764,11 @@ def urun_sayfasi(u, urunler):
     <div class="sss">{sss_html([(x["soru"], x["cevap"]) for x in u["sss"]])}</div>
   </section>"""
 
-    benzer = [x for x in urunler if x["raf"] == u["raf"] and x["slug"] != u["slug"]][:3]
+    benzer = [x for x in urunler if x["raf"] == u["raf"] and x["slug"] != u["slug"]]
+    if dosya:  # ücretsiz dosyanın sayfasında yine ücretsizler, ortak etiketi çok olan önce
+        benzer = sorted((x for x in benzer if ucretsiz(x)),
+                        key=lambda x: -len(set(x.get("etiketler", [])) & set(u.get("etiketler", []))))
+    benzer = benzer[:3]
     benzer_bolum = ""
     if benzer:
         benzer_bolum = f"""<section class="bolum" aria-labelledby="benzer-baslik">
@@ -750,7 +807,7 @@ def urun_sayfasi(u, urunler):
           <dt>Raf</dt><dd>{e(r["ad"])}</dd>
           <dt>Excel sürümü</dt><dd>{e(u["excel_surum"])}</dd>
           <dt>Makro</dt><dd>{makro}</dd>
-          <dt>Sayfa sayısı</dt><dd>{int(u["sayfa_sayisi"])}</dd>
+          <dt>Sayfa sayısı</dt><dd>{int(u["sayfa_sayisi"])}</dd>{dosya_satiri}
           <dt>Kurulum</dt><dd>Gerekmez</dd>
         </dl>{teknik_not}
         <h2 class="h3-boy">Kimin için</h2>
@@ -776,7 +833,9 @@ def urun_sayfasi(u, urunler):
                        "seller": {"@type": "Organization", "name": "Celcini"}},
         })
     og = gorseller[0]["src"] if gorseller else "/assets/img/og-cover.png"
-    return sayfa(f"/urun/{u['slug']}/", f"{u['ad']} · {r['ad']}", u["kisa"], govde,
+    baslik = f"{u['ad']} · Ücretsiz Excel" if dosya else f"{u['ad']} · {r['ad']}"
+    aciklama = f"Ücretsiz Excel dosyası. {u['kisa']}" if dosya and len(u["kisa"]) <= 134 else u["kisa"]
+    return sayfa(f"/urun/{u['slug']}/", baslik, aciklama, govde,
                  etkin=f"/{r['slug']}/", og_gorsel=og, tur="product", ek_head=ek)
 
 
@@ -1503,6 +1562,11 @@ def urunleri_oku():
         url = (u["shopier_url"] or "").strip()
         if url and not url.startswith("https://"):
             sys.exit(f"HATA: {u['slug']}: shopier_url https:// ile başlamalı")
+        dosya = (u.get("ucretsiz_dosya") or "").strip()
+        if dosya and (url or fiyat_var(u)):
+            sys.exit(f"HATA: {u['slug']}: ücretsiz dosyanın shopier_url'si ve fiyatı boş olmalı")
+        if dosya and not (dosya.startswith("/dosyalar/") and dosya.endswith(".xlsx") and (KOK / dosya.lstrip("/")).is_file()):
+            sys.exit(f"HATA: {u['slug']}: ucretsiz_dosya /dosyalar/ altında var olan bir .xlsx olmalı ({dosya})")
 
     return veri
 
@@ -1528,6 +1592,8 @@ def main():
             shutil.copytree(KOK / d, CIKTI / d, ignore=shutil.ignore_patterns("index.html"))
         for f in ("favicon.ico", "site.webmanifest"):
             shutil.copy2(KOK / f, CIKTI / f)
+        if (KOK / "dosyalar").exists():  # ücretsiz dosyalar (data/urunler.json: ucretsiz_dosya)
+            shutil.copytree(KOK / "dosyalar", CIKTI / "dosyalar")
         (CIKTI / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
     else:
         (CIKTI / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
@@ -1580,7 +1646,8 @@ def main():
     (CIKTI / "sitemap.xml").write_text("\n".join(harita), encoding="utf-8")
 
     kip = "ÖNİZLEME → _onizleme/" if ONIZLEME else "ÜRETİM → depo kökü"
-    print(f"{kip}: {len(yollar)} sayfa, {len(urunler)} ürün, sitemap {len(adresler)} adres.")
+    bedava = sum(1 for u in urunler if ucretsiz(u))
+    print(f"{kip}: {len(yollar)} sayfa, {len(urunler)} ürün{f' ({bedava} ücretsiz)' if bedava else ''}, sitemap {len(adresler)} adres.")
     if gizlenen:
         print(f"Gizlenen kayıtlar (örnek ya da Shopier bağlantısı boş): {', '.join(gizlenen)}")
     yakinda = [u["slug"] for u in urunler if u.get("yakinda") and not (u.get("shopier_url") or "").strip()]

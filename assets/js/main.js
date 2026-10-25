@@ -75,6 +75,10 @@
         if (gor) n++;
       });
       if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " ürün gösteriliyor." : "Aramanıza uyan ürün yok.");
+      /* İki bölümlü rafta (Shopier + ücretsiz) kartı kalmayan bölümün başlığı da gizlenir */
+      document.querySelectorAll("[data-urun-bolum]").forEach(function (b) {
+        b.hidden = !b.querySelector("[data-urun]:not([hidden])");
+      });
     };
     kutu.addEventListener("input", uygula);
     etiketDugmeleri.forEach(function (b) {

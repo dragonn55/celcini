@@ -35,8 +35,8 @@ const dil = [
 ];
 
 const urunler = JSON.parse(fs.readFileSync(path.join(depo, "data/urunler.json"), "utf8"));
-/* derle.py gorunur() ile aynı kural: örnek kayıt ya da bağlantısı boş ve "yakinda" olmayan kayıt üretimde görünmez */
-const gizli = urunler.filter((u) => u.ornek || (!String(u.shopier_url || "").trim() && !u.yakinda)).map((u) => u.slug);
+/* derle.py gorunur() ile aynı kural: örnek kayıt ya da bağlantısı boş, "yakinda" olmayan ve ücretsiz dosyası olmayan kayıt üretimde görünmez */
+const gizli = urunler.filter((u) => u.ornek || (!String(u.shopier_url || "").trim() && !u.yakinda && !String(u.ucretsiz_dosya || "").trim())).map((u) => u.slug);
 
 for (const file of htmlFiles) {
   const rel = path.relative(root, file);

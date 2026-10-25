@@ -40,6 +40,7 @@ scripts/ikiz-veri.py     Fabrika Motoru'nun örnekli dosyasından uzay/ikiz/js/v
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
 scripts/rehber-disa-aktar.py  Excel sayfalarını rehber JSON'una çevirir (openpyxl gerekir; derlemenin parçası değildir)
+scripts/excel-klinigi/   Excel Kliniği'nin 43 ücretsiz dosyasının derleme betikleri; uret.py hepsini dosyalar/excel-klinigi/'ye üretir
 scripts/ses-*.mjs        Ajan GM sesi: ses-cumleler (→ data/ses/cumleler.json), ses-test (liste, JSON, dosyalar)
 scripts/ses-piper.py     Ajan GM ses dosyaları, Piper ile (Linux/macOS; model huggingface.co'dan bir kez iner)
 scripts/ses-tolga.ps1    Ajan GM ses dosyaları, Windows'ta "Microsoft Tolga" ile
@@ -49,6 +50,7 @@ assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
 assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
 assets/js/main.js        Mobil menü, bağlantıları uygulama, raf araması, galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
+dosyalar/<raf>/          Ücretsiz indirilen dosyalar (data/urunler.json: ucretsiz_dosya); Excel Kliniği'nde 43 xlsx
 
 index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html, uzay/ikiz/index.html,
 uzay/araclar/_sablon/index.html, hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
@@ -90,6 +92,7 @@ alınır; Excel Kliniği'ndeki yedi analiz motorunun görselleri böyle üretild
    | `fiyat`, `liste_fiyat` | TL, tam sayı. Açılış fiyatı ve üstü çizili liste fiyatı. `null` ise fiyat yazmaz ("Shopier'de yakında" / "Fiyatı Shopier'de"). |
    | `shopier_url` | Shopier ürün bağlantısı. **Boşsa ürün üretimde görünmez** (`yakinda: true` değilse). |
    | `yakinda` | İsteğe bağlı. `true` ise bağlantı boşken de sayfa çıkar: pasif "Shopier'de yakında" düğmesi ve mağaza ana sayfası bağlantısı (`config.js`). Bağlantı gelince yalnızca `shopier_url` doldurulur. |
+   | `ucretsiz_dosya` | İsteğe bağlı. Sitede duran ücretsiz dosya: `"/dosyalar/<raf>/<dosya>.xlsx"`. Doluysa `shopier_url` ve `fiyat` boş olmalı. Sayfada "Ücretsiz indir" düğmesi ve dosya boyutu çıkar. Rafta bu ürünler "Ücretsiz dosyalar" bölümünde, "ücretsiz" süzgeciyle görünür. |
    | `gorseller[]` | `"/assets/img/urun/<slug>/1-panel.png"` ya da `{"src": "...", "alt": "..."}`. Yanında aynı adlı `.webp` varsa önce o yüklenir; boyut PNG'den okunur. Boşsa "Ekran görüntüleri hazırlanıyor" kutusu çıkar. |
    | `excel_surum`, `makro`, `sayfa_sayisi` | Teknik bilgi. |
    | `one_cikan` | `true` ise ana sayfada "Öne çıkan" bölümüne girer. |
@@ -98,8 +101,16 @@ alınır; Excel Kliniği'ndeki yedi analiz motorunun görselleri böyle üretild
 
 2. `python3 scripts/derle.py` çalıştır, `npm run check` ile kontrol et, commit et.
 
-Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş (`yakinda` olmayan) kayıtların sayfasını üretmez, raf sayılarına,
-öne çıkanlara ve sitemap'e katmaz, eski sayfası varsa `urun/` altından siler.
+Üretim derlemesi; `ornek: true` olan ve `shopier_url`'si boş (`yakinda` ya da `ucretsiz_dosya` olmayan) kayıtların sayfasını üretmez,
+raf sayılarına, öne çıkanlara ve sitemap'e katmaz, eski sayfası varsa `urun/` altından siler.
+
+Ücretsiz dosyalar `dosyalar/<raf>/` altında durur (önizleme derlemesine de kopyalanır). Excel Kliniği'nin 43 ücretsiz dosyası
+5 Ekim 2026 sohbetindeki derleme betiklerinden üretildi; betikler `scripts/excel-klinigi/` altında. Örnek kişi ve firma adları
+"Müşteri Alfa, Beta, Gama…" biçimindedir. Yeniden üretmek için `python3 scripts/excel-klinigi/uret.py`. Bunun için openpyxl,
+LibreOffice, `recalc.py` (`RECALC` ortam değişkeni) ve libfaketime gerekir. Betikler örnek veriyi 4 Ekim 2026'ya göre doğrular;
+tarih o güne sabitlenir. Her dosyanın sayfası `rehber-disa-aktar.py` ve `tablo.js` ile tek görsel (`1-ozet`) olarak çizildi.
+Bir rafta hem Shopier'deki hem ücretsiz ürün varsa raf iki bölümle çıkar. Rafın `RAFLAR` kaydında `ucretli_baslik` üst bölümün
+başlığını, `etiket_esigi` süzgeç düğmesi olacak etiketin en az kaç üründe geçmesi gerektiğini belirler (Excel Kliniği'nde 2).
 
 ## Bağlantılar
 
