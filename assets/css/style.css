@@ -315,13 +315,14 @@ main { display: block; }
 a.uzay-kart:hover { border-color: var(--koyu); }
 a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
 @media (min-width: 760px) { .uzay-kart { grid-template-columns: auto 1fr auto; gap: 28px; } }
+.kisayollar { display: grid; gap: 16px; }  /* ana sayfa: Arşiv ve Uzay kartları tek bölümde */
 .arac-kart { padding: 28px; display: grid; gap: 12px; align-content: start; justify-items: start; height: 100%; }
 .arac-kart .ust { display: flex; align-items: center; justify-content: space-between; width: 100%; color: var(--koyu); }
 .arac-kart p { color: var(--metin-2); }
 
 /* Ana sayfa telefonda kısa (390 px'te 4.500 px altı): bölümler arası boşluk azalır, kahramanda portre küçülür,
    oda şeridi yatay kayar, "Nasıl çalışır" adımları tek satır, karne örneği harf + dört gösterge (alt satırsız) + Ajan GM'in
-   ilk cümlesi, raf kartları tek sütunda sıkı, Uzay kartında simge başlığın solunda */
+   ilk cümlesi, raf kartları tek sütunda sıkı, Arşiv ve Uzay kartları tek bölümde ve simge başlığın solunda */
 @media (max-width: 759px) {
   .bolum-sik { padding: 28px 0; }
   .bolum-sik .bolum-bas { margin-bottom: 20px; }
@@ -350,6 +351,7 @@ a.uzay-kart:hover .uzay-git .ikon { transform: translateX(3px); }
   .raf-izgara .raf-kart { grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; padding: 16px; }
   .raf-izgara .raf-kart > .ikon { grid-row: span 3; }
   .raf-izgara .raf-kart .raf-sayi { margin-top: 4px; padding-top: 0; border-top: 0; justify-content: flex-start; gap: 8px; }
+  .kisayollar { gap: 12px; }
   .uzay-kart { grid-template-columns: auto minmax(0, 1fr); gap: 8px 16px; padding: 20px; }
   .uzay-kart > .ikon { align-self: start; }
   .uzay-git { grid-column: 2; }
@@ -560,23 +562,11 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
 /* ---------- Üretim Arşivi (/arsiv/) ---------- */
 /* Turuncu yalnızca kartın sol kenarındaki ince çizgi; yazı rengi değil */
 .sayfa-bas .ust-yazi { font-size: var(--fs-1); color: var(--koyu); }
-.arsiv-bolum + .arsiv-bolum { margin-top: 48px; }
-.arsiv-bolum > h2 { margin-bottom: 16px; }
-.arsiv-kategoriler { list-style: none; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 760px) { .arsiv-kategoriler { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .arsiv-kategoriler { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.arsiv-kategori { padding: 20px 24px; display: grid; gap: 4px; align-content: start; }
-.arsiv-kategori h3 a { color: var(--metin); text-decoration: none; }
-.arsiv-kategori h3 a:hover { text-decoration: underline; }
-.arsiv-sayi { color: var(--metin-2); margin-bottom: 8px; }
-.arsiv-basliklar { list-style: none; }
-.arsiv-basliklar li { border-top: var(--cizgi-k) solid var(--cizgi); }
-.arsiv-basliklar a { display: flex; align-items: center; min-height: 44px; padding: 8px 0; text-decoration: none; }
-.arsiv-basliklar a:hover { text-decoration: underline; }
-.arsiv-not { color: var(--metin-2); margin-top: 40px; max-width: 72ch; }
+/* Başlık bağlantıları: yazı boyu 24 px, dokunma alanı 44 px (dolgu + eksi kenar boşluğu; yerleşim değişmez) */
+.arsiv-kategori h3 a, .arsiv-kart h2 a { display: block; padding: 10px 0; margin: -10px 0; color: var(--metin); text-decoration: none; }
+.arsiv-kategori h3 a:hover, .arsiv-kart h2 a:hover { text-decoration: underline; }
 
-.arsiv-bolum > h2 { scroll-margin-top: 16px; }
-/* Hap bağlantı: dizinde bölümlere atla, konu sayfasında (geniş ekran) içindekiler */
+/* Dizin: bölümlere atla (hap bağlantılar), bölüm bölüm konu kartları ve sorun başlıkları */
 .arsiv-atla { margin-bottom: 32px; }
 .arsiv-atla ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .arsiv-atla a {
@@ -585,6 +575,29 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
   transition: background-color var(--gecis);
 }
 .arsiv-atla a:hover { background: var(--zemin); }
+@media (max-width: 759px) {
+  /* Telefonda haplar tek satırda yatay kayar (ana sayfadaki oda şeridi gibi) */
+  .arsiv-atla { margin-bottom: 24px; }
+  .arsiv-atla ul {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+    margin: 0 calc(-1 * var(--kenar)); padding: 0 var(--kenar) 4px; scroll-padding-inline: var(--kenar);
+  }
+  .arsiv-atla li { flex: 0 0 auto; }
+  .arsiv-atla a { white-space: nowrap; }
+}
+.arsiv-bolum + .arsiv-bolum { margin-top: 48px; }
+.arsiv-bolum > h2 { margin-bottom: 16px; scroll-margin-top: 16px; }
+.arsiv-kategoriler { list-style: none; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .arsiv-kategoriler { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .arsiv-kategoriler { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.arsiv-kategori { padding: 20px 24px; display: grid; gap: 4px; align-content: start; }
+.arsiv-sayi { color: var(--metin-2); margin-bottom: 8px; }
+.arsiv-basliklar { list-style: none; }
+.arsiv-basliklar li { border-top: var(--cizgi-k) solid var(--cizgi); }
+.arsiv-basliklar a { display: flex; align-items: center; min-height: 44px; padding: 8px 0; text-decoration: none; }
+.arsiv-basliklar a:hover { text-decoration: underline; }
+.arsiv-not { color: var(--metin-2); margin-top: 40px; max-width: 72ch; }
+
 /* Konu sayfası içindekiler: telefonda kart içinde liste (uzun başlıklar), 760 px'ten itibaren hap bağlantılar */
 .arsiv-icindekiler { margin-bottom: 24px; }
 .arsiv-icindekiler ol { list-style: none; background: var(--kart); border: var(--cizgi-k) solid var(--cizgi); border-radius: var(--r); padding: 4px 24px; }
@@ -600,11 +613,11 @@ a.raf-kart:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
   }
   .arsiv-icindekiler a:hover { background: var(--zemin); text-decoration: none; }
 }
+
+/* Konu sayfası kartı: belirti ve kök neden solda, çözüm sağda (geniş ekran); altta ilke */
 .arsiv-kartlar { display: grid; gap: 20px; max-width: 960px; }
 .arsiv-kart { padding: 24px; display: grid; gap: 16px; border-left: 2px solid var(--turuncu); scroll-margin-top: 16px; }
 .arsiv-kart:target { border-color: var(--koyu); border-left-color: var(--turuncu); }
-.arsiv-kart h2 a { color: var(--metin); text-decoration: none; }
-.arsiv-kart h2 a:hover { text-decoration: underline; }
 .arsiv-ic { display: grid; gap: 16px; }
 @media (min-width: 760px) { .arsiv-ic { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
 .arsiv-durum { display: grid; gap: 12px; margin: 0; align-content: start; }

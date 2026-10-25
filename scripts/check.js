@@ -113,7 +113,10 @@ for (const rh of REHBERLER) {
 }
 
 const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
-for (const m of sitemap.matchAll(/<loc>https:\/\/celcini\.com(\/[^<]*)<\/loc>/g)) {
+/* Alan adından bağımsız (derle.py SITE değişince de çalışır); hiç adres okunamazsa da hata */
+const haritaAdresleri = [...sitemap.matchAll(/<loc>https:\/\/[^/<]+(\/[^<]*)<\/loc>/g)];
+if (!haritaAdresleri.length) hata("sitemap: adres okunamadı");
+for (const m of haritaAdresleri) {
   if (!fs.existsSync(path.join(root, m[1], "index.html"))) hata(`sitemap: sayfa yok ${m[1]}`);
 }
 

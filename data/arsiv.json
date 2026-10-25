@@ -1,5 +1,4 @@
 {
-  "ad": "Üretim Arşivi",
   "bolumler": [
     {
       "slug": "planlama-ve-talep",
@@ -17,7 +16,7 @@
               "cozum": [
                 "Kapasite-yük analizi yap, haftalık doluluğu gör.",
                 "Darboğaz istasyonu tespit et, planı ona göre kur.",
-                "Termini tahminle değil gerçek kapasiteyle söz ver."
+                "Termini tahmine göre değil, gerçek kapasiteye göre ver."
               ],
               "ilke": "Termini kapasite belirler, temenni değil.",
               "ilgili": "fabrika-motoru"
@@ -466,7 +465,7 @@
               "kok_neden": "Hareketler anlık kaydedilmiyor ve sapmanın nedeni araştırılmıyor.",
               "cozum": [
                 "Giriş-çıkış hareketlerini anlık kaydet.",
-                "Yıl sonu sayımı yerine döngüsel sayıma geç.",
+                "Yıl sonu sayımına ek olarak yıl içinde döngüsel sayım yap.",
                 "Her sapmanın nedenini yaz, tekrarı engelle."
               ],
               "ilke": "Yılda bir sayılan stok, yılın geri kalanında tahmindir.",
@@ -769,7 +768,7 @@
                 "Acil alımların oranını ve nedenini ölç.",
                 "Tekrarlayan acil kalemlere emniyet stoğu tanımla."
               ],
-              "ilke": "Her acil alım, geçmişteki bir plansızlığın faturasıdır.",
+              "ilke": "Acil alımların çoğu, geçmişteki bir plansızlığın faturasıdır.",
               "ilgili": "planla"
             }
           ]
@@ -836,7 +835,7 @@
               "cozum": [
                 "Verdiğin teklife kur ve navlun geçerlilik süresi koy.",
                 "Yüksek hacimde sabit navlun anlaşmasını değerlendir.",
-                "Maliyeti teslim anındaki değerle yeniden hesapla."
+                "Maliyeti ödeme anındaki kur ve gerçekleşen navlunla yeniden hesapla."
               ],
               "ilke": "Sabitlemediğin maliyet er geç seni bulur.",
               "ilgili": "ithalat-maliyet"
@@ -893,7 +892,7 @@
                 "Termini sözleşmeye ve yaptırıma bağla.",
                 "Kritik işlerde yedek fasoncu bulundur."
               ],
-              "ilke": "Kapasitesini bilmediğin tedarikçiye söz veremezsin."
+              "ilke": "Kapasitesini bilmediğin fasoncuya güvenip müşteriye söz veremezsin."
             },
             {
               "slug": "fason-bilgisi-tek-kisinin-elinde",
@@ -988,7 +987,7 @@
             {
               "slug": "kalite-hatasi-uretim-bitince-fark-ediliyor",
               "baslik": "Kalite hatası üretim bitince fark ediliyor",
-              "belirti": "Hata en pahalı noktada, yani son kontrolde yakalanıyor.",
+              "belirti": "Hata geç ve pahalı bir noktada, son kontrolde yakalanıyor.",
               "kok_neden": "Kalite kontrolü sürecin sonuna yığılmış durumda.",
               "cozum": [
                 "Kaliteyi son kontrolden alıp hattın içine koy.",
@@ -1157,7 +1156,7 @@
               "slug": "makineler-sik-arizalaniyor",
               "baslik": "Makineler sık arızalanıyor",
               "belirti": "Plan, makine duruşları yüzünden düzenli olarak çöküyor.",
-              "kok_neden": "Arızanın kök nedeni araştırılmıyor; makine onarılıp aynı arızanın tekrarı bekleniyor.",
+              "kok_neden": "Arızanın kök nedeni araştırılmıyor; makine yalnızca onarılıyor ve aynı arıza tekrar ediyor.",
               "cozum": [
                 "Her arızayı makine ve arıza türüyle kaydet.",
                 "Aynı makinede tekrarlayan arızaya kök neden analizi uygula.",
@@ -1341,13 +1340,13 @@
                 "Tek kurulumla toplu üretim yap.",
                 "Kurulum süresini ölç ve kısalt (SMED)."
               ],
-              "ilke": "Kurulumu kısaltmayan, küçük siparişe hep zarar eder."
+              "ilke": "Kurulumu kısaltmayan ya da fiyata yansıtmayan, küçük siparişte zarar eder."
             },
             {
               "slug": "fazla-mesai-maliyeti-kontrolden-cikti",
               "baslik": "Fazla mesai maliyeti kontrolden çıktı",
               "belirti": "Her ay mesai bütçesi aşılıyor, sebebi sürekli tartışılıyor.",
-              "kok_neden": "Mesai plansızlığın sonucu olarak doğuyor ve nedeniyle ölçülmüyor.",
+              "kok_neden": "Mesai çoğu zaman plansızlıktan doğuyor ve nedeniyle birlikte kaydedilmiyor.",
               "cozum": [
                 "Mesai saatini nedeniyle birlikte kaydet.",
                 "Plansızlıktan kaynaklanan kısmı ayrı göster.",
@@ -1375,7 +1374,7 @@
               "kok_neden": "Öncesi-sonrası ölçüm yapılmıyor ve kazanç paraya çevrilmiyor.",
               "cozum": [
                 "Her iyileştirmeye başlangıç ölçümü koy.",
-                "30–60–90 gün sonra tekrar ölç.",
+                "30., 60. ve 90. günde tekrar ölç.",
                 "Kazancı TL karşılığıyla raporla."
               ],
               "ilke": "Ölçülmeyen iyileştirme, yapılmamış sayılır."
@@ -1427,7 +1426,7 @@
             {
               "slug": "yatirim-kararlarini-hisle-veriyorum",
               "baslik": "Yatırım kararlarını hisle veriyorum",
-              "belirti": "Makine alınıyor ama geri dönüş süresi hiç hesaplanmıyor.",
+              "belirti": "Makine alınıyor ama geri ödeme süresi hiç hesaplanmıyor.",
               "kok_neden": "Geri ödeme süresi ve alternatif maliyeti değerlendirilmiyor.",
               "cozum": [
                 "Yatırımın yıllık net kazancını hesapla.",
@@ -1513,9 +1512,9 @@
               "cozum": [
                 "Her proje sonunda tek sayfalık değerlendirme yaz.",
                 "Öğrenilen dersleri ortak arşivde tut.",
-                "Yeni proje başlarken bu arşivi zorunlu oku."
+                "Yeni projeye başlamadan bu arşivin okunmasını zorunlu kıl."
               ],
-              "ilke": "Ders çıkarılmayan proje bir sonrakinde tekrar yaşanır."
+              "ilke": "Ders çıkarılmayan hata, bir sonraki projede tekrar yaşanır."
             }
           ]
         },
@@ -1543,7 +1542,7 @@
               "cozum": [
                 "Vardiya sonu kapatma kontrol listesi oluştur.",
                 "Boşta tüketimi hafta sonu ölçümüyle tespit et.",
-                "Otomatik kapanma veya zamanlayıcı kur."
+                "Acil aydınlatma, havalandırma ve yangın sistemleri dışındaki ekipmana otomatik kapanma ya da zamanlayıcı kur."
               ],
               "ilke": "Boşta dönen makine, çalışmadan para harcar."
             },
@@ -1626,7 +1625,7 @@
               "kok_neden": "Ölçülebilir hedef yok; konuşma izlenim üzerinden yürüyor.",
               "cozum": [
                 "Her role 3–5 ölçülebilir gösterge tanımla.",
-                "Veriyi aylık olarak şeffaf paylaş.",
+                "Kişinin verisini her ay kendisiyle şeffaf biçimde paylaş.",
                 "Konuşmayı kişi değil gösterge üzerinden yürüt."
               ],
               "ilke": "Veriyle konuşulan yerde tartışma biter."
@@ -1678,13 +1677,13 @@
               "slug": "vardiyanin-ilk-yarim-saati-kayip",
               "baslik": "Vardiyanın ilk yarım saati kayıp",
               "belirti": "Vardiya başlıyor ama üretim ancak 30–40 dakika sonra fiilen başlıyor.",
-              "kok_neden": "Hazırlık, devir ve malzeme temini vardiya süresinin içinde yapılıyor.",
+              "kok_neden": "Hazırlık, devir ve malzeme temini vardiyanın ilk dakikalarına bırakılıyor.",
               "cozum": [
                 "Malzeme ve aparatı bir önceki vardiyada hazırla.",
                 "Vardiya başında 5 dakikalık standart toplantı kur.",
                 "İlk üretim saatini ölç ve hedefe bağla."
               ],
-              "ilke": "Vardiya hazırlıkla değil, üretimle başlamalıdır."
+              "ilke": "Sonraki vardiyanın hazırlığı, biten vardiyanın işidir."
             },
             {
               "slug": "mola-sureleri-surekli-asiliyor",
@@ -1751,7 +1750,7 @@
                 "Bildirimi cezalandırma, tersine teşvik et.",
                 "Aylık bildirimleri analiz edip önlem al."
               ],
-              "ilke": "Ramak kala, ucuz atlatılmış bir kazadır."
+              "ilke": "Ramak kala, kaza olmadan gelen bir uyarıdır."
             },
             {
               "slug": "sahada-duzen-ve-temizlik-saglanamiyor",
@@ -1797,7 +1796,7 @@
               "cozum": [
                 "Eğitim sonrası kısa değerlendirme uygula.",
                 "30 gün sonra saha gözlemiyle doğrula.",
-                "Eğitim ihtiyacını olay verisinden belirle."
+                "Zorunlu İSG eğitimlerine ek olarak eğitim ihtiyacını olay verisinden belirle."
               ],
               "ilke": "İmzalanan eğitim değil, değişen davranış sayılır."
             }
@@ -2029,7 +2028,7 @@
               "belirti": "Arıza olunca herkes birbirine soruyor, saatler böyle kaybediliyor.",
               "kok_neden": "Acil müdahale planı ve iletişim sırası tanımlanmamış.",
               "cozum": [
-                "Kritik makineler için acil müdahale kartı hazırla.",
+                "Kritik makineler için acil müdahale kartı hazırla; ilk adım güvenli durdurma ve enerjiyi kesmek olsun.",
                 "Kimin sırayla aranacağını kartın üstüne yaz.",
                 "Kartı makinenin görünür yerine as."
               ],
@@ -2254,7 +2253,7 @@
             {
               "slug": "neyin-gereksiz-oldugu-bir-turlu-kararlastirilamiyor",
               "baslik": "Neyin gereksiz olduğu bir türlü kararlaştırılamıyor",
-              "belirti": "Ayıklama adımında hiçbir şey atılamıyor, her şeye lazım olur deniyor.",
+              "belirti": "Ayıklama adımında hiçbir şey atılamıyor, her şey için \"lazım olur\" deniyor.",
               "kok_neden": "Ayıklama için objektif ve yazılı bir kriter belirlenmemiş.",
               "cozum": [
                 "\"Son 6 ayda kullanıldı mı?\" sorusunu kriter yap.",
@@ -2282,7 +2281,7 @@
               "kok_neden": "Temizlik günlük iş standardının bir parçası hâline getirilmemiş.",
               "cozum": [
                 "Günlük 5–10 dakikalık temizliği vardiyanın içine göm.",
-                "Temizliği makine kontrolüyle birleştir.",
+                "Temizliği, makine durdurulmuşken yapılan günlük kontrolle birleştir.",
                 "Kontrol listesini istasyonun görünür yerine as."
               ],
               "ilke": "İşin parçası olmayan temizlik hiç yapılmaz."

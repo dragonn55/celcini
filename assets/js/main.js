@@ -64,20 +64,25 @@
     var sonuc = document.querySelector("[data-sonuc]");
     var secili = "";
     var birim = filtre.getAttribute("data-birim") || "ürün";
-    /* Türkçe harfe duyarsız: "sayim" yazan "sayım"ı, "kalip" yazan "Kalıp"ı bulur */
-    var kucuk = function (s) {
-      return (s || "").toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i").replace(/\s+/g, " ");
-    };
-    var metinler = [];
-    kartlar.forEach(function (k) { metinler.push(kucuk(k.getAttribute("data-ara"))); });
+    /* Arama kelime başından eşleşir: "kalite" "kalitesi"ni bulur, "isi" "kişi"yi bulmaz (Türkçe ek alır, önek almaz).
+       Sorguda Türkçe harf yoksa metnin harfleri de sadeleşir: "sayim" "sayım"ı, "kalip" "Kalıp"ı bulur. Türkçe harfle
+       yazılan sorgu harfi harfine aranır: "kâr" "karar"ı, "kış" "kişi"yi bulmaz. */
+    var kucuk = function (s) { return (s || "").normalize("NFC").toLocaleLowerCase("tr").replace(/\s+/g, " "); };
+    var sade = function (s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i"); };
+    var metinler = [], sadeMetinler = [];
+    kartlar.forEach(function (k) {
+      var m = kucuk(k.getAttribute("data-ara"));
+      metinler.push(m);
+      sadeMetinler.push(sade(m));
+    });
     var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
     var uygula = function () {
       var q = kucuk(kutu.value).trim();
-      /* Kelime başından eşleşir: "isi" yazan "ısı"yı bulur, "kişi"yi bulmaz (Türkçe ek alır, önek almaz) */
-      var desen = q ? new RegExp("(^|[^a-z0-9])" + kacir(q)) : null;
+      var hedef = q === sade(q) ? sadeMetinler : metinler;
+      var desen = q ? new RegExp("(^|[^a-z0-9çğıöşüâîû])" + kacir(q)) : null;
       var n = 0;
       kartlar.forEach(function (k, i) {
-        var metinUyar = !desen || desen.test(metinler[i]);
+        var metinUyar = !desen || desen.test(hedef[i]);
         var etiketUyar = !secili || ("|" + k.getAttribute("data-etiketler") + "|").indexOf("|" + secili + "|") !== -1;
         var gor = metinUyar && etiketUyar;
         k.hidden = !gor;

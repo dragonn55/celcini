@@ -50,7 +50,7 @@ data/ses/cumleler.json   Ajan GM'nin ses dosyası olan 40 sabit cümlesi (ses-cu
 assets/ses/ajan-gm/      Ajan GM ses dosyaları (<id>.mp3; üretim betikleri yazar)
 assets/css/style.css     Tüm stiller; palet ve ölçüler :root'ta
 assets/js/config.js      Dış bağlantılar (Shopier mağaza, Google Form, e-posta, Instagram)
-assets/js/main.js        Mobil menü, bağlantıları uygulama, raf ve arşiv araması (Türkçe harfe duyarsız), galeri
+assets/js/main.js        Mobil menü, bağlantıları uygulama, raf ve arşiv araması (kelime başından), galeri
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 dosyalar/<raf>/          Ücretsiz indirilen dosyalar (data/urunler.json: ucretsiz_dosya); Excel Kliniği'nde 43 xlsx
 
@@ -267,6 +267,10 @@ başına `/arsiv/<konu>/` sayfasını üretir, adresleri sitemap'e ekler. Bir so
   ürün sayfasında "Üretim Arşivi'nde" listesi çıkar. Bağlantı yalnızca dosya o sorunu gerçekten çözüyorsa verilir.
 - **Denetim:** derleme slug biçimini ve tekliğini, boş alanı, üç çözüm adımını ve `ilgili` ürünün varlığını denetler;
   hata varsa durur. Üretim derlemesi `data/arsiv.json`'da artık olmayan `/arsiv/<konu>/` klasörünü siler.
+- **Arama (`main.js`, raflarda da aynı):** kelime başından eşleşir ("kalite" "kalitesi"ni bulur, "lanla" "PLANLA"yı bulmaz).
+  Sorguda Türkçe harf yoksa metnin harfleri de sadeleşir ("sayim" → "sayım"); Türkçe harfle yazılan sorgu harfi harfine aranır
+  ("kâr" "karar"ı bulmaz). Dizinde kartın başlığı, belirtisi, kök nedeni, çözümü, ilkesi, konu ve bölüm adı aranır; arama
+  sürerken bölüm kısayolları ve konu sayıları (`data-arama-gizle`) gizlenir.
 - **İçerik kuralı:** kartlar genel uygulama önerisidir; her sayfanın altında iş güvenliği ve mevzuat notu durur. Gerçek
   firma adı, müşteri ya da rakam yazılmaz; kesin yargı yerine uygulanabilir öneri yazılır.
 

@@ -282,7 +282,6 @@ def alt_bilgi():
     </div>
     <nav aria-label="Raflar"><h2>Raflar</h2><ul>{raflar}</ul></nav>
     <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
-      <li><a href="/arsiv/">Üretim Arşivi</a></li>
       <li><a href="/hakkinda/">Hakkında</a></li>
       <li><a href="/iletisim/">İletişim</a></li>
       <li><a href="/sss/">SSS</a></li>
@@ -533,7 +532,7 @@ def ana_sayfa(urunler, arsiv):
     # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
     tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
                       if any(o.get("kod") for o in odalar) else "")
-    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Üretim Arşivi → Uzay.
+    # Sıra: kahraman (Ajan GM) → Dokuz oda + harita → Nasıl çalışır → Karne örneği → Dosyalar → Üretim Arşivi ve Uzay (tek bölüm).
     # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
     govde = f"""<section class="hero hero-fk" aria-labelledby="fk-baslik">
   <div class="kap">
@@ -590,19 +589,14 @@ def ana_sayfa(urunler, arsiv):
   </div>
 </section>
 
-<section class="bolum bolum-sik" aria-labelledby="arsiv-baslik">
-  <div class="kap">
+<section class="bolum bolum-sik" aria-label="Üretim Arşivi ve Uzay">
+  <div class="kap kisayollar">
     <a class="kart uzay-kart" href="{ARSIV_YOLU}">
       {ikon("kitap", "ikon ikon-buyuk")}
-      <span class="uzay-metin"><span class="ust-yazi">{e(ARSIV_AD)}</span><h2 id="arsiv-baslik" class="h3-boy">{arsiv_toplam} fabrika sorunu ve çözümü</h2>
-      <span class="uzay-alt">{arsiv_konu} konuda: planlamadan stoğa, kaliteden bakıma her sorun için belirti, kök neden ve üç adımlık çözüm.</span></span>
+      <span class="uzay-metin"><span class="ust-yazi">{e(ARSIV_AD)}</span><h2 id="arsiv-baslik" class="h3-boy">{arsiv_toplam} sorun ve çözümü</h2>
+      <span class="uzay-alt">Belirti, kök neden ve üç adımlık çözüm; {arsiv_konu} konuda.</span></span>
       <span class="uzay-git">Arşive git{ikon("ok")}</span>
     </a>
-  </div>
-</section>
-
-<section class="bolum bolum-sik" aria-labelledby="uzay-baslik">
-  <div class="kap">
     <a class="kart uzay-kart" href="/uzay/">
       {ikon("roket", "ikon ikon-buyuk")}
       <span class="uzay-metin"><span class="ust-yazi">Uzay</span><h2 id="uzay-baslik" class="h3-boy">Tarayıcıda çalışan araçlar</h2>
@@ -1380,13 +1374,14 @@ ARSIV_KART_ALANLARI = ("slug", "baslik", "belirti", "kok_neden", "cozum", "ilke"
 ARSIV_NOTU = ("Kartlar genel uygulama önerileridir; kendi işletmenize uyarlayarak kullanın. "
               "İş güvenliği ve yasal yükümlülüklerde mevzuat ve iş güvenliği uzmanınız esastır.")
 SLUG_DESENI = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+SAYFA_KIMLIKLERI = {"icerik", "ust-menu", "menu-dosyalar"}  # konu sayfasında kart dışındaki id'ler (kart id'si = slug)
 
 
 def arsivi_oku(urunler):
     """data/arsiv.json: bölüm → kategori → kart. Kategori slug'ı adrestir (/arsiv/<kategori>/), kart slug'ı sayfa içi
     çapadır (#<kart>). Kartın isteğe bağlı "ilgili" alanı sitede görünen bir ürünün slug'ıdır ("İlgili dosya" bağlantısı)."""
     veri = json.loads((KOK / "data" / "arsiv.json").read_text(encoding="utf-8"))
-    gorunen = {u["slug"] for u in urunler}
+    gorunen = {u["slug"] for u in urunler if not u.get("ornek")}  # örnek kayıt üretimde yoktur; önizleme de reddeder
     sluglar = {"bölüm": set(), "kategori": set(), "kart": set()}
 
     def slug_denetle(tur, s):
@@ -1409,8 +1404,12 @@ def arsivi_oku(urunler):
             for k in kat["kartlar"]:
                 eksik = [a for a in ARSIV_KART_ALANLARI if not k.get(a)]
                 if eksik:
-                    sys.exit(f"HATA: arsiv.json: {kat['slug']} kategorisinde kartta eksik alan: {', '.join(eksik)}")
+                    ad = k.get("slug") or k.get("baslik") or f"{len(sluglar['kart']) + 1}. kart"
+                    sys.exit(f"HATA: arsiv.json: {kat['slug']} / {ad}: eksik alan: {', '.join(eksik)}")
                 slug_denetle("kart", k["slug"])
+                # Kart slug'ı konu sayfasında id'dir; başlığının id'si <slug>-baslik
+                if k["slug"] in SAYFA_KIMLIKLERI or k["slug"].endswith("-baslik"):
+                    sys.exit(f"HATA: arsiv.json: kart slug'ı '{k['slug']}' sayfadaki bir id ile çakışır")
                 # Yazım hatalı alan adı (ör. "ilgli") sessizce yok sayılmasın
                 bilinmeyen = sorted(set(k) - set(ARSIV_KART_ALANLARI) - {"ilgili"})
                 if bilinmeyen:
@@ -1535,11 +1534,13 @@ def arsiv_kategori_sayfasi(b, kat, onceki, sonraki, urun_bilgisi):
     <p class="arsiv-not">{e(ARSIV_NOTU)}</p>
   </div>
 </section>"""
-    ornek = ", ".join(f'"{k["baslik"]}"' for k in kartlar[:2])
-    kalan = len(kartlar) - 2
-    aciklama = (f"{kat['ad']}: {ornek}{f' ve {kalan} sorun daha' if kalan > 0 else ''}; "
+    kalan = len(kartlar) - 1
+    aciklama = (f'{kat["ad"]}: "{kartlar[0]["baslik"]}"{f" ve {kalan} sorun daha" if kalan else ""}; '
                 "belirti, kök neden ve üç adımlık çözümle.")
-    return sayfa(f"{ARSIV_YOLU}{kat['slug']}/", f"{kat['ad']} sorunları ve çözümleri", aciklama, govde, etkin=ARSIV_YOLU)
+    baslik = f"{kat['ad']} sorunları ve çözümleri"
+    if len(baslik) + len(" · Celcini") > 60:
+        baslik = f"{kat['ad']} sorunları"
+    return sayfa(f"{ARSIV_YOLU}{kat['slug']}/", baslik, aciklama, govde, etkin=ARSIV_YOLU)
 
 
 def sayfa_404():
@@ -1805,6 +1806,7 @@ def main():
                 if d.is_dir() and d.name not in gecerli:
                     shutil.rmtree(d)
         # Arşivden çıkan ya da adı değişen kategorilerin eski sayfalarını sil
+        assert ARSIV_YOLU.strip("/"), "ARSIV_YOLU kök olamaz (temizlik depo kökünü silerdi)"
         arsiv_dizin = CIKTI / ARSIV_YOLU.strip("/")
         if arsiv_dizin.exists():
             gecerli = {kat["slug"] for _, kat in arsiv_kategorileri}
