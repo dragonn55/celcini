@@ -13,12 +13,21 @@
     "api/ders.js": {
       "maxDuration": 5,
       "includeFiles": "api/_dersler/**"
+    },
+    "api/mulakat.js": {
+      "maxDuration": 5,
+      "includeFiles": "api/_mulakat/**"
     }
   },
   "redirects": [
     {
       "source": "/api/_dersler/:yol*",
       "destination": "/datakit/",
+      "permanent": false
+    },
+    {
+      "source": "/api/_mulakat/:yol*",
+      "destination": "/mulakat/",
       "permanent": false
     }
   ],
@@ -34,6 +43,10 @@
     {
       "source": "/api/ders/",
       "destination": "/api/ders"
+    },
+    {
+      "source": "/api/mulakat/",
+      "destination": "/api/mulakat"
     }
   ],
   "headers": [

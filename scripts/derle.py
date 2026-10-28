@@ -12,6 +12,8 @@ Fabricakit'in dokuz odası fabricakit/js/odalar.js'den okunur (ana sayfadaki oda
 Rehberli Excel dersleri (REHBERLER; ilki Datakit) data/<urun>/'dan üretilir: açılış ve ders sayfaları, herkese açık
 <taban>/veri/ ve kilitli dersler için api/_dersler/<urun>/ (yalnızca api/ders.js okur).
 Üretim Arşivi data/arsiv.json'dan üretilir: /arsiv/ dizini ve kategori başına /arsiv/<kategori>/ sayfası.
+Mülakat Testi data/mulakat.json'dan üretilir: /mulakat/ sayfası, herkese açık /mulakat/veri/test.json ve kilitli metinler için
+api/_mulakat/kilitli.json (yalnızca api/mulakat.js okur).
 """
 import datetime
 import hashlib
@@ -71,7 +73,7 @@ def rehber_raf_yerine(rh):
     """Rehberin açılış sayfası rafın kendi adresindeyse raf sayfası yerine geçer (Datakit); yoksa raf sayfası kalır (Motor)."""
     return rh["taban"] == f"/{rh['raf']}/"
 # Menü: ("/yol/", "Ad") ya da ("Ad", [alt öğeler]) — alt menü
-MENU = [("/fabricakit/", "Fabricakit"),
+MENU = [("/fabricakit/", "Fabricakit"), ("/mulakat/", "Mülakat"),
         ("Dosyalar", [(f"/{r['slug']}/", r["ad"]) for r in RAFLAR]),
         ("/arsiv/", "Arşiv"), ("/uzay/", "Uzay"), ("/hakkinda/", "Hakkında")]
 GEZEGENLER = "/fabricakit/img/gezegenler.svg"
@@ -547,7 +549,7 @@ def karne_ornegi():
 </section>"""
 
 
-def ana_sayfa(urunler, arsiv):
+def ana_sayfa(urunler, arsiv, mulakat_sayisi):
     arsiv_toplam, arsiv_konu = arsiv_sayilari(arsiv)
     sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"]) for r in RAFLAR}
     ucretsiz_sayilar = {r["slug"]: sum(1 for u in urunler if u["raf"] == r["slug"] and ucretsiz(u)) for r in RAFLAR}
@@ -557,7 +559,7 @@ def ana_sayfa(urunler, arsiv):
     # Telefonda ikinci cümle gizlenir (şerit aynı şeyi gösterir: gezegen adı büyük, gerçek ad küçük)
     tabela_cumlesi = ('<span class="tabela-cumlesi"> Kapı tabelasında gezegen adı büyük, gerçek adı küçük yazar; Ajan GM odaları gezegen adıyla anar.</span>'
                       if any(o.get("kod") for o in odalar) else "")
-    # Sıra: kahraman (Ajan GM) → Nasıl çalışır → Karne örneği → Dokuz oda + harita → Dosyalar → Üretim Arşivi ve Uzay (tek bölüm).
+    # Sıra: kahraman (Ajan GM) → Nasıl çalışır → Karne örneği → Dokuz oda + harita → Dosyalar → Mülakat Testi, Üretim Arşivi ve Uzay (tek bölüm).
     # Önce ne kazandığı ve nasıl oynandığı, sonra fabrikanın dünyası (gezegen adları): yeni gelen önce değeri görür.
     # Kahramanda portre ve balon önce gelir: telefonda ziyaretçiyi ilk Ajan GM karşılar; masaüstünde sağda durur.
     # Üst yazı büyük harfle yazılır: .ust-yazi'nin büyük harf dönüşümü lang="tr"de "i"yi "İ" yapar (FABRİCAKİT olmasın).
@@ -618,8 +620,14 @@ def ana_sayfa(urunler, arsiv):
   </div>
 </section>
 
-<section class="bolum bolum-sik" aria-label="Üretim Arşivi ve Uzay">
+<section class="bolum bolum-sik" aria-label="Mülakat Testi, Üretim Arşivi ve Uzay">
   <div class="kap kisayollar">
+    <a class="kart uzay-kart" href="{MULAKAT_YOLU}">
+      {ikon("sohbet", "ikon ikon-buyuk")}
+      <span class="uzay-metin"><span class="ust-yazi">Mülakat Testi</span><h2 id="mulakat-baslik" class="h3-boy">Ajan GM'in {mulakat_sayisi} sorusu</h2>
+      <span class="uzay-alt">Gerçek mülakatlarda en sık sorulan sorular, yaklaşık 8 dakika. Sonunda karar, cevap profili ve talimatlar.</span></span>
+      <span class="uzay-git">Teste gir{ikon("ok")}</span>
+    </a>
     <a class="kart uzay-kart" href="{ARSIV_YOLU}">
       {ikon("kitap", "ikon ikon-buyuk")}
       <span class="uzay-metin"><span class="ust-yazi">{e(ARSIV_AD)}</span><h2 id="arsiv-baslik" class="h3-boy">{arsiv_toplam} sorun ve çözümü</h2>
@@ -969,6 +977,11 @@ def gizlilik():
   <li>Kilitli bir dersi açmak için girdiğiniz erişim kodu doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod ve ders sorularına verdiğiniz cevaplar yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur.</li>
   <li>Derslerdeki tablolar dosyanın kurgusal örnek verisidir. Site sizden veri almaz; kendi verinizi yalnızca bilgisayarınızdaki Excel dosyasına girersiniz.</li>
 </ul>
+<h2>Mülakat Testi</h2>
+<ul>
+  <li>Testteki cevaplarınız yalnızca tarayıcınızda işlenir: puan ve rapor sayfada hesaplanır, cevaplar hiçbir sunucuya gönderilmez ve saklanmaz. Sayfayı kapattığınızda silinir.</li>
+  <li>Erişim kodu: Ajan GM'in yorumlarını ve örnek cevapları açmak için girdiğiniz kod doğrulama için sunucuya gönderilir. Sunucu yalnızca kodun SHA-256 özetini satılan kodların listesiyle karşılaştırır; kodu saklamaz, kayıtlara yazmaz. Doğrulanan kod yalnızca bu tarayıcının yerel deposunda (localStorage) tutulur.</li>
+</ul>
 <h2>Ödeme ve teslim: Shopier</h2>
 <p>Satın alma, ödeme ve teslim Shopier üzerinden yapılır. Bu adımlarda verdiğiniz bilgiler (ad, iletişim, ödeme bilgileri) Shopier tarafından işlenir ve Shopier'in gizlilik politikasına tabidir. Shopier'in siparişi teslim etmek için satıcıya ilettiği sipariş bilgileri yalnızca bu amaçla kullanılır.</p>
 <h2>E-posta listesi: Google Form</h2>
@@ -983,7 +996,7 @@ def gizlilik():
 
 
 def teslimat():
-    ic = """<p>Celcini'deki ürünler dijital ürünlerdir: fiziksel kargo yoktur, size bir Excel dosyası teslim edilir.</p>
+    ic = """<p>Celcini'deki ürünler dijital ürünlerdir: fiziksel kargo yoktur, size bir Excel dosyası ya da erişim kodu teslim edilir.</p>
 <h2>Ödeme ve teslim</h2>
 <ul>
   <li>Ödeme ve teslim Shopier üzerinden yapılır. Ürün sayfasındaki “Shopier'de al” butonu sizi ilgili Shopier sayfasına götürür.</li>
@@ -994,7 +1007,9 @@ def teslimat():
 <p>Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesine göre elektronik ortamda anında teslim edilen gayrimaddi mallarda (dijital dosyalar) cayma hakkı kullanılamaz. Dosya teslim edildikten sonra iade bu nedenle genel kural olarak mümkün değildir.</p>
 <p>Dosya açılmıyorsa ya da ürün sayfasında yazanı yapmıyorsa bize yazın; durumu birlikte inceleriz.</p>
 <h2>Satın almadan önce</h2>
-<p>Her ürün sayfasındaki “Teknik bilgi” bölümünde Excel sürümü, makro durumu ve sayfa sayısı yazar. Satın almadan önce kendi Excel sürümünüzle uyumu kontrol edin.</p>"""
+<p>Her ürün sayfasındaki “Teknik bilgi” bölümünde Excel sürümü, makro durumu ve sayfa sayısı yazar. Satın almadan önce kendi Excel sürümünüzle uyumu kontrol edin.</p>
+<h2>Mülakat Testi</h2>
+<p>Test ve rapor ücretsizdir. Ajan GM'in yorumları ve örnek cevaplar için Shopier'den erişim kodu alınır; kodu test sonundaki rapora girdiğinizde bu bölüm açılır. Mülakat Testi bir alıştırma ve öz değerlendirme aracıdır; iş bulmayı garanti etmez.</p>"""
     return metin_sayfasi("/teslimat-ve-iade/", "Teslimat ve iade",
                          "Celcini dijital ürünlerinde teslimat ve iade: ödeme ve teslim Shopier'de yapılır.", ic)
 
@@ -1585,6 +1600,128 @@ def arsiv_kategori_sayfasi(b, kat, onceki, sonraki, urun_bilgisi):
     return sayfa(f"{ARSIV_YOLU}{kat['slug']}/", baslik, aciklama, govde, etkin=ARSIV_YOLU)
 
 
+# ---------------------------------------------------------------- Mülakat Testi
+MULAKAT_YOLU = "/mulakat/"
+MULAKAT_TARZLAR = ("G", "E", "F", "C", "A")  # G hazırlıklı (güçlü cevap); E kalıp, F filtresiz, C çekingen, A iddialı
+MULAKAT_KARARLAR = ("teklif", "ikinci", "bekleme", "olumsuz")
+MULAKAT_ACIK = ("no", "evre", "alan", "kisa", "on", "soru")  # sorunun herkese açık alanları; olcer, ornek, not ve şık yorumları kilitli
+
+
+def mulakat_kaynagi():
+    """data/mulakat.json'u okur ve denetler: soru sırası, her soruda 4 şık, tek güçlü cevap (tarz G, 3 puan), diğer üç şık
+    farklı hata tarzlarında (0–2 puan); 0 puanlı şıkkın (kırmızı bayrak) yorumu "Kırmızı bayrak." ile başlar, diğerleri başlamaz."""
+    k = json.loads((KOK / "data" / "mulakat.json").read_text(encoding="utf-8"))
+    for ad in ("alanlar", "tarzlar", "kararlar", "sorular"):
+        if not k.get(ad):
+            sys.exit(f"HATA: data/mulakat.json: '{ad}' boş")
+    if tuple(k["tarzlar"]) != MULAKAT_TARZLAR or set(k["kararlar"]) != set(MULAKAT_KARARLAR):
+        sys.exit("HATA: data/mulakat.json: tarzlar G, E, F, C, A; kararlar teklif, ikinci, bekleme, olumsuz olmalı")
+    for i, q in enumerate(k["sorular"], 1):
+        yer = f"data/mulakat.json: soru {q.get('no')}"
+        if q.get("no") != i:
+            sys.exit(f"HATA: {yer}: sıra {i} olmalı")
+        if q.get("alan") not in k["alanlar"]:
+            sys.exit(f"HATA: {yer}: bilinmeyen alan '{q.get('alan')}'")
+        for alan in ("evre", "kisa", "soru", "olcer", "ornek"):
+            if not str(q.get(alan) or "").strip():
+                sys.exit(f"HATA: {yer}: '{alan}' boş")
+        s = q.get("secenekler") or []
+        if len(s) != 4:
+            sys.exit(f"HATA: {yer}: 4 şık olmalı")
+        guclu = [x for x in s if x.get("tarz") == "G"]
+        if len(guclu) != 1 or guclu[0].get("puan") != 3:
+            sys.exit(f"HATA: {yer}: tek güçlü cevap (tarz G, 3 puan) olmalı")
+        hatalar = [x.get("tarz") for x in s if x.get("tarz") != "G"]
+        if len(set(hatalar)) != 3 or not set(hatalar) <= set(MULAKAT_TARZLAR[1:]):
+            sys.exit(f"HATA: {yer}: diğer üç şık farklı hata tarzlarında olmalı (E, F, C, A)")
+        for x in s:
+            if not str(x.get("metin") or "").strip() or not str(x.get("yorum") or "").strip():
+                sys.exit(f"HATA: {yer}: şık metni ya da Ajan GM yorumu boş")
+            if x["tarz"] != "G" and x.get("puan") not in (0, 1, 2):
+                sys.exit(f"HATA: {yer}: hata tarzındaki şıkkın puanı 0, 1 ya da 2 olmalı")
+            if (x["puan"] == 0) != x["yorum"].startswith("Kırmızı bayrak."):
+                sys.exit(f"HATA: {yer}: 0 puanlı şıkkın yorumu \"Kırmızı bayrak.\" ile başlamalı, diğerleri başlamamalı")
+    return k
+
+
+def mulakat_verisi(k):
+    """Yayın verisi: herkese açık test (sorular, şıklar ve puanları, rapor şablonları) <çıktı>/mulakat/veri/test.json'a;
+    kilitli metinler (Ajan GM yorumları, örnek cevaplar, "bu soru şunu ölçer") api/_mulakat/kilitli.json'a (yalnızca
+    api/mulakat.js okur, statik yayınlanmaz). Önizlemede kilitli dosya yazılmaz (api çalışmaz)."""
+    acik = {"surum": k["surum"], "alanlar": k["alanlar"], "tarzlar": k["tarzlar"], "kararlar": k["kararlar"],
+            "sorular": [{**{a: q[a] for a in MULAKAT_ACIK if a in q},
+                         "secenekler": [{"metin": x["metin"], "puan": x["puan"], "tarz": x["tarz"]} for x in q["secenekler"]]}
+                        for q in k["sorular"]]}
+    hedef = CIKTI / MULAKAT_YOLU.strip("/") / "veri" / "test.json"
+    hedef.parent.mkdir(parents=True, exist_ok=True)
+    hedef.write_text(json.dumps(acik, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    if ONIZLEME:
+        return
+    kilitli = {"surum": k["surum"], "sorular": [
+        {"no": q["no"], "olcer": q["olcer"], "ornek": q["ornek"], **({"not": q["not"]} if q.get("not") else {}),
+         "yorumlar": [x["yorum"] for x in q["secenekler"]]} for q in k["sorular"]]}
+    gizli = KOK / "api" / "_mulakat" / "kilitli.json"
+    gizli.parent.mkdir(parents=True, exist_ok=True)
+    gizli.write_text(json.dumps(kilitli, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+
+
+def mulakat_sayfasi(k):
+    """Mülakat Testi: giriş (ana sayfa kahramanıyla aynı düzen: Ajan GM portresi ve balon), nasıl çalışır ve test kökü.
+    Soruları, raporu ve kilidi assets/js/mulakat/mulakat.js kurar; puanlama motor.js'te."""
+    n = len(k["sorular"])
+    adimlar = [
+        ("sohbet", "1. Ajan GM sorar",
+         f"Gerçek mülakatlarda en sık sorulan {n} soru: kendinizi tanıtmaktan maaş beklentisine."),
+        ("tik", "2. Size en yakın cevabı seçin",
+         "Her soruda 4 kısa cevap var. Doğru olanı değil, gerçekte ne derdiyseniz onu seçin; işaretleyince sıradaki soru gelir."),
+        ("tablo", "3. Raporunuzu alın",
+         "Karar, cevap profili, alan puanları ve üç talimat ücretsiz. Ajan GM'in yorumları ve örnek cevaplar erişim koduyla açılır."),
+    ]
+    adim_html = "".join(f'<li class="kart adim mk-adim-kart">{ikon(i, "ikon ikon-buyuk")}<span class="no">{e(b)}</span><p>{e(m)}</p></li>'
+                        for i, b, m in adimlar)
+    govde = f"""<section class="hero hero-fk" id="mk-giris" aria-labelledby="mk-baslik">
+  <div class="kap">
+    <div class="gm-sahne">
+      <figure class="gm-figur">
+        {ajan_gm_portresi()}
+        <blockquote class="gm-balon"><p>Doğru olanı değil, gerçekte ne derdiyseniz onu seçin.</p></blockquote>
+        <figcaption><strong>Ajan GM</strong> · Yapay zeka genel müdür</figcaption>
+      </figure>
+    </div>
+    <div class="hero-metin">
+      <p class="ust-yazi">Mülakat Testi</p>
+      <h1 id="mk-baslik">Mülakat masasında Ajan GM var</h1>
+      <p class="hero-alt">En sık sorulan {n} mülakat sorusu, her birinde 4 cevap. Sonunda Ajan GM kararını, cevap profilinizi ve neyi değiştirmeniz gerektiğini yazar.</p>
+      <div class="hero-eylem">
+        <button class="dugme" type="button" data-mk-basla>Mülakata gir{ikon("ok")}</button>
+      </div>
+      <p class="mk-giris-durum" data-mk-durum role="status" hidden></p>
+      <noscript><p class="mk-giris-durum">Testi çözmek için tarayıcınızda JavaScript'i açın.</p></noscript>
+      <p class="not-satiri"><span>{ikon("tik")}{n} soru, yaklaşık 8 dakika</span><span>{ikon("tik")}Test ve rapor ücretsiz</span><span>{ikon("kilit")}Cevaplarınız yalnızca tarayıcınızda</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="bolum bolum-sik" id="mk-nasil" aria-labelledby="mk-nasil-baslik">
+  <div class="kap">
+    <div class="bolum-bas"><h2 id="mk-nasil-baslik">Nasıl çalışır</h2><p>Kayıt yok. Alıştırma ve öz değerlendirme aracıdır; iş bulmayı garanti etmez.</p></div>
+    <ol class="izgara izgara-3">{adim_html}</ol>
+  </div>
+</section>
+
+<section class="mk-test" id="mk-test" aria-label="Mülakat Testi" hidden>
+  <div class="kap">
+    <div class="mk-dar" data-mulakat data-veri="{MULAKAT_YOLU}veri/test.json" data-api="/api/mulakat/" data-adres="{SITE}{MULAKAT_YOLU}"></div>
+  </div>
+</section>"""
+    webp = "/assets/img/ajan-gm.webp"
+    on_yukle = f'<link rel="preload" as="image" type="image/webp" href="{webp}?v={surum(webp)}" fetchpriority="high">'
+    return sayfa(MULAKAT_YOLU, f"Mülakat Testi: en sık sorulan {n} soru",
+                 f"Ajan GM en sık sorulan {n} mülakat sorusunu sorar, her soruda 4 cevap. Sonunda karar, cevap profili ve "
+                 "bir sonraki görüşme için talimatlar. Kayıt yok, ücretsiz.",
+                 govde, etkin=MULAKAT_YOLU, ek_head=on_yukle, ek_css=("/assets/css/mulakat.css",), modul="/assets/js/mulakat/mulakat.js")
+
+
 def sayfa_404():
     govde = f"""<section class="yok"><div class="kap">
   <p class="ust-yazi">404</p>
@@ -1826,6 +1963,7 @@ def main():
     arsiv_kategorileri = [(b, kat) for b in arsiv["bolumler"] for kat in b["kategoriler"]]
     arsiv_bag = arsiv_urun_baglantilari(arsiv)
     urun_bilgisi = {u["slug"]: (u["ad"], ucretsiz(u)) for u in urunler}
+    mulakat = mulakat_kaynagi()
 
     if ONIZLEME:
         if CIKTI.exists():
@@ -1858,8 +1996,10 @@ def main():
                     shutil.rmtree(d)
 
     yollar = []
-    yollar.append(yaz("/", ana_sayfa(urunler, arsiv)))
+    yollar.append(yaz("/", ana_sayfa(urunler, arsiv, len(mulakat["sorular"]))))
     yollar.append(yaz("/fabricakit/", fabricakit_sayfasi()))
+    mulakat_verisi(mulakat)
+    yollar.append(yaz(MULAKAT_YOLU, mulakat_sayfasi(mulakat)))
     rehber_raflari = {rh["raf"] for rh in REHBERLER if rehber_raf_yerine(rh)}
     rehber_adresleri = []
     for rh in REHBERLER:
@@ -1893,7 +2033,7 @@ def main():
     yollar.append(yaz("/teslimat-ve-iade/", teslimat()))
     yollar.append(yaz("/404.html", sayfa_404()))
 
-    adresler = ["/", "/fabricakit/"] + [f"/{r['slug']}/" for r in RAFLAR] + rehber_adresleri + [f"/urun/{u['slug']}/" for u in urunler] + [
+    adresler = ["/", "/fabricakit/", MULAKAT_YOLU] + [f"/{r['slug']}/" for r in RAFLAR] + rehber_adresleri + [f"/urun/{u['slug']}/" for u in urunler] + [
         ARSIV_YOLU] + [f"{ARSIV_YOLU}{kat['slug']}/" for _, kat in arsiv_kategorileri] + [
         "/uzay/", "/uzay/rota/", "/uzay/ikiz/", "/hakkinda/", "/iletisim/", "/sss/", "/gizlilik/", "/teslimat-ve-iade/"]
     harita = ['<?xml version="1.0" encoding="UTF-8"?>',

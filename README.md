@@ -5,7 +5,8 @@ Excel dosyaları "Dosyalar" altında üç rafta durur (`/fabrika/`, `/excel-klin
 rehberli dersleri de taşır (`/datakit/<ders>/`: Excel sayfası sitede, notlarıyla); Fabrika Motoru'nun dersleri `/motor/` altında
 (Fabrika rafından ve ürün sayfasından bağlanır);
 tarayıcı araçları `/uzay/` altında (ROTA 3D `/uzay/rota/`, Fabrika İkizi `/uzay/ikiz/`). Üretim Arşivi (`/arsiv/`) fabrikada
-sık görülen sorunları belirti, kök neden ve çözüm adımlarıyla konu konu toplar.
+sık görülen sorunları belirti, kök neden ve çözüm adımlarıyla konu konu toplar. Mülakat Testi (`/mulakat/`) en sık sorulan
+30 mülakat sorusunu Ajan GM'in ağzından sorar ve sonunda raporu yazar.
 
 Celcini sitesinin kaynağı (yayın adresi `https://celcini.vercel.app`; alan adı alınınca `scripts/derle.py` → `SITE` değiştirilir): saf HTML, CSS ve JS. Çerçeve yok. Sayfalar `data/urunler.json`'dan
 `scripts/derle.py` ile üretilir ve **derlenmiş HTML depoda durur**; Vercel'de derleme adımı yoktur.
@@ -16,16 +17,21 @@ Fabricakit ES modülleriyle yazılmıştır, o da derleme istemez.
 ```
 data/urunler.json        Tüm ürünler (tek kaynak)
 data/arsiv.json          Üretim Arşivi: bölüm → konu → kart (belirti, kök neden, 3 çözüm adımı, ilke)
+data/mulakat.json        Mülakat Testi: 30 soru, şıklar (puan, tarz, Ajan GM yorumu), örnek cevaplar, rapor şablonları
 data/karne-ornegi.json   Ana sayfadaki karne örneği (scripts/karne-ornegi.mjs üretir; elle düzenlenmez)
 data/datakit/            Datakit rehberli dersleri: dersler.json (notlar, sorular, açılış metinleri), sayfalar/<id>.json (Excel dışa aktarımı)
 data/motor/              Motor (Fabrika Motoru) rehberli dersleri, aynı yapı
 assets/js/rehber/        Rehberli dersler: rehber.js (sayfa, notlar, kilit, soru), tablo.js (Excel ızgarası), grafik.js (SVG grafikler)
 assets/css/rehber.css    Rehberli derslerin stili
+assets/js/mulakat/       Mülakat Testi: mulakat.js (sorular, rapor, kilit), motor.js (puanlama ve rapor metni; Node'da da çalışır)
+assets/css/mulakat.css   Mülakat Testi'nin stili
 api/_dersler/<urun>/     Kilitli dersler (derle.py yazar; statik yayınlanmaz, yalnızca api/ders.js okur)
+api/_mulakat/            Mülakat raporunun kilitli metinleri (derle.py yazar; statik yayınlanmaz, yalnızca api/mulakat.js okur)
+mulakat/veri/            Mülakat Testi'nin herkese açık verisi: sorular, şıklar, puanlar (derle.py yazar)
 datakit/veri/, motor/veri/  Herkese açık ders dizini ve ücretsiz dersler (derle.py yazar)
 fabricakit/js/odalar.js  Fabricakit'in dokuz odası (tek liste; ana sayfadaki oda şeridi de buradan)
 fabricakit/              Simülatör: css/, js/, img/ (index.html kabuğu derle.py üretir)
-api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js (_ortak.js işlev değildir)
+api/                     Vercel işlevleri: erisim-kodu.js, ajan-gm.js, ders.js, mulakat.js (_ortak.js işlev değildir)
 uzay/araclar/_sablon/    Uzay aracı iskeleti (app.js, app.css)
 uzay/rota/               ROTA 3D depo toplama rotası: js/ (layout, router, scene3d, ui; ES modülü), css/rota.css (index.html derle.py üretir)
 uzay/ikiz/               Fabrika İkizi: js/ (veri, hesap, sahne, arayuz; ES modülü), css/ikiz.css (index.html derle.py üretir)
@@ -41,6 +47,7 @@ scripts/ikiz-test.mjs    Fabrika İkizi model testi: veri bütünlüğü, 1. gü
 scripts/ikiz-veri.py     Fabrika Motoru'nun örnekli dosyasından uzay/ikiz/js/veri.js üretir (openpyxl; derlemenin parçası değildir)
 scripts/api-test.mjs     api/ işlevlerinin ağsız testi (Claude API sahte fetch ile taklit edilir)
 scripts/kod-hash.mjs     Erişim kodu üretimi ve SHA-256 listesi
+scripts/mulakat-test.mjs Mülakat Testi: veri ayrımı (açık / kilitli), karar eşikleri, profil, duraksama, rapor metni
 scripts/rehber-disa-aktar.py  Excel sayfalarını rehber JSON'una çevirir (openpyxl gerekir; derlemenin parçası değildir)
 scripts/excel-klinigi/   Excel Kliniği'nin 43 ücretsiz dosyasının derleme betikleri; uret.py hepsini dosyalar/excel-klinigi/'ye üretir
 scripts/ses-*.mjs        Ajan GM sesi: ses-cumleler (→ data/ses/cumleler.json), ses-test (liste, JSON, dosyalar)
@@ -54,7 +61,7 @@ assets/js/main.js        Mobil menü, bağlantıları uygulama, raf ve arşiv ar
 assets/img/              Logolar (beyaz, şeffaf), favicon'lar, og-cover.png
 dosyalar/<raf>/          Ücretsiz indirilen dosyalar (data/urunler.json: ucretsiz_dosya); Excel Kliniği'nde 43 xlsx
 
-index.html, fabricakit/index.html, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html, uzay/ikiz/index.html,
+index.html, fabricakit/index.html, mulakat/, fabrika/, excel-klinigi/, datakit/ (ve datakit/<ders>/), motor/ (ve motor/<ders>/), urun/<slug>/, uzay/, uzay/rota/index.html, uzay/ikiz/index.html,
 uzay/araclar/_sablon/index.html, arsiv/ (ve arsiv/<konu>/), hakkinda/, iletisim/, sss/, gizlilik/, teslimat-ve-iade/,
 404.html, sitemap.xml   ← derlenmiş çıktı, elle düzenlenmez
 ```
@@ -65,7 +72,7 @@ uzay/araclar/_sablon/index.html, arsiv/ (ve arsiv/<konu>/), hakkinda/, iletisim/
 python3 scripts/derle.py              # üretim derlemesi (depo köküne yazar)
 python3 scripts/derle.py --onizleme   # önizleme: _onizleme/ klasörüne, örnek kayıtlar "ÖRNEK" etiketiyle
 npm install                           # yalnızca api/ için gereken @anthropic-ai/sdk (api-test'in tamamı için)
-npm run check                         # üretim çıktısı + sim-test + rota-test + ikiz-test + api-test + ses-test
+npm run check                         # üretim çıktısı + sim-test + rota-test + ikiz-test + api-test + ses-test + mulakat-test
 npm run ses-cumleler                  # Ajan GM cümle listesi değişince data/ses/cumleler.json'ı yenile (sonra sesleri üret)
 node scripts/karne-ornegi.mjs         # oyun kuralı ya da Ajan GM şablonu değişince karne örneğini yenile, sonra derle
 npm run check:onizleme                # önizleme çıktısını kontrol et
@@ -197,6 +204,7 @@ bu statik bir oyun için yumuşak bir kilittir (günlerin verisi tarayıcı kodu
 | `ERISIM_KOD_HASHLERI` | Kod satışı için | Virgülle ayrılmış SHA-256 listesi (`scripts/kod-hash.mjs`) |
 | `DATAKIT_KOD_HASHLERI` | Datakit kodu için | Datakit'in kilitli derslerini açan kodların listesi (Fabricakit'inkinden ayrı; aynı betikle) |
 | `MOTOR_KOD_HASHLERI` | Motor kodu için | Motor'un kilitli derslerini açan kodların listesi (Datakit'inkinden ayrı; aynı betikle) |
+| `MULAKAT_KOD_HASHLERI` | Mülakat kodu için | Mülakat raporunun kilitli metinlerini açan kodların listesi (diğerlerinden ayrı; aynı betikle) |
 | `ANTHROPIC_API_KEY` | Yalnız yapay zeka modunda | Claude API anahtarı. Koda ya da repoya yazılmaz. |
 | `AJAN_GM_MODEL` | Hayır | Varsayılan `claude-haiku-5-5` (en ucuz güncel Claude modeli) |
 
@@ -283,6 +291,24 @@ başına `/arsiv/<konu>/` sayfasını üretir, adresleri sitemap'e ekler. Bir so
   sürerken bölüm kısayolları ve konu sayıları (`data-arama-gizle`) gizlenir.
 - **İçerik kuralı:** kartlar genel uygulama önerisidir; her sayfanın altında iş güvenliği ve mevzuat notu durur. Gerçek
   firma adı, müşteri ya da rakam yazılmaz; kesin yargı yerine uygulanabilir öneri yazılır.
+
+## Mülakat Testi (`/mulakat/`)
+
+Kaynak `data/mulakat.json` (genel set v1: gerçek mülakatlarda en sık sorulan 30 soru). Ajan GM soruyu sorar, her soruda 4 şık
+vardır; şık işaretlenince sıradaki soru gelir, sonunda rapor tarayıcıda hesaplanır. Cevaplar hiçbir yere gönderilmez.
+
+- **Puan:** her soruda tek güçlü cevap (tarz `G`, 3 puan) ve üç hata tarzından üç şık (`E` kalıp, `F` filtresiz, `C` çekingen,
+  `A` iddialı; 0–2 puan, 0 kırmızı bayrak). Karar: teklif ≥ 85 ve kırmızı bayrak yok; ikinci görüşme ≥ 70 ve en fazla 1;
+  beklemede ≥ 50 ve en fazla 3; altı olumsuz. Kurallar `assets/js/mulakat/motor.js`'te; `scripts/mulakat-test.mjs` denetler.
+- **Ücretsiz / kilitli:** karar, puan, cevap profili, alan puanları, talimatlar ve zayıf cevapların listesi ücretsizdir.
+  Her zayıf cevabın Ajan GM yorumu, örnek cevabı ve "bu soru şunu ölçer" metni kilitlidir: derleme bunları yalnızca
+  `api/_mulakat/kilitli.json`'a yazar, `api/mulakat.js` geçerli kodla verir. `scripts/check.js` bu metinlerin herkese açık
+  dosyalarda geçmediğini denetler.
+- **Satışa açmak:** kodları `node scripts/kod-hash.mjs --uret 20` ile üretin, hash listesini Vercel'de `MULAKAT_KOD_HASHLERI`
+  değerine yazın, Shopier'deki kod ürününün bağlantısını ve fiyatını `assets/js/config.js`'te `mulakat_kod` ve
+  `mulakat_kod_fiyat`'a girin. Liste boşken kilit kartı "Erişim kodları henüz satışta değil." der.
+- **Denetim:** derleme soru sırasını, dört şıkkı, tek güçlü cevabı, üç farklı hata tarzını ve kırmızı bayrak yorumlarını
+  denetler; hata varsa durur.
 
 ## Tasarım kuralları (özet)
 
