@@ -2,23 +2,28 @@
   {
     "slug": "planla",
     "ad": "PLANLA",
+    "sayfa_basligi": "PLANLA: Excel'de MRP ve sipariş takvimi",
     "raf": "fabrika",
-    "kisa": "Excel'de malzeme ihtiyaç planlaması (MRP) dosyası. Makrosuz, 7 sayfa, Excel 2016 ve sonrası.",
-    "aciklama": "PLANLA, Fabrika Dosyaları rafındaki malzeme ihtiyaç planlaması (MRP) dosyasıdır. Kurulum gerektirmez: Excel 2016 ve sonrası sürümlerde açılır, makro içermez. Dosya 7 sayfadan oluşur.",
+    "kisa": "Sabah sayımı, ürün ağacı ve üretim planından öncelik sıralı sipariş takvimi çıkaran Excel MRP dosyası. Makrosuz, Excel 2016 ve sonrası.",
+    "soz": "Sabah sayımını ve tedarik terminlerini girin; PLANLA hangi hammaddeyi ne zaman, ne kadar sipariş etmeniz gerektiğini öncelik sırasıyla söylesin.",
+    "aciklama": "PLANLA sabah sayımını, ürün ağacını ve üretim planını birleştirir; plan dönemi boyunca hangi hammaddenin yetmeyeceğini hesaplar. Sonunda önünüze öncelik sırasıyla bir satın alma listesi gelir: neyi ne zaman, en az ne kadar sipariş etmeniz gerektiği ve termine artık yetişmeyen kalemler. Siz yalnızca sarı hücreleri doldurursunuz; gerisi formüldür.",
     "ozellikler": [
-      "Malzeme ihtiyaç planlaması (MRP) için hazırlanmış Excel dosyası",
-      "Makrosuz: makro izni istemeden açılır",
-      "7 sayfa",
-      "Excel 2016 ve sonrası sürümlerde çalışır",
+      "Sipariş takvimi: hangi hammaddeyi ne zaman, en az ne kadar sipariş edeceğinizi öncelik sırasıyla listeler",
+      "Termine yetişmeyen kalemi “GEÇ KALINDI” diye kırmızıyla, bugün sipariş verilmesi gerekeni ayrı renkle işaretler",
+      "Sipariş gereken her kalem için stoğun plan döneminde hangi gün biteceğini gösterir",
+      "PANEL: eksik malzeme, acil sipariş ve planlı üretim sayısı, ilk 5 acil sipariş ve eksik miktarlar grafiği",
+      "Yalnızca sarı hücrelere yazarsınız; hesapların hepsi formüldür, makro yok",
       "Kurulum ya da abonelik gerektirmez"
     ],
-    "kimin_icin": "Malzeme ihtiyaç planlamasını (MRP) Excel'de yapmak isteyen üretim işletmeleri.",
+    "kimin_icin": "Malzeme siparişini Excel'de planlayan üretim işletmeleri: planlamacılar, satın almacılar ve atölye sahipleri.",
     "etiketler": [
       "MRP",
-      "üretim planlama"
+      "üretim planlama",
+      "stok",
+      "tedarik"
     ],
     "fiyat": 760,
-    "liste_fiyat": 1290,
+    "liste_fiyat": null,
     "shopier_url": "https://www.shopier.com/fabricakit/51475462",
     "gorseller": [
       {
@@ -27,18 +32,72 @@
       },
       {
         "src": "/assets/img/urun/planla/2-sabah-sayimi.png",
-        "alt": "PLANLA SAYIM sayfası: hammadde kodu, adı, birimi, sabah sayımı ve tedarik termini"
+        "alt": "PLANLA 1 · Sabah Sayımı sayfası: hammadde kodu, adı, birimi, sayım (stok) ve tedarik termini"
       },
       {
         "src": "/assets/img/urun/planla/3-siparis-takvimi.png",
-        "alt": "PLANLA SIPARIS sayfası: öncelik sırasına göre sipariş zamanı, en az miktar ve stok bitiş günü"
+        "alt": "PLANLA 5 · Sipariş Takvimi sayfası: öncelik sırasına göre sipariş zamanı, en az miktar ve stok bitiş günü"
       }
     ],
     "excel_surum": "Excel 2016 ve sonrası",
     "makro": false,
     "sayfa_sayisi": 7,
     "one_cikan": true,
-    "ornek": false
+    "ornek": false,
+    "icindekiler": [
+      {
+        "sayfa": "PANEL",
+        "aciklama": "Firma adı, başlangıç günü ve plan gün sayısı; eksik malzeme, acil sipariş, planlı üretim, hammadde ve ürün sayıları; ilk 5 acil sipariş ve eksik miktarlar grafiği."
+      },
+      {
+        "sayfa": "1 · SABAH SAYIMI",
+        "aciklama": "Güne başlarken her hammaddenin kodu, adı, birimi, depodaki sayım miktarı ve tedarik termini (gün)."
+      },
+      {
+        "sayfa": "2 · ÜRÜN AĞACI",
+        "aciklama": "Ürünlerin hammadde reçetesi."
+      },
+      {
+        "sayfa": "3 · ÜRETİM PLANI",
+        "aciklama": "Plan dönemindeki üretim miktarları."
+      },
+      {
+        "sayfa": "4 · MRP ANALİZ",
+        "aciklama": "Plan dönemi boyunca hammadde ihtiyacı ve eksikler."
+      },
+      {
+        "sayfa": "5 · SİPARİŞ TAKVİMİ",
+        "aciklama": "Öncelik sırasına göre satın alma listesi: sipariş zamanı, en az miktar, termin ve stoğun biteceği gün. Tamamen otomatiktir; veri girilmez."
+      },
+      {
+        "sayfa": "KILAVUZ",
+        "aciklama": "Kullanım kılavuzu."
+      }
+    ],
+    "adimlar": [
+      "PANEL'de firma adını, başlangıç gününü ve plan gün sayısını girin.",
+      "Sabah Sayımı sayfasına depodaki miktarları ve tedarik terminlerini yazın.",
+      "Ürün Ağacı ve Üretim Planı sayfalarının sarı hücrelerini doldurun.",
+      "Sipariş Takvimi'ndeki listeye göre sipariş verin; “GEÇ KALINDI” olan kalemleri hemen sipariş edip tedarikçiyle hızlandırma konuşun."
+    ],
+    "sss": [
+      {
+        "soru": "“GEÇ KALINDI” ne demek?",
+        "cevap": "Hammaddenin tedarik termini, stok bitmeden yetişmiyor demektir. Siparişi hemen verin ve tedarikçiyle hızlandırma konuşun."
+      },
+      {
+        "soru": "Hangi hücrelere yazarım?",
+        "cevap": "Yalnızca sarı zeminli, mavi yazılı hücrelere. Beyaz hücreler formüldür, dokunmayın. Sipariş Takvimi tamamen otomatiktir."
+      },
+      {
+        "soru": "Renkler ne anlatır?",
+        "cevap": "Kırmızı: stok eksiye düşüyor ya da sipariş geç kaldı. Amber: sipariş bugün verilmeli."
+      },
+      {
+        "soru": "Makro izni ister mi?",
+        "cevap": "Hayır. Dosya makrosuzdur; Excel 2016 ve sonrası sürümlerde makro izni istemeden açılır."
+      }
+    ]
   },
   {
     "slug": "vardiya",

@@ -1,6 +1,7 @@
 /* Kilit ekranı: 1. gün ücretsiz, sonraki günler erişim koduyla açılır.
    Kod /api/erisim-kodu/ ile doğrulanır; sunucuda saklanmaz. Açılan kilit bu tarayıcıda kalır.
-   Shopier bağlantısı assets/js/config.js'ten (window.CELCINI_LINKS.shopier_magaza) okunur; boşsa düğme gizlenir. */
+   Kod ürününün bağlantısı (fabricakit_kod) ya da mağaza (shopier_magaza) assets/js/config.js'ten okunur;
+   ikisi de boşsa düğme gizlenir. */
 import { AYARLAR } from "../ayarlar.js";
 import { gunAdi } from "../bicim.js";
 import { h, ikon } from "./dom.js";
@@ -22,7 +23,13 @@ async function istek(yontem, govde) {
 
 /* secenek: { metin, f } — kilit açılmadan geri dönüş (günü baştan oynamak ya da baştan başlamak) */
 export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
-  const shopier = (window.CELCINI_LINKS && window.CELCINI_LINKS.shopier_magaza) || "";
+  /* Kod ürününün kendi Shopier bağlantısı (config.js: fabricakit_kod) varsa doğrudan ona, yoksa mağazaya gider.
+     Fiyat (fabricakit_kod_fiyat) yalnızca kod ürününün bağlantısı varken düğmede görünür: mağazaya giden düğme fiyat yazmaz. */
+  const L = window.CELCINI_LINKS || {};
+  const baglanti = (v) => (typeof v === "string" && /^https:\/\/\S+$/.test(v.trim()) ? v.trim() : "");
+  const kodBaglantisi = baglanti(L.fabricakit_kod);
+  const shopier = kodBaglantisi || baglanti(L.shopier_magaza);
+  const fiyat = kodBaglantisi && typeof L.fabricakit_kod_fiyat === "string" ? L.fabricakit_kod_fiyat.trim() : "";
   const gmSozu = hitapla(`{hitap}, ${KILIT_SOZU}`, hitap);
   const son = AYARLAR.GUNLER.length;
   const girdi = h("input", {
@@ -67,7 +74,7 @@ export function kilitEkrani({ gun, hitap, ac, secenek, karneyeDon }) {
         girdi,
         durum,
         h("div", { sinif: "fk-satir" }, dugme,
-          shopier ? h("a", { sinif: "dugme-cizgi", href: shopier, target: "_blank", rel: "noopener" }, "Kodu Shopier'den al") : null)),
+          shopier ? h("a", { sinif: "dugme-cizgi", href: shopier, target: "_blank", rel: "noopener" }, fiyat ? `Kodu al · ${fiyat}` : "Kodu Shopier'den al") : null)),
       h("p", { sinif: "fk-soluk" }, "Kod doğrulama için sunucuya gönderilir; sunucuda saklanmaz. İlerlemeniz, açılan kilit ve kodunuz yalnızca bu tarayıcıda tutulur. ",
         h("a", { href: "/gizlilik/", metin: "Gizlilik ve KVKK" })),
       h("div", { sinif: "fk-satir" },
