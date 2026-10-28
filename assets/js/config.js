@@ -8,5 +8,7 @@ window.CELCINI_LINKS = {
   eposta: "",           /* iletişim e-postası */
   instagram: "https://www.instagram.com/celciniai/",
   fabricakit_kod: "",   /* Fabricakit erişim kodu ürününün Shopier bağlantısı; boşsa kilit ekranı mağazaya gider */
-  fabricakit_kod_fiyat: "" /* kod ürününün fiyatı, ör. "199 TL"; fabricakit_kod doluyken kilit ekranındaki düğmede yazar */
+  fabricakit_kod_fiyat: "", /* kod ürününün fiyatı, ör. "199 TL"; fabricakit_kod doluyken kilit ekranındaki düğmede yazar */
+  mulakat_kod: "",      /* Mülakat Testi erişim kodu ürününün Shopier bağlantısı; boşsa raporun kilit kartında "Shopier'de yakında" görünür */
+  mulakat_kod_fiyat: "" /* kod ürününün fiyatı, ör. "100 TL"; mulakat_kod doluyken kilit kartındaki düğmede yazar */
 };

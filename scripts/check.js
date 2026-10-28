@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Yayın öncesi kontrol: SEO etiketleri, kırık iç bağlantı, uydurma/yer tutucu, örnek kayıt sızıntısı,
-   dil kuralları, ana sayfadaki oda şeridinin fabricakit/js/odalar.js ile uyumu.
+   dil kuralları, kilitli ders ve mülakat metinlerinin sızıntısı, ana sayfadaki oda şeridinin fabricakit/js/odalar.js ile uyumu.
    node scripts/check.js              → depo kökü (üretim)
    node scripts/check.js _onizleme    → önizleme derlemesi */
 const fs = require("fs");
@@ -109,6 +109,45 @@ for (const rh of REHBERLER) {
     });
     const s = d.soru;
     if (!Array.isArray(s.secenekler) || s.secenekler.length < 2 || !(s.dogru >= 0 && s.dogru < s.secenekler.length)) hata(`${rh.urun}/${d.id}: soru geçersiz`);
+  }
+}
+
+/* Mülakat Testi (data/mulakat.json → derle.py): herkese açık test verisi güncel mi, kilitli dosya üretimde var mı,
+   kilitli metinler (Ajan GM yorumları, örnek cevaplar, notlar, "bu soru şunu ölçer") api/ dışındaki dosyalara sızmış mı */
+const mkKaynakYolu = path.join(depo, "data", "mulakat.json");
+if (fs.existsSync(mkKaynakYolu)) {
+  const mk = JSON.parse(fs.readFileSync(mkKaynakYolu, "utf8"));
+  for (const [re, mesaj] of dil) if (re.test(JSON.stringify(mk))) hata(`data/mulakat.json: ${mesaj}`);
+  const acikYol = path.join(root, "mulakat", "veri", "test.json");
+  if (!fs.existsSync(acikYol)) hata("mulakat/veri/test.json yok (python3 scripts/derle.py)");
+  else {
+    const acik = JSON.parse(fs.readFileSync(acikYol, "utf8"));
+    const guncel = acik.sorular.length === mk.sorular.length && acik.sorular.every((q, i) => q.soru === mk.sorular[i].soru
+      && q.secenekler.every((s, j) => s.metin === mk.sorular[i].secenekler[j].metin && s.puan === mk.sorular[i].secenekler[j].puan && s.tarz === mk.sorular[i].secenekler[j].tarz));
+    if (!guncel) hata("mulakat/veri/test.json eski (python3 scripts/derle.py)");
+  }
+  const kilitliYol = path.join(depo, "api", "_mulakat", "kilitli.json");
+  if (uretim && (!fs.existsSync(kilitliYol) || JSON.parse(fs.readFileSync(kilitliYol, "utf8")).sorular.length !== mk.sorular.length)) {
+    hata("api/_mulakat/kilitli.json yok ya da eski (python3 scripts/derle.py)");
+  }
+  const yayin = [];
+  (function tara(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      if (atla.has(name) || (dir === root && name === "api")) continue;
+      const p = path.join(dir, name);
+      if (fs.statSync(p).isDirectory()) tara(p);
+      else if (/\.(html|m?js|json|txt|xml|css|webmanifest)$/.test(name)) yayin.push(p);
+    }
+  })(root);
+  const yayinMetni = yayin.map((f) => fs.readFileSync(f, "utf8")).join("\n");
+  const htmlKacis = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+  for (const q of mk.sorular) {
+    for (const t of [q.olcer, q.ornek, q.not, ...q.secenekler.flatMap((s) => [s.yorum, String(s.yorum || "").replace(/^Kırmızı bayrak\.\s*/, "")])]) {
+      if (!t || t.length < 25) continue;
+      if ([t, JSON.stringify(t).slice(1, -1), htmlKacis(t)].some((v) => yayinMetni.includes(v))) {
+        hata(`mülakat S${q.no}: kilitli metin herkese açık dosyada ("${t.slice(0, 40)}…")`);
+      }
+    }
   }
 }
 

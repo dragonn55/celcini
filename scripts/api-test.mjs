@@ -1,4 +1,4 @@
-/* api/ işlevlerinin testi: erişim kodu doğrulama, rehberli dersler (api/ders.js) ve Ajan GM (yapay zeka modu).
+/* api/ işlevlerinin testi: erişim kodu doğrulama, rehberli dersler (api/ders.js), Mülakat Testi (api/mulakat.js) ve Ajan GM (yapay zeka modu).
    Ağa çıkmaz: Claude API çağrısı sahte fetch ile taklit edilir; anahtar ve kodlar test değerleridir.
    Çalıştırma: node scripts/api-test.mjs (npm run check içinde de çalışır) */
 import { createRequire } from "node:module";
@@ -14,6 +14,7 @@ const KOK = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ortak = require("../api/_ortak.js");
 const erisimKodu = require("../api/erisim-kodu.js");
 const dersApi = require("../api/ders.js");
+const mulakatApi = require("../api/mulakat.js");
 const ajanGm = require("../api/ajan-gm.js");
 
 let hatalar = 0;
@@ -131,6 +132,33 @@ dogrula(r.govde.gecerli === true && r.govde.ders && r.govde.ders.id === motorKil
 env("MOTOR_KOD_HASHLERI", undefined);
 env("DATAKIT_KOD_HASHLERI", undefined);
 
+/* ---------- Mülakat Testi (api/mulakat.js): ayrı kod listesi, kilitli rapor metinleri ---------- */
+const MULAKAT_KOD = "MULAKAT-KOD-0001";
+const mkKaynak = JSON.parse(fs.readFileSync(path.join(KOK, "data/mulakat.json"), "utf8"));
+env("MULAKAT_KOD_HASHLERI", undefined);
+r = await cagir(mulakatApi, "GET");
+dogrula(r.govde.satista === false && r.basliklar["cache-control"] === "no-store", "mülakat: liste yokken satista: false ve no-store");
+r = await cagir(mulakatApi, "POST", { kod: MULAKAT_KOD });
+dogrula(r.govde.satista === false && r.govde.gecerli === false && !r.govde.sorular, "mülakat: liste yokken metin verilmemeli");
+env("MULAKAT_KOD_HASHLERI", ortak.kodHash(MULAKAT_KOD));
+r = await cagir(mulakatApi, "GET");
+dogrula(r.govde.satista === true, "mülakat: liste varken satista: true");
+r = await cagir(mulakatApi, "POST", { kod: TEST_KOD });
+dogrula(r.govde.gecerli === false && !r.govde.sorular, "mülakat: Fabricakit kodu mülakat raporunu açmamalı");
+r = await cagir(mulakatApi, "POST", { kod: DERS_KOD });
+dogrula(r.govde.gecerli === false && !r.govde.sorular, "mülakat: Datakit kodu mülakat raporunu açmamalı");
+r = await cagir(mulakatApi, "POST", { kod: "YANLIS-KOD-99" });
+dogrula(r.govde.gecerli === false && !r.govde.sorular, "mülakat: yanlış kod reddedilmeli");
+r = await cagir(mulakatApi, "POST", JSON.stringify({ kod: "mulakat kod 0001" }));
+const mkIlk = (r.govde.sorular || [])[0] || {};
+dogrula(r.govde.gecerli === true && (r.govde.sorular || []).length === mkKaynak.sorular.length && mkIlk.ornek === mkKaynak.sorular[0].ornek
+  && (mkIlk.yorumlar || []).length === 4 && mkIlk.yorumlar[0] === mkKaynak.sorular[0].secenekler[0].yorum,
+  "mülakat: doğru kodla kilitli metinler gelmeli (önce python3 scripts/derle.py)");
+dogrula(!ortak.kodGecerli(MULAKAT_KOD), "mülakat kodu Fabricakit listesinde geçmemeli");
+r = await cagir(mulakatApi, "PUT");
+dogrula(r.statusCode === 405, "mülakat: GET/POST dışı istek 405");
+env("MULAKAT_KOD_HASHLERI", undefined);
+
 /* ---------- Ajan GM: varsayılan ayar "kural" ---------- */
 env("ANTHROPIC_API_KEY", "test-anahtar");
 r = await cagir(ajanGm, "POST", { tur: "yorum", karne, kod: TEST_KOD });
@@ -231,4 +259,4 @@ if (hatalar) {
   console.error(`\n✗ api-test: ${hatalar} hata`);
   process.exit(1);
 }
-console.log(`✓ api-test: erişim kodu, rehberli dersler ve Ajan GM işlevleri${sdkVar ? "" : " (SDK'sız kısım)"} geçti.`);
+console.log(`✓ api-test: erişim kodu, rehberli dersler, Mülakat Testi ve Ajan GM işlevleri${sdkVar ? "" : " (SDK'sız kısım)"} geçti.`);
