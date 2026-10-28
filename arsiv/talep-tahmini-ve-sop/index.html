@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talep Tahmini ve S&amp;OP sorunları ve çözümleri · Celcini</title>
+<meta name="description" content="Talep Tahmini ve S&amp;OP: &quot;Talep tahmini hiçbir zaman tutmuyor&quot; ve 6 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<link rel="canonical" href="https://celcini.vercel.app/arsiv/talep-tahmini-ve-sop/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Celcini">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Talep Tahmini ve S&amp;OP sorunları ve çözümleri · Celcini">
+<meta property="og:description" content="Talep Tahmini ve S&amp;OP: &quot;Talep tahmini hiçbir zaman tutmuyor&quot; ve 6 sorun daha; belirti, kök neden ve üç adımlık çözümle.">
+<meta property="og:url" content="https://celcini.vercel.app/arsiv/talep-tahmini-ve-sop/">
+<meta property="og:image" content="https://celcini.vercel.app/assets/img/og-cover.png">
+<meta property="og:image:alt" content="Celcini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0096C7">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/assets/css/style.css?v=a8749565">
+<noscript><link rel="stylesheet" href="/assets/css/noscript.css"></noscript>
+<script src="/assets/js/config.js?v=14f127ff" defer></script>
+<script src="/assets/js/main.js?v=c3973020" defer></script>
+
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+
+<header class="serit">
+  <div class="kap">
+    <a class="serit-logo" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="105" height="52"></a>
+    <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ust-menu" aria-label="Menü"><svg class="ikon ac-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg><svg class="ikon kapat-ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <nav class="menu" id="ust-menu" aria-label="Ana menü"><ul><li><a href="/fabricakit/">Fabricakit</a></li><li class="menu-grup"><button class="menu-alt-dugme" type="button" aria-expanded="false" aria-controls="menu-dosyalar">Dosyalar<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></button><ul class="menu-alt" id="menu-dosyalar"><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></li><li><a href="/arsiv/" aria-current="page">Arşiv</a></li><li><a href="/uzay/">Uzay</a></li><li><a href="/hakkinda/">Hakkında</a></li></ul></nav>
+  </div>
+</header>
+<main id="icerik">
+<section class="sayfa-bas">
+  <div class="kap">
+    <nav class="yol" aria-label="Konum"><ol><li><a href="/">Ana sayfa</a></li><li><a href="/arsiv/">Üretim Arşivi</a></li><li aria-current="page">Talep Tahmini ve S&amp;OP</li></ol></nav>
+    <p class="ust-yazi">Planlama ve Talep</p>
+    <h1>Talep Tahmini ve S&amp;OP</h1>
+    <p>7 sorun; her biri için belirti, kök neden ve üç adımlık çözüm.</p>
+  </div>
+</section>
+<section class="bolum-raf" aria-label="Talep Tahmini ve S&amp;OP sorunları">
+  <div class="kap">
+    <nav class="arsiv-icindekiler" aria-label="Bu sayfadaki sorunlar"><ol><li><a href="#talep-tahmini-hicbir-zaman-tutmuyor">Talep tahmini hiçbir zaman tutmuyor</a></li><li><a href="#talep-dalgali-ne-kadar-uretecegimi-bilmiyorum">Talep dalgalı, ne kadar üreteceğimi bilmiyorum</a></li><li><a href="#kampanya-ve-sezon-etkisi-hesaba-katilmiyor">Kampanya ve sezon etkisi hesaba katılmıyor</a></li><li><a href="#yeni-urun-icin-tahmin-yapamiyorum">Yeni ürün için tahmin yapamıyorum</a></li><li><a href="#stoga-mi-siparise-mi-uretecegimi-bilemiyorum">Stoğa mı siparişe mi üreteceğimi bilemiyorum</a></li><li><a href="#satis-tahmini-ile-uretim-plani-ayri-dunyalar">Satış tahmini ile üretim planı ayrı dünyalar</a></li><li><a href="#satis-ve-uretim-surekli-catisiyor">Satış ve üretim sürekli çatışıyor</a></li></ol></nav>
+    <div class="arsiv-kartlar">
+<article class="kart arsiv-kart" id="talep-tahmini-hicbir-zaman-tutmuyor" aria-labelledby="talep-tahmini-hicbir-zaman-tutmuyor-baslik">
+  <h2 class="h3-boy" id="talep-tahmini-hicbir-zaman-tutmuyor-baslik"><a href="#talep-tahmini-hicbir-zaman-tutmuyor">Talep tahmini hiçbir zaman tutmuyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Tahmin ile gerçekleşen arasındaki fark her ay yüksek çıkıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Tahmin doğruluğu ölçülmüyor; sapmanın nedeni hiç analiz edilmiyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Tahmin doğruluğunu (MAPE) aylık ölç.</li><li>Sapmayı ürün grubu bazında incele.</li><li>Yöntemi sapma nedenine göre revize et.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Doğruluğu ölçülmeyen tahmin hiç düzelmez.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/mevsimsellik-talep-tahmini/">Mevsimsellik ve Talep Tahmini</a></p>
+</article><article class="kart arsiv-kart" id="talep-dalgali-ne-kadar-uretecegimi-bilmiyorum" aria-labelledby="talep-dalgali-ne-kadar-uretecegimi-bilmiyorum-baslik">
+  <h2 class="h3-boy" id="talep-dalgali-ne-kadar-uretecegimi-bilmiyorum-baslik"><a href="#talep-dalgali-ne-kadar-uretecegimi-bilmiyorum">Talep dalgalı, ne kadar üreteceğimi bilmiyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Bazı aylar stok patlıyor, bazı aylar sipariş yetiştirilemiyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Geçmiş satış verisi bir tahmine dönüştürülmüyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Geçmiş satış verisiyle basit tahmin modeli kur.</li><li>Dalgalanmayı stokla mı esnek kapasiteyle mi karşılayacağına karar ver.</li><li>Tahmini her ay gerçekleşenle karşılaştır ve revize et.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Dalgayı durduramazsın, ona göre yüzmeyi öğrenirsin.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/mevsimsellik-talep-tahmini/">Mevsimsellik ve Talep Tahmini</a></p>
+</article><article class="kart arsiv-kart" id="kampanya-ve-sezon-etkisi-hesaba-katilmiyor" aria-labelledby="kampanya-ve-sezon-etkisi-hesaba-katilmiyor-baslik">
+  <h2 class="h3-boy" id="kampanya-ve-sezon-etkisi-hesaba-katilmiyor-baslik"><a href="#kampanya-ve-sezon-etkisi-hesaba-katilmiyor">Kampanya ve sezon etkisi hesaba katılmıyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Kampanya döneminde stok bitiyor, sonrasında elde kalıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Tahmin geçmiş ortalamaya dayanıyor; sezon etkisi modellenmiyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Sezon endeksini son 2–3 yıldan çıkar.</li><li>Kampanya takvimini tahmine dâhil et.</li><li>Kampanya sonrası stok planını önceden kur.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Geçmişin ortalaması, geleceğin kampanyasını bilmez.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/mevsimsellik-talep-tahmini/">Mevsimsellik ve Talep Tahmini</a></p>
+</article><article class="kart arsiv-kart" id="yeni-urun-icin-tahmin-yapamiyorum" aria-labelledby="yeni-urun-icin-tahmin-yapamiyorum-baslik">
+  <h2 class="h3-boy" id="yeni-urun-icin-tahmin-yapamiyorum-baslik"><a href="#yeni-urun-icin-tahmin-yapamiyorum">Yeni ürün için tahmin yapamıyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Geçmiş verisi olmayan üründe miktar tamamen tahmine kalıyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Benzer ürün analojisi ve kademeli devreye alma yöntemi kullanılmıyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Benzer ürünün lansman eğrisini referans al.</li><li>İlk partiyi küçük tut, kademeli artır.</li><li>İlk 8 haftanın satışına göre hızla revize et.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Bilinmeyende büyük parti değil, küçük adım atılır.</p>
+</article><article class="kart arsiv-kart" id="stoga-mi-siparise-mi-uretecegimi-bilemiyorum" aria-labelledby="stoga-mi-siparise-mi-uretecegimi-bilemiyorum-baslik">
+  <h2 class="h3-boy" id="stoga-mi-siparise-mi-uretecegimi-bilemiyorum-baslik"><a href="#stoga-mi-siparise-mi-uretecegimi-bilemiyorum">Stoğa mı siparişe mi üreteceğimi bilemiyorum</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Bazı ürünler depoda bekliyor, bazıları için müşteri bekletiliyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Ürünler talep hacmi ve düzenliliğine göre sınıflandırılmamış.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Ürünleri hacim ve talep değişkenliğine göre sınıfla.</li><li>Talebi düzenli ürünü stoğa, düzensiz olanı siparişe üret.</li><li>Sınıflandırmayı 6 ayda bir gözden geçir.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Her ürüne aynı strateji, her ürüne yanlış stratejidir.</p>
+  <p class="arsiv-ilgili">İlgili dosya: <a href="/urun/emniyet-stogu-siparis-noktasi/">Emniyet Stoğu ve Sipariş Noktası</a></p>
+</article><article class="kart arsiv-kart" id="satis-tahmini-ile-uretim-plani-ayri-dunyalar" aria-labelledby="satis-tahmini-ile-uretim-plani-ayri-dunyalar-baslik">
+  <h2 class="h3-boy" id="satis-tahmini-ile-uretim-plani-ayri-dunyalar-baslik"><a href="#satis-tahmini-ile-uretim-plani-ayri-dunyalar">Satış tahmini ile üretim planı ayrı dünyalar</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Satışın beklediği miktar ile üretimin planladığı tutmuyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Ortak bir S&amp;OP toplantısı ve tek sayıya bağlanma disiplini yok.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Aylık S&amp;OP toplantısını takvime sabitle.</li><li>Tek onaylı tahmin sayısına bağlan.</li><li>Kapasite ile tahmini aynı tabloda karşılaştır.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">Ortada iki sayı varsa, kimse aynı plana bakmıyordur.</p>
+</article><article class="kart arsiv-kart" id="satis-ve-uretim-surekli-catisiyor" aria-labelledby="satis-ve-uretim-surekli-catisiyor-baslik">
+  <h2 class="h3-boy" id="satis-ve-uretim-surekli-catisiyor-baslik"><a href="#satis-ve-uretim-surekli-catisiyor">Satış ve üretim sürekli çatışıyor</a></h2>
+  <div class="arsiv-ic">
+    <dl class="arsiv-durum">
+      <div><dt class="arsiv-etiket">Belirti</dt><dd>Satış söz veriyor, üretim yetiştiremiyor; suçlama döngüsü kuruluyor.</dd></div>
+      <div><dt class="arsiv-etiket">Kök neden</dt><dd>Ortak bir plan ve termin onay mekanizması bulunmuyor.</dd></div>
+    </dl>
+    <div class="arsiv-cozum">
+      <p class="arsiv-etiket">Çözüm</p>
+      <ol><li>Haftalık ortak planlama toplantısı yap.</li><li>Üretim onaylamadan müşteriye termin verilmesin.</li><li>İki taraf da tek ortak plan dosyasına baksın.</li></ol>
+    </div>
+  </div>
+  <p class="arsiv-ilke">İki farklı plan, iki farklı gerçeklik demektir.</p>
+</article>
+    </div>
+    <nav class="arsiv-gezinti" aria-label="Arşivde gezin"><a class="dugme-cizgi" href="/arsiv/uretim-planlama-ve-cizelgeleme/" rel="prev"><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Üretim Planlama ve Çizelgeleme</a><a class="dugme-cizgi" href="/arsiv/">Tüm arşiv</a><a class="dugme-cizgi" href="/arsiv/siparis-ve-musteri-yonetimi/" rel="next">Sipariş ve Müşteri Yönetimi<svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></nav>
+    <p class="arsiv-not">Kartlar genel uygulama önerileridir; kendi işletmenize uyarlayarak kullanın. İş güvenliği ve yasal yükümlülüklerde mevzuat ve iş güvenliği uzmanınız esastır.</p>
+  </div>
+</section>
+</main>
+<footer class="alt-bilgi">
+  <div class="kap">
+    <div class="alt-marka">
+      <a class="logo-rozet" href="/" aria-label="Celcini ana sayfa"><img src="/assets/img/logo-tam-beyaz.png" alt="Celcini" width="113" height="56" loading="lazy"></a>
+      <p>Tarayıcıda fabrika simülasyonu ve derin Excel havuzu. İstanbul, 2026.</p>
+    </div>
+    <nav aria-label="Raflar"><h2>Raflar</h2><ul><li><a href="/fabrika/">Fabrika Dosyaları</a></li><li><a href="/excel-klinigi/">Excel Kliniği</a></li><li><a href="/datakit/">Datakit</a></li></ul></nav>
+    <nav aria-label="Bilgi"><h2>Bilgi</h2><ul>
+      <li><a href="/hakkinda/">Hakkında</a></li>
+      <li><a href="/iletisim/">İletişim</a></li>
+      <li><a href="/sss/">SSS</a></li>
+      <li><a href="/gizlilik/">Gizlilik ve KVKK</a></li>
+      <li><a href="/teslimat-ve-iade/">Teslimat ve iade</a></li>
+      <li><a data-link="shopier_magaza" href="#" hidden>Shopier mağazası</a></li>
+      <li><a data-link="instagram" href="#" hidden><svg class="ikon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>Instagram</a></li>
+    </ul></nav>
+    <p class="telif">© 2026 Celcini · İstanbul</p>
+  </div>
+</footer>
+</body>
+</html>

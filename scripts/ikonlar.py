@@ -12,6 +12,8 @@ YOLLAR = {
     "kilit": '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
     "tik": '<path d="M20 6 9 17l-5-5"/>',
     "ok": '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    "geri": '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+    "kitap": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
     "menu": '<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>',
     "kapat": '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
     "ara": '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',

@@ -1,4 +1,4 @@
-/* Celcini · menü, config bağlantıları, raf araması, galeri. Çerçeve yok. */
+/* Celcini · menü, config bağlantıları, raf ve arşiv araması, galeri. Çerçeve yok. */
 (function () {
   "use strict";
 
@@ -63,18 +63,41 @@
     var kartlar = document.querySelectorAll("[data-urun]");
     var sonuc = document.querySelector("[data-sonuc]");
     var secili = "";
-    var kucuk = function (s) { return (s || "").toLocaleLowerCase("tr"); };
+    var birim = filtre.getAttribute("data-birim") || "ürün";
+    /* Arama kelime başından eşleşir: "kalite" "kalitesi"ni bulur, "isi" "kişi"yi bulmaz (Türkçe ek alır, önek almaz).
+       Sorguda Türkçe harf yoksa metnin harfleri de sadeleşir: "sayim" "sayım"ı, "kalip" "Kalıp"ı bulur. Türkçe harfle
+       yazılan sorgu harfi harfine aranır: "kâr" "karar"ı, "kış" "kişi"yi bulmaz. Şapkasız sorgu şapkalı yazımı da bulur:
+       "şikayet" "şikâyet"i, "kağıt" "kâğıt"ı bulur. */
+    var kucuk = function (s) { return (s || "").normalize("NFC").toLocaleLowerCase("tr").replace(/\s+/g, " "); };
+    var sapkasiz = function (s) { return s.replace(/â/g, "a").replace(/î/g, "i").replace(/û/g, "u"); };
+    var sade = function (s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i"); };
+    var metinler = [], sapkasizMetinler = [], sadeMetinler = [];
+    kartlar.forEach(function (k) {
+      var m = kucuk(k.getAttribute("data-ara"));
+      metinler.push(m);
+      sapkasizMetinler.push(sapkasiz(m));
+      sadeMetinler.push(sade(m));
+    });
+    var kacir = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
     var uygula = function () {
-      var q = kucuk(kutu.value).trim();
+      /* Türkçe harf denetimi ham sorguda: tr küçültmesi ASCII "I"yı "ı" yapar, "ISG" / "IADE" yine bulunmalı.
+         "İ" sınıfta yok: telefon baştaki "i"yi kendiliğinden "İ" yapar ("İletisim" de "iletisim" gibi aranır). */
+      var ham = kutu.value.normalize("NFC");
+      var turkce = /[çğıöşüâîûÇĞÖŞÜÂÎÛ]/.test(ham);
+      var q = (turkce ? kucuk(ham) : sade(ham.toLowerCase().replace(/\s+/g, " "))).trim();
+      var hedef = !turkce ? sadeMetinler : (/[âîûÂÎÛ]/.test(ham) ? metinler : sapkasizMetinler);
+      var desen = q ? new RegExp("(^|[^a-z0-9çğıöşüâîû])" + kacir(q)) : null;
       var n = 0;
-      kartlar.forEach(function (k) {
-        var metinUyar = !q || kucuk(k.getAttribute("data-ara")).indexOf(q) !== -1;
+      kartlar.forEach(function (k, i) {
+        var metinUyar = !desen || desen.test(hedef[i]);
         var etiketUyar = !secili || ("|" + k.getAttribute("data-etiketler") + "|").indexOf("|" + secili + "|") !== -1;
         var gor = metinUyar && etiketUyar;
         k.hidden = !gor;
         if (gor) n++;
       });
-      if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " ürün gösteriliyor." : "Aramanıza uyan ürün yok.");
+      if (sonuc) sonuc.textContent = n === kartlar.length ? "" : (n ? n + " " + birim + " gösteriliyor." : "Aramanıza uyan " + birim + " yok.");
+      /* Arama sürerken bölüm kısayolları ve toplam sayılar gizlenir (süzülmüş listeyle çelişmesin) */
+      document.querySelectorAll("[data-arama-gizle]").forEach(function (el) { el.hidden = !!q; });
       /* İki bölümlü rafta (Shopier + ücretsiz) kartı kalmayan bölümün başlığı da gizlenir */
       document.querySelectorAll("[data-urun-bolum]").forEach(function (b) {
         b.hidden = !b.querySelector("[data-urun]:not([hidden])");
