@@ -205,8 +205,9 @@ function kur(kok) {
 
   function geri() {
     if (durum.kilit || durum.ekran !== "soru" || durum.i === 0) return;
+    durum.kilit = true; /* geçiş bitmeden ikinci basış soru sırasını bozmasın */
     durum.cevaplar[durum.i].ms += simdi() - durum.soruBas;
-    gecis(() => { durum.i -= 1; soruCiz(true); });
+    gecis(() => { durum.i -= 1; soruCiz(true); durum.kilit = false; });
   }
 
   function hesapla() {
@@ -464,10 +465,11 @@ function kur(kok) {
     }
 
     const al = kodLinki
-      ? h("a", { sinif: "dugme-cizgi", href: kodLinki, rel: "noopener" }, fiyat ? `Erişim kodu al · ${fiyat}` : "Erişim kodu al", ikon("ok"))
+      ? h("a", { sinif: "dugme-cizgi", href: kodLinki, target: "_blank", rel: "noopener" }, fiyat ? `Erişim kodu al · ${fiyat}` : "Erişim kodu al", ikon("ok"))
       : h("span", { sinif: "dugme-pasif", metin: "Shopier'de yakında" });
-    const haberVer = !kodLinki && form ? h("a", { sinif: "dugme-cizgi", href: form, rel: "noopener", metin: "Açılınca haber ver" }) : null;
-    const magazaLinki = !kodLinki && magaza ? h("a", { sinif: "dugme-cizgi", href: magaza, rel: "noopener", metin: "Shopier mağazası" }) : null;
+    /* Yeni sekmede açılır: rapor yalnızca bellekte; aynı sekmede gidip dönen kullanıcı testi baştan çözmek zorunda kalmasın */
+    const haberVer = !kodLinki && form ? h("a", { sinif: "dugme-cizgi", href: form, target: "_blank", rel: "noopener", metin: "Açılınca haber ver" }) : null;
+    const magazaLinki = !kodLinki && magaza ? h("a", { sinif: "dugme-cizgi", href: magaza, target: "_blank", rel: "noopener", metin: "Shopier mağazası" }) : null;
 
     return h("section", { sinif: "kart mk-kilit", "aria-labelledby": "mk-kilit-baslik" },
       h("div", { sinif: "mk-kilit-ust" }, ikon("kilit", "ikon ikon-buyuk"),
@@ -519,7 +521,7 @@ function kur(kok) {
 
   /* ---------------- Klavye: 1–4 ya da A–D seçer, sol ok önceki soru ---------------- */
   document.addEventListener("keydown", (e) => {
-    if (durum.ekran !== "soru" || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (durum.ekran !== "soru" || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return;
     if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
     const tus = String(e.key || "").toLocaleLowerCase("tr-TR");
     let g = ["1", "2", "3", "4"].indexOf(tus);
